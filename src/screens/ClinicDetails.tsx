@@ -130,14 +130,14 @@ const PawPalApp = () => {
   <SafeAreaView style = {{backgroundColor: '#FFAC4E'}}>
     <View style = {{padding: 0, flex: 1}}>
       <View style = {{flex: 1}}>
-        <Image source = {require('../img/Ellipse_25.png')} 
+        <Image source = {require('../images/Ellipse_25.png')} 
         style = {{
           position: 'relative',
         }}/>
       </View>
 
       <View>
-        <Image source = {require('../img/Vector_12.png')} 
+        <Image source = {require('../images/Vector_12.png')} 
         style = {{
           flex: 1,
           position: 'absolute',
@@ -145,7 +145,7 @@ const PawPalApp = () => {
 
       </View>
       <View style = {{flex: 1}}>
-        <Image source = {require('../img/pug.png')} 
+        <Image source = {require('../images/pug.png')} 
         style = {{
           position: "relative",
           bottom: "10%",
@@ -153,7 +153,7 @@ const PawPalApp = () => {
       </View>
 
       <View>
-        <Image source = {require('../img/Ellipse_24.png')} 
+        <Image source = {require('../images/Ellipse_24.png')} 
         style = {{
 
           position: 'relative',
@@ -162,7 +162,7 @@ const PawPalApp = () => {
            }}/>
       </View>
       <View>
-        <Image source = {require('../img/Vector_11.png')} 
+        <Image source = {require('../images/Vector_11.png')} 
         style = {{
           position: 'relative',
           marginTop: 70, 
@@ -192,7 +192,7 @@ const PawPalApp = () => {
           elevation: 20,
           }}>
         <View>
-          <Image source = {require('../img/Vector_8.png')} 
+          <Image source = {require('../images/Vector_8.png')} 
           style = {{
             flex: 1,
             position: 'absolute',
@@ -202,7 +202,7 @@ const PawPalApp = () => {
         </View>
 
         <View>
-          <Image source = {require('../img/Vector_7.png')} 
+          <Image source = {require('../images/Vector_7.png')} 
           style = {{
             flex: 1,
             position: 'absolute',

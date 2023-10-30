@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import {RadioButton} from 'react-native-paper';
 import {
   View,
@@ -7,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -26,20 +29,25 @@ const PetProfile = () => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [color, setColor] = useState('');
-  const [] = useState('');
   const [checked, setChecked] = useState('null');
 
   return (
+    <ImageBackground
+      source={require('../images/real_bg.png')}
+      style={styles.backgroundImage1}>
+    {/* <ImageBackground
+      source={require('../images/pet_bg2.png')}
+      style={styles.backgroundImage2}> */}
     <View style={styles.container}>
-      <View>
+      <View style={styles.back}>
         <TouchableOpacity>
-          <FontAwesomeIcon icon={faArrowLeft} style={styles.backIcon} />
+          <FontAwesomeIcon icon={faArrowLeft} style={styles.backIcon} size={25}/>
         </TouchableOpacity>
         <Text style={styles.backText}>Edit Pet Profile</Text>
       </View>
       <View>
         <Image
-          source={require('./assets/UserIcon1.png')}
+          source={require('../images/UserIcon1.png')}
           style={styles.profileImage}
         />
         <TouchableOpacity style={styles.arrowAdd}>
@@ -96,32 +104,12 @@ const PetProfile = () => {
           <FontAwesomeIcon icon={faVenusMars} style={styles.malInput} />
           <Text style={styles.malefeminput}>Sex</Text>
           <View style={styles.radioButton} />
-          {/* <RadioButton.Item
-            label="Male"
-            value="Male"
-            status={checked === 'Male' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('Male')}
-          />
-          <View>
-            <View style={styles.radioButton} />
-            <Text style={styles.input}>Male</Text>
-            <RadioButton.Item
-              label="Female"
-              value="Female"
-              status={checked === 'Female' ? 'checked' : 'unchecked'}
-              onPress={() => setChecked('Female')}
-              color="orange"
-            />
-          </View>
-          <View style={styles.radioButton} />
-          <Text style={styles.input}>Male</Text>
-        </View> */}
           <RadioButton
             value="Male"
             status={checked === 'Male' ? 'checked' : 'unchecked'}
             onPress={() => setChecked('Male')}
-            color="orange"
-            uncheckedColor="gray"
+            color="#FF8D4D"
+            uncheckedColor="#FF8D4D"
           />
           <Text style={styles.maleinput}>Male</Text>
           <View style={{marginLeft: -20}} />
@@ -129,39 +117,54 @@ const PetProfile = () => {
             value="Female"
             status={checked === 'Female' ? 'checked' : 'unchecked'}
             onPress={() => setChecked('Female')}
-            color="orange"
-            uncheckedColor="gray"
+            color="#FF8D4D"
+            uncheckedColor="#FF8D4D"
           />
           <Text style={styles.maleinput}>Female</Text>
         </View>
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: 70,
             left: 40,
           }}>
-          <TouchableOpacity
+           <View>
+            <TouchableOpacity
             style={styles.saveButton}
             onPress={() => console.log('Save Changes')}
             accessible={true}
             accessibilityRole="button">
-            <Text style={styles.buttonText}>Save Changes</Text>
-          </TouchableOpacity>
+              <LinearGradient
+              colors={['#FFAC4E', '#FF6464']} // Colors in the gradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientBackground}>
+                <Text style={styles.buttonSave}>Save Changes</Text>
+                </LinearGradient>
+                </TouchableOpacity>
+                </View>
           <TouchableOpacity
             style={styles.cancelButton}
             onPress={() => console.log('Cancel Changes')}
             accessible={true}
             accessibilityRole="button">
-            <Text style={styles.buttonText}>Cancel</Text>
+            <Text style={styles.buttonTextCancel}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
+    </ImageBackground>
+    // </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage1: {
+    flex: 1,
+    width: '100%',
+  },
   maleinput: {
     flex: 1,
     alignItems: 'center',
@@ -175,11 +178,12 @@ const styles = StyleSheet.create({
     // paddingRight: 30,
     paddingLeft: 15,
     flexDirection: 'row',
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Poppins-Regular',
   },
   malefeminput: {
     flex: 1,
+    fontSize: 18,
     alignItems: 'center',
     left: 50,
     color: 'gray',
@@ -190,19 +194,15 @@ const styles = StyleSheet.create({
     marginRight: 30,
     // paddingRight: 30,
     flexDirection: 'row',
-    fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
   malInput: {
     flex: 1,
     alignItems: 'center',
     left: 40,
-    color: 'orange',
+    color: '#FF8D4D',
     // position: 'absolute',
     top: 10,
-    // marginLeft: 30,
-    // // marginRight: 10,
-    // paddingRight: 30,
     flexDirection: 'row',
     marginBottom: 20,
   },
@@ -211,20 +211,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 16,
   },
+  back: {
+    flexDirection: 'row',
+    // alignItems: 'center',
+    marginBottom: 40,
+    top: 30,
+  },
   backIcon: {
-    color: 'orange',
+    color: '#FF8D4D',
+    // fontSize: 80,
     flexDirection: 'row',
     position: 'absolute',
-    top: -89,
+    top: -92,
     left: 10,
     paddingRight: 30,
   },
   backText: {
     fontSize: 20,
     fontFamily: 'Poppins-Regular',
-    color: 'orange',
+    color: '#5A2828',
     fontWeight: 'bold',
-    marginLeft: 19,
+    marginLeft: 30,
     top: -95,
     left: 25,
   },
@@ -237,7 +244,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   arrowAdd: {
-    color: 'orange',
+    color: '#FF8D4D',
     position: 'absolute',
     top: 37,
     bottom: 0,
@@ -257,11 +264,11 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     marginBottom: 10,
     right: 5,
-    left: 25,
-    width: 300,
+    left: 7,
+    width: 340,
   },
   icon: {
-    color: 'orange',
+    color: '#FF8D4D',
     position: 'absolute',
     top: 10,
     marginLeft: 30,
@@ -271,9 +278,10 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 40,
+    fontSize: 18,
+    height: 45,
     borderBottomWidth: 2,
-    borderBottomColor: 'orange',
+    borderBottomColor: '#FF8D4D',
     marginLeft: 20,
     // marginBottom: 20,
     paddingHorizontal: 40,
@@ -284,37 +292,65 @@ const styles = StyleSheet.create({
   },
   radioButton: {
     // borderRadius: 12,
-    // borderColor: '#ffa500',
+    borderColor: '#FF8D4D',
     // alignItems: 'center',
-    // backgroundColor: 'orange',
+    // backgroundColor: '#FF8D4D',
     justifyContent: 'space-between',
     right: 30,
     // left: 300,
   },
-  // radioButtonContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   marginBottom: 40,
-  // },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     // alignItems: 'center',
     marginTop: 20,
     borderRadius: 40,
+    // paddingHorizontal: 200,
+    // right: 10,
+    // left: 10,
+  },
+gradientBackground: {
+    borderRadius: 20,
+    width: 150,
+    height: 45,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    elevation: 3,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    // right: 10,
   },
   saveButton: {
-    backgroundColor: 'orange',
+    //adjust linear gradient
     flexDirection: 'row',
+    // height: 41,
+    // width: 137,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    paddingVertical: 10,
+    right: 10,
+    paddingVertical: 20,
     paddingHorizontal: 15,
     borderRadius: 40,
+  },
+  buttonSave: {
+    color: '#ffffff',
+    // height: 490,
+    // width: 190,
+    fontSize: 20,
+    fontFamily: 'Poppins-Regular',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    top: 8,
+    // paddingVertical: 10,
+    // paddingHorizontal: 10,
   },
   cancelButton: {
-    backgroundColor: 'gray',
+    backgroundColor: '#ffffff',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -322,11 +358,30 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 40,
+    elevation: 3, //elevation effects
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
+    color: '#ffffff',
+    // fontSize: 18,
     fontFamily: 'Poppins-Regular',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    // paddingVertical: 10,
+    // paddingHorizontal: 10,
+  },
+  buttonTextCancel: {
+    color: '#FF8D4D',
+    fontSize: 20,
+    fontFamily: 'Poppins-Regular',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    // paddingVertical: 10,
     // paddingHorizontal: 10,
   },
 });

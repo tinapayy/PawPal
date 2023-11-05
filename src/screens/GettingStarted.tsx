@@ -7,7 +7,7 @@ const GettingStarted: React.FC = () => {
     <View style={styles.container1}>
     {/* <SvgXml xml={logo} width="100%" height="100%"/> */}
       <Image
-        source={require('./src/images/test.png')} // Replace with the correct image file path
+        source={require('../images/catDog.png')}
         style={styles.welcomeImage}
         resizeMode='contain'
       />

@@ -10,5 +10,6 @@ export default function Detailsamp () {
         <View style={{ flex: 1 }}>
                 <Text>Welcome to the Details!</Text>
             </View>
-    );
-};
+        </View>
+    )
+}

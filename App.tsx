@@ -15,9 +15,9 @@ export default function App() {
   // return <GettingStarted2/>;
   // return <SignUp/>;
   // return <SignIn/>;
-  // return <UserProfile/>;
+  return <UserProfile/>;
   // return <ClinicProfile/>;
   // return <Approval_page/>;
   // return <FoodSuggestions/>;
-  return <PopularClinics/>;
+  // return <PopularClinics/>;
 }

@@ -36,6 +36,8 @@ import { faMobileScreenButton } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { BackgroundImage } from 'react-native-elements/dist/config';
+import ModalDropdown from 'react-native-modal-dropdown';
 
 
 
@@ -60,7 +62,7 @@ const ClinicProfile = () => {
                 </View>
                 
                 <View>
-                    <ImageBackground source = {require('../images/image_29.png')} resizeMode = 'stretch'
+                    <ImageBackground source = {require('../img/image_29.png')} resizeMode = 'stretch'
                     style = {{
                         flex: 1,
                         alignItems: 'center',
@@ -216,7 +218,7 @@ const ClinicProfile = () => {
             </View>
 
                 <View>
-                <Image source = {require('../images/Line_23.png')} resizeMode='stretch'
+                <Image source = {require('../img/Line_23.png')} resizeMode='stretch'
                 style = {{justifyContent: 'center', alignItems: 'center',  margin: 10, width: 1000}}/>
                 </View>
 
@@ -234,7 +236,7 @@ const ClinicProfile = () => {
             </Text>
             <TouchableOpacity onPress={handleIconPress}>
             <View style = {{height: 500}}>
-                <Image source = {require('../images/image_30.png')} resizeMode='stretch'
+                <Image source = {require('../img/image_30.png')} resizeMode='stretch'
                 style = {{height: 200, width: 500, justifyContent: 'center', alignItems: 'center', right: 40}}/>
             </View>
             </TouchableOpacity>
@@ -287,4 +289,5 @@ const styles = StyleSheet.create({
 
     }
 });
+
 export default ClinicProfile;

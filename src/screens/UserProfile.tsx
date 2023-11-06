@@ -17,9 +17,13 @@ import {
   faArrowLeft,
   faCirclePlus,
   faCheckCircle,
+  faEnvelope,
+  faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
 
 const UserProfile = () => {
+  const [currentName, setCurrentName] = useState('');
+  const [currentBio, setCurrentBio] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,10 +59,31 @@ const UserProfile = () => {
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
             <View style={styles.iconInputRow}>
-            <Text style={styles.inputName}>Kristina V. Celis</Text>
+              <Text style={styles.inputName}>kvcelis@up.edu.ph</Text>
+            </View>
           </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              secureTextEntry
+              value={currentName}
+              onChangeText={(text) => setCurrentName(text)}
+            />
+          </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faAddressCard} style={styles.icon} />
+            <TextInput
+              style={[styles.input, { fontSize: 16 }, { top: 2 }]}
+              placeholder="Tell more about yourself"
+              secureTextEntry
+              value={currentBio}
+              onChangeText={(text) => setCurrentBio(text)}
+              maxLength={500}
+            />
           </View>
           <View style={styles.changePassword} />
           <Text style={styles.changePassword}>Change Password</Text>
@@ -109,13 +134,13 @@ const UserProfile = () => {
               </LinearGradient>
             </TouchableOpacity>
             <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => console.log('Cancel Changes')}
-            accessible={true}
-            accessibilityRole="button"
+              style={styles.cancelButton}
+              onPress={() => console.log('Cancel Changes')}
+              accessible={true}
+              accessibilityRole="button"
             >
-            <Text style={styles.buttonTextCancel}>Cancel</Text>
-          </TouchableOpacity>
+              <Text style={styles.buttonTextCancel}>Cancel</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -136,7 +161,7 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: 'row',
     marginBottom: 40,
-    top: 30,
+    top: 60,
   },
   backIcon: {
     color: '#FF8D4D',
@@ -176,7 +201,7 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   formContainer: {
-    marginTop: 20,
+    marginTop: 5,
     marginLeft: -20,
   },
   iconInputRow: {
@@ -206,6 +231,7 @@ const styles = StyleSheet.create({
     // fontSize: 18,
   },
   input: {
+    fontFamily: 'Poppins',
     flex: 1,
     fontSize: 20,
     height: 45,
@@ -248,19 +274,16 @@ const styles = StyleSheet.create({
   },
   buttonTextCancel: {
     color: '#FF8D4D',
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'center',
+    top: 8,
   },
-   buttonContainer: {
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
     marginTop: 20,
     borderRadius: 40,
-    // paddingHorizontal: 200,
-    // right: 10,
-    // left: 10,
   },
   gradientBackground: {
     borderRadius: 20,
@@ -279,7 +302,7 @@ const styles = StyleSheet.create({
   buttonSave: {
     // flexDirection: 'row',
     color: '#ffffff',
-    fontSize: 20,
+    fontSize: 19,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'center',
     alignItems: 'center',
@@ -291,16 +314,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    // marginTop: 20,
     left: -40,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    // paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 40,
     elevation: 3,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    top: 7,
   },
 });
 

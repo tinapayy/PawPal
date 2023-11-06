@@ -11,10 +11,12 @@ import {HomeIcon as HomeSolid,
         ChatBubbleLeftRightIcon as ForumSolid, 
         UserIcon as UserSolid } from 'react-native-heroicons/solid'; 
 
-import { themeColors } from './theme/sampletheme';
-
 import Homesamp from './screens/Homesamp';
 import Detailsamp from './screens/Detailsamp';
+import ClinicProfile from './src/screens/ClinicProfile';  
+import ForumPage from './src/screens/ForumPage';
+import PetProfile from './src/screens/PetProfile';  
+import ProfileDetails from './src/screens/ProfileDetails';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,7 +49,7 @@ export default function BottomNavBar(){
             height: 75,
             alignItems: 'center',
     
-            backgroundColor: themeColors.bgLight,
+            backgroundColor: 'white',
   
           },
           tabBarItemStyle: {
@@ -58,10 +60,10 @@ export default function BottomNavBar(){
         
         >
         <Tab.Screen name="home" component={Homesamp} />
-        <Tab.Screen name="favourite" component={Detailsamp} />
+        <Tab.Screen name="favourite" component={ForumPage} />
         <Tab.Screen name="cart" component={Homesamp} />
         <Tab.Screen name="ca" component={Detailsamp}/>
-        <Tab.Screen name="car" component={Homesamp} />
+        <Tab.Screen name="car" component={ClinicProfile} />
       </Tab.Navigator>
     )
   }

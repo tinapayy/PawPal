@@ -36,6 +36,8 @@ import { faMobileScreenButton } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { BackgroundImage } from 'react-native-elements/dist/config';
+import ModalDropdown from 'react-native-modal-dropdown';
 
 
 
@@ -287,4 +289,5 @@ const styles = StyleSheet.create({
 
     }
 });
+
 export default ClinicProfile;

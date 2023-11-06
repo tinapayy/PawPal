@@ -6,5 +6,5 @@ export default function Homesamp () {
         <View>
             <Text>HELLO THIS IS HOME</Text>
         </View>
-    );
-};
+    )
+}

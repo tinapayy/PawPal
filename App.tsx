@@ -9,7 +9,10 @@ import Approval_page from './src/screens/Approval Page';
 import FoodSuggestions from './src/screens/FoodSuggestions';
 import PopularClinics from './src/screens/PopularClinics';
 import BottomNavBar from './BottomNavBar';
-
+import PetProfile from './src/screens/PetProfile';
+import ProfileDetails from './src/screens/ProfileDetails';
+import MessagePage from "./src/screens/MessagePage";
+import ForumPage from "./src/screens/ForumPage";
 
 export default function App() {
   // return <GettingStarted/>;
@@ -21,5 +24,11 @@ export default function App() {
   // return <Approval_page/>;
   // return <FoodSuggestions/>;
   // return <PopularClinics/>;
-  return <BottomNavBar/>;
+  // return <BottomNavBar/>;
+
+  // return <ProfileDetails />;
+  // return <PetProfile />;
+  // return <UserProfile />;
+  // return <MessagePage />;
+  return <ForumPage />;
 }

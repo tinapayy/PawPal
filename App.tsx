@@ -9,6 +9,7 @@ import Approval_page from './src/screens/Approval Page';
 import FoodSuggestions from './src/screens/FoodSuggestions';
 import PopularClinics from './src/screens/PopularClinics';
 import BottomNavBar from './BottomNavBar';
+import ProfileDetails from './src/screens/ProfileDetails';
 
 
 export default function App() {
@@ -19,7 +20,11 @@ export default function App() {
   // return <UserProfile/>;
   // return <ClinicProfile/>;
   // return <Approval_page/>;
+  // return <BottomNavBar/>;
+
+
+
   // return <FoodSuggestions/>;
   // return <PopularClinics/>;
-  return <BottomNavBar/>;
+  return <ProfileDetails/>;
 }

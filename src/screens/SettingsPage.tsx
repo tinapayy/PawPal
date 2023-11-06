@@ -1,46 +1,70 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 
-import { Cog6ToothIcon as CogIcon,
-         UserIcon as User,
-         BuildingOfficeIcon as ClinicIcon,
-         TrashIcon as Trash,
-         ArrowRightOnRectangleIcon as ExitIcon } from 'react-native-heroicons/solid';
+import {
+  Cog6ToothIcon as CogIcon,
+  UserIcon as User,
+  BuildingOfficeIcon as ClinicIcon,
+  TrashIcon as Trash,
+  ArrowRightOnRectangleIcon as ExitIcon,
+} from 'react-native-heroicons/solid';
 
 const grh = require('../images/grh.png');
+import LogOutModal from './LogoutModal';
+import DeleteAccountModal from './DeleteAccountModal';
 
-export default function SettingsPage (){
+function SettingsPage() {
+  const [deleteAccountModal, setDeleteAccountModal] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headertextandicon}>
-        <CogIcon size="40" color="#fff" strokeWidth={3}/>
-        <Text style={styles.headerText}>Settings</Text>
+          <CogIcon size={40} color="#fff" strokeWidth={3} />
+          <Text style={styles.headerText}>Settings</Text>
         </View>
         <Image source={grh} style={styles.headerimg} />
       </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
-          <User size="30" color="#FF8700" strokeWidth={3}/>
+          <User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit User Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <ClinicIcon size="30" color="#FF8700" strokeWidth={3}/>
+          <ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Details</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Trash size="30" color="#FF8700" strokeWidth={3}/>
+        <TouchableOpacity style={styles.button}
+                          onPress={() => setDeleteAccountModal(true)}>
+          <Trash size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttondelete}>
-          <ExitIcon size="30" color="#FFF" strokeWidth={3}/>
-          <Text style={styles.buttondeleteText}>Log Out</Text>
+        <TouchableOpacity style={styles.buttonlogout}
+                          onPress={() => setLogoutModal(true)}>
+          <ExitIcon size={30} color="#FFF" strokeWidth={3} />
+          <Text style={styles.buttonlogoutText}>Log Out</Text>
         </TouchableOpacity>
       </View>
+
+      <LogOutModal
+        modalVisible={logoutModal}
+        setModalVisible={setLogoutModal}
+      />
+      <DeleteAccountModal
+        modalVisible={deleteAccountModal}
+        setModalVisible={setDeleteAccountModal}
+      />
     </View>
   );
-};
+}
 
 
 const styles = StyleSheet.create({
@@ -95,7 +119,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     elevation: 5,
   },
-  buttondelete: {
+  buttonlogout: {
     flexDirection: 'row',
     backgroundColor: '#FFAC4E',
     width: 350,
@@ -113,7 +137,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: '#FF8700',
   },
-  buttondeleteText: {
+  buttonlogoutText: {
     marginLeft: 10,
     fontSize: 20,
     paddingVertical: 10,
@@ -121,3 +145,5 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
 });
+
+export default SettingsPage;

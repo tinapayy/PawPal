@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import {
   View,
   TextInput,
@@ -11,7 +11,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   faArrowLeft,
   faUser,
@@ -34,127 +34,138 @@ const PetProfile = () => {
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
-      style={styles.backgroundImage1}>
-    {/* <ImageBackground
-      source={require('../images/pet_bg2.png')}
-      style={styles.backgroundImage2}> */}
-    <View style={styles.container}>
-      <View style={styles.back}>
-        <TouchableOpacity>
-          <FontAwesomeIcon icon={faArrowLeft} style={styles.backIcon} size={25}/>
-        </TouchableOpacity>
-        <Text style={styles.backText}>Edit Pet Profile</Text>
-      </View>
-      <View>
-        <Image
-          source={require('../images/UserIcon1.png')}
-          style={styles.profileImage}
-        />
-        <TouchableOpacity style={styles.arrowAdd}>
-          <FontAwesomeIcon icon={faCirclePlus} style={styles.arrowAdd} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.formContainer}>
-        <View style={styles.iconInputRow}>
-          <FontAwesomeIcon icon={faUser} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Pet Name"
-            value={petName}
-            onChangeText={text => setPetName(text)}
-          />
+      style={styles.backgroundImage1}
+    >
+      <View style={styles.container}>
+        <View style={styles.back}>
+          <TouchableOpacity>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              style={styles.backIcon}
+              size={25}
+            />
+          </TouchableOpacity>
+          <Text style={styles.backText}>Edit Pet Profile</Text>
         </View>
-        <View style={styles.iconInputRow}>
-          <FontAwesomeIcon icon={faPaw} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Breed"
-            value={breed}
-            onChangeText={text => setBreed(text)}
+        <View>
+          <Image
+            source={require('../images/UserIcon1.png')}
+            style={styles.profileImage}
           />
-        </View>
-        <View style={styles.iconInputRow}>
-          <FontAwesomeIcon icon={faCalendar} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Age"
-            value={age}
-            onChangeText={text => setAge(text)}
-          />
-        </View>
-        <View style={styles.iconInputRow}>
-          <FontAwesomeIcon icon={faWeight} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Weight"
-            value={weight}
-            onChangeText={text => setWeight(text)}
-          />
-        </View>
-        <View style={styles.iconInputRow}>
-          <FontAwesomeIcon icon={faPalette} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Color"
-            value={color}
-            onChangeText={text => setColor(text)}
-          />
-        </View>
-        <View style={styles.iconInputRow}>
-          <FontAwesomeIcon icon={faVenusMars} style={styles.malInput} />
-          <Text style={styles.malefeminput}>Sex</Text>
-          <View style={styles.radioButton} />
-          <RadioButton
-            value="Male"
-            status={checked === 'Male' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('Male')}
-            color="#FF8D4D"
-            uncheckedColor="#FF8D4D"
-          />
-          <Text style={styles.maleinput}>Male</Text>
-          <View style={{marginLeft: -20}} />
-          <RadioButton
-            value="Female"
-            status={checked === 'Female' ? 'checked' : 'unchecked'}
-            onPress={() => setChecked('Female')}
-            color="#FF8D4D"
-            uncheckedColor="#FF8D4D"
-          />
-          <Text style={styles.maleinput}>Female</Text>
-        </View>
-        <View
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 70,
-            left: 40,
-          }}>
-           <View>
-            <TouchableOpacity
-            style={styles.saveButton}
-            onPress={() => console.log('Save Changes')}
-            accessible={true}
-            accessibilityRole="button">
-              <LinearGradient
-              colors={['#FFAC4E', '#FF6464']} // Colors in the gradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.gradientBackground}>
-                <Text style={styles.buttonSave}>Save Changes</Text>
-                </LinearGradient>
-                </TouchableOpacity>
-                </View>
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => console.log('Cancel Changes')}
-            accessible={true}
-            accessibilityRole="button">
-            <Text style={styles.buttonTextCancel}>Cancel</Text>
+          <TouchableOpacity style={styles.arrowAdd}>
+            <FontAwesomeIcon icon={faCirclePlus} style={styles.arrowAdd} />
           </TouchableOpacity>
         </View>
+        <View style={styles.formContainer}>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Pet Name"
+              value={petName}
+              onChangeText={(text) => setPetName(text)}
+            />
+          </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faPaw} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Breed"
+              value={breed}
+              onChangeText={(text) => setBreed(text)}
+            />
+          </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faCalendar} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Age"
+              value={age}
+              onChangeText={(text) => setAge(text)}
+            />
+          </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faWeight} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Weight"
+              value={weight}
+              onChangeText={(text) => setWeight(text)}
+            />
+          </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faPalette} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Color"
+              value={color}
+              onChangeText={(text) => setColor(text)}
+            />
+          </View>
+          <View style={styles.iconInputRow}>
+            <FontAwesomeIcon icon={faVenusMars} style={styles.malInput} />
+            <Text style={styles.malefeminput}>Sex</Text>
+            <View style={styles.radioButton} />
+            <RadioButton
+              value="Male"
+              status={checked === 'Male' ? 'checked' : 'unchecked'}
+              onPress={() => setChecked('Male')}
+              color="#FF8D4D"
+              uncheckedColor="#FF8D4D"
+            />
+            <Text style={styles.maleinput}>Male</Text>
+            <View style={{ marginLeft: -20 }} />
+            <RadioButton
+              value="Female"
+              status={checked === 'Female' ? 'checked' : 'unchecked'}
+              onPress={() => setChecked('Female')}
+              color="#FF8D4D"
+              uncheckedColor="#FF8D4D"
+            />
+            <Text style={styles.maleinput}>Female</Text>
+          </View>
+          <View
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 70,
+              left: 40,
+            }}
+          >
+            <View style={styles.buttonContainerSaveCancel}>
+              <View>
+                <TouchableOpacity
+                  style={styles.saveButton}
+                  onPress={() => console.log('Save Changes')}
+                  accessible={true}
+                  accessibilityRole="button"
+                  // activeOpacity={1}
+                >
+                  <LinearGradient
+                    colors={['#FFAC4E', '#FF6464']} // Colors in the gradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.gradientBackground}
+                  >
+                    <Text style={styles.buttonSave}>Save Changes</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={styles.cancelButton}
+                  onPress={() => console.log('Cancel Changes')}
+                  accessible={true}
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.buttonTextCancel}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
-    </View>
     </ImageBackground>
     // </ImageBackground>
   );
@@ -172,10 +183,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: 'gray',
     // position: 'absolute',
-    top: -1,
-    // marginLeft: 30,
-    // // marginRight: 10,
-    // paddingRight: 30,
+    top: 2,
     paddingLeft: 15,
     flexDirection: 'row',
     fontSize: 18,
@@ -215,7 +223,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // alignItems: 'center',
     marginBottom: 40,
-    top: 30,
+    top: 45,
   },
   backIcon: {
     color: '#FF8D4D',
@@ -272,18 +280,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     marginLeft: 30,
-    // marginRight: 10,
     paddingRight: 30,
     flexDirection: 'row',
+    paddingVertical: 11,
   },
   input: {
     flex: 1,
     fontSize: 18,
-    height: 45,
+    height: 48,
     borderBottomWidth: 2,
     borderBottomColor: '#FF8D4D',
     marginLeft: 20,
-    // marginBottom: 20,
     paddingHorizontal: 40,
     paddingVertical: 10,
     width: 50,
@@ -291,70 +298,54 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   radioButton: {
-    // borderRadius: 12,
     borderColor: '#FF8D4D',
-    // alignItems: 'center',
-    // backgroundColor: '#FF8D4D',
     justifyContent: 'space-between',
     right: 30,
-    // left: 300,
   },
-  buttonContainer: {
+  buttonContainerSaveCancel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
     marginTop: 20,
     borderRadius: 40,
-    // paddingHorizontal: 200,
-    // right: 10,
-    // left: 10,
   },
-gradientBackground: {
+  gradientBackground: {
     borderRadius: 20,
-    width: 150,
-    height: 45,
+    width: 160,
+    height: 50,
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: 8,
+    left: -20,
     elevation: 3,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
-    // right: 10,
   },
   saveButton: {
-    //adjust linear gradient
-    flexDirection: 'row',
-    // height: 41,
-    // width: 137,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    // top: 20,
     right: 10,
-    paddingVertical: 20,
-    paddingHorizontal: 15,
-    borderRadius: 40,
+    paddingTop: 50,
+    paddingHorizontal: 75,
   },
+  //texts save
   buttonSave: {
     color: '#ffffff',
-    // height: 490,
-    // width: 190,
-    fontSize: 20,
+    fontSize: 19,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',
-    alignItems: 'center',
-    top: 8,
-    // paddingVertical: 10,
-    // paddingHorizontal: 10,
+    // alignItems: 'center',
+    top: 10,
   },
   cancelButton: {
     backgroundColor: '#ffffff',
+    top: 5,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    // marginTop: 20,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 40,
@@ -371,18 +362,14 @@ gradientBackground: {
     alignContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    // paddingVertical: 10,
-    // paddingHorizontal: 10,
   },
   buttonTextCancel: {
     color: '#FF8D4D',
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    // paddingVertical: 10,
-    // paddingHorizontal: 10,
   },
 });
 

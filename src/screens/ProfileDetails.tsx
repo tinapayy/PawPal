@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   ImageBackground,
@@ -22,8 +22,9 @@ import {
 
 
 const ProfileDetails = () => {
- const MAX_DESCRIPTION_LENGTH = 200;
-  const initialDescription =   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Viverra maecenas accumsan lacus vel facilisis. Sed egestas egestas fringilla phasellus faucibus scelerisque. Integer enim neque volutpat ac. Nulla facilisi morbi tempus iaculis urna id. Tempus quam pellentesque nec nam aliquam sem et. Ullamcorper velit sed ullamcorper morbi. Consequat interdum varius sit amet mattis vulputate enim. Et tortor consequat id porta nibh venenatis. Vitae justo eget magna fermentum iaculis eu non diam phasellus. Etiam tempor orci eu lobortis. Libero justo laoreet sit amet cursus sit amet. Aliquam sem et tortor consequat id porta nibh venenatis cras. Sed ullamcorper morbi tincidunt ornare massa eget. Lectus nulla at volutpat diam ut venenatis tellus in. Tortor vitae purus faucibus ornare suspendisse sed nisi. Nunc consequat interdum varius sit amet mattis vulputate enim. Suspendisse in est ante in nibh.'; // Your initial full description
+  const scrollViewRef = useRef<ScrollView | null>(null);
+  const MAX_DESCRIPTION_LENGTH = 200;
+  const initialDescription =   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Viverra maecenas accumsan lacus vel facilisis. Sed egestas egestas fringilla phasellus faucibus scelerisque. Integer enim neque volutpat ac. Nulla facilisi morbi tempus iaculis urna id. Tempus quam pellentesque nec nam aliquam sem et. Ullamcorper velit sed ullamcorper morbi. Consequat interdum varius sit amet mattis vulputate enim. Et tortor consequat id porta nibh venenatis. Vitae justo eget magna fermentum iaculis eu non diam phasellus. Etiam tempor orci eu lobortis. Libero justo laoreet sit amet cursus sit amet. Aliquam sem et tortor consequat id porta nibh venenatis cras. Sed ullamcorper morbi tincidunt ornare massa eget. Lectus nulla at volutpat diam ut venenatis tellus in. Tortor vitae purus faucibus ornare suspendisse sed nisi. Nunc consequat interdum varius sit amet mattis vulputate enim. Suspendisse in vulputate .';
 
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [truncatedDescription, setTruncatedDescription] = useState(
@@ -36,10 +37,14 @@ const ProfileDetails = () => {
 
   const handleDescriptionPress = () => {
     toggleDescription();
+    if (scrollViewRef.current) {
     if (showFullDescription) {
       setTruncatedDescription(`${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`);
+      // scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
     } else {
       setTruncatedDescription(initialDescription);
+      // scrollViewRef.current.scrollToEnd({ animated: true });
+    }
     }
   };
   return (
@@ -134,26 +139,29 @@ const ProfileDetails = () => {
           <View style={styles.textUserInfo}>
           <Text style={styles.textUser}>Kristina V. Celis</Text>
           <Text style={styles.textUser1}>Owner</Text>
+          <View>
           <View style={styles.functionality} />
             <TouchableOpacity style={styles.button}>
               <FontAwesomeIcon icon={faMessage} style={{color: '#ffffff'}} />
               <Text style={styles.chatIcon}>Message</Text>
-              {/* <FontAwesomeIcon icon={faGear} style={{color: '#f87000'}} /> */}
             </TouchableOpacity>
             <TouchableOpacity style={styles.settings}>
               <FontAwesomeIcon icon={faGear} style={{color: '#f87000'}} />
             </TouchableOpacity>
           </View>
+          </View>
            <View style={styles.container}>
-           <ScrollView style={styles.scrollView}>
+           <ScrollView style={styles.scrollView} ref={scrollViewRef}>
             <TouchableOpacity onPress={handleDescriptionPress}>
               <View style={styles.content}>
                 <Text style={styles.contentProfile}>
                    {showFullDescription ? initialDescription : truncatedDescription}
                    </Text>
-                   <Text style={styles.readMore}>
-                    {showFullDescription ? 'Read Less' : 'Read More'}
-                </Text>
+                  <View style={styles.readMoreContainer}>
+                    <Text style={styles.descriptionButton} onPress={toggleDescription}>
+                      {showFullDescription ? 'See Less' : 'See More'}
+                      </Text>
+                      </View>
                 </View>
                 </TouchableOpacity>
                 </ScrollView>
@@ -228,12 +236,7 @@ const styles = StyleSheet.create({
     marginTop: -5,
   },
   arrowRight: {
-    // marginTop: -5,
-    // marginLeft: 300,
-    // marginRight: 10,
-    // // marginBottom: 10,
-    // marginLeft: 10,
-    marginLeft: 135,
+    marginLeft: 145,
     marginRight: 'auto',
   },
   arrowLeft: {
@@ -246,16 +249,13 @@ const styles = StyleSheet.create({
   arrowLR: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: -50,
+    marginTop: -70,
     // marginLeft: 10,
     paddingHorizontal: 80,
   },
   logo: {
     flexDirection: 'row',
     marginTop: -15,
-    // alignContent: 'center',
-    // resizeMode: 'cover',
-    // marginTop: -50,
   },
   pawpalLogo: {
     width: 50,
@@ -264,12 +264,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginLeft: 60,
     alignSelf:'center',
-    alignContent: 'center',
+    // alignContent: 'center',
+    top:-15,
     objectFit: 'cover',
   },
   containerText: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
     alignItems: 'center',
     paddingHorizontal: 100,
     alignContent:'space-between',
@@ -298,43 +299,21 @@ const styles = StyleSheet.create({
     left: -75,
   },
   containText2:{
-    // flexDirection: 'row',
     alignContent: 'center',
-    // alignContent:'space-between',
-    // paddingHorizontal: 50,
-    // top:-50,
-    // color: '#5A2828',
     color:'gray',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     marginLeft: 20,
-    left: 10,
+    left: 15,
   },
   containText3:{
-    // flexDirection: 'row',
     alignContent: 'center',
-    // alignContent:'space-between',
-    // paddingHorizontal: 50,
-    // top:-60,
-    // color: '#5A2828',
     color:'gray',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     marginLeft: 20,
-    left: 75,
+    left: 85,
   },
-  // text: {
-  //   fontSize: 28,
-  //   color: 'white',
-  // },
-  // boxContainer: {
-  //   flexDirection: 'row',
-  //   marginTop: -50,
-  //   marginLeft: 90,
-  //   justifyContent: 'space-between',
-  //   paddingHorizontal: 0,
-  //   // left: 50,
-  // },
   boxContainer: {
   flexDirection: 'row',
   justifyContent: 'center',
@@ -344,17 +323,6 @@ const styles = StyleSheet.create({
   // left: 50,
   paddingHorizontal: 20,
 },
-  // box: {
-  //   flexDirection:'row',
-  //   backgroundColor: '#ff8700',
-  //   padding: 10,
-  //   borderRadius: 5,
-  //   marginHorizontal: 20,
-  //   // alignContent:'center',
-  //   alignContent:'space-between',
-  //   paddingHorizontal: 15,
-  //   marginLeft: 20,
-  // },
   box1: {
   flexDirection: 'row',
   backgroundColor: '#F1D5C6',
@@ -397,12 +365,6 @@ box3: {
   left: -285,
   marginLeft: 40,
 },
-// pawBox: {
-//   flexDirection: 'row',
-//   alignContent: 'space-between',
-//   // paddingHorizontal: 50,
-// },
-
 boxText: {
   color: '#5A2828',
   fontFamily: 'Poppins-Regular',
@@ -411,60 +373,58 @@ boxText: {
   fontSize: 16,
 },
 horizontalLine: {
-  // alignContent: 'center',
   alignSelf: 'center',
   width: 350,
   height: 2,
   backgroundColor: '#FF8D4D',
-  // marginTop: -50,
-  top: -50,
-  // top: -100,
+  top: -60,
   textDecorationStyle: 'solid',
   },
   bottomContainer: {
-    // marginTop: -200,
-    // marginTop: 20,
-    top: -50,
+    top: -25,
     alignItems: 'center',
   },
   textUserInfo: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
+    // left:10,
+    textAlign: 'left',
     marginTop: 20,
   },
   userIcon: {
-    width: 80,
-    height: 80,
-    top: -195,
-    left: -140,
+    width: 60,
+    height: 60,
+    top: -210,
+    left: -160,
   },
   textUser: {
     fontSize: 18,
     fontFamily: 'Poppins-Bold',
-    textDecorationStyle: 'solid',
+    // textDecorationStyle: 'solid',
     color: '#5A2828',
-    // marginTop: -190,
+    // textAlign:'left',
     top: -285,
-    left: 55,
+    left: 30,
   },
   textUser1: {
     fontSize: 16,
-    fontFamily: 'Poppins-Bold',
-    textDecorationStyle: 'solid',
+    fontFamily: 'Poppins-Regular',
+    // textDecorationStyle: 'solid',
     color: '#5A2828',
-    // marginTop: -190,
+    // textAlign: 'left',
     top: -265,
-    left: -72,
+    left: -115,
   },
   functionality: {
     flexDirection: 'row',
     // marginTop: -90,
+    // left: 10,
     position: 'absolute',
   },
   settings: {
     flexDirection: 'row',
-    marginTop: -570,
-    left: 35,
+    top: -315,
+    left: 115,
   },
   button: {
     flexDirection: 'row',
@@ -476,7 +436,7 @@ horizontalLine: {
     paddingHorizontal: 9,
     // marginTop: 20,
     top: -285,
-    left: 30,
+    // left: 0,
   },
   chatIcon: {
     fontFamily: 'Poppins-Regular',
@@ -487,10 +447,10 @@ horizontalLine: {
   },
   scrollView: {
     flex: 1,
-    marginTop: -250,
+    marginTop: -280,
   },
   content: {
-    marginTop: 0,
+    // marginTop: 0,
     color: 'white',
     textAlign: 'justify',
     paddingHorizontal: 20,
@@ -502,14 +462,31 @@ horizontalLine: {
     textAlign: 'justify',
     lineHeight: 24,
   },
-  readMore: {
+  // readMore: {
+  //   fontFamily: 'Poppins-Regular',
+  //   fontSize: 14,
+  //   textDecorationStyle: 'solid',
+  //   color: '#ff8700',
+  //   marginTop: 10,
+  //   // textAlign: 'center',
+  //   // display: 'inline',
+  //   textDecorationLine: 'underline',
+  // },
+   readMoreContainer: {
+    marginLeft: 0,
+    position: 'absolute',
+    bottom: 0,
+    right: 120,
+    // marginRight:10,
+    // paddingHorizontal:10,
+  },
+  descriptionButton: {
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
-    textDecorationStyle: 'solid',
     color: '#ff8700',
-    marginTop: 10,
-    textAlign: 'center',
     textDecorationLine: 'underline',
+    marginLeft: 10,
+    paddingHorizontal:5,
   },
 
 });

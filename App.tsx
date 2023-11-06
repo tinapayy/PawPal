@@ -14,6 +14,7 @@ import ProfileDetails from './src/screens/ProfileDetails';
 import MessagePage from "./src/screens/MessagePage";
 import ForumPage from "./src/screens/ForumPage";
 
+
 export default function App() {
   // return <GettingStarted/>;
   // return <GettingStarted2/>;
@@ -22,6 +23,10 @@ export default function App() {
   // return <UserProfile/>;
   // return <ClinicProfile/>;
   // return <Approval_page/>;
+  // return <BottomNavBar/>;
+
+
+
   // return <FoodSuggestions/>;
   // return <PopularClinics/>;
   // return <BottomNavBar/>;

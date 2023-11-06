@@ -10,7 +10,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/Rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',
@@ -26,7 +26,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/Rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',
@@ -42,7 +42,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/Rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',
@@ -58,7 +58,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/Rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',
@@ -74,7 +74,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/Rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',

@@ -38,7 +38,7 @@
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "^3.27.0",
     "react-native-svg": "^13.14.0",
-    "react-native-vector-icons": "^10.0.0",
+    "react-native-vector-icons": "^10.0.1",
     "styled-components": "^6.1.0"
   },
   "devDependencies": {

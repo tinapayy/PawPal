@@ -6,14 +6,18 @@ import SignUp from './src/screens/SignUp';
 import ClinicProfile from './src/screens/ClinicProfile';
 import UserProfile from './src/screens/UserProfile';
 import Approval_page from './src/screens/Approval Page';
+import FoodSuggestions from './src/screens/FoodSuggestions';
+import PopularClinics from './src/screens/PopularClinics';
 
 
 export default function App() {
-  return <GettingStarted/>;
+  // return <GettingStarted/>;
   // return <GettingStarted2/>;
   // return <SignUp/>;
   // return <SignIn/>;
-  // return <UserProfile/>;
+  return <UserProfile/>;
   // return <ClinicProfile/>;
   // return <Approval_page/>;
+  // return <FoodSuggestions/>;
+  // return <PopularClinics/>;
 }

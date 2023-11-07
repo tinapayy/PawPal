@@ -35,7 +35,7 @@ export default function App() {
 
 
 
-  // return <FoodSuggestions/>;
+  return <FoodSuggestions/>;
   // return <PopularClinics/>;
   // return <BottomNavBar/>;
 
@@ -48,7 +48,7 @@ export default function App() {
   // return <SettingsPage/>;
   // return <ResultsPage/>;
 
-  return <HomePage/>;
+  // return <HomePage/>;
 
 
 }

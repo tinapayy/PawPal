@@ -89,6 +89,7 @@ const foodData = [
           {
             value: 'Advisable',
             label: 'Advisable',
+
           },
           {
             value: 'Restricted',
@@ -97,19 +98,19 @@ const foodData = [
         ]}
       />
         </SafeAreaView>
-    <View style={styles.container4}>
+    <View style={styles.scrollContainer}>
     <FlatList
       data={foodData}
       numColumns={2} // Set the number of columns to 2
       contentContainerStyle={styles.container3}
       renderItem={({ item }) => (
         <View style={styles.card}>
-          <Image source={item.imageUrl} style={styles.image} />
-          <View style={styles.textOverlay}>
-            <Text style={styles.label}>{item.name}</Text>
-            <Text style={styles.description}>{item.description}</Text>
+          <ImageBackground source={item.imageUrl} style={styles.image} />
+          <View style={styles.textbox}>
+            <Text style={[styles.label, styles.textOverlay]}>{item.name}</Text>
+            <Text style={[styles.description, styles.textOverlay]}>{item.description}</Text>
+            </View>
           </View>
-        </View>
       )}
     />
     </View>
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     top: -720,
-    width: 400,
+    width: 380,
     alignSelf: 'center',
   },
   container2: {
@@ -150,10 +151,10 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     alignSelf: 'center',
   },
-  container4: {
+  scrollContainer: {
     top: 250,
     position: 'absolute',
-    height: '100%',
+    height:600
   },
   container3: {
     padding: 16,
@@ -161,31 +162,51 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '50%', // Each card takes up 50% of the container's width
-    marginBottom: 20,
     position: 'relative', // To position the text overlay
     padding: 5,
+    height: 160,
   },
   image: {
     width: '100%',
     height: 150,
-    borderRadius: 8,
+    flex:1,
   },
   textOverlay: {
-    position: 'absolute',
+    color: 'white',
+    position: 'relative',
+    top: 10,
+    height: 33,
+    marginLeft: 10,
+    marginTop:-5,
+
+    },
+  textbox: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    height:80,
+    position: 'relative',
     overflow: 'hidden',
-    width: '100%',
-    height: '100%',
-    padding: 10,
-    justifyContent: 'flex-end',
+
+
+
   },
+  // textOverlay: {
+  //   position: 'absolute',
+  //   overflow: 'hidden',
+  //   width: '100%',
+  //   height: '100%',
+  //   padding: 10,
+  //   justifyContent: 'flex-end',
+  // },
   label: {
     color: '#fff',
     fontSize: 20,
-    elevation: 1
+    elevation: 1,
+    fontFamily: 'Poppins-SemiBold',
   },
   description: {
     color: '#fff',
     fontSize: 14,
+    elevation: 30
   },
 });
 

@@ -17,6 +17,8 @@ import ClinicProfile from './src/screens/ClinicProfile';
 import ForumPage from './src/screens/ForumPage';
 import PetProfile from './src/screens/PetProfile';  
 import ProfileDetails from './src/screens/ProfileDetails';
+import MessagePage from './src/screens/MessagePage';
+import HomePage from './src/screens/HomePage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,11 +61,11 @@ export default function BottomNavBar(){
         })}
         
         >
-        <Tab.Screen name="home" component={Homesamp} />
+        <Tab.Screen name="home" component={HomePage} />
         <Tab.Screen name="favourite" component={ForumPage} />
         <Tab.Screen name="cart" component={Homesamp} />
-        <Tab.Screen name="ca" component={Detailsamp}/>
-        <Tab.Screen name="car" component={ClinicProfile} />
+        <Tab.Screen name="ca" component={MessagePage}/>
+        <Tab.Screen name="car" component={ProfileDetails} />
       </Tab.Navigator>
     )
   }

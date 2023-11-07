@@ -19,10 +19,7 @@ const Chat = () => {
         <Pressable style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </Pressable>
-        <Image
-          style={styles.avatar}
-          source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
-        />
+        <Image style={styles.avatar} source={require('../images/user2.jpg')} />
         <Text style={styles.headerText}>Labrod Veterinary Clinic</Text>
       </View>
 
@@ -41,7 +38,7 @@ const Chat = () => {
           <View style={[styles.incomingMessageAvatarWrapper]}>
             <Image
               style={styles.incomingMessageAvatar}
-              source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
+              source={require('../images/user2.jpg')}
             />
             <View style={[styles.messageBubble, styles.incomingMessageBubble]}>
               <Text style={styles.messageText}>
@@ -55,7 +52,7 @@ const Chat = () => {
           <Text style={styles.timestamp}>10:47 AM</Text>
           <Image
             style={styles.messageImage}
-            source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
+            source={require('../images/chat_dog.png')}
           />
         </View>
       </ScrollView>

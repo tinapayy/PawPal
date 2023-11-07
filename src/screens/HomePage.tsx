@@ -153,7 +153,7 @@ const itemNumber2 = ({ item }) => {
       borderRadius: 20,
       backgroundColor: 'white',
       borderColor: 'white',
-      elevation: 20,
+      elevation: 30,
       borderColor: '#FF8484',
     }}
     >

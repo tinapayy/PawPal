@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {FIREBASE_AUTH} from '../../FirebaseConfig';
+import {FIREBASE_AUTH} from '../../firebase.config';
 
 const Onboarding = () => {
   const auth = FIREBASE_AUTH;
@@ -63,10 +63,9 @@ const Onboarding = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
-  container:{},
-  input:{}
-})
+  container: {},
+  input: {},
+});
 
 export default Onboarding;

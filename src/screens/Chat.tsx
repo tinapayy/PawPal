@@ -19,7 +19,10 @@ const Chat = () => {
         <Pressable style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </Pressable>
-        <Image style={styles.avatar} source={require('../images/user2.jpg')} />
+        <Image
+          style={styles.avatar}
+          source={require('../images/chat_icon.jpg')}
+        />
         <Text style={styles.headerText}>Labrod Veterinary Clinic</Text>
       </View>
 
@@ -38,7 +41,7 @@ const Chat = () => {
           <View style={[styles.incomingMessageAvatarWrapper]}>
             <Image
               style={styles.incomingMessageAvatar}
-              source={require('../images/user2.jpg')}
+              source={require('../images/chat_icon.jpg')}
             />
             <View style={[styles.messageBubble, styles.incomingMessageBubble]}>
               <Text style={styles.messageText}>

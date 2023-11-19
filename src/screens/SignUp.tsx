@@ -19,15 +19,19 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {FIREBASE_AUTH} from '../../firebase.config';
+import {collection, addDoc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
 import SwitchButton from '../components/SwtichButton';
 
 const SignIn = () => {
   const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
 
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const signUp = async () => {
@@ -68,6 +72,13 @@ const SignIn = () => {
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                value={username}
+                underlineColorAndroid="orange"
+                onChangeText={text => setUsername(text)}
+              />
               <TextInput
                 style={styles.input}
                 placeholder="Email"

@@ -35,8 +35,8 @@ export default function App() {
 
 
 
-  return <FoodSuggestions/>;
-  // return <PopularClinics/>;
+  //return <FoodSuggestions/>;
+  return <PopularClinics/>;
   // return <BottomNavBar/>;
 
   // return <ProfileDetails />;

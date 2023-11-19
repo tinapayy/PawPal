@@ -21,7 +21,7 @@ import {
 } from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton from '../components/SwtichButton';
+import SwitchButton from './SwitchButton';
 
 const SignIn = () => {
   const auth = FIREBASE_AUTH;

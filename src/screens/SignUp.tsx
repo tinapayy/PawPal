@@ -22,7 +22,7 @@ import {
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton from '../components/SwtichButton';
+import SwitchButton, {getSelectedTab} from '../components/SwitchButton';
 
 const SignIn = () => {
   const auth = FIREBASE_AUTH;

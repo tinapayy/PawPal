@@ -37,6 +37,10 @@ const SignIn = () => {
   const signUp = async () => {
     setLoading(true);
     try {
+      if (password !== confirmPassword) {
+        Alert.alert('Password do not match');
+        return;
+      }
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -93,6 +97,14 @@ const SignIn = () => {
                 secureTextEntry={true}
                 underlineColorAndroid="orange"
                 onChangeText={text => setPassword(text)}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                secureTextEntry={true}
+                underlineColorAndroid="orange"
+                onChangeText={text => setConfirmPassword(text)}
               />
             </View>
             <View style={styles.btnContainer}>

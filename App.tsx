@@ -8,9 +8,12 @@ import SettingsPage_Sprint4 from './src/screens/SettingsPage_Sprint4';
 import FoodSuggestionsPage_Sprint4 from './src/screens/FoodSuggestionsPage_Sprint4';
 import FoodSuggestionsPrompt_Sprint4 from './src/screens/FoodSuggestionsPrompt_Sprint4';
 
+//for checking
+// import FoodSuggestions from './src/screens/FoodSuggestions';
 export default function App() {
 
   return <FoodSuggestionsPage_Sprint4 />;
+  // return <FoodSuggestions/>;
   // return <PopularClinics_Sprint4/>;
   // return <ProfileDetails_Sprint4 />;
   // return <SettingsPage_Sprint4/>;

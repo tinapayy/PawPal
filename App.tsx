@@ -10,13 +10,18 @@ import FoodSuggestionsPrompt_Sprint4 from './src/screens/FoodSuggestionsPrompt_S
 
 //for checking
 // import FoodSuggestions from './src/screens/FoodSuggestions';
+import ProfileDetails from './src/screens/ProfileDetails';
+
 export default function App() {
 
-  return <FoodSuggestionsPage_Sprint4 />;
-  // return <FoodSuggestions/>;
+  // return <FoodSuggestionsPage_Sprint4 />;
   // return <PopularClinics_Sprint4/>;
   // return <ProfileDetails_Sprint4 />;
   // return <SettingsPage_Sprint4/>;
   // return <HomePage_Sprint4/>;
+
+  //for checking
+  // return <FoodSuggestions/>;
+  return <ProfileDetails/>;
 
 }

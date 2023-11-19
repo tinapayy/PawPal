@@ -47,7 +47,15 @@ const SignIn = () => {
         password,
       );
       console.log(response);
+      const docRef = await addDoc(collection(db, 'user'), {
+        userId: response.user.uid,
+        username: username,
+        email: email,
+        password: password,
+        userType: getSelectedTab(),
+      });
       Alert.alert('User created successfully');
+      console.log('Document written with ID: ', docRef.id);
     } catch (error: any) {
       console.error(error);
       Alert.alert(error.message);

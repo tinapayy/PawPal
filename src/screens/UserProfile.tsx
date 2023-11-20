@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   View,
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faUser,
   faLock,
@@ -20,8 +20,11 @@ import {
   faEnvelope,
   faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
 
 const UserProfile = () => {
+  const navigation = useNavigation();
+
   const [currentName, setCurrentName] = useState('');
   const [currentBio, setCurrentBio] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -31,8 +34,7 @@ const UserProfile = () => {
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
-      style={styles.backgroundImage1}
-    >
+      style={styles.backgroundImage1}>
       <View style={styles.container}>
         <View style={styles.back}>
           <TouchableOpacity>
@@ -71,17 +73,17 @@ const UserProfile = () => {
               placeholder="Name"
               secureTextEntry
               value={currentName}
-              onChangeText={(text) => setCurrentName(text)}
+              onChangeText={text => setCurrentName(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faAddressCard} style={styles.icon} />
             <TextInput
-              style={[styles.input, { fontSize: 16 }, { top: 2 }]}
+              style={[styles.input, {fontSize: 16}, {top: 2}]}
               placeholder="Tell more about yourself"
               secureTextEntry
               value={currentBio}
-              onChangeText={(text) => setCurrentBio(text)}
+              onChangeText={text => setCurrentBio(text)}
               maxLength={500}
             />
           </View>
@@ -94,7 +96,7 @@ const UserProfile = () => {
               placeholder="Current Password"
               secureTextEntry
               value={currentPassword}
-              onChangeText={(text) => setCurrentPassword(text)}
+              onChangeText={text => setCurrentPassword(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -104,7 +106,7 @@ const UserProfile = () => {
               placeholder="New Password"
               secureTextEntry
               value={newPassword}
-              onChangeText={(text) => setNewPassword(text)}
+              onChangeText={text => setNewPassword(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -114,22 +116,20 @@ const UserProfile = () => {
               placeholder="Confirm Password"
               secureTextEntry
               value={confirmPassword}
-              onChangeText={(text) => setConfirmPassword(text)}
+              onChangeText={text => setConfirmPassword(text)}
             />
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.saveButton}
-              onPress={() => console.log('Save Changes')}
+              onPress={() => navigation.navigate('PetProfile')}
               accessible={true}
-              accessibilityRole="button"
-            >
+              accessibilityRole="button">
               <LinearGradient
                 colors={['#FFAC4E', '#FF6464']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.gradientBackground}
-              >
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                style={styles.gradientBackground}>
                 <Text style={styles.buttonSave}>Save Changes</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -137,8 +137,7 @@ const UserProfile = () => {
               style={styles.cancelButton}
               onPress={() => console.log('Cancel Changes')}
               accessible={true}
-              accessibilityRole="button"
-            >
+              accessibilityRole="button">
               <Text style={styles.buttonTextCancel}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -295,7 +294,7 @@ const styles = StyleSheet.create({
     // right: -40,
     elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },
@@ -321,7 +320,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
     top: 7,

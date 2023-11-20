@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import SignIn from './src/screens/SignIn';
 import GettingStarted from './src/screens/GettingStarted';
 import GettingStarted2 from './src/screens/GettingStarted2';
@@ -17,11 +20,23 @@ import Chat from './src/screens/Chat';
 import SettingsPage from './src/screens/SettingsPage';
 import ResultsPage from './src/screens/ResultsPage';
 import HomePage from './src/screens/HomePage';
+import Onboarding from './src/screens/Onboarding';
 
+const Stack = createStackNavigator();
 
 export default function App() {
-  // return <GettingStarted/>;
-  // return <GettingStarted2/>;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="GettingStarted" component={GettingStarted} options={{ headerShown: false }}/>
+        <Stack.Screen name="GettingStarted2" component={GettingStarted2} options={{ headerShown: false }}/>
+        <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: true }}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: true }}/>
+        {/* Add more screens here */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+  //return <GettingStarted2/>;
   // return <SignUp/>;
   // return <SignIn/>;
   // return <UserProfile/>;
@@ -34,9 +49,8 @@ export default function App() {
 
 
 
-
   //return <FoodSuggestions/>;
-  return <PopularClinics/>;
+  // return <PopularClinics/>;
   // return <BottomNavBar/>;
 
   // return <ProfileDetails />;

@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Image, StyleSheet, Pressable, Text, ImageBackground, } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 // import {BgSvg} from './src/images';
 
 const GettingStarted2 = () => {
+  const navigation = useNavigation();
   return (
     <View>
     <View style={styles.container1}>
@@ -24,7 +26,7 @@ const GettingStarted2 = () => {
         },
       ]}
       onPress={() => {
-        // Add your button click action here
+        navigation.navigate('SignIn');
       }}>
       <Text style={styles.text1}>SIGN IN</Text>
     </Pressable>
@@ -39,7 +41,7 @@ const GettingStarted2 = () => {
         },
       ]}
       onPress={() => {
-        // Add your button click action here
+        navigation.navigate('SignUp');
       }}>
       <Text style={styles.text2}>SIGN UP</Text>
     </Pressable>

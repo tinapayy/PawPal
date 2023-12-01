@@ -7,6 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import FoodSuggestions from './FoodSuggestions';
+import ProfileDetails from './ProfileDetails';
+import ForumPage from './ForumPage';
+import Apps from './PopularClinics';
+import ClinicProfile from './ClinicProfile';
+
 // import LinearGradient from 'react-native-linear-gradient';
 // import { color } from 'react-native-elements/dist/helpers';
 // import { Searchbar } from 'react-native-paper';
@@ -153,7 +161,7 @@ const itemNumber2 = ({ item }) => {
       borderRadius: 20,
       backgroundColor: 'white',
       borderColor: 'white',
-      elevation: 20,
+      elevation: 30,
       borderColor: '#FF8484',
     }}
     >
@@ -175,6 +183,7 @@ const itemNumber2 = ({ item }) => {
 };
 
 const data3Item = ({ item }) => {
+  const navigation = useNavigation();
   return(
     <SafeAreaView>
       <ScrollView>
@@ -215,7 +224,9 @@ const data3Item = ({ item }) => {
           </View>
           </View>
           <TouchableOpacity 
-          onPress={() => {}}>
+          onPress={() => {
+            navigation.navigate ('ProfileDetails');
+          }}>
           <Image source={item.imageSome} 
             style={{
               width: 35, 
@@ -244,6 +255,7 @@ const data3Item = ({ item }) => {
           <TouchableOpacity
             style = {styles.button}
             onPress={() => {
+              navigation.navigate ('FoodSuggestions');
             }}
             >
           <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'white', textAlign: 'center'}}>
@@ -262,6 +274,7 @@ const data3Item = ({ item }) => {
 };
 
 const HomePage = () => {
+  const navigation = useNavigation();
   const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
 
@@ -311,9 +324,14 @@ const HomePage = () => {
         <Text style = {{color: '#FF6464', fontFamily: 'Poppins-Bold', fontSize: 20}}>
           Urgent Announcements
         </Text>
-        <Text style = {{color: '#FF6464', textDecorationLine: 'underline', fontSize: 17}}>
-          More
-        </Text>
+        <TouchableOpacity 
+        onPress={() => {
+            navigation.navigate ('ForumPage');
+          }}>
+          <Text style = {{color: '#FF6464', textDecorationLine: 'underline', fontSize: 17}}>
+            More
+          </Text>
+        </TouchableOpacity>
         </View>
         <Carousel
           style = {{flex: 1, alignContent: 'center', justifyContent: 'center'}}
@@ -329,17 +347,27 @@ const HomePage = () => {
         <Text style = {{color:'#FF6464', fontFamily: 'Poppins-Bold', fontSize: 20}}>
           Popular Clinics
         </Text>
-        <Text style = {{color: '#FF6464', textDecorationLine: 'underline', fontSize: 17}}>
-          See all
-        </Text>
+        <TouchableOpacity 
+            onPress={() => {
+            navigation.navigate ('PopularClinics');
+          }}>
+          <Text style = {{color: '#FF6464', textDecorationLine: 'underline', fontSize: 17}}>
+            See all
+          </Text>
+        </TouchableOpacity>
         </View>
-        <Carousel
+        <TouchableOpacity
+         onPress={() => {
+          navigation.navigate ('ClinicProfile');
+        }}>
+          <Carousel
           data={data1}
           renderItem={renderItem}
           sliderWidth={screenWidth}
           sliderHeight={screenHeight}
           itemWidth={Math.round(screenWidth * 0.7)}
           itemHeight={Math.round(screenHeight - 30 * 0.7)} />
+        </TouchableOpacity>
         </View>
     </View>
     </ScrollView>

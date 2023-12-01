@@ -36,13 +36,11 @@ import { faMobileScreenButton } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { BackgroundImage } from 'react-native-elements/dist/config';
-import ModalDropdown from 'react-native-modal-dropdown';
-
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 
 const ClinicProfile = () => {
-
+    const navigation = useNavigation();
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -57,8 +55,19 @@ const ClinicProfile = () => {
         <SafeAreaView style = {{backgroundColor: 'orange'}}>
             <View>
                 <View style = {styles.icon}>
-                <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
-                <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}}/>
+                <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate ('HomePage');
+                  }}>
+                    <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate ('SettingsPage');
+                  }}>
+                    <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}}/>
+                </TouchableOpacity>
                 </View>
                 
                 <View>

@@ -18,8 +18,10 @@ import {
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 function SettingsPage() {
+  const navigation = useNavigation();
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
 
@@ -38,7 +40,10 @@ function SettingsPage() {
           <User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit User Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+        onPress={() => {
+          navigation.navigate ('ClinicDetails');
+        }}>
           <ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Details</Text>
         </TouchableOpacity>

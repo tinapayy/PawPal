@@ -1,4 +1,11 @@
 import * as React from 'react';
+<<<<<<< Updated upstream
+=======
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+>>>>>>> Stashed changes
 import SignIn from './src/screens/SignIn';
 import GettingStarted from './src/screens/GettingStarted';
 import GettingStarted2 from './src/screens/GettingStarted2';
@@ -6,7 +13,7 @@ import SignUp from './src/screens/SignUp';
 import ClinicProfile from './src/screens/ClinicProfile';
 import UserProfile from './src/screens/UserProfile';
 import Approval_page from './src/screens/Approval Page';
-import FoodSuggestions from './src/screens/FoodSuggestions';
+import FoodSuggestions from './src/screens/FoodAdvisable';
 import PopularClinics from './src/screens/PopularClinics';
 import BottomNavBar from './BottomNavBar';
 import PetProfile from './src/screens/PetProfile';
@@ -17,6 +24,7 @@ import Chat from './src/screens/Chat';
 import SettingsPage from './src/screens/SettingsPage';
 import ResultsPage from './src/screens/ResultsPage';
 import HomePage from './src/screens/HomePage';
+<<<<<<< Updated upstream
 
 
 export default function App() {
@@ -52,3 +60,24 @@ export default function App() {
 
 
 }
+=======
+import Onboarding from './src/screens/Onboarding';
+import FoodAdvisable from './src/screens/FoodAdvisable';
+import FoodRestricted from './src/screens/FoodRestricted';
+
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="FoodAdvisable" component={FoodAdvisable} />
+        <Stack.Screen name="FoodRestricted" component={FoodRestricted} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
+>>>>>>> Stashed changes

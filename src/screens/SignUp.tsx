@@ -19,31 +19,44 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {FIREBASE_AUTH} from '../../FirebaseConfig';
+import {collection, addDoc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton from '../components/SwtichButton';
+import SwitchButton, {getSelectedTab} from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
-
+    
 const SignIn = () => {
-  const navigation = useNavigation();
-
   const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
 
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const signUp = async () => {
     setLoading(true);
-    try {
+      if (password !== confirmPassword) {
+        Alert.alert('Password do not match');
+        return;
+      }
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       );
       console.log(response);
+      const docRef = await addDoc(collection(db, 'user'), {
+        userId: response.user.uid,
+        username: username,
+        email: email,
+        password: password,
+        userType: getSelectedTab(),
+      });
       Alert.alert('User created successfully');
-      if (response) {
+      console.log('Document written with ID: ', docRef.id);
+        if (response) {
         navigation.navigate('UserProfile');
       }
     } catch (error: any) {
@@ -75,6 +88,12 @@ const SignIn = () => {
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>
               <TextInput
+                placeholder="Username"
+                value={username}
+                underlineColorAndroid="orange"
+                onChangeText={text => setUsername(text)}
+              />
+              <TextInput
                 style={styles.input}
                 placeholder="Email"
                 value={email}
@@ -88,6 +107,14 @@ const SignIn = () => {
                 secureTextEntry={true}
                 underlineColorAndroid="orange"
                 onChangeText={text => setPassword(text)}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                secureTextEntry={true}
+                underlineColorAndroid="orange"
+                onChangeText={text => setConfirmPassword(text)}
               />
             </View>
             <View style={styles.btnContainer}>

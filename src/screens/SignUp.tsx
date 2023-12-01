@@ -9,23 +9,18 @@ import {
   Text,
   TextInput,
   SafeAreaView,
-  Keyboard,
   ScrollView,
-  Platform,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
 } from 'react-native';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
 import SwitchButton, {getSelectedTab} from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
-    
+
 const SignIn = () => {
+  const navigation = useNavigation();
+
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
@@ -36,7 +31,8 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
 
   const signUp = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
       if (password !== confirmPassword) {
         Alert.alert('Password do not match');
         return;
@@ -56,7 +52,7 @@ const SignIn = () => {
       });
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
-        if (response) {
+      if (response) {
         navigation.navigate('UserProfile');
       }
     } catch (error: any) {

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"; 
+import {initializeApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -8,12 +8,12 @@ import {getFirestore} from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB5T8qUxhXBJ-a2oTTBAPiDhiUdNTMmBYk",
-  authDomain: "pawpal-c4ade.firebaseapp.com",
-  projectId: "pawpal-c4ade",
-  storageBucket: "pawpal-c4ade.appspot.com",
-  messagingSenderId: "147837843907",
-  appId: "1:147837843907:web:b3e0efaea93b7ffad86576"
+  apiKey: 'AIzaSyAE_w2PYZUdG6RcOmCMxuJgw-5MOtfj0uE',
+  authDomain: 'pawpal-bf0d3.firebaseapp.com',
+  projectId: 'pawpal-bf0d3',
+  storageBucket: 'pawpal-bf0d3.appspot.com',
+  messagingSenderId: '747495959390',
+  appId: '1:747495959390:web:91528f916887411ff33dcf',
 };
 
 // Initialize Firebase

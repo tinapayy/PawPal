@@ -15,7 +15,7 @@ import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton, {getSelectedTab} from '../components/SwitchButton';
+import SwitchButton, {getUserType} from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 
 const SignIn = () => {
@@ -48,12 +48,16 @@ const SignIn = () => {
         username: username,
         email: email,
         password: password,
-        // userType: getSelectedTab(),
+        userType: getUserType(),
       });
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {
-        navigation.navigate('UserProfile');
+        if (getUserType() === 'petOwner') {
+          navigation.navigate('UserProfile');
+        } else if (getUserType() === 'clinic') {
+          navigation.navigate('ClinicDetails');
+        }
       }
     } catch (error: any) {
       console.error(error);

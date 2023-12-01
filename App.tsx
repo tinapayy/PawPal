@@ -7,6 +7,7 @@ import GettingStarted from './src/screens/GettingStarted';
 import GettingStarted2 from './src/screens/GettingStarted2';
 import SignUp from './src/screens/SignUp';
 import ClinicProfile from './src/screens/ClinicProfile';
+import ClinicDetails from './src/screens/ClinicDetails';
 import UserProfile from './src/screens/UserProfile';
 import Approval_page from './src/screens/Approval Page';
 import FoodSuggestions from './src/screens/FoodSuggestions';
@@ -41,7 +42,7 @@ export default function App() {
         <Stack.Screen
           name="SignUp"
           component={SignUp}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="UserProfile"
@@ -51,6 +52,11 @@ export default function App() {
         <Stack.Screen
           name="PetProfile"
           component={PetProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ClinicDetails"
+          component={ClinicDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen

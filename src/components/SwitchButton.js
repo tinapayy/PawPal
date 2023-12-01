@@ -2,6 +2,8 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {useState} from 'react';
 import React from 'react';
 
+let userType = 'petOwner';
+
 const SwitchButton = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   return (
@@ -30,6 +32,7 @@ const SwitchButton = () => {
           }}
           onPress={() => {
             setSelectedTab(0);
+            userType = 'petOwner';
           }}>
           <Text
             style={{
@@ -52,6 +55,7 @@ const SwitchButton = () => {
           }}
           onPress={() => {
             setSelectedTab(1);
+            userType = 'clinic';
           }}>
           <Text
             style={{
@@ -67,8 +71,8 @@ const SwitchButton = () => {
   );
 };
 
-// export selected tab
-export const getSelectedTab = () => {
-  return selectedTab;
+export const getUserType = () => {
+  return userType;
 };
+
 export default SwitchButton;

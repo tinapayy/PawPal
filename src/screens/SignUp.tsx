@@ -48,7 +48,7 @@ const SignIn = () => {
         username: username,
         email: email,
         password: password,
-        userType: getSelectedTab(),
+        // userType: getSelectedTab(),
       });
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
@@ -84,6 +84,7 @@ const SignIn = () => {
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>
               <TextInput
+                style={styles.input}
                 placeholder="Username"
                 value={username}
                 underlineColorAndroid="orange"

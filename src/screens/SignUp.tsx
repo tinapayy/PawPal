@@ -23,7 +23,8 @@ import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
 import SwitchButton, {getSelectedTab} from '../components/SwitchButton';
-
+import {useNavigation} from '@react-navigation/native';
+    
 const SignIn = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -36,7 +37,6 @@ const SignIn = () => {
 
   const signUp = async () => {
     setLoading(true);
-    try {
       if (password !== confirmPassword) {
         Alert.alert('Password do not match');
         return;
@@ -56,6 +56,9 @@ const SignIn = () => {
       });
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
+        if (response) {
+        navigation.navigate('UserProfile');
+      }
     } catch (error: any) {
       console.error(error);
       Alert.alert(error.message);
@@ -85,7 +88,6 @@ const SignIn = () => {
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>
               <TextInput
-                style={styles.input}
                 placeholder="Username"
                 value={username}
                 underlineColorAndroid="orange"

@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Image, StyleSheet, Pressable, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const GettingStarted: React.FC = () => {
+  const navigation = useNavigation();
   return (
     <View>
     <View style={styles.container1}>
@@ -22,6 +24,7 @@ const GettingStarted: React.FC = () => {
         },
       ]}
       onPress={() => {
+        navigation.navigate('GettingStarted2');
       }}>
       <Text style={styles.text}>Getting Started</Text>
     </Pressable>

@@ -23,6 +23,11 @@ import ResultsPage from './src/screens/ResultsPage';
 import HomePage from './src/screens/HomePage';
 import Onboarding from './src/screens/Onboarding';
 
+//gleez
+import FoodAdvisable from './src/screens/FoodAdvisable';
+import FoodRestricted from './src/screens/FoodRestricted';
+import ChoosePet from './src/screens/ChoosePet';
+
 const Stack = createStackNavigator();
 
 export default function App() {

@@ -64,6 +64,11 @@ export default function App() {
           component={SignIn}
           options={{headerShown: true}}
         />
+        <Stack.Screen
+          name="HomePage"
+          component={HomePage}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

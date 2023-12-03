@@ -15,16 +15,19 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import {collection, getDocs} from 'firebase/firestore';
 import {FIREBASE_AUTH} from '../../firebase.config';
+import {FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton from '../components/SwitchButton';
+import SwitchButton, {getUserType} from '../components/SwitchButton';
+import {useNavigation} from '@react-navigation/native';
 
 const SignIn = () => {
+  const navigation = useNavigation();
+
   const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,15 +35,37 @@ const SignIn = () => {
 
   const signIn = async () => {
     setLoading(true);
+
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      Alert.alert('Logged in successfully');
-    } catch (error: any) {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      let userFound = false;
+      querySnapshot.forEach(doc => {
+        if (
+          doc.data().userType === getUserType() &&
+          doc.data().email === email &&
+          doc.data().password === password
+        ) {
+          userFound = true;
+          signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+              Alert.alert('Logged in successfully');
+              navigation.navigate('HomePage');
+            })
+            .catch(error => {
+              console.error(error);
+              Alert.alert('Error signing in');
+            });
+        }
+      });
+      if (!userFound) {
+        Alert.alert('User not found');
+      }
+    } catch (error) {
       console.error(error);
-      Alert.alert(error.message);
+      Alert.alert('Error fetching user data');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

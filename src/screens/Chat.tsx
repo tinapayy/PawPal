@@ -7,22 +7,30 @@ import {
   ScrollView,
   TextInput,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from "@react-navigation/native";
 
 const Chat = () => {
   const [text, onChangeText] = useState('');
-
+  const navigation = useNavigation();
+  const handleImagePress = () => {
+    // Navigate to the clinic profile screen here
+    navigation.navigate('ClinicProfile');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Pressable style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </Pressable>
+        <TouchableOpacity onPress={handleImagePress}>
         <Image
           style={styles.avatar}
           source={require('../images/chat_icon.jpg')}
         />
+        </TouchableOpacity>
         <Text style={styles.headerText}>Labrod Veterinary Clinic</Text>
       </View>
 

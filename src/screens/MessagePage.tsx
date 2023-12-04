@@ -23,6 +23,8 @@ import {
 } from '../components/MessageStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCirclePlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '@react-navigation/native';
+
 const Messages = [
   {
     id: '1',
@@ -93,8 +95,9 @@ const Messages = [
   },
 ];
 const MessagePage = () => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.containerHeader}>
+    <View style={styles.containerHeader}> 
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
         style={{ width: '100%', height: '100%' }}
@@ -115,6 +118,9 @@ const MessagePage = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Card style={styles.cardContainer}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Chat', { userId: item.id })}
+                >
                 <UserInfo>
                   <UserImgWrapper>
                     <UserImg source={item.userImage} />
@@ -127,6 +133,7 @@ const MessagePage = () => {
                     <MessageText>{item.messageText}</MessageText>
                   </TextSection>
                 </UserInfo>
+                </TouchableOpacity>
               </Card>
             )}
           />

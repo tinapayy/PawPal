@@ -5,6 +5,10 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
+//changes made - gliez
+import { useNavigation } from '@react-navigation/native';
+
+
 const screenWidth = Dimensions.get('window').width;
 
 const clinics = [
@@ -91,7 +95,13 @@ const clinics = [
   // Add more clinic data here
 ];
 
+
 const ClinicCard = ({ clinicInfo, onPress }) => {
+  const navigation = useNavigation();
+  const handleProfileClick = () => {
+    // Navigate to the profile details screen
+    navigation.navigate('ProfileDetails');
+  };
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.card}>
@@ -122,10 +132,16 @@ const Apps = () => {
   const handleClinicPress = (clinic) => {
     // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
   };
+  const goBack = () => {
+    // Navigate back
+    navigation.goBack();
+  };
+  
 
   const backgroundImage = require('../images/PopularClinicsBg.png');
 
   return (
+
     <ImageBackground source={backgroundImage} style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between', margin: 15}}>
         <TouchableOpacity onPress = {() => {}}>

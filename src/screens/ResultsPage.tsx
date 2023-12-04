@@ -3,6 +3,7 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Dimensions, 
 
 import { ArrowLeftIcon as BackIcon,
          UserCircleIcon as User } from 'react-native-heroicons/solid';
+import { useNavigation } from "@react-navigation/native";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -76,6 +77,7 @@ const clinics = [
 ];
 
 const ClinicCard = ({ clinicInfo, onPress }) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.card}>
@@ -94,6 +96,7 @@ const ClinicCard = ({ clinicInfo, onPress }) => {
 };
 
 const ResultsPage = () => {
+  const navigation = useNavigation();
   const handleClinicPress = (clinic) => {
     // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
   };

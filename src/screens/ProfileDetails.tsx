@@ -19,9 +19,11 @@ import {
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
 // import { ScrollView } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
+import SettingsPage from './SettingsPage';
 
 const ProfileDetails = () => {
+  const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView | null>(null);
   const MAX_DESCRIPTION_LENGTH = 200;
   const initialDescription =   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Viverra maecenas accumsan lacus vel facilisis. Sed egestas egestas fringilla phasellus faucibus scelerisque. Integer enim neque volutpat ac. Nulla facilisi morbi tempus iaculis urna id. Tempus quam pellentesque nec nam aliquam sem et. Ullamcorper velit sed ullamcorper morbi. Consequat interdum varius sit amet mattis vulputate enim. Et tortor consequat id porta nibh venenatis. Vitae justo eget magna fermentum iaculis eu non diam phasellus. Etiam tempor orci eu lobortis. Libero justo laoreet sit amet cursus sit amet. Aliquam sem et tortor consequat id porta nibh venenatis cras. Sed ullamcorper morbi tincidunt ornare massa eget. Lectus nulla at volutpat diam ut venenatis tellus in. Tortor vitae purus faucibus ornare suspendisse sed nisi. Nunc consequat interdum varius sit amet mattis vulputate enim. Suspendisse in vulputate .';
@@ -141,12 +143,18 @@ const ProfileDetails = () => {
           <Text style={styles.textUser1}>Owner</Text>
           <View>
           <View style={styles.functionality} />
-            <TouchableOpacity style={styles.button}>
-              <FontAwesomeIcon icon={faMessage} style={{color: '#ffffff'}} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('MessagePage')}
+            >
+              <FontAwesomeIcon icon={faMessage} style={{ color: '#ffffff' }} />
               <Text style={styles.chatIcon}>Message</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.settings}>
-              <FontAwesomeIcon icon={faGear} style={{color: '#f87000'}} />
+            <TouchableOpacity
+            style={styles.settings}
+            onPress={() => navigation.navigate('SettingsPage')}
+            >
+              <FontAwesomeIcon icon={faGear} style={{ color: '#FF8D4D' }} />
             </TouchableOpacity>
           </View>
           </View>
@@ -381,7 +389,7 @@ horizontalLine: {
   textDecorationStyle: 'solid',
   },
   bottomContainer: {
-    top: -25,
+    top: "22%",
     alignItems: 'center',
   },
   textUserInfo: {
@@ -423,8 +431,10 @@ horizontalLine: {
   },
   settings: {
     flexDirection: 'row',
-    top: -315,
-    left: 115,
+    position:'absolute',
+    top: -280,
+    right: -15,
+    // right:20,
   },
   button: {
     flexDirection: 'row',

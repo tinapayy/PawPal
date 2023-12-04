@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Card, Avatar } from 'react-native-paper';
 // import Video from 'react-native-video';
+import { useNavigation } from '@react-navigation/native';
 
 const userPosts = [
   {
@@ -62,6 +63,7 @@ const userPosts = [
 ];
 
 const ForumPage = () => {
+  const navigation = useNavigation();
   function calculateMargin(length: number): number {
   return length * 2;
 }
@@ -75,13 +77,19 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log('Message icon pressed');
+            navigation.navigate('FoodAdvisable');
+          }}
+        >
           <View>
             <Image
               source={require('../images/dog_food.png')}
               style={styles.imageHeader1}
             />
             <Text style={styles.headerText}>Food Suggestions</Text>
+            
           </View>
         </TouchableOpacity>
       </View>
@@ -97,12 +105,18 @@ const ForumPage = () => {
               <View style={styles.userInfoText}>
                 <Text style={styles.userName}>{post.username}</Text>
                 <View style={styles.message}>
-                  <TouchableOpacity style={styles.messageIcon} />
+                  <TouchableOpacity style={styles.messageIcon} 
+                  onPress={() => {
+                      console.log('Message icon pressed'); //name directs mesage
+                      navigation.navigate('MessagePage');
+                    }}
+                  >
                   <FontAwesomeIcon
                   icon={faMessage}
-                 style={[styles.messageIcon, { marginLeft: calculateMargin(post.username.length) }]}
+                  style={[styles.messageIcon, { marginLeft: calculateMargin(post.username.length) }]}
                   size={17}
                   />
+                  </TouchableOpacity>
                   </View>
                   <Text style={styles.postTime}>{post.postTime}</Text>
                   </View>
@@ -195,7 +209,7 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     top: 2,
     // right: 135,
-    left: 100,
+    left: 50,
     // paddingRight: 30,
   },
   userName: {

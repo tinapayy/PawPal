@@ -52,12 +52,12 @@ export default function App() {
         <Stack.Screen
           name="UserProfile"
           component={UserProfile}
-          options={{headerShown: false}}
+          options={{headerShown: true}}
         />
         <Stack.Screen
           name="PetProfile"
           component={PetProfile}
-          options={{headerShown: false}}
+          options={{headerShown: true}}
         />
         <Stack.Screen
           name="ClinicDetails"
@@ -73,6 +73,56 @@ export default function App() {
           name="HomePage"
           component={HomePage}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProfileDetails"
+          component={ProfileDetails}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="SettingsPage"
+          component={SettingsPage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="ForumPage"
+          component={ForumPage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="PopularClinics"
+          component={PopularClinics}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="MessagePage"
+          component={MessagePage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="FoodAdvisable"
+          component={FoodAdvisable}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="FoodRestricted"
+          component={FoodRestricted}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="ResultsPage"
+          component={ResultsPage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="ClinicProfile"
+          component={ClinicProfile}
+          options={{ headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>

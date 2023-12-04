@@ -39,7 +39,7 @@ import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { BackgroundImage } from 'react-native-elements/dist/config';
 import ModalDropdown from 'react-native-modal-dropdown';
 
-
+import { useNavigation } from '@react-navigation/native';
 
 const ClinicProfile = () => {
 

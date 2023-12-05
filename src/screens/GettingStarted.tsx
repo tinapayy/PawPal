@@ -37,20 +37,21 @@ const GettingStarted: React.FC = () => {
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
-    top: 350,
+    top: "600%",
     alignItems:'center',
     justifyContent: 'center',
 
   },
   welcomeImage: {
-    width: 400, // Set the width of the image
+    width: "90%", // Set the width of the image
+    // top:"-30%",
 
   },
   container2: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 190
+    paddingTop: "80%",
   },
   petImage: {
     width: 1000 // Set the width of the image
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     top: 700
   },
   button: {
+    top: "-200%",
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
     width:200
   },
   text: {
+    // top:"800%",
     fontSize: 18,
     letterSpacing: 0.25,
     color: 'white',
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     position: 'absolute',
     color: '#894848',
-    bottom: 80
+    bottom: "350%",
   },
   taglineView: {
     flex: 1,

@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    marginTop: 190,
+    // marginTop: 190,
     // width:20,
     height:200,
   },
@@ -381,7 +381,7 @@ horizontalLine: {
   textDecorationStyle: 'solid',
   },
   bottomContainer: {
-    top: -25,
+    top: "55%",
     alignItems: 'center',
   },
   textUserInfo: {
@@ -389,7 +389,7 @@ horizontalLine: {
     // alignItems: 'center',
     // left:10,
     textAlign: 'left',
-    marginTop: 20,
+    marginTop: "40%",
   },
   userIcon: {
     width: 60,

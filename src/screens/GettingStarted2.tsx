@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   SignInView: {
     alignItems:'center',
     justifyContent: 'center',
-    top: 500,
+    top: "390%",
     borderRadius: 20, // Add rounded corners
     paddingHorizontal: 90,
   },
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent: 'center',
     borderRadius: 20, // Add rounded corners
-    paddingHorizontal: 90,
-    top: 530
+    paddingHorizontal: "50%",
+    top: "400%",
 
   },
   SignInBtn: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 25,
     backgroundColor:"#FFAC4E",
-    width:200
+    width:200,
   },
   text1: {
     fontSize: 18,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   taglineView: {
     alignItems: 'center',
     justifyContent:'center',
-    top: 600
+    bottom: "-440%",
     
   }
 });

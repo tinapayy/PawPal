@@ -22,8 +22,6 @@ import SettingsPage from './src/screens/SettingsPage';
 import ResultsPage from './src/screens/ResultsPage';
 import HomePage from './src/screens/HomePage';
 import Onboarding from './src/screens/Onboarding';
-
-//gleez
 import FoodAdvisable from './src/screens/FoodAdvisable';
 import FoodRestricted from './src/screens/FoodRestricted';
 import ChoosePet from './src/screens/ChoosePet';
@@ -58,6 +56,11 @@ export default function App() {
           name="PetProfile"
           component={PetProfile}
           options={{headerShown: true}}
+        />
+        <Stack.Screen
+          name="ChoosePet
+          component={ChoosePet}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="ClinicDetails"

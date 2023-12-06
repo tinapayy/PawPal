@@ -1,11 +1,5 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {
   Cog6ToothIcon as CogIcon,
@@ -18,10 +12,24 @@ import {
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
-import { useNavigation } from '@react-navigation/native'; //added import
+import {useNavigation} from '@react-navigation/native'; //added import
+import {onAuthStateChanged} from 'firebase/auth';
+import {FIREBASE_AUTH} from '../../firebase.config';
 
 function SettingsPage() {
   const navigation = useNavigation(); //added nav
+
+  const auth = FIREBASE_AUTH;
+
+  onAuthStateChanged(auth, user => {
+    if (!user) {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'GettingStarted2'}],
+      });
+    }
+  });
+
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
 
@@ -36,25 +44,27 @@ function SettingsPage() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}
-          onPress={() => navigation.navigate('UserProfile')}
-        >
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('UserProfile')}>
           <User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit User Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}
-          onPress={() => navigation.navigate('PetProfile')}
-        >
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('PetProfile')}>
           <ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Pet Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}
-                          onPress={() => setDeleteAccountModal(true)}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setDeleteAccountModal(true)}>
           <Trash size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonlogout}
-                          onPress={() => setLogoutModal(true)}>
+        <TouchableOpacity
+          style={styles.buttonlogout}
+          onPress={() => setLogoutModal(true)}>
           <ExitIcon size={30} color="#FFF" strokeWidth={3} />
           <Text style={styles.buttonlogoutText}>Log Out</Text>
         </TouchableOpacity>
@@ -72,12 +82,10 @@ function SettingsPage() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-
   },
   header: {
     height: 150,
@@ -139,7 +147,7 @@ const styles = StyleSheet.create({
   buttonText: {
     marginLeft: 10,
     fontSize: 20,
-    fontWeight: "300",
+    fontWeight: '300',
     paddingVertical: 10,
     color: '#FF8700',
   },
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 20,
     paddingVertical: 10,
-    fontWeight: "300",
+    fontWeight: '300',
     color: '#FFF',
   },
 });

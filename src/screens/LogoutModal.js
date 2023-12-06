@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 
-import { ArrowRightOnRectangleIcon as ExitIcon } from 'react-native-heroicons/solid';
+import {ArrowRightOnRectangleIcon as ExitIcon} from 'react-native-heroicons/solid';
+
+import {FIREBASE_AUTH} from '../../firebase.config';
 
 class LogOutModal extends React.Component {
   render() {
-    const { modalVisible, setModalVisible } = this.props;
+    const auth = FIREBASE_AUTH;
+
+    const {modalVisible, setModalVisible} = this.props;
 
     return (
       <Modal transparent={true} visible={modalVisible}>
@@ -15,11 +19,10 @@ class LogOutModal extends React.Component {
               <ExitIcon size={30} color="#FF8700" strokeWidth={3} />
               <Text style={styles.logoutText}>Log Out</Text>
             </View>
-            
+
             <View style={styles.modalcontentbody}>
               <Text style={styles.contentbody}>
-                    Are you sure you want
-                    to log out?
+                Are you sure you want to log out?
               </Text>
             </View>
 
@@ -31,17 +34,17 @@ class LogOutModal extends React.Component {
                   <Text style={styles.rejectbuttonText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
-              
+
               <View style={styles.confirmbutton}>
                 <TouchableOpacity
-                  onPress={() => setModalVisible(false)} // Close the modal when the button is pressed
-                >
+                  onPress={() => {
+                    setModalVisible(false); // Close the modal when the button is pressed
+                    auth.signOut();
+                  }}>
                   <Text style={styles.confirmbuttonText}>Log Out</Text>
                 </TouchableOpacity>
               </View>
             </View>
-
-            
           </View>
         </View>
       </Modal>
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  contentbody:{
+  contentbody: {
     marginTop: 10,
     fontSize: 25,
     color: '#5A2828',
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 20,
     paddingVertical: 10,
-    fontWeight: "300",
+    fontWeight: '300',
     color: '#FF8700',
     fontWeight: '400',
   },

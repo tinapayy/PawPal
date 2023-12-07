@@ -78,8 +78,12 @@ const clinics = [
 
 const ClinicCard = ({ clinicInfo, onPress }) => {
   const navigation = useNavigation();
+  const handleClinicPress = (clinic) => {
+    // Navigate to the clinic profile screen, replace 'ClinicProfile' with the actual screen name
+    navigation.navigate('ClinicProfile', { clinicId: clinic.id });
+  };
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={handleClinicPress}>
       <View style={styles.card}>
         <Image source={clinicInfo.imageUrl} style={styles.image} />
         <View style={styles.infoContainer}>
@@ -98,7 +102,11 @@ const ClinicCard = ({ clinicInfo, onPress }) => {
 const ResultsPage = () => {
   const navigation = useNavigation();
   const handleClinicPress = (clinic) => {
+    navigation.navigate('ClinicProfile', { clinicId: clinicInfo.id });
+  };
     // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
+  const handleSearchIconClick = () => {
+    navigation.navigate('ResultsPage'); // Replace 'ResultsPage' with the actual name of your results page component
   };
   const _goBack = () => console.log('Went back');
   return (
@@ -106,20 +114,20 @@ const ResultsPage = () => {
         <View style={styles.headercontainer}>
             <View style={styles.headercontent}>
                 <View style={styles.headertextandicon}>
-                    <TouchableOpacity onPress={_goBack}>
-                        <BackIcon size="35" color="#ff8d4d" strokeWidth={10}/>           
-                    </TouchableOpacity>
+                      <TouchableOpacity onPress={_goBack}>
+                          <BackIcon size="35" color="#ff8d4d" strokeWidth={10}/>           
+                      </TouchableOpacity>
                     <Text style={styles.headerText}>Results Found</Text>
                     <TextInput style={styles.input}    
                     placeholder="Enter text here"
                     placeholderTextColor="white"
                     />
                 </View>
-                <View style={styles.userheadercontent}>
-                    <TouchableOpacity onPress={_goBack}>
-                        <User size="50" color="orange" strokeWidth={10}/>           
-                    </TouchableOpacity>
-                </View>
+          <View style={styles.userheadercontent}>
+            <TouchableOpacity onPress={() => navigation.navigate('ProfileDetails')}>
+              <User size="50" color="orange" strokeWidth={10} />
+            </TouchableOpacity>
+          </View>
             </View>
         </View>
     <View style={styles.scrollcontainer}>

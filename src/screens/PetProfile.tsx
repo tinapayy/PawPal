@@ -22,6 +22,7 @@ import {
   faVenusMars,
   faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from "@react-navigation/native";
 
 const PetProfile = () => {
   const [petName, setPetName] = useState('');

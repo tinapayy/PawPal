@@ -42,7 +42,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
 const ClinicProfile = () => {
-
+    const navigation = useNavigation()
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -57,8 +57,8 @@ const ClinicProfile = () => {
         <SafeAreaView style = {{backgroundColor: 'orange'}}>
             <View>
                 <View style = {styles.icon}>
-                <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
-                <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}}/>
+                {/* <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} /> */}
+                <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700', left:270,}}/>
                 </View>
                 
                 <View>

@@ -58,7 +58,7 @@ const ClinicProfile = () => {
     );
   };
 
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {

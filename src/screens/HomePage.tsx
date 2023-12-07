@@ -248,8 +248,8 @@ const Data3Item = ({ item, handleItemClick, searchQuery, setSearchQuery }) => {
     // Navigate to the profile details screen
     navigation.navigate("ProfileDetails");
   };
-  const handleSearchSubmit =() =>{
-    navigation.navigate("ResultsPage", { searchQuery });
+  const handleSearchPress =() =>{
+    navigation.navigate("ResultsPage");
   };
 
   return (
@@ -278,36 +278,40 @@ const Data3Item = ({ item, handleItemClick, searchQuery, setSearchQuery }) => {
                 }}
               >
                 <View style={{ flex: 1, top: 15, left: 20, margin: 10 }}>
-                  <View
-                    style={{
-                      flexDirection: "row-reverse",
-                      alignItems: "center",
-                      backgroundColor: "white",
-                      borderRadius: 20,
-                      width: 200,
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faMagnifyingGlass}
-                      size={20}
-                      style={{ color: "#ff8700", marginRight: 10 }}
-                    />
-                    <TextInput
+                    <View
                       style={{
-                        flex: 1,
-                        color: "black",
-                        fontSize: 13,
-                        height: 35,
-                        marginLeft: 10,
+                        flexDirection: "row-reverse",
+                        alignItems: "center",
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                        width: 200,
                       }}
-                      placeholder="Search"
-                      placeholderTextColor={"#ff8d4d"}
-                      value={searchQuery}
-                      onChangeText={(text) => setSearchQuery(text)}
-                      onSubmitEditing={handleSearchSubmit}
-                    />
-                  </View>
+                    >
+                    <TouchableOpacity onPress={handleSearchPress}>
+                      <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        size={20}
+                        style={{ color: "#ff8700", marginRight: 10 }}
+                      />
+                    </TouchableOpacity>
+                      <TextInput
+                        style={{
+                          flex: 1,
+                          color: "black",
+                          fontSize: 13,
+                          height: 35,
+                          marginLeft: 10,
+                        }}
+                        placeholder="Search"
+                        placeholderTextColor={"#ff8d4d"}
+                        value={searchQuery}
+                        onChangeText={(text) => setSearchQuery(text)}
+                        onSubmitEditing={handleSearchPress}
+                      />
+                    </View>
+                
                 </View>
+
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image
                     source={item.imageSome}

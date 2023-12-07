@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import SignIn from './src/screens/SignIn';
 import GettingStarted from './src/screens/GettingStarted';
@@ -29,50 +29,69 @@ import FoodRestricted from './src/screens/FoodRestricted';
 import ChoosePet from './src/screens/ChoosePet';
 
 const Stack = createStackNavigator();
-
+const screensWithoutBottomNavBar = [
+  'SignIn',
+  'SignUp',
+  'GettingStarted',
+];
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name="BottomNavBar"
+          component={BottomNavBar}
+          options={({ route }) => ({
+            headerShown: !screensWithoutBottomNavBar.includes(route.name),
+          })}
+        />
+        <Stack.Screen
           name="GettingStarted"
           component={GettingStarted}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="GettingStarted2"
           component={GettingStarted2}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="SignUp"
           component={SignUp}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="UserProfile"
           component={UserProfile}
-          options={{headerShown: true}}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="PetProfile"
           component={PetProfile}
-          options={{headerShown: true}}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
+<<<<<<< Updated upstream
+=======
+          name="ChoosePet"
+          component={ChoosePet}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+>>>>>>> Stashed changes
           name="ClinicDetails"
           component={ClinicDetails}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          options={{headerShown: true}}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="HomePage"
           component={HomePage}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ProfileDetails"
@@ -125,6 +144,8 @@ export default function App() {
           options={{ headerShown: true }}
         />
       </Stack.Navigator>
+      {/* </BottomNavBar> */}
     </NavigationContainer>
   );
 }
+

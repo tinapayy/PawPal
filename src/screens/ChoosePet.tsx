@@ -9,14 +9,28 @@ interface User {
 }
 
 const ChoosePet = () => {
+    const navigation = useNavigation();
     const [users, setUsers] = useState<User[]>([
         {
+<<<<<<< Updated upstream
+=======
+            id: 0, // Change the ID to 0 for the add pet circle
+            name: " ",
+            profilePicture: require("../images/addpet.png"), // Add your own icon for adding a pet
+        },
+        {
+>>>>>>> Stashed changes
             id: 1,
             name: "Dogzie",
             profilePicture: require("../images/dog1.png"),
         },
         {
             id: 2,
+            name: "Meowzi",
+            profilePicture: require("../images/cat1.jpg"),
+        },
+        {
+            id: 3,
             name: "Meowzi",
             profilePicture: require("../images/cat1.jpg"),
         },
@@ -27,8 +41,31 @@ const ChoosePet = () => {
             style={styles.card}
             onPress={() => handleUserSelection(item)}
         >
+<<<<<<< Updated upstream
             <Image source={item.profilePicture} style={styles.photo} />
             <Text style={styles.name}>{item.name}</Text>
+=======
+            {item.id === 0 ? (
+                <View style={styles.addPetCard}> 
+                    <TouchableOpacity onPress={() => handleUserSelection(item)}>
+                    <View style={styles.circle}>
+                    <FontAwesomeIcon icon={faCirclePlus} size={50} color="#000" style={styles.plusIcon} />
+                    </View>
+                    </TouchableOpacity>
+                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={{ color: '#ff8d4d', fontSize: 18, fontFamily: 'Poppins-Medium', justifyContent: "flex-start" }}>
+                        Add Pet
+                    </Text>
+                </View>
+            ) : (
+                <TouchableOpacity onPress={() => navigation.navigate('PetProfile')}>
+                <View>
+                <Image source={item.profilePicture} style={styles.photo} />
+                <Text style={styles.name}>{item.name}</Text>
+                </View>
+                </TouchableOpacity>
+            )}
+>>>>>>> Stashed changes
         </TouchableOpacity>
     );
 
@@ -76,6 +113,26 @@ const styles = StyleSheet.create({
         color: '#5A2828',
 
     },
+<<<<<<< Updated upstream
+=======
+    plusIcon: {
+        marginBottom: 8,
+        alignContent:"center",
+    },
+    addPetCard:{
+
+    },
+    circle: {
+        width: 100, 
+        length:100,
+        aspectRatio: 1,
+        borderRadius: 50, 
+        backgroundColor: '#ff8d4d', 
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+>>>>>>> Stashed changes
     card: {
         marginTop: '20%',
         flex: 1,

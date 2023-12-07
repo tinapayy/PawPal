@@ -129,7 +129,9 @@ const ClinicCard = ({ clinicInfo, onPress }) => {
 };
 
 const Apps = () => {
+  const navigation = useNavigation();
   const handleClinicPress = (clinic) => {
+    navigation.navigate('ClinicProfile', { clinicId: clinic.id });
     // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
   };
   const goBack = () => {

@@ -15,6 +15,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {collection, getDocs} from 'firebase/firestore';
 import {FIREBASE_AUTH} from '../../firebase.config';
@@ -22,6 +23,10 @@ import {FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
 import SwitchButton, {getUserType} from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
+import {
+  faEnvelope,
+  faLock,
+} from '@fortawesome/free-solid-svg-icons';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -89,21 +94,29 @@ const SignIn = () => {
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign In</Text>
             <View style={styles.inputs}>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                underlineColorAndroid="orange"
-                onChangeText={text => setEmail(text)}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                secureTextEntry={true}
-                underlineColorAndroid="orange"
-                onChangeText={text => setPassword(text)}
-              />
+              {/* <View style={styles.iconInputRow}>
+                <FontAwesomeIcon icon={faUser} style={styles.icon} /> */}
+              <View style={styles.iconInputRow}>
+                <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={email}
+                  underlineColorAndroid="orange"
+                  onChangeText={text => setEmail(text)}
+                />
+              </View>
+              <View style={styles.iconInputRow}>
+                <FontAwesomeIcon icon={faLock} style={styles.icon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  value={password}
+                  secureTextEntry={true}
+                  underlineColorAndroid="orange"
+                  onChangeText={text => setPassword(text)}
+                />
+              </View>
             </View>
             <View style={styles.btnContainer}>
               <Pressable
@@ -169,6 +182,19 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    top: "-80%",
+    height: 40,
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderRadius: 5,
+    marginBottom: 30,
+    paddingHorizontal: 25,
+    borderColor: 'transparent',
+    borderBottomColor: 'orange',
+  },
+  iconInputRow: {
+    // flexDirection: 'row',
+    width: '100%',
     top: 200,
     height: 40,
     backgroundColor: 'transparent',
@@ -178,6 +204,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: 'transparent',
     borderBottomColor: 'orange',
+    justifyContent: 'space-between',
+  },
+  icon: {
+    marginRight: 30,
+    color: 'orange',
   },
   text: {
     fontSize: 18,

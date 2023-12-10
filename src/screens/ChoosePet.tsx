@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 interface User {
     id: number;
     name: string;
-    profilePicture: number; // Assuming profilePicture is the require statement for the image
+    profilePicture: any; // Assuming profilePicture is the require statement for the image
 }
 
 const ChoosePet = () => {
     const [users, setUsers] = useState<User[]>([
+        {
+            id: 0, // Change the ID to 0 for the add pet circle
+            name: "Add Pet",
+            profilePicture: require("../images/addpet.png"), // Add your own icon for adding a pet
+        },
         {
             id: 1,
             name: "Dogzie",
@@ -27,6 +33,11 @@ const ChoosePet = () => {
             style={styles.card}
             onPress={() => handleUserSelection(item)}
         >
+            {item.id === 0 ? (
+                <FontAwesomeIcon icon={faCirclePlus} size={30} color="#000" style={styles.plusIcon} />
+            ) : (
+                <Image source={item.profilePicture} style={styles.photo} />
+            )}
             <Image source={item.profilePicture} style={styles.photo} />
             <Text style={styles.name}>{item.name}</Text>
         </TouchableOpacity>
@@ -60,13 +71,7 @@ const styles = StyleSheet.create({
         padding: 16,
         
     },
-    // backgroundImage:{
-    //     flex: 1,
-    //     // resizeMode: 'cover', 
-    //     position: 'relative',
-    //     width: '100%',
-    //     height: '100%',
-    // },
+
     text:{
         fontFamily: "Poppins-regular",
         fontSize: 30,
@@ -75,6 +80,9 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         color: '#5A2828',
 
+    },
+    plusIcon: {
+        marginBottom: 8,
     },
     card: {
         marginTop: '20%',

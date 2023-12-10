@@ -11,6 +11,16 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {
+  faUser,
+  faLock,
+  faArrowLeft,
+  faCirclePlus,
+  faCheckCircle,
+  faEnvelope,
+  faAddressCard,
+} from '@fortawesome/free-solid-svg-icons';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
@@ -87,13 +97,18 @@ const SignIn = () => {
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>
-              <TextInput
-                style={styles.input}
-                placeholder="Username"
-                value={username}
-                underlineColorAndroid="orange"
-                onChangeText={text => setUsername(text)}
-              />
+              <View style={styles.iconInputRow}>
+                <FontAwesomeIcon icon={faUser} style={styles.icon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Username"
+                  value={username}
+                  underlineColorAndroid="orange"
+                  onChangeText={text => setUsername(text)}
+                />
+              </View>
+              <View style={styles.iconInputRow}>
+              <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
               <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -101,22 +116,29 @@ const SignIn = () => {
                 underlineColorAndroid="orange"
                 onChangeText={text => setEmail(text)}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                secureTextEntry={true}
-                underlineColorAndroid="orange"
-                onChangeText={text => setPassword(text)}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                secureTextEntry={true}
-                underlineColorAndroid="orange"
-                onChangeText={text => setConfirmPassword(text)}
-              />
+              </View>
+              <View style={styles.iconInputRow}>
+                <FontAwesomeIcon icon={faLock} style={styles.icon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  value={password}
+                  secureTextEntry={true}
+                  underlineColorAndroid="orange"
+                  onChangeText={text => setPassword(text)}
+                />
+              </View>
+              <View style={styles.iconInputRow}>
+                <FontAwesomeIcon icon={faLock} style={styles.icon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  secureTextEntry={true}
+                  underlineColorAndroid="orange"
+                  onChangeText={text => setConfirmPassword(text)}
+                />
+              </View>
             </View>
             <View style={styles.btnContainer}>
               <Pressable
@@ -166,14 +188,38 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   inputs: {
+    width: '80%',
+    top: "-93%",
     alignItems: 'center',
     height: 100,
-    top: -300,
-    width: '80%',
+    // top: -300,
+    // width: '80%',
     alignSelf: 'center',
   },
+  iconInputRow: {
+    // flexDirection: 'row',
+    width: '100%',
+    top: 200,
+    height: 40,
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    borderColor: 'transparent',
+    borderBottomColor: 'orange',
+    justifyContent: 'space-between',
+  },
+  icon: {
+    // top:"-40%",
+    top:"630%",
+    marginRight: 10,
+    paddingHorizontal: 12,
+    color: 'orange',
+  },
   btnContainer: {
-    top: 100,
+    // top: "200%",
+    bottom:"-24%",
     alignSelf: 'center',
   },
   signInText: {
@@ -188,7 +234,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     marginBottom: 30,
-    paddingHorizontal: 10,
+    paddingHorizontal: 25,
     borderColor: 'transparent',
     borderBottomColor: 'orange',
   },

@@ -23,10 +23,7 @@ import {FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
 import SwitchButton, {getUserType} from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
-import {
-  faEnvelope,
-  faLock,
-} from '@fortawesome/free-solid-svg-icons';
+import {faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -54,7 +51,10 @@ const SignIn = () => {
           signInWithEmailAndPassword(auth, email, password)
             .then(() => {
               Alert.alert('Logged in successfully');
-              navigation.navigate('HomePage');
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'HomePage'}],
+              });
             })
             .catch(error => {
               console.error(error);
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    top: "-80%",
+    top: '-80%',
     height: 40,
     backgroundColor: 'transparent',
     borderWidth: 2,

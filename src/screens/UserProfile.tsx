@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   View,
@@ -9,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -21,15 +21,117 @@ import {
   faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+} from 'firebase/auth';
+import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 
 const UserProfile = () => {
   const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
 
   const [currentName, setCurrentName] = useState('');
   const [currentBio, setCurrentBio] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setCurrentName(doc.data().username);
+            setCurrentBio(doc.data().bio);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const reauthenticateUser = async currentPassword => {
+    const user = auth.currentUser;
+
+    // Create a credential with the user's current email and password
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      currentPassword,
+    );
+
+    try {
+      // Reauthenticate the user with the provided credential
+      await reauthenticateWithCredential(user, credential);
+      console.log('User reauthenticated successfully');
+      return true; // Reauthentication successful
+    } catch (error) {
+      console.error('Error reauthenticating user:', error);
+      return false; // Reauthentication failed
+    }
+  };
+
+  const updateProfile = async () => {
+    try {
+      const userQuery = await getDocs(collection(db, 'user'));
+      userQuery.forEach(async currentDoc => {
+        if (currentDoc.data().userId === auth.currentUser?.uid) {
+          const userRef = doc(collection(db, 'user'), currentDoc.id);
+          const updateData = {
+            username: currentName,
+            bio: currentBio,
+            password: currentDoc.data().password,
+          };
+          if (currentPassword !== '') {
+            // Reauthenticate the user before changing the password
+            const isReauthenticated = await reauthenticateUser(currentPassword);
+            if (!isReauthenticated) {
+              Alert.alert('Current password is incorrect');
+              return;
+            }
+            try {
+              updateData.password = newPassword;
+              // Update the user document with new profile data and potentially new password
+              await updateDoc(userRef, updateData);
+              navigation.navigate('PetProfile');
+              // Update the password after successfully updating the profile
+              try {
+                await updatePassword(auth.currentUser!, newPassword);
+                Alert.alert('Profile and password updated successfully');
+              } catch (error) {
+                console.error('Error updating password:', error);
+                Alert.alert('Error updating password. Please try again.');
+              }
+            } catch (updateError) {
+              console.error('Error updating profile:', updateError);
+              Alert.alert('Error updating profile. Please try again.');
+            }
+          } else {
+            // If no current password provided, update the profile without updating the password
+            try {
+              await updateDoc(userRef, updateData);
+              Alert.alert('Profile updated successfully');
+              navigation.navigate('PetProfile');
+            } catch (updateError) {
+              console.error('Error updating profile:', updateError);
+              Alert.alert('Error updating profile. Please try again.');
+            }
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error querying user data:', error);
+      Alert.alert('Error updating profile. Please try again.');
+    }
+  };
 
   return (
     <ImageBackground
@@ -63,15 +165,14 @@ const UserProfile = () => {
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
             <View style={styles.iconInputRow}>
-              <Text style={styles.inputName}>kvcelis@up.edu.ph</Text>
+              <Text style={styles.inputName}>{auth.currentUser?.email}</Text>
             </View>
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Name"
-              secureTextEntry
+              placeholder={currentName ? currentName : 'Username'}
               value={currentName}
               onChangeText={text => setCurrentName(text)}
             />
@@ -80,8 +181,7 @@ const UserProfile = () => {
             <FontAwesomeIcon icon={faAddressCard} style={styles.icon} />
             <TextInput
               style={[styles.input, {fontSize: 16}, {top: 2}]}
-              placeholder="Tell more about yourself"
-              secureTextEntry
+              placeholder={currentBio ? currentBio : 'Tell more about yourself'}
               value={currentBio}
               onChangeText={text => setCurrentBio(text)}
               maxLength={500}
@@ -122,7 +222,9 @@ const UserProfile = () => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.saveButton}
-              onPress={() => navigation.navigate('PetProfile')}
+              onPress={() => {
+                updateProfile();
+              }}
               accessible={true}
               accessibilityRole="button">
               <LinearGradient

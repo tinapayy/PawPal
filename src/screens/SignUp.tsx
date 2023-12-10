@@ -11,7 +11,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faUser,
   faLock,
@@ -59,14 +59,24 @@ const SignIn = () => {
         email: email,
         password: password,
         userType: getUserType(),
+        userProfile: {
+          name: '',
+          bio: '',
+        },
       });
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {
         if (getUserType() === 'petOwner') {
-          navigation.navigate('UserProfile');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'UserProfile'}],
+          });
         } else if (getUserType() === 'clinic') {
-          navigation.navigate('ClinicDetails');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'ClinicDetails'}],
+          });
         }
       }
     } catch (error: any) {
@@ -108,14 +118,14 @@ const SignIn = () => {
                 />
               </View>
               <View style={styles.iconInputRow}>
-              <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                underlineColorAndroid="orange"
-                onChangeText={text => setEmail(text)}
-              />
+                <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={email}
+                  underlineColorAndroid="orange"
+                  onChangeText={text => setEmail(text)}
+                />
               </View>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={faLock} style={styles.icon} />
@@ -189,7 +199,7 @@ const styles = StyleSheet.create({
   },
   inputs: {
     width: '80%',
-    top: "-93%",
+    top: '-93%',
     alignItems: 'center',
     height: 100,
     // top: -300,
@@ -212,14 +222,14 @@ const styles = StyleSheet.create({
   },
   icon: {
     // top:"-40%",
-    top:"630%",
+    top: '630%',
     marginRight: 10,
     paddingHorizontal: 12,
     color: 'orange',
   },
   btnContainer: {
     // top: "200%",
-    bottom:"-24%",
+    bottom: '-24%',
     alignSelf: 'center',
   },
   signInText: {

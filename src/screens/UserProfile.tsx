@@ -80,6 +80,10 @@ const UserProfile = () => {
   };
 
   const updateProfile = async () => {
+    if (currentName === '') {
+      Alert.alert('Please enter a username');
+      return;
+    }
     try {
       const userQuery = await getDocs(collection(db, 'user'));
       userQuery.forEach(async currentDoc => {

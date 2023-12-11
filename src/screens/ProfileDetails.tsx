@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   ImageBackground,
@@ -18,20 +17,47 @@ import {
   faMessage,
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
-// import { ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import SettingsPage from './SettingsPage';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
 const ProfileDetails = () => {
   const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
   const scrollViewRef = useRef<ScrollView | null>(null);
+
+  const [name, setName] = useState('');
+  const [initialDescription, setInitialDescription] = useState('');
   const MAX_DESCRIPTION_LENGTH = 200;
-  const initialDescription =   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Viverra maecenas accumsan lacus vel facilisis. Sed egestas egestas fringilla phasellus faucibus scelerisque. Integer enim neque volutpat ac. Nulla facilisi morbi tempus iaculis urna id. Tempus quam pellentesque nec nam aliquam sem et. Ullamcorper velit sed ullamcorper morbi. Consequat interdum varius sit amet mattis vulputate enim. Et tortor consequat id porta nibh venenatis. Vitae justo eget magna fermentum iaculis eu non diam phasellus. Etiam tempor orci eu lobortis. Libero justo laoreet sit amet cursus sit amet. Aliquam sem et tortor consequat id porta nibh venenatis cras. Sed ullamcorper morbi tincidunt ornare massa eget. Lectus nulla at volutpat diam ut venenatis tellus in. Tortor vitae purus faucibus ornare suspendisse sed nisi. Nunc consequat interdum varius sit amet mattis vulputate enim. Suspendisse in vulputate .';
 
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [truncatedDescription, setTruncatedDescription] = useState(
-    `${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`
-  );
+  const [truncatedDescription, setTruncatedDescription] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setName(doc.data().username);
+            setInitialDescription(doc.data().bio);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setTruncatedDescription(
+      `${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
+    );
+  }, [initialDescription, showFullDescription]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -40,30 +66,30 @@ const ProfileDetails = () => {
   const handleDescriptionPress = () => {
     toggleDescription();
     if (scrollViewRef.current) {
-    if (showFullDescription) {
-      setTruncatedDescription(`${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`);
-      // scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
-    } else {
-      setTruncatedDescription(initialDescription);
-      // scrollViewRef.current.scrollToEnd({ animated: true });
-    }
+      if (showFullDescription) {
+        setTruncatedDescription(
+          `${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
+        );
+      } else {
+        setTruncatedDescription(initialDescription);
+      }
     }
   };
+
   return (
-  <ImageBackground
-    source={require('../images/profile_bg.png')}
-    style={styles.imageBackground}
-    >
-    <View style={styles.container}>
-      <View style={styles.back}>
-        <TouchableOpacity>
-        <FontAwesomeIcon
-        icon={faArrowLeft}
-        style={styles.backIcon}
-        size={25}
-          />
-        </TouchableOpacity>
-        <Text style={styles.backButtonText}>Back</Text>
+    <ImageBackground
+      source={require('../images/profile_bg.png')}
+      style={styles.imageBackground}>
+      <View style={styles.container}>
+        <View style={styles.back}>
+          <TouchableOpacity>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              style={styles.backIcon}
+              size={25}
+            />
+          </TouchableOpacity>
+          <Text style={styles.backButtonText}>Back</Text>
         </View>
         <View style={styles.profileContainer}>
           <LinearGradient
@@ -71,50 +97,49 @@ const ProfileDetails = () => {
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
             style={styles.gradientBackground}>
-              <View style={styles.profileText}>
-            <Text style={styles.petName}>Goldie</Text>
-            <Text style={styles.petBreed}>Golden Retriever</Text>
-            <Text style={styles.petColor}>Brown</Text>
+            <View style={styles.profileText}>
+              <Text style={styles.petName}>Goldie</Text>
+              <Text style={styles.petBreed}>Golden Retriever</Text>
+              <Text style={styles.petColor}>Brown</Text>
             </View>
           </LinearGradient>
           <View style={styles.arrowLR}>
             <View>
-          <TouchableOpacity style={styles.arrowLeft}>
-            <FontAwesomeIcon
-              icon={faCircleChevronLeft}
-              size={30}
-              style={{
-                color: '#ff8700',
-              }}
-            />
-          </TouchableOpacity>
+              <TouchableOpacity style={styles.arrowLeft}>
+                <FontAwesomeIcon
+                  icon={faCircleChevronLeft}
+                  size={30}
+                  style={{
+                    color: '#ff8700',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.logo}>
+              <Image
+                source={require('../images/pawpal_logo.png')}
+                style={styles.pawpalLogo}
+              />
+            </View>
+            <View>
+              <TouchableOpacity style={styles.arrowRight}>
+                <FontAwesomeIcon
+                  icon={faCircleChevronRight}
+                  size={30}
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  style={{
+                    color: '#ff8700',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.logo}>
-            <Image
-             source={require('../images/pawpal_logo.png')}
-            style={styles.pawpalLogo}
-          />
-          </View>
-          <View>
-          <TouchableOpacity style={styles.arrowRight}>
-            <FontAwesomeIcon
-              icon={faCircleChevronRight}
-              size={30}
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{
-                color: '#ff8700',
-              }}
-            />
-          </TouchableOpacity>
-
-          </View>
-        </View>
         </View>
         <View style={styles.containerText}>
           <View style={styles.containText}>
-          <Text style={styles.containText1}>Age</Text>
-          <Text style={styles.containText2}>Sex</Text>
-          <Text style={styles.containText3}>Weight</Text>
+            <Text style={styles.containText1}>Age</Text>
+            <Text style={styles.containText2}>Sex</Text>
+            <Text style={styles.containText3}>Weight</Text>
           </View>
           <View style={styles.boxContainer}>
             {/* <View style={{ marginLeft: -30 }} /> */}
@@ -126,58 +151,60 @@ const ProfileDetails = () => {
             </View>
             <View style={styles.box3}>
               <Text style={styles.boxText}>7 kg</Text>
-              </View>
             </View>
-        </View>
-         <View style={styles.horizontalLine} />
           </View>
-        <View style={styles.bottomContainer}>
-          <View>
+        </View>
+        <View style={styles.horizontalLine} />
+      </View>
+      <View style={styles.bottomContainer}>
+        <View>
           <Image
             source={require('../images/userIcon.png')}
             style={styles.userIcon}
           />
-          </View>
-          <View style={styles.textUserInfo}>
-          <Text style={styles.textUser}>Kristina V. Celis</Text>
-          <Text style={styles.textUser1}>Owner</Text>
+        </View>
+        <View style={styles.textUserInfo}>
+          <Text style={styles.textUser}>{name}</Text>
+          <Text style={styles.textUser1}>Pet Owner</Text>
           <View>
-          <View style={styles.functionality} />
+            <View style={styles.functionality} />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('MessagePage')}
-            >
-              <FontAwesomeIcon icon={faMessage} style={{ color: '#ffffff' }} />
+              onPress={() => navigation.navigate('MessagePage')}>
+              <FontAwesomeIcon icon={faMessage} style={{color: '#ffffff'}} />
               <Text style={styles.chatIcon}>Message</Text>
             </TouchableOpacity>
             <TouchableOpacity
-            style={styles.settings}
-            onPress={() => navigation.navigate('SettingsPage')}
-            >
-              <FontAwesomeIcon icon={faGear} style={{ color: '#FF8D4D' }} />
+              style={styles.settings}
+              onPress={() => navigation.navigate('SettingsPage')}>
+              <FontAwesomeIcon icon={faGear} style={{color: '#FF8D4D'}} />
             </TouchableOpacity>
           </View>
-          </View>
-           <View style={styles.container}>
-           <ScrollView style={styles.scrollView} ref={scrollViewRef}>
+        </View>
+        <View style={styles.container}>
+          <ScrollView style={styles.scrollView} ref={scrollViewRef}>
             <TouchableOpacity onPress={handleDescriptionPress}>
               <View style={styles.content}>
                 <Text style={styles.contentProfile}>
-                   {showFullDescription ? initialDescription : truncatedDescription}
-                   </Text>
-                  <View style={styles.readMoreContainer}>
-                    <Text style={styles.descriptionButton} onPress={toggleDescription}>
-                      {showFullDescription ? 'See Less' : 'See More'}
-                      </Text>
-                      </View>
+                  {showFullDescription
+                    ? initialDescription
+                    : truncatedDescription}
+                </Text>
+                <View style={styles.readMoreContainer}>
+                  <Text
+                    style={styles.descriptionButton}
+                    onPress={toggleDescription}>
+                    {showFullDescription ? 'See Less' : 'See More'}
+                  </Text>
                 </View>
-                </TouchableOpacity>
-                </ScrollView>
-                </View>
-                </View>
-                </ImageBackground>
-                    );
-                  };
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </View>
+    </ImageBackground>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -195,7 +222,7 @@ const styles = StyleSheet.create({
     // right:20,
     elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },
@@ -211,7 +238,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 190,
     // width:20,
-    height:200,
+    height: 200,
   },
   gradientBackground: {
     padding: 10,
@@ -271,9 +298,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     position: 'absolute',
     marginLeft: 60,
-    alignSelf:'center',
+    alignSelf: 'center',
     // alignContent: 'center',
-    top:-15,
+    top: -15,
     objectFit: 'cover',
   },
   containerText: {
@@ -281,116 +308,116 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignItems: 'center',
     paddingHorizontal: 100,
-    alignContent:'space-between',
+    alignContent: 'space-between',
   },
-    containText:{
+  containText: {
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'space-evenly',
     // alignContent:'space-between',
     paddingHorizontal: 50,
-    top:-120,
+    top: -120,
     // color: '#5A2828',
-    color:'gray',
+    color: 'gray',
   },
-   containText1:{
+  containText1: {
     // flexDirection: 'row',
     alignContent: 'center',
     // alignContent:'space-between',
     // paddingHorizontal: 50,
     // top:-50,
     // color: '#5A2828',
-    color:'gray',
+    color: 'gray',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     marginLeft: 20,
     left: -75,
   },
-  containText2:{
+  containText2: {
     alignContent: 'center',
-    color:'gray',
+    color: 'gray',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     marginLeft: 20,
     left: 15,
   },
-  containText3:{
+  containText3: {
     alignContent: 'center',
-    color:'gray',
+    color: 'gray',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     marginLeft: 20,
     left: 85,
   },
   boxContainer: {
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignContent:'center',
-  // marginTop: -80,
-  top:-80,
-  // left: 50,
-  paddingHorizontal: 20,
-},
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    // marginTop: -80,
+    top: -80,
+    // left: 50,
+    paddingHorizontal: 20,
+  },
   box1: {
-  flexDirection: 'row',
-  backgroundColor: '#F1D5C6',
-  padding: 10,
-  paddingHorizontal: 20,
-  borderRadius: 15,
-  alignContent: 'center',
-  justifyContent: 'center',
-  // paddingVertical: 10,
-  marginRight: 20,
-  // right: 10,
-  left: -230,
-  // marginLeft: 40,
-},
-box2: {
-  flexDirection: 'row',
-  backgroundColor: '#F1D5C6',
-  padding: 10,
-  paddingHorizontal: 20,
-  borderRadius: 15,
-  alignContent: 'center',
-  justifyContent: 'center',
-  // paddingVertical: 10,
-  marginRight: 20,
-  // right: 10,
-  left: -260,
-  marginLeft: 40,
-},
-box3: {
-  flexDirection: 'row',
-  backgroundColor: '#F1D5C6',
-  padding: 10,
-  paddingHorizontal: 20,
-  borderRadius: 15,
-  alignContent: 'center',
-  justifyContent: 'center',
-  // paddingVertical: 10,
-  marginRight: 20,
-  // right: 15,
-  left: -285,
-  marginLeft: 40,
-},
-boxText: {
-  color: '#5A2828',
-  fontFamily: 'Poppins-Regular',
-  textAlign: 'center',
-  textDecorationStyle: 'solid',
-  fontSize: 16,
-},
-horizontalLine: {
-  alignSelf: 'center',
-  width: 350,
-  height: 2,
-  backgroundColor: '#FF8D4D',
-  top: -60,
-  textDecorationStyle: 'solid',
+    flexDirection: 'row',
+    backgroundColor: '#F1D5C6',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    // paddingVertical: 10,
+    marginRight: 20,
+    // right: 10,
+    left: -230,
+    // marginLeft: 40,
+  },
+  box2: {
+    flexDirection: 'row',
+    backgroundColor: '#F1D5C6',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    // paddingVertical: 10,
+    marginRight: 20,
+    // right: 10,
+    left: -260,
+    marginLeft: 40,
+  },
+  box3: {
+    flexDirection: 'row',
+    backgroundColor: '#F1D5C6',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    // paddingVertical: 10,
+    marginRight: 20,
+    // right: 15,
+    left: -285,
+    marginLeft: 40,
+  },
+  boxText: {
+    color: '#5A2828',
+    fontFamily: 'Poppins-Regular',
+    textAlign: 'center',
+    textDecorationStyle: 'solid',
+    fontSize: 16,
+  },
+  horizontalLine: {
+    alignSelf: 'center',
+    width: 350,
+    height: 2,
+    backgroundColor: '#FF8D4D',
+    top: -60,
+    textDecorationStyle: 'solid',
   },
   bottomContainer: {
     // top: "-0.5%",
-    bottom: "-6%",
+    bottom: '-6%',
     alignItems: 'center',
   },
   textUserInfo: {
@@ -432,7 +459,7 @@ horizontalLine: {
   },
   settings: {
     flexDirection: 'row',
-    position:'absolute',
+    position: 'absolute',
     top: -280,
     right: -15,
     // right:20,
@@ -483,7 +510,7 @@ horizontalLine: {
   //   // display: 'inline',
   //   textDecorationLine: 'underline',
   // },
-   readMoreContainer: {
+  readMoreContainer: {
     marginLeft: 0,
     position: 'absolute',
     bottom: 0,
@@ -497,9 +524,8 @@ horizontalLine: {
     color: '#ff8700',
     textDecorationLine: 'underline',
     marginLeft: 10,
-    paddingHorizontal:5,
+    paddingHorizontal: 5,
   },
-
 });
 
 export default ProfileDetails;

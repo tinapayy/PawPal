@@ -58,7 +58,7 @@ export default function App() {
           options={{headerShown: true}}
         />
         <Stack.Screen
-          name="ChoosePet
+          name="ChoosePet"
           component={ChoosePet}
           options={{ headerShown: true }}
         />

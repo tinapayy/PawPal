@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 interface User {
     id: number;
     name: string;
-    profilePicture: any; // Assuming profilePicture is the require statement for the image
+    profilePicture: number; // Assuming profilePicture is the require statement for the image
 }
 
 const ChoosePet = () => {
@@ -14,7 +14,7 @@ const ChoosePet = () => {
         {
             id: 0, // Change the ID to 0 for the add pet circle
             name: "Add Pet",
-            profilePicture: require("../images/addpet.png"), // Add your own icon for adding a pet
+            profilePicture: 'faIconPlus', // Replace with the actual FontAwesome icon name
         },
         {
             id: 1,
@@ -34,11 +34,10 @@ const ChoosePet = () => {
             onPress={() => handleUserSelection(item)}
         >
             {item.id === 0 ? (
-                <FontAwesomeIcon icon={faCirclePlus} size={30} color="#000" style={styles.plusIcon} />
+                <Icon name={item.profilePicture} size={30} color="#000" style={styles.plusIcon} />
             ) : (
                 <Image source={item.profilePicture} style={styles.photo} />
             )}
-            <Image source={item.profilePicture} style={styles.photo} />
             <Text style={styles.name}>{item.name}</Text>
         </TouchableOpacity>
     );
@@ -50,10 +49,6 @@ const ChoosePet = () => {
 
     return (
         <View style={styles.container}>
-            {/* <Image
-                source={require("../images/real_bg.png")}
-                style={styles.backgroundImage}
-            /> */}
             <Text style={styles.text}>Choose Pet</Text>
             <FlatList
                 data={users}
@@ -69,20 +64,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        
     },
 
-    text:{
+    text: {
         fontFamily: "Poppins-regular",
         fontSize: 30,
         textAlign: "center",
-        marginTop:'20%',
+        marginTop: '20%',
         letterSpacing: 0.25,
         color: '#5A2828',
-
-    },
-    plusIcon: {
-        marginBottom: 8,
     },
     card: {
         marginTop: '20%',
@@ -92,6 +82,9 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: "#f0f0f0",
         alignItems: "center",
+    },
+    plusIcon: {
+        marginBottom: 8,
     },
     photo: {
         width: 100,

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from "react-native";
+import { View, Image, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from "@react-navigation/native";
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface User {
     id: number;
     name: string;
-    profilePicture: number; // Assuming profilePicture is the require statement for the image
+    profilePicture: any; // Change the type to any or adjust based on your requirements
 }
 
 const ChoosePet = () => {
+    const navigation = useNavigation();
     const [users, setUsers] = useState<User[]>([
         {
             id: 0, // Change the ID to 0 for the add pet circle
             name: "Add Pet",
-            profilePicture: 'faIconPlus', // Replace with the actual FontAwesome icon name
+            profilePicture: 'faCirclePlus', // Replace with the actual FontAwesome icon name
         },
         {
             id: 1,
@@ -26,7 +28,15 @@ const ChoosePet = () => {
             name: "Meowzi",
             profilePicture: require("../images/cat1.jpg"),
         },
+        // Add a new pet after the plus icon
+        {
+            id: 3,
+            name: "New Pet",
+            profilePicture: require("../images/dog1.png"), // Replace with the actual image
+        },
     ]);
+    // Sort the users array in descending order based on id
+    const sortedUsers = [...users].sort((a, b) => b.id - a.id);
 
     const renderUserCard = ({ item }: { item: User }) => (
         <TouchableOpacity
@@ -34,7 +44,7 @@ const ChoosePet = () => {
             onPress={() => handleUserSelection(item)}
         >
             {item.id === 0 ? (
-                <Icon name={item.profilePicture} size={30} color="#000" style={styles.plusIcon} />
+                <FontAwesomeIcon icon={faCirclePlus} size={90} color="#F87000" />
             ) : (
                 <Image source={item.profilePicture} style={styles.photo} />
             )}
@@ -43,10 +53,12 @@ const ChoosePet = () => {
     );
 
     const handleUserSelection = (selectedUser: User) => {
-        // Handle user selection here
-        console.log("Selected User:", selectedUser);
+        // If it's not the "Add Pet" item, navigate to the pet profile
+        if (selectedUser.id >= 0) {
+            navigation.navigate('PetProfile', { petId: selectedUser.id });
+        }
+        // Handle other actions if needed
     };
-
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Choose Pet</Text>
@@ -65,7 +77,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
     },
-
     text: {
         fontFamily: "Poppins-regular",
         fontSize: 30,
@@ -83,9 +94,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#f0f0f0",
         alignItems: "center",
     },
-    plusIcon: {
-        marginBottom: 8,
-    },
     photo: {
         width: 100,
         height: 100,
@@ -95,6 +103,9 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 16,
         fontWeight: "bold",
+    },
+    addPetText: {
+        marginBottom: 8, // Add space below "Add Pet" text
     },
 });
 

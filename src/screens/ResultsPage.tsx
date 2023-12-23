@@ -4,7 +4,8 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Dimensions, 
 import { ArrowLeftIcon as BackIcon,
          UserCircleIcon as User } from 'react-native-heroicons/solid';
 import { useNavigation } from "@react-navigation/native";
-
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCirclePlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const screenWidth = Dimensions.get('window').width;
 
 const clinics = [
@@ -78,8 +79,12 @@ const clinics = [
 
 const ClinicCard = ({ clinicInfo, onPress }) => {
   const navigation = useNavigation();
+  const handleClinicPress = () => {
+    // Navigate to the clinic profile screen and pass clinicInfo
+    navigation.navigate('ClinicProfile', { clinicInfo });
+  };
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={handleClinicPress}>
       <View style={styles.card}>
         <Image source={clinicInfo.imageUrl} style={styles.image} />
         <View style={styles.infoContainer}>
@@ -117,7 +122,9 @@ const ResultsPage = () => {
                 </View>
                 <View style={styles.userheadercontent}>
                     <TouchableOpacity onPress={_goBack}>
-                        <User size="50" color="orange" strokeWidth={10}/>           
+              <TouchableOpacity onPress={() => navigation.navigate('ProfileDetails')}>
+                <User size="50" color="orange" strokeWidth={10} />
+              </TouchableOpacity>
                     </TouchableOpacity>
                 </View>
             </View>

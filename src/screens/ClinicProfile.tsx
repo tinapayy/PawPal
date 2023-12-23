@@ -42,6 +42,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
 const ClinicProfile = () => {
+    const navigation = useNavigation();
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -58,7 +59,11 @@ const ClinicProfile = () => {
             <View>
                 <View style = {styles.icon}>
                 <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('SettingsPage')}
+                    >
                 <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}}/>
+                </TouchableOpacity>
                 </View>
                 
                 <View>

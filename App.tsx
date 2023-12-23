@@ -25,8 +25,9 @@ import Onboarding from './src/screens/Onboarding';
 import FoodAdvisable from './src/screens/FoodAdvisable';
 import FoodRestricted from './src/screens/FoodRestricted';
 import ChoosePet from './src/screens/ChoosePet';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
@@ -51,16 +52,12 @@ export default function App() {
           name="UserProfile"
           component={UserProfile}
           options={{headerShown: true}}
+          // component={HomeTabs}
         />
         <Stack.Screen
           name="PetProfile"
           component={PetProfile}
           options={{headerShown: true}}
-        />
-        <Stack.Screen
-          name="ChoosePet"
-          component={ChoosePet}
-          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="ClinicDetails"
@@ -85,6 +82,11 @@ export default function App() {
         <Stack.Screen
           name="SettingsPage"
           component={SettingsPage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="ChoosePet"
+          component={ChoosePet}
           options={{ headerShown: true }}
         />
         <Stack.Screen
@@ -130,4 +132,33 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+}
+function HomeTabs() {
+  return (
+    <Tab.Navigator screenOptions={({ route }) => ({
+      headerShown: false,
+      tabBarShowLabel: false,
+      tabBarIcon: ({ focused }) => menuIcons(route, focused),
+      tabBarStyle: {
+        marginBottom: 0,
+        height: 75,
+        alignItems: 'center',
+
+        backgroundColor: 'white',
+
+      },
+      tabBarItemStyle: {
+        marginTop: android ? 10 : 0,
+
+      }
+    })}
+
+    >
+      <Tab.Screen name="home" component={HomePage} />
+      <Tab.Screen name="favourite" component={ForumPage} />
+      <Tab.Screen name="cart" component={Homesamp} />
+      <Tab.Screen name="ca" component={MessagePage} />
+      <Tab.Screen name="car" component={ProfileDetails} />
+    </Tab.Navigator>
+  )
 }

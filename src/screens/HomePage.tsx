@@ -287,11 +287,21 @@ const Data3Item = ({ item, handleItemClick, searchQuery, setSearchQuery }) => {
                       width: 200,
                     }}
                   >
+                    {/* <TouchableOpacity
+                      onPress={() => navigation.navigate('Chat', { userId: item.id })}
+                    >
+
+                    </TouchableOpacity> */}
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('ResultsPage')}
+                    >
                     <FontAwesomeIcon
                       icon={faMagnifyingGlass}
                       size={20}
                       style={{ color: "#ff8700", marginRight: 10 }}
                     />
+                    </TouchableOpacity>
+                    
                     <TextInput
                       style={{
                         flex: 1,

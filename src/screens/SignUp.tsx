@@ -53,17 +53,26 @@ const SignIn = () => {
         password,
       );
       console.log(response);
-      const docRef = await addDoc(collection(db, 'user'), {
+      const userDoc= {
         userId: response.user.uid,
         username: username,
         email: email,
         password: password,
         userType: getUserType(),
-        userProfile: {
-          name: '',
-          bio: '',
-        },
-      });
+      };
+      
+      if (getUserType() === 'petOwner') {         // Adds bio empty field to userDoc when user type is pet owner
+        userDoc.name = '';
+        userDoc.bio = ''; 
+      } else if (getUserType() === 'clinic') {    // Adds contact# and about fields to userDoc  when user type is clinic
+        userDoc.picture = null;
+        userDoc.services = '';
+        userDoc.phoneInfo = ''; 
+        userDoc.about = ''; 
+        userDoc.storeHours = '';
+      }
+      
+      const docRef = await addDoc(collection(db, 'user'), userDoc);
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {

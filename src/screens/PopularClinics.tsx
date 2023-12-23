@@ -96,14 +96,15 @@ const clinics = [
 ];
 
 
-const ClinicCard = ({ clinicInfo, onPress }) => {
+const ClinicCard = ({ clinicInfo }) => {
   const navigation = useNavigation();
+
   const handleProfileClick = () => {
-    // Navigate to the profile details screen
-    navigation.navigate('ProfileDetails');
+    // Navigate to the profile details screen and pass clinicInfo
+    navigation.navigate('ClinicProfile', { clinicInfo });
   };
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={handleProfileClick}>
       <View style={styles.card}>
         <Image source={clinicInfo.imageUrl} style={styles.image} />
         <View style={styles.infoContainer}>

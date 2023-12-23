@@ -30,20 +30,32 @@ import {
 
 import {CheckBox, Input} from 'react-native-elements';
 
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary, ImageLibraryOptions} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import {faImage} from '@fortawesome/free-solid-svg-icons';
 import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import Geolocation from 'react-native-geolocation-service';
-import ImagePicker, {ImageLibraryOptions} from 'react-native-image-picker';
 import MapView from 'react-native-maps';
+
+import { FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
+import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
+
+import {useNavigation} from '@react-navigation/native';
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const PawPalApp = () => {
+  const navigation = useNavigation();
+
+  const db = FIREBASE_DB;
+  const auth = FIREBASE_AUTH;
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [user, setUser] = useState(null);
   const [number, onChangeNumber] = useState('');
+  const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   const toggleDaySelection = (day: string) => {
@@ -63,9 +75,35 @@ const PawPalApp = () => {
     'Sunday',
   ];
 
-  const handleButton1Press = () => {
-    Alert.alert('Changes Saved!');
-  };
+  const saveClinicInfo = async () => {
+    try{
+      const userQuery = await getDocs(collection(db, 'user'));
+      userQuery.forEach(async currentDoc => {
+        if (currentDoc.data().userId === auth.currentUser?.uid) {
+          const userRef = doc(collection(db, 'user'), currentDoc.id);
+          const updateData = {
+            picture: selectedImage,
+            services: inputText,
+            phoneInfo: number,
+            about: description,
+            storeHours: selectedDays,
+          };
+          try {
+            await updateDoc(userRef, updateData);
+            Alert.alert('Profile updated successfully');
+            navigation.navigate('HomePage');
+          } catch (updateError) {
+            console.error('Error updating profile:', updateError);
+            Alert.alert('Error updating clinic profile. Please try again.');
+          }
+        }
+      });
+    } catch (error) {
+      console.log('Error querying user data: ', error);
+      Alert.alert('Error updating clinic details. Please try again.')
+    }
+  }
+
 
   const handleButton2Press = () => {
     Alert.alert('Update Cancelled');
@@ -103,8 +141,6 @@ const PawPalApp = () => {
     console.log('Input Text: ' + inputText);
     setInputVisible(false);
   };
-
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const openImagePicker = () => {
     const options = {
@@ -228,28 +264,35 @@ const PawPalApp = () => {
 
           <Text style={styles.addClinic}>Add Clinic Picture</Text>
           <TouchableOpacity onPress={openImagePicker}>
-            <FontAwesomeIcon
-              icon={faImage}
-              size={30}
-              style={{
-                color: '#ff8700',
-                padding: 0,
-                flex: 1,
-                justifyContent: 'center',
-                position: 'absolute',
-                top: 90,
-                marginLeft: '35%',
-              }}
-            />
-            <View
-              style={{
-                backgroundColor: '#ffb78f80',
-                paddingTop: 100,
-                borderRadius: 30,
-                margin: 30,
-                height: 150,
-              }}
-            />
+            {selectedImage ? (
+              <Image
+                source={{ uri: selectedImage }}
+                style={{
+                  borderRadius: 30,
+                  margin: 30,
+                  height: 150,
+                }}
+              />
+            ) : (
+              <View
+                style={{
+                  backgroundColor: '#ffb78f80',
+                  borderRadius: 30,
+                  margin: 30,
+                  height: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faImage}
+                  size={30}
+                  style={{
+                    color: '#ff8700',
+                  }}
+                />
+              </View>
+            )}
           </TouchableOpacity>
 
           <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
@@ -291,13 +334,17 @@ const PawPalApp = () => {
           <Text style={styles.phoneInfo}>Phone Information</Text>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeNumber}
+            onChangeText={ text => onChangeNumber(text)}
             value={number}
             keyboardType="numeric"
           />
 
           <Text style={styles.about}>About</Text>
-          <TextInput style={styles.input} />
+          <TextInput 
+          style={styles.input}
+          onChangeText={ text => setDescription(text)}
+          value={description}
+          />
 
           <Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
@@ -364,7 +411,7 @@ const PawPalApp = () => {
           <View style={{height: 300}}>
             <AppButton
               title="Save"
-              onPress={handleButton1Press}
+              onPress={saveClinicInfo}
               buttonStyle={styles.btn1}
               textStyle={styles.bt1}
             />

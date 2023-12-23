@@ -52,7 +52,7 @@ function SettingsPage() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('PetProfile')}>
+          onPress={() => navigation.navigate('ChoosePet')}>
           <ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Pet Profile</Text>
         </TouchableOpacity>

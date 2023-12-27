@@ -79,7 +79,10 @@ const UserProfile = () => {
       };
 
       const storage = FIREBASE_STORAGE;
-      const storageRef = ref(storage, `profile/${auth.currentUser?.uid}.jpeg`);
+      const storageRef = ref(
+        storage,
+        `profilePicture/${auth.currentUser?.uid}.jpeg`,
+      );
 
       // Convert image URI to Blob
       const response = await fetch(profilePicture);

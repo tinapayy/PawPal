@@ -10,6 +10,7 @@ interface User {
     profilePicture: any; // Change the type to any or adjust based on your requirements
 }
 
+
 const ChoosePet = () => {
     const navigation = useNavigation();
     const [users, setUsers] = useState<User[]>([
@@ -52,9 +53,9 @@ const ChoosePet = () => {
         </TouchableOpacity>
     );
 
-    const handleUserSelection = (selectedUser: User) => {
+    const handleUserSelection = (selectedUser: User | { petId: number }) => {
         // If it's not the "Add Pet" item, navigate to the pet profile
-        if (selectedUser.id >= 0) {
+        if ('id' in selectedUser) {
             navigation.navigate('PetProfile', { petId: selectedUser.id });
         }
         // Handle other actions if needed

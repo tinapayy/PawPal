@@ -22,8 +22,11 @@ import {
   faVenusMars,
   faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const PetProfile = () => {
+  const navigation = useNavigation();
+  
   const [petName, setPetName] = useState('');
   const [breed, setBreed] = useState('');
   const [age, setAge] = useState('');
@@ -137,7 +140,7 @@ const PetProfile = () => {
               <View>
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={() => console.log('Save Changes')}
+                  onPress={() => navigation.navigate("ProfileDetails")}
                   accessible={true}
                   accessibilityRole="button"
                   // activeOpacity={1}

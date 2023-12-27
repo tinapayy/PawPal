@@ -139,7 +139,7 @@ const MessagePage = () => {
           />
         </Container>
         <View style={styles.addIcon}>
-          <TouchableHighlight>
+          <TouchableHighlight  onPress={() => navigation.navigate("NewMessage")}>
             <FontAwesomeIcon icon={faCirclePlus} size={50} color="#F87000" />
           </TouchableHighlight>
         </View>

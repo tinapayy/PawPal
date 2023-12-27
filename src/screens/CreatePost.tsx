@@ -8,8 +8,11 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { faVideo } from '@fortawesome/free-solid-svg-icons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { useNavigation } from '@react-navigation/native';
 
 const CreatePost = () => {
+    const navigation = useNavigation();
+
     const handleButton1Press = () => {
         Alert.alert('Posted successfully!');
       };
@@ -71,7 +74,7 @@ const CreatePost = () => {
                             Create Post
                         </Text>
                 </View>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => navigation.navigate("HomePage")}>
                   <FontAwesomeIcon icon={faCircleXmark} size = {25} style = {{color: '#cbcbcb', top: 20}} />
                 </TouchableOpacity>
             </View>
@@ -79,7 +82,7 @@ const CreatePost = () => {
             <Text style = {{color: '#ff8700', fontSize: 20, fontFamily: 'Poppins-Medium', left: 20}}>
                 Message
             </Text>
-            <View style = {{backgroundColor: 'white',  borderRadius: 30, borderColor: '#ff8d4d', padding: 10, borderWidth: 2, margin: 20 }}>
+            <View style = {{backgroundColor: 'white',  borderRadius: 30, borderColor: '#ff8d4d', padding: 10, borderWidth: 2, margin: 20, height: 90 }}>
                 <TextInput multiline = {true} numberOfLines={5} style = {{color: '#5a2828', fontSize: 15, fontFamily: 'Poppins-Regular'}}>
                 </TextInput>
             </View>
@@ -91,13 +94,13 @@ const CreatePost = () => {
                 <TouchableOpacity
                     onPress={togglePressedState}
                     style={{ backgroundColor: isPressed ? '#ff8d4d' : 'transparent', borderRadius: 30, padding: 10, width: 172, alignItems: 'center' }}>
-                    <FontAwesomeIcon icon={faImage} size={50} style={{ color: 'white' }} />
+                    <FontAwesomeIcon icon={faImage} size={30} style={{ color: 'white' }} />
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={togglePressedStateIcon1}
                     style={{ backgroundColor: isPressedIcon1 ? '#ff8d4d' : 'transparent', borderRadius: 30, padding: 10,  width: 172, alignItems: 'center' }}>
-                    <FontAwesomeIcon icon={faVideo} size={50} style={{ color: 'white' }} />
+                    <FontAwesomeIcon icon={faVideo} size={30} style={{ color: 'white' }} />
                 </TouchableOpacity>
             </View>
 

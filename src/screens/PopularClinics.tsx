@@ -189,7 +189,10 @@ const Apps = () => {
             style={{color: '#ff8d4d', left: 15}}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ProfileDetails');
+          }}>
           <Image
             source={
               profilePicture

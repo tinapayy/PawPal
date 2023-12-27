@@ -97,7 +97,7 @@ const UserProfile = () => {
         if (currentDoc.data().userId === auth.currentUser?.uid) {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
-            username: currentDoc.data().username,
+            name: currentDoc.data().name,
             bio: currentDoc.data().bio,
             password: currentDoc.data().password,
             profilePicture: imageUrl, // Add the profile image URL to the user data
@@ -124,7 +124,7 @@ const UserProfile = () => {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
-            setCurrentName(doc.data().username);
+            setCurrentName(doc.data().name);
             setCurrentBio(doc.data().bio);
             setProfilePicture(doc.data().profilePicture);
           }
@@ -159,7 +159,7 @@ const UserProfile = () => {
 
   const updateProfile = async () => {
     if (currentName === '') {
-      Alert.alert('Please enter a username');
+      Alert.alert('Please enter a name');
       return;
     }
     try {
@@ -168,7 +168,7 @@ const UserProfile = () => {
         if (currentDoc.data().userId === auth.currentUser?.uid) {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
-            username: currentName,
+            name: currentName,
             bio: currentBio ? currentBio : '',
             password: currentDoc.data().password,
           };

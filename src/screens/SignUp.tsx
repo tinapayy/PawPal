@@ -34,7 +34,7 @@ const SignIn = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -53,25 +53,27 @@ const SignIn = () => {
         password,
       );
       console.log(response);
-      const userDoc= {
+      const userDoc = {
         userId: response.user.uid,
-        username: username,
+        name: name,
         email: email,
         password: password,
         userType: getUserType(),
       };
-      
-      if (getUserType() === 'petOwner') {         // Adds bio empty field to userDoc when user type is pet owner
+
+      if (getUserType() === 'petOwner') {
+        // Adds bio empty field to userDoc when user type is pet owner
         userDoc.name = '';
-        userDoc.bio = ''; 
-      } else if (getUserType() === 'clinic') {    // Adds contact# and about fields to userDoc  when user type is clinic
+        userDoc.bio = '';
+      } else if (getUserType() === 'clinic') {
+        // Adds contact# and about fields to userDoc  when user type is clinic
         userDoc.picture = null;
         userDoc.services = '';
-        userDoc.phoneInfo = ''; 
-        userDoc.about = ''; 
+        userDoc.phoneInfo = '';
+        userDoc.about = '';
         userDoc.storeHours = '';
       }
-      
+
       const docRef = await addDoc(collection(db, 'user'), userDoc);
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
@@ -121,9 +123,9 @@ const SignIn = () => {
                 <TextInput
                   style={styles.input}
                   placeholder="Username"
-                  value={username}
+                  value={name}
                   underlineColorAndroid="orange"
-                  onChangeText={text => setUsername(text)}
+                  onChangeText={text => setName(text)}
                 />
               </View>
               <View style={styles.iconInputRow}>

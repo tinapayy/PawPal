@@ -44,7 +44,7 @@ const ProfileDetails = () => {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
-            setName(doc.data().username);
+            setName(doc.data().name);
             setInitialDescription(doc.data().bio || '');
             setProfilePicture(doc.data().profilePicture);
           }

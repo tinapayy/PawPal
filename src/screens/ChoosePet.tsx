@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 interface User {
     id: number;
     name: string;
-    profilePicture: any; // Change the type to any or adjust based on your requirements
+    profilePicture: any; 
 }
 
 
@@ -15,9 +15,9 @@ const ChoosePet = () => {
     const navigation = useNavigation();
     const [users, setUsers] = useState<User[]>([
         {
-            id: 0, // Change the ID to 0 for the add pet circle
+            id: 0, 
             name: "Add Pet",
-            profilePicture: 'faCirclePlus', // Replace with the actual FontAwesome icon name
+            profilePicture: 'faCirclePlus', 
         },
         {
             id: 1,
@@ -29,11 +29,10 @@ const ChoosePet = () => {
             name: "Meowzi",
             profilePicture: require("../images/cat1.jpg"),
         },
-        // Add a new pet after the plus icon
         {
             id: 3,
             name: "New Pet",
-            profilePicture: require("../images/dog1.png"), // Replace with the actual image
+            profilePicture: require("../images/dog1.png"),
         },
     ]);
     // Sort the users array in descending order based on id
@@ -58,7 +57,6 @@ const ChoosePet = () => {
         if ('id' in selectedUser) {
             navigation.navigate('PetProfile', { petId: selectedUser.id });
         }
-        // Handle other actions if needed
     };
     return (
         <View style={styles.container}>
@@ -67,7 +65,7 @@ const ChoosePet = () => {
                 data={users}
                 renderItem={renderUserCard}
                 keyExtractor={(item) => item.id.toString()}
-                numColumns={2} // Adjust the number of columns as needed
+                numColumns={2} 
             />
         </View>
     );
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     addPetText: {
-        marginBottom: 8, // Add space below "Add Pet" text
+        marginBottom: 8,
     },
 });
 

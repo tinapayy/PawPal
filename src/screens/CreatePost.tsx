@@ -1,15 +1,14 @@
-import React, {useState, useRef} from 'react';
-import { ScrollView, SafeAreaView, Alert, StyleProp, ViewStyle, TextStyle, Switch } from 'react-native';
-import { View, Text, Dimensions, ImageBackground, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
-import { Image } from 'react-native-elements';
+import React, {useState} from 'react';
+import { ScrollView, SafeAreaView, Alert, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { faVideo } from '@fortawesome/free-solid-svg-icons';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { faCommentDots, faCircleXmark, faImage, faVideo } from '@fortawesome/free-solid-svg-icons';
+import {launchImageLibrary} from 'react-native-image-picker';
+import { useNavigation } from "@react-navigation/native";
 
 const CreatePost = () => {
+    const navigation = useNavigation();
+
     const handleButton1Press = () => {
         Alert.alert('Posted successfully!');
       };
@@ -71,14 +70,16 @@ const CreatePost = () => {
                             Create Post
                         </Text>
                 </View>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => navigation.navigate("HomePage")}>
                   <FontAwesomeIcon icon={faCircleXmark} size = {25} style = {{color: '#cbcbcb', top: 20}} />
                 </TouchableOpacity>
             </View>
+
             <View style = {{width: 350, height: 2, backgroundColor: '#5a2828', alignSelf: 'center', bottom: 25}}/>
             <Text style = {{color: '#ff8700', fontSize: 20, fontFamily: 'Poppins-Medium', left: 20}}>
                 Message
             </Text>
+
             <View style = {{backgroundColor: 'white',  borderRadius: 30, borderColor: '#ff8d4d', padding: 10, borderWidth: 2, margin: 20 }}>
                 <TextInput multiline = {true} numberOfLines={5} style = {{color: '#5a2828', fontSize: 15, fontFamily: 'Poppins-Regular'}}>
                 </TextInput>

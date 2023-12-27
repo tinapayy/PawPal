@@ -1,44 +1,7 @@
 import React, { useState, Component } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  useColorScheme,
-  View,
-  TouchableOpacity,
-  Image,
-  Button,
-  Platform,
-  FlatList,
-  Alert,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-  ImageBackground,
-  Modal
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
+import {SafeAreaView, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Alert, ImageBackground,} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
-import { faMobileScreenButton } from '@fortawesome/free-solid-svg-icons';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
-import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { BackgroundImage } from 'react-native-elements/dist/config';
-import ModalDropdown from 'react-native-modal-dropdown';
-
+import { faArrowLeft, faGear, faMobileScreenButton, faPhone, faClock, faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const ClinicProfile = () => {
@@ -272,11 +235,6 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         margin: 50,
         color: 'white'
-    },
-    drop: {
-        // flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center'
     },
     dropdown:{
         marginTop: 10,

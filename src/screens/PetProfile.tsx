@@ -1,27 +1,9 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { RadioButton } from 'react-native-paper';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  ImageBackground,
-} from 'react-native';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faUser,
-  faPaw,
-  faCalendar,
-  faWeight,
-  faPalette,
-  faVenusMars,
-  faCirclePlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faUser, faPaw, faCalendar, faWeight, faPalette, faVenusMars, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 const PetProfile = () => {
   const [petName, setPetName] = useState('');
@@ -140,10 +122,9 @@ const PetProfile = () => {
                   onPress={() => console.log('Save Changes')}
                   accessible={true}
                   accessibilityRole="button"
-                  // activeOpacity={1}
                 >
                   <LinearGradient
-                    colors={['#FFAC4E', '#FF6464']} // Colors in the gradient
+                    colors={['#FFAC4E', '#FF6464']}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
                     style={styles.gradientBackground}
@@ -167,7 +148,6 @@ const PetProfile = () => {
         </View>
       </View>
     </ImageBackground>
-    // </ImageBackground>
   );
 };
 
@@ -182,7 +162,6 @@ const styles = StyleSheet.create({
     right: 15,
     paddingVertical: 10,
     color: 'gray',
-    // position: 'absolute',
     top: 2,
     paddingLeft: 15,
     flexDirection: 'row',
@@ -195,12 +174,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     left: 50,
     color: 'gray',
-    // position: 'absolute',
     top: -1,
-    // right: 100,
-    // marginLeft: 30,
     marginRight: 30,
-    // paddingRight: 30,
     flexDirection: 'row',
     fontFamily: 'Poppins-Regular',
   },
@@ -209,7 +184,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     left: 40,
     color: '#FF8D4D',
-    // position: 'absolute',
     top: 10,
     flexDirection: 'row',
     marginBottom: 20,
@@ -221,13 +195,11 @@ const styles = StyleSheet.create({
   },
   back: {
     flexDirection: 'row',
-    // alignItems: 'center',
     marginBottom: 40,
     top: 45,
   },
   backIcon: {
     color: '#FF8D4D',
-    // fontSize: 80,
     flexDirection: 'row',
     position: 'absolute',
     top: -92,
@@ -260,13 +232,11 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     marginBottom: 90,
     paddingVertical: 40,
-    // flexDirection: 'row',
   },
   formContainer: {
     marginTop: 30,
   },
   iconInputRow: {
-    //adjust length of input
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
@@ -324,19 +294,16 @@ const styles = StyleSheet.create({
   saveButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    // top: 20,
     right: 10,
     paddingTop: 50,
     paddingHorizontal: 75,
   },
-  //texts save
   buttonSave: {
     color: '#ffffff',
     fontSize: 19,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',
-    // alignItems: 'center',
     top: 10,
   },
   cancelButton: {
@@ -345,11 +312,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 20,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 40,
-    elevation: 3, //elevation effects
+    elevation: 3, 
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.4,
@@ -357,7 +323,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#ffffff',
-    // fontSize: 18,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',

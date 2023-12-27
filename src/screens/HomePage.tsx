@@ -15,12 +15,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-// import LinearGradient from 'react-native-linear-gradient';
-// import { color } from 'react-native-elements/dist/helpers';
-// import { Searchbar } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
+import ViewPropTypes from 'deprecated-react-native-prop-types';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -192,7 +190,6 @@ const itemNumber2 = ({item}) => {
             padding: 10,
             borderRadius: 20,
             backgroundColor: 'white',
-            // borderColor: "white",
             elevation: 20,
             borderColor: '#FF8484',
           }}>
@@ -251,14 +248,12 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   }
 
-  // const [searchQuery, setSearchQuery] = useState('');
   const navigation = useNavigation();
 
   const handleSeeMoreClick = () => {
     navigation.navigate('FoodAdvisable');
   };
   const handleProfileClick = () => {
-    // Navigate to the profile details screen
     navigation.navigate('ProfileDetails');
   };
   const handleSearchSubmit = () => {
@@ -268,8 +263,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        {/* <TouchableOpacity onPress={() => handleItemClick(item)}> */}
-        {/* <TouchableOpacity onPress={() => handleSeeMoreClick()}> */}
         <View>
           <ImageBackground
             source={require('../images/Group_75.png')}
@@ -297,11 +290,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       borderRadius: 20,
                       width: 200,
                     }}>
-                    {/* <TouchableOpacity
-                      onPress={() => navigation.navigate('Chat', { userId: item.id })}
-                    >
 
-                    </TouchableOpacity> */}
                     <TouchableOpacity
                       onPress={() => navigation.navigate('ResultsPage')}>
                       <FontAwesomeIcon
@@ -372,7 +361,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   </Text>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleSeeMoreClick} // Updated this , when see more is clicked -> navigates to food
+                    onPress={handleSeeMoreClick} 
                   >
                     <Text
                       style={{
@@ -405,18 +394,15 @@ const HomePage = () => {
   const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    navigation.navigate('FoodAdvisable'); // Adjust the navigation name as needed
+    navigation.navigate('FoodAdvisable'); 
   };
   const handleSearchSubmit = () => {
-    // You can perform any additional logic with the search query here
     console.log('Search query:', searchQuery);
 
-    // Navigate to the search result page with the search query
     navigation.navigate('ResultsPage', {searchQuery});
   };
   const handleSearchIconClick = () => {
-    // Navigate to the results page
-    navigation.navigate('ResultsPage'); // Replace 'ResultsPage' with the actual name of your results page component
+    navigation.navigate('ResultsPage'); 
   };
 
   return (

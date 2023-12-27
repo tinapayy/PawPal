@@ -15,8 +15,6 @@ import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
-
-//changes made - gliez
 import {useNavigation} from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
@@ -28,7 +26,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), 
   },
   {
     id: '2',
@@ -36,7 +34,7 @@ const clinics = [
     address: '456 Elm St, City, Country,',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/cornerstone.jpg'), 
   },
   {
     id: '3',
@@ -44,7 +42,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), 
   },
   {
     id: '2',
@@ -52,7 +50,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/cornerstone.jpg'), 
   },
   {
     id: '1',
@@ -60,7 +58,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), 
   },
   {
     id: '2',
@@ -68,7 +66,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/cornerstone.jpg'), 
   },
   {
     id: '1',
@@ -76,7 +74,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), 
   },
   {
     id: '2',
@@ -84,7 +82,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/cornerstone.jpg'), 
   },
   {
     id: '1',
@@ -92,7 +90,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/rebadulla.jpg'), 
   },
   {
     id: '2',
@@ -100,16 +98,14 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), // Replace with actual image URL or import from your assets
+    imageUrl: require('../images/cornerstone.jpg'), 
   },
-  // Add more clinic data here
 ];
 
 const ClinicCard = ({clinicInfo}) => {
   const navigation = useNavigation();
 
   const handleProfileClick = () => {
-    // Navigate to the profile details screen and pass clinicInfo
     navigation.navigate('ClinicProfile', {clinicInfo});
   };
   return (
@@ -131,12 +127,10 @@ const ClinicCard = ({clinicInfo}) => {
             <Text style={clinicInfo.isOpen ? styles.open : styles.closed}>
               {clinicInfo.isOpen ? 'Open' : 'Closed'}
             </Text>
-            {/* <TouchableOpacity onPress = {() => {}}> */}
             <FontAwesomeIcon
               icon={faArrowRight}
               style={{color: '#ff8d4d', right: -4}}
             />
-            {/* </TouchableOpacity> */}
           </View>
         </View>
       </View>
@@ -169,7 +163,6 @@ const Apps = () => {
   }, []);
 
   const handleClinicPress = clinic => {
-    // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
   };
 
   const backgroundImage = require('../images/PopularClinicsBg.png');
@@ -218,7 +211,7 @@ const Apps = () => {
       <FlatList
         data={clinics}
         keyExtractor={item => item.id}
-        numColumns={2} // Set the number of columns to 2
+        numColumns={2} 
         renderItem={({item}) => (
           <ClinicCard
             clinicInfo={item}
@@ -232,8 +225,8 @@ const Apps = () => {
 
 const styles = StyleSheet.create({
   card: {
-    width: (screenWidth - 32) / 2, // Two columns with spacing
-    aspectRatio: 1, // To make it square
+    width: (screenWidth - 32) / 2, 
+    aspectRatio: 1, 
     alignItems: 'center',
     backgroundColor: 'white',
     margin: 8,

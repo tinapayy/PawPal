@@ -1,46 +1,10 @@
-import React, {useState, Component} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  useColorScheme,
-  View,
-  TouchableOpacity,
-  Image,
-  Button,
-  Platform,
-  FlatList,
-  Alert,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-  PermissionsAndroid,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import {CheckBox, Input} from 'react-native-elements';
-
-import {launchImageLibrary, ImageLibraryOptions} from 'react-native-image-picker';
+import React, {useState} from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert, StyleProp, ViewStyle, TextStyle, } from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
-import {faImage} from '@fortawesome/free-solid-svg-icons';
-import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
-import Geolocation from 'react-native-geolocation-service';
-import MapView from 'react-native-maps';
-
+import {faCirclePlus, faImage, faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import { FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
-
 import {useNavigation} from '@react-navigation/native';
 
 // import DateTimePicker from '@react-native-community/datetimepicker';

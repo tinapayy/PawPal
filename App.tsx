@@ -40,8 +40,7 @@ import Onboarding from './src/screens/Onboarding';
 import FoodAdvisable from './src/screens/FoodAdvisable';
 import FoodRestricted from './src/screens/FoodRestricted';
 import ChoosePet from './src/screens/ChoosePet';
-// import NewMessage from './src/screens/NewMessage'; 
-//modify newmessage if implemented
+import NewMessage from './src/screens/NewMessage'; 
 
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
@@ -182,11 +181,11 @@ export default function App() {
           component={Chat}
           options={{ headerShown: true }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="NewMessage"
           component={NewMessage}
           options={{ headerShown: true }}
-        /> */}
+        />
         <Stack.Screen
           name="FoodAdvisable"
           component={FoodAdvisable}

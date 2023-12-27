@@ -29,6 +29,8 @@ const ProfileDetails = () => {
 
   const scrollViewRef = useRef<ScrollView | null>(null);
 
+  const [profilePicture, setProfilePicture] = useState('');
+
   const [name, setName] = useState('');
   const [initialDescription, setInitialDescription] = useState('');
   const MAX_DESCRIPTION_LENGTH = 200;
@@ -43,7 +45,8 @@ const ProfileDetails = () => {
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setName(doc.data().username);
-            setInitialDescription(doc.data().bio);
+            setInitialDescription(doc.data().bio || '');
+            setProfilePicture(doc.data().profilePicture);
           }
         });
       } catch (error) {
@@ -82,7 +85,7 @@ const ProfileDetails = () => {
       style={styles.imageBackground}>
       <View style={styles.container}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}
@@ -159,7 +162,11 @@ const ProfileDetails = () => {
       <View style={styles.bottomContainer}>
         <View>
           <Image
-            source={require('../images/userIcon.png')}
+            source={
+              profilePicture
+                ? {uri: profilePicture}
+                : require('../images/userIcon.png')
+            }
             style={styles.userIcon}
           />
         </View>
@@ -219,12 +226,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     marginLeft: 30,
-    // right:20,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
   },
   backIcon: {
     color: 'white',
@@ -432,6 +433,7 @@ const styles = StyleSheet.create({
     height: 60,
     top: -230,
     left: -160,
+    borderRadius: 50,
   },
   textUser: {
     fontSize: 18,

@@ -21,13 +21,19 @@ import {
   faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
 import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword,
 } from 'firebase/auth';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const UserProfile = () => {
   const navigation = useNavigation();
@@ -40,6 +46,77 @@ const UserProfile = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  const openImagePicker = async () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.error('Image picker error:', response.errorMessage);
+      } else {
+        setProfilePicture(response.assets[0].uri);
+      }
+    });
+  };
+
+  const uploadProfilePicture = async () => {
+    try {
+      if (!profilePicture) {
+        Alert.alert('Please select a profile picture');
+        return;
+      }
+
+      const metadata = {
+        contentType: 'image/jpeg', // Adjust the content type based on your image type
+      };
+
+      const storage = FIREBASE_STORAGE;
+      const storageRef = ref(storage, `profile/${auth.currentUser?.uid}.jpeg`);
+
+      // Convert image URI to Blob
+      const response = await fetch(profilePicture);
+      const blob = await response.blob();
+
+      // Upload the image to Firebase Storage
+      await uploadBytes(storageRef, blob, metadata);
+
+      // Get the download URL of the uploaded image
+      const imageUrl = await getDownloadURL(storageRef);
+
+      // Update the user profile in Firestore with the new image URL
+      const userQuery = await getDocs(collection(db, 'user'));
+      userQuery.forEach(async currentDoc => {
+        if (currentDoc.data().userId === auth.currentUser?.uid) {
+          const userRef = doc(collection(db, 'user'), currentDoc.id);
+          const updateData = {
+            username: currentDoc.data().username,
+            bio: currentDoc.data().bio,
+            password: currentDoc.data().password,
+            profilePicture: imageUrl, // Add the profile image URL to the user data
+          };
+
+          try {
+            await updateDoc(userRef, updateData);
+            Alert.alert('Profile picture updated successfully');
+          } catch (updateError) {
+            console.error('Error updating profile:', updateError);
+            Alert.alert('Error updating profile. Please try again.');
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      Alert.alert('Error updating profile picture. Please try again.');
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +126,7 @@ const UserProfile = () => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setCurrentName(doc.data().username);
             setCurrentBio(doc.data().bio);
+            setProfilePicture(doc.data().profilePicture);
           }
         });
       } catch (error) {
@@ -91,7 +169,7 @@ const UserProfile = () => {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
             username: currentName,
-            bio: currentBio,
+            bio: currentBio ? currentBio : '',
             password: currentDoc.data().password,
           };
           if (currentPassword !== '') {
@@ -143,7 +221,7 @@ const UserProfile = () => {
       style={styles.backgroundImage1}>
       <View style={styles.container}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}
@@ -154,10 +232,16 @@ const UserProfile = () => {
         </View>
         <View style={styles.profileContainer}>
           <Image
-            source={require('../images/userIcon.png')}
-            style={styles.profileImage}
+            source={
+              profilePicture
+                ? {uri: profilePicture}
+                : require('../images/userIcon.png')
+            }
+            style={styles.profilePicture}
           />
-          <TouchableOpacity style={styles.arrowAdd}>
+          <TouchableOpacity
+            style={styles.arrowAdd}
+            onPress={() => openImagePicker()}>
             <FontAwesomeIcon
               icon={faCirclePlus}
               style={styles.arrowAdd}
@@ -228,6 +312,7 @@ const UserProfile = () => {
               style={styles.saveButton}
               onPress={() => {
                 updateProfile();
+                uploadProfilePicture();
               }}
               accessible={true}
               accessibilityRole="button">
@@ -241,7 +326,7 @@ const UserProfile = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => console.log('Cancel Changes')}
+              onPress={() => navigation.goBack()}
               accessible={true}
               accessibilityRole="button">
               <Text style={styles.buttonTextCancel}>Cancel</Text>
@@ -289,7 +374,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  profileImage: {
+  profilePicture: {
     width: 150,
     height: 150,
     borderRadius: 75,

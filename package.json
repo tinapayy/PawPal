@@ -33,7 +33,7 @@
     "react-native-gesture-handler": "^2.13.4",
     "react-native-google-fonts": "^0.0.0",
     "react-native-heroicons": "^3.2.0",
-    "react-native-image-picker": "^7.0.2",
+    "react-native-image-picker": "^7.1.0",
     "react-native-image-slider-box": "^2.0.7",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-paper": "^5.11.0",

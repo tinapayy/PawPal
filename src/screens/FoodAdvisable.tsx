@@ -1,16 +1,5 @@
 import * as React from "react";
-import {
-  SafeAreaView,
-  FlatList,
-  ImageBackground,
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Modal,
-} from "react-native";
+import {SafeAreaView, FlatList, ImageBackground, Text, StyleSheet, View, Image, Dimensions, TouchableOpacity, Modal,} from "react-native";
 import { SegmentedButtons } from "react-native-paper";
 import { ArrowLeftIcon as BackIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
@@ -153,7 +142,7 @@ const FoodAdvisable= () => {
   const handleSegmentChange = (value: string) => {
     setValue(value);
     if (value === 'Restricted') {
-      navigation.navigate('FoodRestricted'); // Use type assertion here
+      navigation.navigate('FoodRestricted');
     } 
   };
 
@@ -208,7 +197,6 @@ const FoodAdvisable= () => {
         />
       </View>
 
-      {/* Modal for displaying detailed information */}
       <Modal
         animationType="slide"
         transparent={false}
@@ -265,8 +253,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 20,
-    // width:'80%',
-    // borderColor: "#9999",
   },
   modalTitle: {
     fontSize: 30,
@@ -283,16 +269,14 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Poppins-Bold",
     fontSize: 30,
-    // textTransform:"uppercase",
     color: "#5a2828",
-    // textDecorationStyle:'solid',
     top: 50,
     marginTop: 0,
     alignSelf: 'center',
   },
   foodImage: {
     width: 200,
-    height: 200, // Adjust the height of the image based on your design
+    height: 200, 
     resizeMode: 'cover',
     borderRadius: 20,
   },
@@ -351,20 +335,16 @@ const styles = StyleSheet.create({
 
   },
   card: {
-    width: '50%', // Each card takes up 50% of the container's width
-    position: 'relative', // To position the text overlay
+    width: '50%', 
+    position: 'relative', 
     padding: 5,
     height: 160,
   },
   infoContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    // color: '#5A2828',
     padding: 20,
     borderRadius: 10,
     marginVertical: 20,
-    // height:50,
-    // width: '80%',
-    // borderBlockColor: '#ff4',
   },
   image: {
     width: '100%',
@@ -385,21 +365,9 @@ const styles = StyleSheet.create({
     height: 80,
     position: 'relative',
     overflow: 'hidden',
-    // top:'(100% - 80px)',
-    // top: 'calc(100% - 80px)',
-    // alignSelf: 'flex-end',
-    // alignSelf:'bottom',
     top: 80,
     bottom: 0,
   },
-  // textOverlay: {
-  //   position: 'absolute',
-  //   overflow: 'hidden',
-  //   width: '100%',
-  //   height: '100%',
-  //   padding: 10,
-  //   justifyContent: 'flex-end',
-  // },
   label: {
     color: '#fff',
     fontSize: 20,

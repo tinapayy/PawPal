@@ -1,41 +1,82 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
-  ImageBackground,
   StyleSheet,
   TouchableOpacity,
   Text,
   Image,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
-  faArrowLeft,
   faCircleChevronRight,
   faCircleChevronLeft,
   faMessage,
-  faGear,
+  faCog,
+  faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+// import addpet from '../components/addpet';
+// import { petData, ownerData } from '../components/addpet';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import ViewPropTypes from 'deprecated-react-native-prop-types';
+
+
+import { Card, Avatar } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+
+interface Pet {
+  id: number;
+  name: string;
+  breed: string;
+  color: string;
+  age: string;
+  sex: string;
+  weight: string;
+}
+interface Owner {
+  id: number;
+  username: string;
+  profilePicture: any; // Adjust the type based on your actual data type
+  title: string;
+  description: string;
+}
 
 const ProfileDetails = () => {
   const navigation = useNavigation();
-
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
-
-  const scrollViewRef = useRef<ScrollView | null>(null);
-
   const [name, setName] = useState('');
   const [initialDescription, setInitialDescription] = useState('');
-  const MAX_DESCRIPTION_LENGTH = 200;
 
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const [truncatedDescription, setTruncatedDescription] = useState('');
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [petDatabase, setPetDatabase] = useState<Pet[]>([
 
+    {
+      id: 1,
+      name: 'Buddy',
+      breed: 'Labrador',
+      color: 'Golden',
+      age: '2 months',
+      sex: 'Male',
+      weight: '2 kg'
+    },
+    // {age: '2 months' , sex: 'Male', weight: '2 kg' }
+  ]);
+
+  const [ownerDatabase, setOwnerDatabase] = useState<Owner[]>([
+    {
+      id: 1,
+      username: 'Kristina V. Celis',
+      profilePicture: require('../images/userIcon3.png'), // Path to profile icon
+      title: 'Pet Owner',
+      description: 'I am an avid pet owner!'
+    },
+
+  ]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,478 +94,408 @@ const ProfileDetails = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    setTruncatedDescription(
-      `${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
-    );
-  }, [initialDescription, showFullDescription]);
 
-  const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
-
-  const handleDescriptionPress = () => {
-    toggleDescription();
-    if (scrollViewRef.current) {
-      if (showFullDescription) {
-        setTruncatedDescription(
-          `${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
-        );
-      } else {
-        setTruncatedDescription(initialDescription);
-      }
-    }
-  };
-
-  return (
-    <ImageBackground
-      source={require('../images/profile_bg.png')}
-      style={styles.imageBackground}>
-      <View style={styles.container}>
-        <View style={styles.back}>
-          <TouchableOpacity>
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              style={styles.backIcon}
-              size={25}
-            />
-          </TouchableOpacity>
-          <Text style={styles.backButtonText}>Back</Text>
-        </View>
-        <View style={styles.profileContainer}>
-          <LinearGradient
-            colors={['#FFAC4E', '#FF6464']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            style={styles.gradientBackground}>
-            <View style={styles.profileText}>
-              <Text style={styles.petName}>Goldie</Text>
-              <Text style={styles.petBreed}>Golden Retriever</Text>
-              <Text style={styles.petColor}>Brown</Text>
-            </View>
-          </LinearGradient>
+  const renderCarouselItem = ({ item, index }: { item: Pet; index: number }) => (
+    <View key={item.id} style={styles.boxContainer}>
+      <LinearGradient
+        colors={['#FFAC4E', '#FF6464']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={[styles.gradientBackground, { height: 150 }]}
+      >
+        <View style={styles.boxContent}>
+          <View style={styles.profileText}>
+            <Text style={styles.petName}>{item.name}</Text>
+            <Text style={styles.petBreed}>{item.breed}</Text>
+            <Text style={styles.petColor}>{item.color}</Text>
+          </View>
           <View style={styles.arrowLR}>
-            <View>
-              <TouchableOpacity style={styles.arrowLeft}>
-                <FontAwesomeIcon
-                  icon={faCircleChevronLeft}
-                  size={30}
-                  style={{
-                    color: '#ff8700',
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.logo}>
-              <Image
-                source={require('../images/pawpal_logo.png')}
-                style={styles.pawpalLogo}
+            <TouchableOpacity
+              style={styles.arrowLeft}
+              onPress={() => {
+                const newIndex = activeIndex > 0 ? activeIndex - 1 : 0;
+                setActiveIndex(newIndex);
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faCircleChevronLeft}
+                size={30}
+                style={{
+                  color: '#ff8700',
+                }}
               />
-            </View>
-            <View>
-              <TouchableOpacity style={styles.arrowRight}>
-                <FontAwesomeIcon
-                  icon={faCircleChevronRight}
-                  size={30}
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  style={{
-                    color: '#ff8700',
-                  }}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.arrowRight}
+              onPress={() => {
+                const newIndex =
+                  activeIndex < petDatabase.length - 1
+                    ? activeIndex + 1
+                    : petDatabase.length - 1;
+                setActiveIndex(newIndex);
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faCircleChevronRight}
+                size={30}
+                style={{
+                  color: '#ff8700',
+                }}
+              />
+              <View style={styles.logo}>
+                <Image
+                  source={require('../images/pawpal_logo.png')}
+                  style={styles.pawpalLogo}
                 />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.containerText}>
-          <View style={styles.containText}>
-            <Text style={styles.containText1}>Age</Text>
-            <Text style={styles.containText2}>Sex</Text>
-            <Text style={styles.containText3}>Weight</Text>
-          </View>
-          <View style={styles.boxContainer}>
-            {/* <View style={{ marginLeft: -30 }} /> */}
-            <View style={styles.box1}>
-              <Text style={styles.boxText}>2 months</Text>
-            </View>
-            <View style={styles.box2}>
-              <Text style={styles.boxText}>Male</Text>
-            </View>
-            <View style={styles.box3}>
-              <Text style={styles.boxText}>7 kg</Text>
-            </View>
-          </View>
+      </LinearGradient>
+      <View style={styles.bottomContainer}>
+        <View style={styles.bottomTexts}>
+          <Text style={styles.petDetail}>Age</Text>
+          <Text style={styles.petDetail}>Sex</Text>
+          <Text style={styles.petDetail}>Weight</Text>
+        </View>
+        <View style={styles.boxContain}>
+          <Text style={styles.boxText}>{item.age}</Text>
+          <Text style={styles.boxText}>{item.sex}</Text>
+          <Text style={styles.boxText}>{item.weight}</Text>
         </View>
         <View style={styles.horizontalLine} />
       </View>
-      <View style={styles.bottomContainer}>
-        <View>
-          <Image
-            source={require('../images/userIcon.png')}
-            style={styles.userIcon}
-          />
-        </View>
-        <View style={styles.textUserInfo}>
-          <Text style={styles.textUser}>{name}</Text>
-          <Text style={styles.textUser1}>Pet Owner</Text>
-          <View>
-            <View style={styles.functionality} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('MessagePage')}>
-              <FontAwesomeIcon icon={faMessage} style={{color: '#ffffff'}} />
-              <Text style={styles.chatIcon}>Message</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.settings}
-              onPress={() => navigation.navigate('SettingsPage')}>
-              <FontAwesomeIcon icon={faGear} style={{color: '#FF8D4D'}} />
-            </TouchableOpacity>
+    </View>
+  );
+
+  const UserProfileCard = ({ user }: { user: Owner }) => {
+    const calculateMargin = (usernameLength: number) => {
+      // Your logic for calculating margin based on username length
+      // Adjust this based on your specific requirements
+      return usernameLength * 2;
+    };
+
+    return (
+      <Card style={styles.card}>
+        <Card.Content style={styles.cardContent}>
+          <View style={styles.userInfo}>
+            <View style={styles.avatarContainer}>
+              <Avatar.Image
+                size={80}
+                source={user.profilePicture}
+              // style={styles.userIcon}
+              />
+            </View>
+            <View style={styles.userInfoText}>
+              <Text style={styles.userName}>{user.username}</Text>
+              <Text style={styles.title}>{user.title}</Text>
+              {/* <Text style={styles.description}>{user.description}</Text> */}
+            </View>
           </View>
-        </View>
-        <View style={styles.container}>
-          <ScrollView style={styles.scrollView} ref={scrollViewRef}>
-            <TouchableOpacity onPress={handleDescriptionPress}>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity
+              style={styles.messageIcon}
+              onPress={() => navigation.navigate('MessagePage')}
+            >
+              <FontAwesomeIcon
+                icon={faMessage}
+                style={[
+                  styles.icon,
+                  { marginLeft: calculateMargin(user.username.length) },
+                ]}
+                size={20}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.settingsIcon}
+              onPress={() => navigation.navigate('SettingsPage')}
+            >
+              <FontAwesomeIcon icon={faCog} style={styles.icon} size={20} />
               <View style={styles.content}>
-                <Text style={styles.contentProfile}>
-                  {showFullDescription
-                    ? initialDescription
-                    : truncatedDescription}
-                </Text>
-                <View style={styles.readMoreContainer}>
-                  <Text
-                    style={styles.descriptionButton}
-                    onPress={toggleDescription}>
-                    {showFullDescription ? 'See Less' : 'See More'}
-                  </Text>
-                </View>
+                <FontAwesomeIcon icon={faAddressCard} style={styles.icon1} size={20} />
+                <Text style={styles.bio}>About the Pet Owner</Text>
+                <Text style={styles.description}>{user.description}</Text>
               </View>
             </TouchableOpacity>
-          </ScrollView>
+          </View>
+        </Card.Content>
+      </Card>
+    );
+  };
+
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={{ padding: 0, flex: 1 }}>
+        <View style={styles.container1}>
+          <Image
+            source={require('../images/profile.png')}
+            style={styles.image}
+          />
         </View>
       </View>
-    </ImageBackground>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            borderTopStartRadius: 50,
+            borderTopEndRadius: 50,
+            top: 405,
+            height: 900,
+            elevation: 20,
+          }}
+        >
+          <Carousel
+            data={petDatabase}
+            renderItem={renderCarouselItem}
+            sliderWidth={360}
+            itemWidth={360}
+            onSnapToItem={(index) => setActiveIndex(index)}
+          />
+          <Pagination
+            dotsLength={petDatabase.length}
+            activeDotIndex={activeIndex}
+            containerStyle={{ paddingTop: 10 }}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: '#F87000',
+            }}
+            inactiveDotStyle={{
+              backgroundColor: '#ccc',
+            }}
+            inactiveDotOpacity={0.6}
+            inactiveDotScale={0.8}
+          />
+          {ownerDatabase.map((owner) => (
+            <React.Fragment key={owner.id}>
+              <UserProfileCard user={owner} />
+            </React.Fragment>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
+ProfileDetails.propTypes = {
+  // Add propTypes if needed
+};
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: 'orange',
   },
-  imageBackground: {
-    flex: 1,
-    width: '100%',
+  container1: {
+    backgroundColor: 'orange',
   },
-  back: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    marginLeft: 30,
-    // right:20,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
+  image: {
+    width: 440,
+    height: 445,
+    resizeMode: 'contain',
+    position: 'relative',
+    // aspectRatio: 1,
   },
-  backIcon: {
-    color: 'white',
-  },
-  backButtonText: {
-    color: 'white',
-    marginLeft: 5,
-    fontSize: 20,
-  },
-  profileContainer: {
-    alignItems: 'center',
-    marginTop: 190,
-    // width:20,
-    height: 200,
+  boxContainer: {
+    width: 305,
+    height: 150,
+    // marginHorizontal: 18,
+    borderRadius: 10,
+    alignSelf: 'center',
+    top: -5,
+    // marginTop: 10,
+    marginLeft: 51,
+    marginRight: 40,
+    // left: 60,
+    position: 'relative',
   },
   gradientBackground: {
-    padding: 10,
-    borderRadius: 20,
-    // length:50,
-    paddingHorizontal: 80,
+    flex: 1,
+    position: 'relative',
+  },
+  boxContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    position: 'relative',
   },
   profileText: {
-    alignItems: 'flex-start',
-    alignSelf: 'flex-start',
-    fontFamily: 'Poppins-Regular',
-    left: -50,
+    alignItems: 'center',
+    top: 20,
   },
   petName: {
-    fontSize: 28,
+    fontSize: 20,
+    fontWeight: 'bold',
     color: 'white',
-    textDecorationStyle: 'solid',
-    fontFamily: 'Poppins-SemiBold',
   },
   petBreed: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
-    fontFamily: 'Poppins-Regular',
-    marginTop: -5,
   },
   petColor: {
     fontSize: 14,
     color: 'white',
-    fontFamily: 'Poppins-Regular',
-    marginTop: -5,
   },
   arrowRight: {
-    marginLeft: 145,
+    left: 155,
     marginRight: 'auto',
+    top: 25,
+    zIndex: 1,
   },
   arrowLeft: {
-    // marginTop: -40,
-    // marginLeft: -155,
-    // marginRight: 10,
-    marginRight: 135,
+    right: 125,
     marginLeft: 'auto',
+    top: 25,
+    zIndex: 1,
   },
   arrowLR: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: -70,
-    // marginLeft: 10,
-    paddingHorizontal: 80,
+    top: -60,
   },
   logo: {
     flexDirection: 'row',
-    marginTop: -15,
+    // marginTop: -15,
+    top: 5,
+    alignSelf: 'center', // Align the logo container in the center
+    right: 70,
   },
   pawpalLogo: {
     width: 50,
     height: 50,
     resizeMode: 'contain',
-    position: 'absolute',
-    marginLeft: 60,
+    marginLeft: 10, // Adjust the marginLeft as needed
     alignSelf: 'center',
-    // alignContent: 'center',
-    top: -15,
-    objectFit: 'cover',
+    top: -35,
   },
-  containerText: {
+  bottomContainer: {
+
+  },
+  bottomTexts: {
     flexDirection: 'row',
-    marginTop: 30,
-    alignItems: 'center',
-    paddingHorizontal: 100,
-    alignContent: 'space-between',
+    justifyContent: 'space-between',
+    top: 20,
+
   },
-  containText: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'space-evenly',
-    // alignContent:'space-between',
-    paddingHorizontal: 50,
-    top: -120,
-    // color: '#5A2828',
-    color: 'gray',
-  },
-  containText1: {
-    // flexDirection: 'row',
-    alignContent: 'center',
-    // alignContent:'space-between',
-    // paddingHorizontal: 50,
-    // top:-50,
-    // color: '#5A2828',
-    color: 'gray',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 15,
-    marginLeft: 20,
-    left: -75,
-  },
-  containText2: {
-    alignContent: 'center',
-    color: 'gray',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 15,
-    marginLeft: 20,
-    left: 15,
-  },
-  containText3: {
-    alignContent: 'center',
-    color: 'gray',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 15,
-    marginLeft: 20,
-    left: 85,
-  },
-  boxContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
-    // marginTop: -80,
-    top: -80,
-    // left: 50,
-    paddingHorizontal: 20,
-  },
-  box1: {
-    flexDirection: 'row',
-    backgroundColor: '#F1D5C6',
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    alignContent: 'center',
-    justifyContent: 'center',
-    // paddingVertical: 10,
-    marginRight: 20,
-    // right: 10,
-    left: -230,
-    // marginLeft: 40,
-  },
-  box2: {
-    flexDirection: 'row',
-    backgroundColor: '#F1D5C6',
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    alignContent: 'center',
-    justifyContent: 'center',
-    // paddingVertical: 10,
-    marginRight: 20,
-    // right: 10,
-    left: -260,
-    marginLeft: 40,
-  },
-  box3: {
-    flexDirection: 'row',
-    backgroundColor: '#F1D5C6',
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    alignContent: 'center',
-    justifyContent: 'center',
-    // paddingVertical: 10,
-    marginRight: 20,
-    // right: 15,
-    left: -285,
-    marginLeft: 40,
+  petDetail: {
+    fontFamily: "Poppins",
+    fontSize: 18,
+    // justifyContent: 'space-between',
   },
   boxText: {
-    color: '#5A2828',
-    fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
-    textDecorationStyle: 'solid',
-    fontSize: 16,
+    // top: -40,
+    backgroundColor: '#F1D5C6',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+
+  },
+  boxContain: {
+    flexDirection: 'row',
+    top: 30,
+    justifyContent: 'space-between',
+
   },
   horizontalLine: {
     alignSelf: 'center',
     width: 350,
     height: 2,
     backgroundColor: '#FF8D4D',
-    top: -60,
+    top: 60,
     textDecorationStyle: 'solid',
   },
-  bottomContainer: {
-    // top: "-0.5%",
-    bottom: '-6%',
+
+  card: {
+    width: 500, // Adjust width as needed
+    height: 350, // Adjust height as needed
+    // margin: 19,
+    top: -340, // Adjust this value based on the position of your horizontal line
+    // borderRadius: 15,
+    backgroundColor: 'white',
+    // elevation: 5,
+    zIndex: 999,
+  },
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 15,
+  },
+  userInfo: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  textUserInfo: {
-    flexDirection: 'row',
-    // alignItems: 'center',
-    // left:10,
-    textAlign: 'left',
-    // marginTop: 20,
+  avatarContainer: {
+    marginRight: 15,
   },
   userIcon: {
-    width: 60,
-    height: 60,
-    top: -230,
-    left: -160,
+    width: 40,
+    height: 40,
+    borderRadius: 50,
   },
-  textUser: {
-    fontSize: 18,
-    fontFamily: 'Poppins-Bold',
-    // textDecorationStyle: 'solid',
-    color: '#5A2828',
-    // textAlign:'left',
-    top: -285,
-    left: 30,
-  },
-  textUser1: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    // textDecorationStyle: 'solid',
-    color: '#5A2828',
-    // textAlign: 'left',
-    top: -265,
-    left: -115,
-  },
-  functionality: {
-    flexDirection: 'row',
-    // marginTop: -90,
-    // left: 10,
-    position: 'absolute',
-  },
-  settings: {
-    flexDirection: 'row',
-    position: 'absolute',
-    top: -280,
-    right: -15,
-    // right:20,
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ff8700',
-    padding: 10,
-    marginRight: 10,
-    borderRadius: 30,
-    paddingHorizontal: 9,
-    // marginTop: 20,
-    top: -285,
-    // left: 0,
-  },
-  chatIcon: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 14,
-    color: '#ffffff',
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  scrollView: {
+  userInfoText: {
     flex: 1,
-    marginTop: -280,
   },
-  content: {
-    // marginTop: 0,
-    color: 'white',
-    textAlign: 'justify',
-    paddingHorizontal: 20,
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  contentProfile: {
+  title: {
     fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    color: 'black',
-    textAlign: 'justify',
-    lineHeight: 24,
+    color: '#555',
   },
-  // readMore: {
-  //   fontFamily: 'Poppins-Regular',
-  //   fontSize: 14,
-  //   textDecorationStyle: 'solid',
-  //   color: '#ff8700',
-  //   marginTop: 10,
-  //   // textAlign: 'center',
-  //   // display: 'inline',
-  //   textDecorationLine: 'underline',
-  // },
-  readMoreContainer: {
-    marginLeft: 0,
-    position: 'absolute',
-    bottom: 0,
-    right: 120,
-    // marginRight:10,
-    // paddingHorizontal:10,
+  description: {
+    fontSize: 16,
+    color: '#777',
+    fontFamily: 'Poppins',
   },
-  descriptionButton: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 14,
-    color: '#ff8700',
-    textDecorationLine: 'underline',
-    marginLeft: 10,
-    paddingHorizontal: 5,
+  iconContainer: {
+    flexDirection: 'row',
+  },
+  messageIcon: {
+    color: '#F87000',
+    marginRight: 10,
+  },
+  settingsIcon: {},
+  icon: {
+    color: '#F87000',
+    top: 20,
+    // paddingRight: 20,
+    paddingHorizontal: 20,
+    left: -240,
+    zIndex: 999,
+    position: 'relative',
+
+
+  },
+  icon1: {
+    color: '#F87000',
+    top: 20,
+    paddingRight: 20,
+    paddingHorizontal: 20,
+    right: 20,
+    position: 'relative',
+
+  },
+
+  content: {
+    top: 65,
+    left: -500,
+    justifyContent: 'flex-start',
+    fontFamily: 'Poppins',
+  },
+  bio: {
+    fontFamily: 'Poppins',
+    fontSize: 18,
+    left: 20,
+    // textDecorationLine: '#F87000',
+
+
   },
 });
 

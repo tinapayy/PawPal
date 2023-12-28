@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import React, {useState, useRef, useEffect} from 'react';
+import {ScrollView, SafeAreaView} from 'react-native';
 import {
   View,
   Text,
@@ -8,110 +8,110 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-} from "react-native";
-import { Image } from "react-native-elements";
-import Carousel, { Pagination } from "react-native-snap-carousel";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-// import LinearGradient from 'react-native-linear-gradient';
-// import { color } from 'react-native-elements/dist/helpers';
-// import { Searchbar } from 'react-native-paper';
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import {Image} from 'react-native-elements';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {getDocs, collection} from 'firebase/firestore';
+import ViewPropTypes from 'deprecated-react-native-prop-types';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const data1 = [
   {
     id: 1,
-    imageSource: require("../images/rebadulla.jpg"),
-    title: "Rebadulla Animal Hospital",
-    description: "88 Commission Civil St, Jaro, Iloilo City",
-    info1: "Open Now",
-    info2: "Wednesday 9:00 AM - 5:00 PM",
+    imageSource: require('../images/rebadulla.jpg'),
+    title: 'Rebadulla Animal Hospital',
+    description: '88 Commission Civil St, Jaro, Iloilo City',
+    info1: 'Open Now',
+    info2: 'Wednesday 9:00 AM - 5:00 PM',
   },
   {
     id: 2,
-    imageSource: require("../images/cornerstone.jpg"),
-    title: "Cornerstone Veterinary Clinic",
-    description: "Faith Bldg, Jalandoni St., Jaro, Iloilo City",
-    info1: "Open Now",
-    info2: "Wednesday 9:00 AM - 5:00 PM",
+    imageSource: require('../images/cornerstone.jpg'),
+    title: 'Cornerstone Veterinary Clinic',
+    description: 'Faith Bldg, Jalandoni St., Jaro, Iloilo City',
+    info1: 'Open Now',
+    info2: 'Wednesday 9:00 AM - 5:00 PM',
   },
   {
     id: 3,
-    imageSource: require("../images/rebadulla.jpg"),
-    title: "Rebadulla Animal Hospital",
-    description: "88 Commission Civil St, Jaro, Iloilo City",
-    info1: "Open Now",
-    info2: "Wednesday 9:00 AM - 5:00 PM",
+    imageSource: require('../images/rebadulla.jpg'),
+    title: 'Rebadulla Animal Hospital',
+    description: '88 Commission Civil St, Jaro, Iloilo City',
+    info1: 'Open Now',
+    info2: 'Wednesday 9:00 AM - 5:00 PM',
   },
 ];
 
 const data2 = [
   {
     id: 1,
-    imageSource: require("../images/cutieCat.jpg"),
-    title: "Looking for Blood Donor",
+    imageSource: require('../images/cutieCat.jpg'),
+    title: 'Looking for Blood Donor',
     description:
-      "My cat, Snow is suffering from anemia and in need of blood type A ...",
+      'My cat, Snow is suffering from anemia and in need of blood type A ...',
   },
   {
     id: 2,
-    imageSource: require("../images/announcement1.jpg"),
-    title: "Emergency",
-    description: "My dog, Summer needs to undergo surgery...",
+    imageSource: require('../images/announcement1.jpg'),
+    title: 'Emergency',
+    description: 'My dog, Summer needs to undergo surgery...',
   },
   {
     id: 3,
-    imageSource: require("../images/cutieCat.jpg"),
-    title: "Looking for Blood Donor",
+    imageSource: require('../images/cutieCat.jpg'),
+    title: 'Looking for Blood Donor',
     description:
-      "My cat, Snow is suffering from anemia and in need of blood type A ...",
+      'My cat, Snow is suffering from anemia and in need of blood type A ...',
   },
   {
     id: 4,
-    imageSource: require("../images/announcement1.jpg"),
-    title: "Emergency",
-    description: "My dog, Summer needs to undergo surgery...",
+    imageSource: require('../images/announcement1.jpg'),
+    title: 'Emergency',
+    description: 'My dog, Summer needs to undergo surgery...',
   },
 ];
 
 const data3 = [
   {
     id: 1,
-    img1: require("../images/Ellipse17.png"),
-    img2: require("../images/Vector_11.png"),
-    img3: require("../images/Ellipse18.png"),
-    imageSome: require("../images/idPic.png"),
-    title: "Are cats allowed to eat chocolates?",
-    description: "Click Here",
-    imageSource: require("../images/kitty.png"),
+    img1: require('../images/Ellipse17.png'),
+    img2: require('../images/Vector_11.png'),
+    img3: require('../images/Ellipse18.png'),
+    imageSome: require('../images/idPic.png'),
+    title: 'Are cats allowed to eat chocolates?',
+    description: 'Click Here',
+    imageSource: require('../images/kitty.png'),
   },
   {
     id: 2,
-    img1: require("../images/Ellipse17.png"),
-    img2: require("../images/Vector_11.png"),
-    img3: require("../images/Ellipse18.png"),
-    imageSome: require("../images/idPic.png"),
-    title: "Are dogs allowed to eat grapes?",
-    description: "Click Here",
-    imageSource: require("../images/doggy.png"),
+    img1: require('../images/Ellipse17.png'),
+    img2: require('../images/Vector_11.png'),
+    img3: require('../images/Ellipse18.png'),
+    imageSome: require('../images/idPic.png'),
+    title: 'Are dogs allowed to eat grapes?',
+    description: 'Click Here',
+    imageSource: require('../images/doggy.png'),
   },
   {
     id: 3,
-    img1: require("../images/Ellipse17.png"),
-    img2: require("../images/Vector_11.png"),
-    img3: require("../images/Ellipse18.png"),
-    imageSome: require("../images/idPic.png"),
-    title: "Are cats allowed to eat peanut butter?",
-    description: "Click Here",
-    imageSource: require("../images/kitty.png"),
+    img1: require('../images/Ellipse17.png'),
+    img2: require('../images/Vector_11.png'),
+    img3: require('../images/Ellipse18.png'),
+    imageSome: require('../images/idPic.png'),
+    title: 'Are cats allowed to eat peanut butter?',
+    description: 'Click Here',
+    imageSource: require('../images/kitty.png'),
   },
 ];
 
-const renderItem = ({ item }) => {
+const renderItem = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
@@ -120,20 +120,18 @@ const renderItem = ({ item }) => {
             borderWidth: 1,
             padding: 10,
             borderRadius: 20,
-            backgroundColor: "white",
-            borderColor: "white",
+            backgroundColor: 'white',
+            borderColor: 'white',
             elevation: 10,
-          }}
-        >
+          }}>
           <View
             style={{
-              alignSelf: "center",
+              alignSelf: 'center',
               flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
               bottom: 9,
-            }}
-          >
+            }}>
             <Image
               source={item.imageSource}
               style={{
@@ -147,44 +145,34 @@ const renderItem = ({ item }) => {
           <Text
             style={{
               fontSize: 19,
-              fontWeight: "bold",
-              color: "#5a2828",
-              textAlign: "center",
-              fontFamily: "Poppins-Bold",
-            }}
-          >
+              fontWeight: 'bold',
+              color: '#5a2828',
+              textAlign: 'center',
+              fontFamily: 'Poppins-Bold',
+            }}>
             {item.title}
           </Text>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <FontAwesomeIcon
-              icon={faLocationDot}
-              style={{ color: "#ff8700" }}
-            />
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
             <Text
-              style={{ fontSize: 16, fontWeight: "normal", color: "#ff8700" }}
-            >
+              style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
               {item.description}
             </Text>
           </View>
           <Text
             style={{
               fontSize: 15,
-              fontWeight: "bold",
-              color: "#5a2828",
-              textAlign: "left",
-            }}
-          >
+              fontWeight: 'bold',
+              color: '#5a2828',
+              textAlign: 'left',
+            }}>
             {item.info1}
           </Text>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 13, fontWeight: 300, color: "#5a2828" }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontSize: 13, fontWeight: 300, color: '#5a2828'}}>
               {item.info2}
             </Text>
-            <FontAwesomeIcon icon={faArrowRight} style={{ color: "#ff8700" }} />
+            <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
           </View>
         </View>
       </ScrollView>
@@ -192,7 +180,7 @@ const renderItem = ({ item }) => {
   );
 };
 
-const itemNumber2 = ({ item }) => {
+const itemNumber2 = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
@@ -201,32 +189,26 @@ const itemNumber2 = ({ item }) => {
             borderWidth: 1,
             padding: 10,
             borderRadius: 20,
-            backgroundColor: "white",
-            // borderColor: "white",
+            backgroundColor: 'white',
             elevation: 20,
-            borderColor: "#FF8484",
-          }}
-        >
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+            borderColor: '#FF8484',
+          }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Image
               source={item.imageSource}
-              style={{ width: 80, height: 80, borderRadius: 80 / 2 }}
+              style={{width: 80, height: 80, borderRadius: 80 / 2}}
             />
             <View
               style={{
                 flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <Text
-                style={{ color: "#5a2828", fontWeight: "bold", fontSize: 20 }}
-              >
+                style={{color: '#5a2828', fontWeight: 'bold', fontSize: 20}}>
                 {item.title}
               </Text>
-              <Text style={{ color: "#5a2828", fontWeight: 300, fontSize: 15 }}>
+              <Text style={{color: '#5a2828', fontWeight: 300, fontSize: 15}}>
                 {item.description}
               </Text>
             </View>
@@ -237,83 +219,99 @@ const itemNumber2 = ({ item }) => {
   );
 };
 
-const Data3Item = ({ item, handleItemClick, searchQuery, setSearchQuery }) => {
-  // const [searchQuery, setSearchQuery] = useState('');
+const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setProfilePicture(doc.data().profilePicture);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (profilePicture != null) {
+    for (let i = 0; i < data3.length; i++) {
+      data3[i].imageSome = {uri: profilePicture};
+    }
+  }
+
   const navigation = useNavigation();
 
   const handleSeeMoreClick = () => {
-    navigation.navigate("FoodAdvisable");
+    navigation.navigate('FoodAdvisable');
   };
   const handleProfileClick = () => {
-    // Navigate to the profile details screen
-    navigation.navigate("ProfileDetails");
+    navigation.navigate('ProfileDetails');
   };
-  const handleSearchSubmit =() =>{
-    navigation.navigate("ResultsPage", { searchQuery });
+  const handleSearchSubmit = () => {
+    navigation.navigate('ResultsPage', {searchQuery});
   };
 
   return (
     <SafeAreaView>
       <ScrollView>
-        {/* <TouchableOpacity onPress={() => handleItemClick(item)}> */}
-        {/* <TouchableOpacity onPress={() => handleSeeMoreClick()}> */}
         <View>
           <ImageBackground
-            source={require("../images/Group_75.png")}
+            source={require('../images/Group_75.png')}
             resizeMode="contain"
             style={{
               marginTop: 10,
               flex: 1,
-              justifyContent: "center",
+              justifyContent: 'center',
               borderRadius: 30,
               padding: 25,
               left: 5,
-            }}
-          >
-            <View style={{ top: -3 }}>
+            }}>
+            <View style={{top: -3}}>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View style={{ flex: 1, top: 15, left: 20, margin: 10 }}>
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{flex: 1, top: 15, left: 20, margin: 10}}>
                   <View
                     style={{
-                      flexDirection: "row-reverse",
-                      alignItems: "center",
-                      backgroundColor: "white",
+                      flexDirection: 'row-reverse',
+                      alignItems: 'center',
+                      backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}
-                  >
-                    {/* <TouchableOpacity
-                      onPress={() => navigation.navigate('Chat', { userId: item.id })}
-                    >
+                    }}>
 
-                    </TouchableOpacity> */}
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('ResultsPage')}
-                    >
-                    <FontAwesomeIcon
-                      icon={faMagnifyingGlass}
-                      size={20}
-                      style={{ color: "#ff8700", marginRight: 10 }}
-                    />
+                      onPress={() => navigation.navigate('ResultsPage')}>
+                      <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        size={20}
+                        style={{color: '#ff8700', marginRight: 10}}
+                      />
                     </TouchableOpacity>
-                    
+
                     <TextInput
                       style={{
                         flex: 1,
-                        color: "black",
+                        color: 'black',
                         fontSize: 13,
                         height: 35,
                         marginLeft: 10,
                       }}
                       placeholder="Search"
-                      placeholderTextColor={"#ff8d4d"}
+                      placeholderTextColor={'#ff8d4d'}
                       value={searchQuery}
-                      onChangeText={(text) => setSearchQuery(text)}
+                      onChangeText={text => setSearchQuery(text)}
                       onSubmitEditing={handleSearchSubmit}
                     />
                   </View>
@@ -324,15 +322,16 @@ const Data3Item = ({ item, handleItemClick, searchQuery, setSearchQuery }) => {
                     style={{
                       width: 35,
                       height: 35,
-                      top: "35%",
-                      paddingRight: "20%",
-                      position: "relative",
+                      top: '35%',
+                      paddingRight: '20%',
+                      position: 'relative',
+                      borderRadius: 50,
                     }}
                   />
                 </TouchableOpacity>
               </View>
 
-              <View style={{ flexDirection: "row-reverse" }}>
+              <View style={{flexDirection: 'row-reverse'}}>
                 <Image
                   source={item.imageSource}
                   style={{
@@ -346,34 +345,31 @@ const Data3Item = ({ item, handleItemClick, searchQuery, setSearchQuery }) => {
                 <View
                   style={{
                     flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     margin: 10,
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       fontSize: 20,
-                      fontWeight: "bold",
-                      color: "white",
-                      textAlign: "center",
+                      fontWeight: 'bold',
+                      color: 'white',
+                      textAlign: 'center',
                       marginBottom: 20,
-                    }}
-                  >
+                    }}>
                     {item.title}
                   </Text>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleSeeMoreClick} // Updated this , when see more is clicked -> navigates to food
+                    onPress={handleSeeMoreClick} 
                   >
                     <Text
                       style={{
                         fontSize: 17,
-                        fontWeight: "bold",
-                        color: "white",
-                        textAlign: "center",
-                      }}
-                    >
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textAlign: 'center',
+                      }}>
                       {item.description}
                     </Text>
                   </TouchableOpacity>
@@ -395,21 +391,18 @@ const HomePage = () => {
   const isCarousel = useRef(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleItemClick = (item) => {
+  const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    navigation.navigate("FoodAdvisable"); // Adjust the navigation name as needed
+    navigation.navigate('FoodAdvisable'); 
   };
   const handleSearchSubmit = () => {
-    // You can perform any additional logic with the search query here
     console.log('Search query:', searchQuery);
 
-    // Navigate to the search result page with the search query
-    navigation.navigate('ResultsPage', { searchQuery });
+    navigation.navigate('ResultsPage', {searchQuery});
   };
   const handleSearchIconClick = () => {
-    // Navigate to the results page
-    navigation.navigate('ResultsPage'); // Replace 'ResultsPage' with the actual name of your results page component
+    navigation.navigate('ResultsPage'); 
   };
 
   return (
@@ -421,18 +414,19 @@ const HomePage = () => {
               <Carousel
                 ref={isCarousel}
                 data={data3}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                   <Data3Item
-                  item={item}
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  handleItemClick={handleItemClick} />
+                    item={item}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleItemClick={handleItemClick}
+                  />
                 )}
                 sliderWidth={screenWidth}
                 sliderHeight={screenHeight}
                 itemWidth={Math.round(screenWidth * 1)}
                 itemHeight={Math.round(screenHeight - 30 * 0.7)}
-                onSnapToItem={(index) => setIndex(index)}
+                onSnapToItem={index => setIndex(index)}
               />
               <Pagination
                 dotsLength={data3.length}
@@ -444,12 +438,12 @@ const HomePage = () => {
                   height: 2,
                   borderRadius: 10,
                   padding: 6,
-                  backgroundColor: "#ff6464",
+                  backgroundColor: '#ff6464',
                   bottom: 60,
                 }}
                 tappableDots={true}
                 inactiveDotStyle={{
-                  backgroundColor: "black",
+                  backgroundColor: 'black',
                   width: 2,
                   height: 2,
                   borderRadius: 10,
@@ -459,36 +453,32 @@ const HomePage = () => {
               />
             </View>
 
-            <View style={{ bottom: 50 }}>
+            <View style={{bottom: 50}}>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                   marginLeft: 20,
                   marginRight: 30,
-                }}
-              >
+                }}>
                 <Text
                   style={{
-                    color: "#FF6464",
-                    fontFamily: "Poppins-Bold",
+                    color: '#FF6464',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 20,
-                  }}
-                >
+                  }}>
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("ForumPage");
-                  }}
-                >
+                    navigation.navigate('ForumPage');
+                  }}>
                   <Text
                     style={{
-                      color: "#FF6464",
-                      textDecorationLine: "underline",
+                      color: '#FF6464',
+                      textDecorationLine: 'underline',
                       fontSize: 17,
-                    }}
-                  >
+                    }}>
                     More
                   </Text>
                 </TouchableOpacity>
@@ -496,8 +486,8 @@ const HomePage = () => {
               <Carousel
                 style={{
                   flex: 1,
-                  alignContent: "center",
-                  justifyContent: "center",
+                  alignContent: 'center',
+                  justifyContent: 'center',
                 }}
                 data={data2}
                 renderItem={itemNumber2}
@@ -509,33 +499,29 @@ const HomePage = () => {
             <View>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                   marginLeft: 20,
                   marginRight: 30,
-                }}
-              >
+                }}>
                 <Text
                   style={{
-                    color: "#FF6464",
-                    fontFamily: "Poppins-Bold",
+                    color: '#FF6464',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 20,
-                  }}
-                >
+                  }}>
                   Popular Clinics
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("PopularClinics");
-                  }}
-                >
+                    navigation.navigate('PopularClinics');
+                  }}>
                   <Text
                     style={{
-                      color: "#FF6464",
-                      textDecorationLine: "underline",
+                      color: '#FF6464',
+                      textDecorationLine: 'underline',
                       fontSize: 17,
-                    }}
-                  >
+                    }}>
                     See all
                   </Text>
                 </TouchableOpacity>
@@ -558,7 +544,7 @@ const HomePage = () => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#ff6464",
+    backgroundColor: '#ff6464',
     padding: 10,
     borderRadius: 20,
     bottom: 10,

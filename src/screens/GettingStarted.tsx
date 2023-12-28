@@ -7,7 +7,6 @@ const GettingStarted: React.FC = () => {
   return (
     <View>
     <View style={styles.container1}>
-    {/* <SvgXml xml={logo} width="100%" height="100%"/> */}
       <Image
         source={require('../images/corgiCat.png')}
         style={styles.welcomeImage}
@@ -20,7 +19,7 @@ const GettingStarted: React.FC = () => {
       style={({ pressed }) => [
         styles.button,
         {
-          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
         },
       ]}
       onPress={() => {
@@ -43,9 +42,7 @@ const styles = StyleSheet.create({
 
   },
   welcomeImage: {
-    width: "90%", // Set the width of the image
-    // top:"-30%",
-
+    width: "90%", 
   },
   container2: {
     flex: 1,
@@ -54,12 +51,12 @@ const styles = StyleSheet.create({
     paddingTop: "80%",
   },
   petImage: {
-    width: 1000 // Set the width of the image
+    width: 1000 
   },
   buttonView: {
     alignItems:'center',
     justifyContent: 'center',
-    borderRadius: 20, // Add rounded corners
+    borderRadius: 20, 
     paddingHorizontal: 90,
     top: 700
   },
@@ -74,7 +71,6 @@ const styles = StyleSheet.create({
     width:200
   },
   text: {
-    // top:"800%",
     fontSize: 18,
     letterSpacing: 0.25,
     color: 'white',

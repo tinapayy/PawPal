@@ -104,7 +104,7 @@ const PawPalApp = () => {
     }
   }
 
-
+  {/* CONCERN: CLEARING THE WHOLE PAGE or GOING TO HOME? */}
   const handleButton2Press = () => {
     Alert.alert('Update Cancelled');
   };
@@ -162,6 +162,7 @@ const PawPalApp = () => {
     });
   };
 
+  {/* CONCERN: LOCATION IMPLEMENTATION */}
   const handleIconPress = () => {
     Alert.alert('Google Map API to be implemented :>');
   };
@@ -307,10 +308,13 @@ const PawPalApp = () => {
                 />
               </TouchableOpacity>
 
+
+
+              {/* CONCERN: ADDING MORE TAGS */}
               {isInputVisible && (
                 <View>
                   <TextInput
-                    style={{color: '#ff8700', fontSize: 15, marginLeft: 15}}
+                    style={{color: '#5A2828', fontSize: 15, marginLeft: 15, backgroundColor: '#F1D5C6', borderRadius: 10, marginVertical: 5,}}
                     placeholder="Enter"
                     value={inputText}
                     onChangeText={handleInputChange}
@@ -319,9 +323,12 @@ const PawPalApp = () => {
                     <Text
                       style={{
                         marginLeft: 20,
-                        color: 'black',
+                        color: 'white',
                         textDecorationLine: 'underline',
                         fontSize: 13,
+                        backgroundColor: '#ff8700',
+                        borderRadius: 10,
+                        textAlign: 'center',
                       }}>
                       Save
                     </Text>
@@ -358,6 +365,8 @@ const PawPalApp = () => {
                       <View style={styles.bg}></View>
                     )}
                   </View>
+
+                  {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
                   {selectedDays.includes(day) && (
                     <TextInput
@@ -379,7 +388,7 @@ const PawPalApp = () => {
           </View>
 
           <Text style={styles.loc}>Location</Text>
-
+          
           <TouchableOpacity onPress={handleIconPress}>
             <FontAwesomeIcon
               icon={faLocationDot}

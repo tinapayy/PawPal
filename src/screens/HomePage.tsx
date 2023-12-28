@@ -470,11 +470,8 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
-                  // onPress={() => {
-                  //   navigation.navigate('ForumPage');
-                  // }}
                   onPress={() => {
-                    navigation.navigate('ClinicDetails');
+                    navigation.navigate('ForumPage');
                   }}
                   >
                   <Text

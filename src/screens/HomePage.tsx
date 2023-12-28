@@ -470,9 +470,13 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
+                  // onPress={() => {
+                  //   navigation.navigate('ForumPage');
+                  // }}
                   onPress={() => {
-                    navigation.navigate('ForumPage');
-                  }}>
+                    navigation.navigate('ClinicDetails');
+                  }}
+                  >
                   <Text
                     style={{
                       color: '#FF6464',
@@ -531,7 +535,7 @@ const HomePage = () => {
                 renderItem={renderItem}
                 sliderWidth={screenWidth}
                 sliderHeight={screenHeight}
-                itemWidth={Math.round(screenWidth * 0.7)}
+                itemWidth={Math.round(screenWidth * 0.8)}
                 itemHeight={Math.round(screenHeight - 30 * 0.7)}
               />
             </View>

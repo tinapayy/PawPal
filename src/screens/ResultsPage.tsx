@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  GestureResponderEvent,
 } from 'react-native';
 
 import {
@@ -158,12 +159,16 @@ const ResultsPage = () => {
     // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
   };
 
+  function _goBack(event: GestureResponderEvent): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <View style={styles.container}>
         <View style={styles.headercontainer}>
             <View style={styles.headercontent}>
                 <View style={styles.headertextandicon}>
-                    <TouchableOpacity onPress={_goBack}>
+                    <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
                         <BackIcon size="35" color="#ff8d4d" strokeWidth={10}/>           
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Results Found</Text>
@@ -190,6 +195,7 @@ const ResultsPage = () => {
                 </View>
             </View>
         </View>
+        
     <View style={styles.scrollcontainer}>
     <FlatList
       data={filteredClinics}
@@ -198,6 +204,7 @@ const ResultsPage = () => {
         <ClinicCard clinicInfo={item} onPress={() => handleClinicPress(item)} />
       )}
     />
+    </View>
     </View>
   );
 };

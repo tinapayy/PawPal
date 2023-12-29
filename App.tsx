@@ -41,6 +41,7 @@ import FoodAdvisable from './src/screens/FoodAdvisable';
 import FoodRestricted from './src/screens/FoodRestricted';
 import ChoosePet from './src/screens/ChoosePet';
 import NewMessage from './src/screens/NewMessage'; 
+import CreatePost from './src/screens/CreatePost';
 
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
@@ -90,7 +91,7 @@ function HomeTabs() {
     })}>
       <Tab.Screen name="home" component={HomePage} />
       <Tab.Screen name="favourite" component={MessagePage} />
-      <Tab.Screen name="cart" component={Homesamp} />
+      <Tab.Screen name="cart" component={CreatePost} />
       <Tab.Screen name="ca" component={ForumPage} />
       <Tab.Screen name="car" component={ProfileDetails} />
     </Tab.Navigator>
@@ -103,8 +104,8 @@ export default function App() {
       <Stack.Navigator screenOptions={{
         contentStyle: { backgroundColor: 'white' }
       }}>
-        <Stack.Screen name="Home" options={{ headerShown: false }} component={HomeTabs} />
-        <Stack.Screen name="Product" options={{ headerShown: false }} component={Homesamp} />
+        {/* <Stack.Screen name="Home" options={{ headerShown: false }} component={HomeTabs} />
+        <Stack.Screen name="Product" options={{ headerShown: false }} component={Homesamp} /> */}
         <Stack.Screen
           name="GettingStarted"
           component={GettingStarted}
@@ -143,7 +144,7 @@ export default function App() {
         />
         <Stack.Screen
           name="HomePage"
-          component={HomePage}
+          component={HomeTabs}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -174,7 +175,7 @@ export default function App() {
         <Stack.Screen
           name="MessagePage"
           component={MessagePage}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Chat"
@@ -189,17 +190,17 @@ export default function App() {
         <Stack.Screen
           name="FoodAdvisable"
           component={FoodAdvisable}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="FoodRestricted"
           component={FoodRestricted}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ResultsPage"
           component={ResultsPage}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="ClinicProfile"

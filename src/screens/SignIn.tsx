@@ -130,6 +130,12 @@ const SignIn = () => {
                 <Text style={styles.text}>Login</Text>
               </Pressable>
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.signupText}>
+                Do not have an account yet?
+                <Text style={styles.signupLink}> Sign Up</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -138,6 +144,17 @@ const SignIn = () => {
 };
 
 const styles = StyleSheet.create({
+  signupText: {
+    alignSelf: 'center',
+    fontSize: 14,
+    top: -70,
+    fontFamily: 'Poppins-Regular',
+  },
+  signupLink: {
+    fontSize: 14,
+    color: '#FFAC4E',
+    fontFamily: 'Poppins-SemiBold',
+  },
   container: {
     flex: 1,
     backgroundColor: 'orange',
@@ -173,7 +190,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   btnContainer: {
-    top: 100,
+    top: 60,
     alignSelf: 'center',
   },
   signInText: {

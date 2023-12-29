@@ -70,7 +70,7 @@ const CreatePost = () => {
                             Create Post
                         </Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate("HomePage")}>
+                <TouchableOpacity onPress={() => navigation.navigate('home')}>
                   <FontAwesomeIcon icon={faCircleXmark} size = {25} style = {{color: '#cbcbcb', top: 20}} />
                 </TouchableOpacity>
             </View>

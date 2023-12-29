@@ -11,14 +11,15 @@ import {HomeIcon as HomeSolid,
         ChatBubbleLeftRightIcon as ForumSolid, 
         UserIcon as UserSolid } from 'react-native-heroicons/solid'; 
 
-import Homesamp from './screens/Homesamp';
-import Detailsamp from './screens/Detailsamp';
-import ClinicProfile from './src/screens/ClinicProfile';  
-import ForumPage from './src/screens/ForumPage';
-import PetProfile from './src/screens/PetProfile';  
-import ProfileDetails from './src/screens/ProfileDetails';
-import MessagePage from './src/screens/MessagePage';
-import HomePage from './src/screens/HomePage';
+import Homesamp from '../../screens/Homesamp';
+import Detailsamp from '../../screens/Detailsamp';
+import ClinicProfile from '../screens/ClinicProfile';  
+import ForumPage from '../screens/ForumPage';
+import PetProfile from '../screens/PetProfile';  
+import ProfileDetails from '../screens/ProfileDetails';
+import MessagePage from '../screens/MessagePage';
+import HomePage from '../screens/HomePage';
+import CreatePost from '../screens/CreatePost';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -63,7 +64,7 @@ export default function BottomNavBar(){
         >
         <Tab.Screen name="home" component={HomePage} />
         <Tab.Screen name="favourite" component={ForumPage} />
-        <Tab.Screen name="cart" component={Homesamp} />
+        <Tab.Screen name="cart" component={CreatePost} />
         <Tab.Screen name="ca" component={MessagePage}/>
         <Tab.Screen name="car" component={ProfileDetails} />
       </Tab.Navigator>

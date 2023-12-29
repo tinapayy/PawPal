@@ -16,6 +16,7 @@ import { ArrowLeftIcon as BackIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import FoodAdvisable from './FoodAdvisable';
 
+
 interface FoodItemDetails{
     restriction: string;
 }
@@ -137,7 +138,7 @@ const FoodRestricted = () => {
 
     return (
         <SafeAreaView style={styles.bigcontainer}>
-            <TouchableOpacity style={styles.backButton} onPress={_goBack}>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
                 <BackIcon size="24" color="white" strokeWidth={3} />
             </TouchableOpacity>
 

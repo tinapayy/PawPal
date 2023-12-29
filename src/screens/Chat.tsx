@@ -39,9 +39,9 @@ const Chat = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.backButton}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
-        </Pressable>
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
         <Image
           style={styles.avatar}

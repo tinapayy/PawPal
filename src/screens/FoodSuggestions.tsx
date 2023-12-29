@@ -2,6 +2,8 @@ import * as React from 'react';
 import { SafeAreaView, FlatList, ScrollView, ImageBackground, Text, StyleSheet, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 import {ArrowLeftIcon as BackIcon} from 'react-native-heroicons/solid';
+import BottomNavbar from '../components/BottomNavBar';
+import { useNavigation } from '@react-navigation/native';
 
 const FoodSuggestions = () => {
 const appleImage = require('../images/apple.jpg');
@@ -65,10 +67,10 @@ const foodData = [
 ];
 
   const [value, setValue] = React.useState('');
-  const _goBack = () => console.log('Went back');
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.bigcontainer}>
-    <TouchableOpacity style={styles.backButton} onPress={_goBack}>
+    <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
           <BackIcon size="24" color="white" strokeWidth={3}/>
         </TouchableOpacity>
     <View style={styles.header}>
@@ -111,7 +113,7 @@ const foodData = [
       )}
     />
     </View>
-
+        
     </SafeAreaView>
   );
 };

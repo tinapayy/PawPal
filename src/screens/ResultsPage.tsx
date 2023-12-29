@@ -20,29 +20,30 @@ import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 
+
 const screenWidth = Dimensions.get('window').width;
 
 const clinics = [
   {
     id: '1',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
+    name: 'Rebadulla Animal Care',
+    address: 'Commission, Civil St., Jaro, Iloilo City',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
+    name: 'Cornerstone Animal Hospital',
+    address: 'Jalandoni St., Jaro, Iloilo City',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
   {
     id: '3',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
+    name: 'Dr. Paws Veterinary Clinic',
+    address: 'Jaro, Iloilo City',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
@@ -59,7 +60,7 @@ const clinics = [
     id: '5',
     name: 'Rebadulla Animal Hospital',
     address: '123 Main St, City, Country',
-    isOpen: true,
+    isOpen: false,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
@@ -75,7 +76,7 @@ const clinics = [
     id: '7',
     name: 'Rebadulla Animal Hospital',
     address: '123 Main St, City, Country',
-    isOpen: true,
+    isOpen: false,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
@@ -97,6 +98,7 @@ const ClinicCard = ({clinicInfo, onPress}) => {
     // Navigate to the clinic profile screen and pass clinicInfo
     navigation.navigate('ClinicProfile', {clinicInfo});
   };
+
   return (
     <TouchableOpacity onPress={handleClinicPress}>
       <View style={styles.card}>
@@ -115,6 +117,21 @@ const ClinicCard = ({clinicInfo, onPress}) => {
 };
 
 const ResultsPage = () => {
+  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
+  const [filteredClinics, setFilteredClinics] = useState(clinics); // Replace with actual filtered clinics from the search bar]
+  
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+
+    // Filter clinics based on search query
+    const filtered = clinics.filter(
+      (clinic) =>
+        clinic.name.toLowerCase().includes(text.toLowerCase()) ||
+        clinic.address.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredClinics(filtered);
+  };
+  
   const navigation = useNavigation();
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -143,24 +160,24 @@ const ResultsPage = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headercontainer}>
-        <View style={styles.headercontent}>
-          <View style={styles.headertextandicon}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>Results Found</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter text here"
-              placeholderTextColor="white"
-            />
-          </View>
-          <View style={styles.userheadercontent}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ProfileDetails')}>
-              {/* <User size="50" color="orange" strokeWidth={10} /> */}
-              <Image
+        <View style={styles.headercontainer}>
+            <View style={styles.headercontent}>
+                <View style={styles.headertextandicon}>
+                    <TouchableOpacity onPress={_goBack}>
+                        <BackIcon size="35" color="#ff8d4d" strokeWidth={10}/>           
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}>Results Found</Text>
+                    <TextInput style={styles.input}    
+                    placeholder="Search Clinics..."
+                    onChangeText={handleSearch}
+                    value={searchQuery}
+                    placeholderTextColor="white"
+                    />
+                </View>
+                <View style={styles.userheadercontent}>
+                    <TouchableOpacity onPress={_goBack}>
+              <TouchableOpacity onPress={() => navigation.navigate('ProfileDetails')}>
+                <Image
                 source={
                   profilePicture
                     ? {uri: profilePicture}
@@ -168,22 +185,19 @@ const ResultsPage = () => {
                 }
                 style={{width: 50, height: 50, borderRadius: 50}}
               />
-            </TouchableOpacity>
-          </View>
+              </TouchableOpacity>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
-      </View>
-      <View style={styles.scrollcontainer}>
-        <FlatList
-          data={clinics}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <ClinicCard
-              clinicInfo={item}
-              onPress={() => handleClinicPress(item)}
-            />
-          )}
-        />
-      </View>
+    <View style={styles.scrollcontainer}>
+    <FlatList
+      data={filteredClinics}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <ClinicCard clinicInfo={item} onPress={() => handleClinicPress(item)} />
+      )}
+    />
     </View>
   );
 };

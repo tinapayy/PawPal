@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React from 'react';
@@ -11,7 +10,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Card, Avatar } from 'react-native-paper';
-// import Video from 'react-native-video';
 import { useNavigation } from '@react-navigation/native';
 
 const userPosts = [
@@ -19,20 +17,19 @@ const userPosts = [
     id: 1,
     username: 'Kristina V. Celis',
     postTime: 'Just Now',
-    profilePicture: require('../images/userIcon.png'), // profile icon
+    profilePicture: require('../images/userIcon.png'), 
     content:
       "When your puppy's growth slows, you should start switching to adult food. first user post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    image: require('../images/forum_dog.jpg'), // post image
-    // video: require('../images/dog_vid2.mp4'),
+    image: require('../images/forum_dog.jpg'), 
   },
   {
     id: 2,
     username: 'Lee Ji Eun',
     postTime: '1 hour ago',
-    profilePicture: require('../images/userIcon3.png'), // Path to profile icon
+    profilePicture: require('../images/userIcon3.png'), 
     content:
       "The more you know about your pet's health and nutrition needs, the better you'll be able to take care of them.",
-    image: require('../images/forum_cat.jpg'), // Path to post image
+    image: require('../images/forum_cat.jpg'), 
   },
   {
     id: 3,
@@ -107,7 +104,7 @@ const ForumPage = () => {
                 <View style={styles.message}>
                   <TouchableOpacity style={styles.messageIcon} 
                   onPress={() => {
-                      console.log('Message icon pressed'); //name directs mesage
+                      console.log('Message icon pressed'); 
                       navigation.navigate('MessagePage');
                     }}
                   >
@@ -142,12 +139,9 @@ const styles = StyleSheet.create({
     height: 200,
   },
   header: {
-    // position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // margin: 'auto',
-    // marginTop: 5,
     bottom: 5,
     left: 30,
   },
@@ -156,16 +150,10 @@ const styles = StyleSheet.create({
     height: 70,
     bottom: 5,
     objectFit: 'contain',
-    // marginRight: -100,
     paddingHorizontal: 10,
-    // borderRadius: 25,
     position: 'relative',
-    // justifyContent: 'center',
   },
   imageHeader1: {
-    // width: 50,
-    // height: 50,
-    // borderRadius: 25,
     position: 'relative',
     bottom: 5,
     top: 20,
@@ -174,12 +162,9 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 14,
     left: -57,
-    // fontWeight: 'bold',
-    // marginLeft: 12,
   },
   card: {
     margin: 19,
-    // borderBlockColor: '#F87000',
   },
   cardContent: {
     flexDirection: 'column',
@@ -199,18 +184,12 @@ const styles = StyleSheet.create({
   },
   message: {
     marginLeft: 'auto',
-    // flexDirection: 'row',
     position: 'absolute',
   },
   messageIcon: {
     color: '#F87000',
-    // flexDirection: 'row',
-    // marginLeft:10,
-    // position: 'absolute',
     top: 2,
-    // right: 135,
     left: 50,
-    // paddingRight: 30,
   },
   userName: {
     fontSize: 16,
@@ -223,7 +202,6 @@ const styles = StyleSheet.create({
   },
   postText: {
     fontSize: 14,
-    // marginTop: 8,
     textAlign: 'justify',
     fontFamily: 'Poppins',
     color: '#000',

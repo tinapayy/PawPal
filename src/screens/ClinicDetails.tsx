@@ -1,46 +1,10 @@
-import React, {useState, Component} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  useColorScheme,
-  View,
-  TouchableOpacity,
-  Image,
-  Button,
-  Platform,
-  FlatList,
-  Alert,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-  PermissionsAndroid,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import {CheckBox, Input} from 'react-native-elements';
-
-import {launchImageLibrary, ImageLibraryOptions} from 'react-native-image-picker';
+import React, {useState} from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert, StyleProp, ViewStyle, TextStyle, } from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
-import {faImage} from '@fortawesome/free-solid-svg-icons';
-import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
-import Geolocation from 'react-native-geolocation-service';
-import MapView from 'react-native-maps';
-
+import {faCirclePlus, faImage, faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import { FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
-
 import {useNavigation} from '@react-navigation/native';
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -104,7 +68,7 @@ const PawPalApp = () => {
     }
   }
 
-
+  {/* CONCERN: CLEARING THE WHOLE PAGE or GOING TO HOME? */}
   const handleButton2Press = () => {
     Alert.alert('Update Cancelled');
   };
@@ -162,6 +126,7 @@ const PawPalApp = () => {
     });
   };
 
+  {/* CONCERN: LOCATION IMPLEMENTATION */}
   const handleIconPress = () => {
     Alert.alert('Google Map API to be implemented :>');
   };
@@ -307,10 +272,13 @@ const PawPalApp = () => {
                 />
               </TouchableOpacity>
 
+
+
+              {/* CONCERN: ADDING MORE TAGS */}
               {isInputVisible && (
                 <View>
                   <TextInput
-                    style={{color: '#ff8700', fontSize: 15, marginLeft: 15}}
+                    style={{color: '#5A2828', fontSize: 15, marginLeft: 15, backgroundColor: '#F1D5C6', borderRadius: 10, marginVertical: 5,}}
                     placeholder="Enter"
                     value={inputText}
                     onChangeText={handleInputChange}
@@ -319,9 +287,12 @@ const PawPalApp = () => {
                     <Text
                       style={{
                         marginLeft: 20,
-                        color: 'black',
+                        color: 'white',
                         textDecorationLine: 'underline',
                         fontSize: 13,
+                        backgroundColor: '#ff8700',
+                        borderRadius: 10,
+                        textAlign: 'center',
                       }}>
                       Save
                     </Text>
@@ -358,6 +329,8 @@ const PawPalApp = () => {
                       <View style={styles.bg}></View>
                     )}
                   </View>
+
+                  {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
                   {selectedDays.includes(day) && (
                     <TextInput
@@ -379,7 +352,7 @@ const PawPalApp = () => {
           </View>
 
           <Text style={styles.loc}>Location</Text>
-
+          
           <TouchableOpacity onPress={handleIconPress}>
             <FontAwesomeIcon
               icon={faLocationDot}

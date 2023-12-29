@@ -2,7 +2,7 @@ import React, { useState, Component } from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
+  Dimensions,
   StyleSheet,
   Text,
   TextInput,
@@ -39,10 +39,9 @@ import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { BackgroundImage } from 'react-native-elements/dist/config';
 import ModalDropdown from 'react-native-modal-dropdown';
 
-import { useNavigation } from '@react-navigation/native';
+
 
 const ClinicProfile = () => {
-    const navigation = useNavigation();
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -52,22 +51,35 @@ const ClinicProfile = () => {
 
     const handleIconPress = () => {
         Alert.alert('Google Map API to be implemented :>')
-      };  
+      };
+      
+      const clinicDetails = {
+        id: 1,
+        imageSource: require('../images/image_29.png'),
+        name: 'Cornerstone Animal Hospital and Veterinary Supply',
+        phoneNo: '0917 633 8278',
+        storeHours1: 'Monday -- 8:00 AM to 6:00 PM',
+        storeHours2: 'Tuesday -- CLOSED',
+        storeHours3: 'Wednesday -- 8:00 AM to 6:00 PM',
+        storeHours4: 'Thursday -- 8:00 AM to 6:00 PM',
+        storeHours5: 'Friday -- 8:00 AM to 6:00 PM',
+        storeHours6: 'Saturday -- 8:00 AM to 6:00 PM',
+        storeHours7: 'Sunday -- 8:00 AM to 6:00 PM',
+        telNo: '(033) 503-29-12',
+        services: ['Grooming', 'Surgery', 'Consultation', 'Pharmacy'] ,
+        userDetails: 'Veterinary services, grooming for dogs and cats and pet supplies.',
+      };
 
     return(
-        <SafeAreaView style = {{backgroundColor: 'orange'}}>
+        <SafeAreaView style = {{backgroundColor: 'orange', width: Dimensions.get('window').width, height: Dimensions.get('window').heigh}}>
             <View>
                 <View style = {styles.icon}>
                 <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('SettingsPage')}
-                    >
                 <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}}/>
-                </TouchableOpacity>
                 </View>
                 
                 <View>
-                    <ImageBackground source = {require('../images/image_29.png')} resizeMode = 'stretch'
+                    <ImageBackground source = {clinicDetails.imageSource} resizeMode = 'stretch'
                     style = {{
                         flex: 1,
                         alignItems: 'center',
@@ -101,7 +113,7 @@ const ClinicProfile = () => {
                 
                 <Text
                     style = {{color: 'black', fontSize: 30, fontFamily: 'Poppins-Bold', marginTop: 30, marginLeft: 20}}>
-                    Cornerstone Animal Hospital and Veterinary Supply
+                    {clinicDetails.name}
                 </Text>
 
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -110,7 +122,7 @@ const ClinicProfile = () => {
                     color: '#FF8D4D'
                 }}/>
                 <Text style = {{color: '#ff8d4d', fontSize: 18, fontFamily: 'Poppins-Medium', marginLeft: 7}}>
-                    0917 633 8278
+                    {clinicDetails.phoneNo}
                 </Text>
                 </View>
 
@@ -130,96 +142,66 @@ const ClinicProfile = () => {
                     </TouchableOpacity>
                     {isDropdownOpen && (
                     <View style={styles.dropdown}>
-                    <Text>Monday -- 8:00 AM to 6:00 PM</Text>
-                    <Text>Tuesday -- CLOSED</Text>
-                    <Text>Wednesday -- 8:00 AM to 6:00 PM</Text>
-                    <Text>Thursday -- 8:00 AM to 6:00 PM</Text>
-                    <Text>Friday -- 8:00 AM to 6:00 PM</Text>
-                    <Text>Saturday -- 8:00 AM to 6:00 PM</Text>
-                    <Text>Sunday -- 8:00 AM to 6:00 PM</Text>
+                    <Text>{clinicDetails.storeHours1}</Text>
+                    <Text>{clinicDetails.storeHours2}</Text>
+                    <Text>{clinicDetails.storeHours3}</Text>
+                    <Text>{clinicDetails.storeHours4}</Text>
+                    <Text>{clinicDetails.storeHours5}</Text>
+                    <Text>{clinicDetails.storeHours6}</Text>
+                    <Text>{clinicDetails.storeHours7}</Text>
                     </View>
                 )}
+                        </View>
+                    </View>
                 </View>
-            </View>
-        </View>
 
                 <View style = {{flexDirection: 'row', margin: 10, justifyContent: 'flex-start'}}>
                 <FontAwesomeIcon icon={faPhone} size = {23} style = {{
                     color: '#FF8D4D'
                 }} />
                 <Text style = {{color: '#ff8d4d', fontSize: 18, fontFamily: 'Poppins-Medium', marginLeft: 7}}>
-                    (033) 503-29-12
+                    {clinicDetails.telNo}
                 </Text>
                 </View>
 
                 <Text style = {{color: 'grey', fontSize: 24, marginLeft: 10, marginTop: 10}}>
                     Services
                 </Text>
-            <View style = {{flexDirection: 'row', justifyContent: 'space-evenly', margin: 10}}>
-                <Text style = {{
-                    display: 'flex',
-                    justifyContent:'flex-start',
-                    color: 'black', 
-                    textAlign: 'center', 
-                    backgroundColor:'#f1d5c5',
-                    width: 100, 
-                    opacity: 0.5, 
-                    borderRadius: 20, 
-                    padding: 10,
-                    margin: 10,
-                    fontFamily: 'Poppins-Medium',
-                    }} >
-                    Grooming
-                </Text>
-
-                <Text style = {{
-                    display: 'flex',
-                    justifyContent:'flex-start',
-                    color: 'black', 
-                    textAlign: 'center', 
-                    backgroundColor:'#f1d5c5',
-                    width: 100, 
-                    opacity: 0.5, 
-                    borderRadius: 20, 
-                    padding: 10,
-                    margin: 10,
-                    fontFamily: 'Poppins-Medium'
-                    }} >
-                    Surgery
-                </Text>
-
-                <Text style = {{
-                    display: 'flex',
-                    justifyContent:'flex-start',
-                    color: 'black', 
-                    textAlign: 'center', 
-                    backgroundColor:'#f1d5c5',
-                    width: 100, 
-                    opacity: 0.5, 
-                    borderRadius: 20, 
-                    padding: 10,
-                    margin: 10,
-                    fontSize: 12,
-                    fontFamily: 'Poppins-Medium'
-                    }} >
-                    Consultation
-                </Text>
-
-                <Text style = {{
-                    display: 'flex',
-                    justifyContent:'flex-start',
-                    color: 'black', 
-                    textAlign: 'center', 
-                    backgroundColor:'#f1d5c5',
-                    width: 100, 
-                    opacity: 0.5, 
-                    borderRadius: 20, 
-                    padding: 10,
-                    margin: 10,
-                    fontFamily: 'Poppins-Medium'
-                    }} >
-                    Pharmacy
-                </Text>
+            <View style = {{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', margin: 10}}>
+                {clinicDetails.services.map((service, index) => (
+                // <Text style = {{
+                //     display: 'flex',
+                //     justifyContent:'flex-start',
+                //     color: 'black', 
+                //     textAlign: 'center', 
+                //     backgroundColor:'#f1d5c5',
+                //     width: 100, 
+                //     opacity: 0.5, 
+                //     borderRadius: 20, 
+                //     padding: 10,
+                //     margin: 10,
+                //     fontFamily: 'Poppins-Medium',
+                //     }} >
+                //         {service}
+                // </Text>
+                <View key={index} style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    margin: 5,
+                }}>
+                    <Text style={{
+                        color: 'black',
+                        textAlign: 'center',
+                        backgroundColor: '#f1d5c5',
+                        padding: 10,
+                        borderRadius: 20,
+                        fontFamily: 'Poppins-Medium',
+                    }}>
+                        {service}
+                    </Text>
+                </View>
+            ))}
             </View>
 
                 <View>
@@ -227,8 +209,8 @@ const ClinicProfile = () => {
                 style = {{justifyContent: 'center', alignItems: 'center',  margin: 10, width: 1000}}/>
                 </View>
 
-            <Text style = {{color: 'black', marginLeft: 10, fontSize: 20}}>
-            Veterinary services, grooming for dogs and cats and pet supplies.
+            <Text style = {{color: 'black', marginLeft: 10, fontSize: 16, fontFamily: 'Poppins-Semi'}}>
+                {clinicDetails.userDetails}
             </Text>
 
             <Text style = {{color: '#ff8d4d', 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, Pressable, Text, ImageBackground, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import {BgSvg} from './src/images';
 
 const GettingStarted2 = () => {
   const navigation = useNavigation();
@@ -9,7 +8,7 @@ const GettingStarted2 = () => {
     <View>
     <View style={styles.container1}>
     <ImageBackground
-        source={require('../images/onboarding_bg1.png')} // Replace with the correct image file path
+        source={require('../images/onboarding_bg1.png')} 
         style={styles.bgImage} >
 
     </ImageBackground>
@@ -20,7 +19,7 @@ const GettingStarted2 = () => {
       style={({ pressed }) => [
         styles.SignInBtn,
         {
-          backgroundColor: pressed ? 'lightgray' : 'white', // Change color when pressed
+          backgroundColor: pressed ? 'lightgray' : 'white', 
           borderColor: pressed ? '#FFAC4E' : '#FFAC4E',
           borderWidth: 3
         },
@@ -37,7 +36,7 @@ const GettingStarted2 = () => {
       style={({ pressed }) => [
         styles.SignUpBtn,
         {
-          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
         },
       ]}
       onPress={() => {
@@ -68,13 +67,13 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent: 'center',
     top: "390%",
-    borderRadius: 20, // Add rounded corners
+    borderRadius: 20, 
     paddingHorizontal: 90,
   },
   SignUpView: {
     alignItems:'center',
     justifyContent: 'center',
-    borderRadius: 20, // Add rounded corners
+    borderRadius: 20, 
     paddingHorizontal: "50%",
     top: "400%",
 

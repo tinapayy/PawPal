@@ -9,12 +9,10 @@ import { UserCircleIcon as UserIcon,
 
 const handleCheck = () => {
   console.log('Check button pressed');
-  // Add your check button logic here
 };
 
 const handleX = () => {
   console.log('X button pressed');
-  // Add your X button logic here
 };
 
 
@@ -272,7 +270,7 @@ const styles = StyleSheet.create({
   },
   button: {
     minWidth: 80,
-    marginHorizontal: 4, // Add spacing between buttons
+    marginHorizontal: 4, 
     borderRadius: 40,
   },
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Dimensions, TextInput} from 'react-native';
 
 import { ArrowLeftIcon as BackIcon,
@@ -11,24 +11,24 @@ const screenWidth = Dimensions.get('window').width;
 const clinics = [
   {
     id: '1',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
+    name: 'Rebadulla Animal Care',
+    address: 'Commission, Civil St., Jaro, Iloilo City',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
   {
     id: '2',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
+    name: 'Cornerstone Animal Hospital',
+    address: 'Jalandoni St., Jaro, Iloilo City',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
   {
     id: '3',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
+    name: 'Dr. Paws Veterinary Clinic',
+    address: 'Jaro, Iloilo City',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
@@ -45,7 +45,7 @@ const clinics = [
     id: '5',
     name: 'Rebadulla Animal Hospital',
     address: '123 Main St, City, Country',
-    isOpen: true,
+    isOpen: false,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
@@ -61,7 +61,7 @@ const clinics = [
     id: '7',
     name: 'Rebadulla Animal Hospital',
     address: '123 Main St, City, Country',
-    isOpen: true,
+    isOpen: false,
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
@@ -83,6 +83,7 @@ const ClinicCard = ({ clinicInfo, onPress }) => {
     // Navigate to the clinic profile screen and pass clinicInfo
     navigation.navigate('ClinicProfile', { clinicInfo });
   };
+
   return (
     <TouchableOpacity onPress={handleClinicPress}>
       <View style={styles.card}>
@@ -101,6 +102,21 @@ const ClinicCard = ({ clinicInfo, onPress }) => {
 };
 
 const ResultsPage = () => {
+  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
+  const [filteredClinics, setFilteredClinics] = useState(clinics); // Replace with actual filtered clinics from the search bar]
+  
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+
+    // Filter clinics based on search query
+    const filtered = clinics.filter(
+      (clinic) =>
+        clinic.name.toLowerCase().includes(text.toLowerCase()) ||
+        clinic.address.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredClinics(filtered);
+  };
+  
   const navigation = useNavigation();
   const handleClinicPress = (clinic) => {
     // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
@@ -116,7 +132,9 @@ const ResultsPage = () => {
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Results Found</Text>
                     <TextInput style={styles.input}    
-                    placeholder="Enter text here"
+                    placeholder="Search Clinics..."
+                    onChangeText={handleSearch}
+                    value={searchQuery}
                     placeholderTextColor="white"
                     />
                 </View>
@@ -131,7 +149,7 @@ const ResultsPage = () => {
         </View>
     <View style={styles.scrollcontainer}>
     <FlatList
-      data={clinics}
+      data={filteredClinics}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <ClinicCard clinicInfo={item} onPress={() => handleClinicPress(item)} />

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert, StyleProp, ViewStyle, TextStyle, } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert, StyleProp, ViewStyle, TextStyle, FlatList} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus, faImage, faLocationDot} from '@fortawesome/free-solid-svg-icons';
+import {faCirclePlus, faImage, faLocationDot, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import { FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
@@ -18,9 +18,10 @@ const PawPalApp = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [user, setUser] = useState(null);
-  const [number, onChangeNumber] = useState('');
+  const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [tagsInput, setTagsInput] = useState([]);
 
   const toggleDaySelection = (day: string) => {
     if (selectedDays.includes(day)) {
@@ -47,7 +48,7 @@ const PawPalApp = () => {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
             picture: selectedImage,
-            services: inputText,
+            services: tagsInput,
             phoneInfo: number,
             about: description,
             storeHours: selectedDays,
@@ -68,9 +69,8 @@ const PawPalApp = () => {
     }
   }
 
-  {/* CONCERN: CLEARING THE WHOLE PAGE or GOING TO HOME? */}
-  const handleButton2Press = () => {
-    Alert.alert('Update Cancelled');
+  const exitClinicEdit = () => {
+    navigation.navigate('HomePage');
   };
 
   interface AppButtonProps {
@@ -91,18 +91,18 @@ const PawPalApp = () => {
   );
 
   const [isInputVisible, setInputVisible] = useState(false);
-  const [inputText, setInputText] = useState('');
 
   const handleToggleInput = () => {
     setInputVisible(!isInputVisible);
+    handleTagsChange(tags);
   };
 
-  const handleInputChange = (text: React.SetStateAction<string>) => {
-    setInputText(text);
+  const handleTagsChange = (updatedTags) => {
+    setTagsInput(updatedTags);
   };
 
   const handleSaveInput = () => {
-    console.log('Input Text: ' + inputText);
+    console.log('Input Text: ' + tagsInput);
     setInputVisible(false);
   };
 
@@ -125,6 +125,21 @@ const PawPalApp = () => {
       }
     });
   };
+
+    const [tags, setTags] = useState([]);
+    const [tagVal, setTagVal] = useState('');
+  
+    function addTag() {
+      if (tagVal.trim() !== '') {
+        setTags([...tags, tagVal]);
+        setTagVal(''); // Clear the input field after adding a tag
+      }
+    }
+  
+    function removeTag(indexToRemove) {
+      const updatedTags = tags.filter((_, index) => index !== indexToRemove);
+      setTags(updatedTags);
+    }
 
   {/* CONCERN: LOCATION IMPLEMENTATION */}
   const handleIconPress = () => {
@@ -260,7 +275,7 @@ const PawPalApp = () => {
             )}
           </TouchableOpacity>
 
-          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+          <View style={{flexDirection: 'row', alignItems: 'flex-end' ,flexWrap:'wrap'}}>
             <Text style={styles.services}>Services</Text>
 
             <View>
@@ -277,13 +292,34 @@ const PawPalApp = () => {
               {/* CONCERN: ADDING MORE TAGS */}
               {isInputVisible && (
                 <View>
-                  <TextInput
-                    style={{color: '#5A2828', fontSize: 15, marginLeft: 15, backgroundColor: '#F1D5C6', borderRadius: 10, marginVertical: 5,}}
-                    placeholder="Enter"
-                    value={inputText}
-                    onChangeText={handleInputChange}
+                <View style={styles.tagsContainer}>
+                  <FlatList
+                    data={tags}
+                    horizontal
+                    renderItem={({ item, index }) => (
+                      <View style={styles.tagitems}>
+                        <Text>{item}</Text>
+                        <TouchableOpacity onPress={() => removeTag(index)}>
+                          <FontAwesomeIcon
+                            icon={faTimesCircle}
+                            size={25}
+                            style={{ color: '#ff8700', marginLeft: 5 }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
                   />
-                  <TouchableOpacity onPress={handleSaveInput}>
+                </View>
+                <View>
+                  <TextInput
+                    value={tagVal}
+                    onChangeText={(text) => setTagVal(text)}
+                    placeholder="Enter service"
+                    onSubmitEditing={addTag}
+                    style={styles.taginput}
+                  />
+                  <TouchableOpacity onPress={addTag}>
                     <Text
                       style={{
                         marginLeft: 20,
@@ -298,6 +334,7 @@ const PawPalApp = () => {
                     </Text>
                   </TouchableOpacity>
                 </View>
+              </View>
               )}
             </View>
           </View>
@@ -305,7 +342,7 @@ const PawPalApp = () => {
           <Text style={styles.phoneInfo}>Phone Information</Text>
           <TextInput
             style={styles.input}
-            onChangeText={ text => onChangeNumber(text)}
+            onChangeText={text => setNumber(text)}
             value={number}
             keyboardType="numeric"
           />
@@ -390,7 +427,7 @@ const PawPalApp = () => {
             />
             <AppButton
               title="Cancel"
-              onPress={handleButton2Press}
+              onPress={exitClinicEdit}
               buttonStyle={styles.cancel}
               textStyle={styles.cancelText}
             />
@@ -575,6 +612,40 @@ const styles = StyleSheet.create({
   pug: {
     position: 'relative',
     bottom: '10%',
+  },
+
+  tagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
+  },
+  tagitems: {
+    textAlign: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: '#5A2828', 
+    backgroundColor: '#F1D5C6',
+    fontSize: 15, 
+    marginRight: 3,
+    marginVertical: 5,
+    marginLeft: 5,
+    paddingLeft: 10, 
+    borderRadius: 15, 
+    fontWeight: 'bold',
+    
+  },
+  taginput: {
+    textAlign: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 3,
+    marginBottom: 5,
+    color: '#5A2828', 
+    fontSize: 15, 
+    marginLeft: 5, 
+    backgroundColor: '#F1D5C6', 
+    borderRadius: 10, 
+    marginVertical: 5
   },
 });
 

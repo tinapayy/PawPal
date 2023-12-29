@@ -111,7 +111,13 @@ const data3 = [
   },
 ];
 
-const renderItem = ({item}) => {
+const renderItem = ({item, index, navigation}) => {
+  //const navigation = useNavigation();
+
+  const handleSeeMoreClick = () => {
+    navigation.navigate('ClinicProfile');
+  };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -172,7 +178,9 @@ const renderItem = ({item}) => {
             <Text style={{fontSize: 13, fontWeight: 300, color: '#5a2828'}}>
               {item.info2}
             </Text>
-            <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
+            <TouchableOpacity onPress= {handleSeeMoreClick} >
+              <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -470,8 +478,11 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
+                  // onPress={() => {
+                  //   navigation.navigate('ForumPage');
+                  // }}
                   onPress={() => {
-                    navigation.navigate('ForumPage');
+                    navigation.navigate('ClinicDetails');
                   }}
                   >
                   <Text
@@ -527,14 +538,14 @@ const HomePage = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <Carousel
-                data={data1}
-                renderItem={renderItem}
-                sliderWidth={screenWidth}
-                sliderHeight={screenHeight}
-                itemWidth={Math.round(screenWidth * 0.8)}
-                itemHeight={Math.round(screenHeight - 30 * 0.7)}
-              />
+                <Carousel
+                  data={data1}
+                  renderItem={({ item, index }) => renderItem({ item, index, navigation })}
+                  sliderWidth={screenWidth}
+                  sliderHeight={screenHeight}
+                  itemWidth={Math.round(screenWidth * 0.8)}
+                  itemHeight={Math.round(screenHeight - 30 * 0.7)}
+                />
             </View>
           </View>
         </ScrollView>

@@ -45,9 +45,9 @@ const ChoosePet = () => {
           },
         ];
         const newUsers: User[] = [];
-        for (const cod of querySnapshot.docs) {
-          if (cod.data().userId === auth.currentUser?.uid) {
-            const petIds = cod.data().pet;
+        for (const petDoc of querySnapshot.docs) {
+          if (petDoc.data().userId === auth.currentUser?.uid) {
+            const petIds = petDoc.data().pet;
             for (const petId of petIds) {
               const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
               if (petDoc.exists()) {

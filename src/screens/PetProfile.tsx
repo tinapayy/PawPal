@@ -1,26 +1,156 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { RadioButton } from 'react-native-paper';
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image, ImageBackground } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft, faUser, faPaw, faCalendar, faWeight, faPalette, faVenusMars, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import {RadioButton} from 'react-native-paper';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+  Alert,
+} from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faArrowLeft,
+  faUser,
+  faPaw,
+  faCalendar,
+  faWeight,
+  faPalette,
+  faVenusMars,
+  faCirclePlus,
+} from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
+import {
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
+import {
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+} from 'firebase/auth';
+import {
+  addDoc,
+  getDocs,
+  collection,
+  arrayUnion,
+  updateDoc,
+  doc,
+} from 'firebase/firestore';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const PetProfile = () => {
+  const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
   const [petName, setPetName] = useState('');
   const [breed, setBreed] = useState('');
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [color, setColor] = useState('');
   const [checked, setChecked] = useState('null');
+  const [petPicture, setPetPicture] = useState(null);
+
+  const openImagePicker = async () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.error('Image picker error:', response.errorMessage);
+      } else {
+        setPetPicture(response.assets[0].uri);
+      }
+    });
+  };
+
+  const uploadPetPicture = async () => {
+    try {
+      if (!petPicture) {
+        Alert.alert('Please select a picture of your pet');
+        return;
+      }
+
+      const metadata = {
+        contentType: 'image/jpeg', // Adjust the content type based on your image type
+      };
+
+      const storage = FIREBASE_STORAGE;
+      const storageRef = ref(
+        storage,
+        `petPicture/${auth.currentUser?.uid}.jpeg`,
+      );
+
+      // Convert image URI to Blob
+      const response = await fetch(petPicture);
+      const blob = await response.blob();
+
+      // Upload the image to Firebase Storage
+      await uploadBytes(storageRef, blob, metadata);
+
+      // Get the download URL of the uploaded image
+      const imageUrl = await getDownloadURL(storageRef);
+
+      // Update the user profile in Firestore with the new image URL
+      const petRef = await addDoc(collection(db, 'pet'), {
+        name: petName,
+        breed: breed,
+        age: age,
+        weight: weight,
+        color: color,
+        sex: checked,
+        petPicture: imageUrl,
+      });
+      console.log('Document written with ID: ', petRef.id);
+
+      const userQuery = await getDocs(collection(db, 'user'));
+
+      userQuery.forEach(async currentDoc => {
+        if (currentDoc.data().userId === auth.currentUser?.uid) {
+          const userRef = doc(collection(db, 'user'), currentDoc.id);
+
+          try {
+            await updateDoc(userRef, {
+              pet: arrayUnion(petRef.id),
+            });
+
+            Alert.alert('Profile picture updated successfully');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'HomePage'}],
+            });
+          } catch (updateError) {
+            console.error('Error updating profile:', updateError);
+            Alert.alert('Error updating profile. Please try again.');
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      Alert.alert('Error updating profile picture. Please try again.');
+    }
+  };
 
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
-      style={styles.backgroundImage1}
-    >
+      style={styles.backgroundImage1}>
       <View style={styles.container}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}
@@ -31,10 +161,14 @@ const PetProfile = () => {
         </View>
         <View>
           <Image
-            source={require('../images/UserIcon1.png')}
+            source={
+              petPicture
+                ? {uri: petPicture}
+                : require('../images/UserIcon1.png')
+            }
             style={styles.profileImage}
           />
-          <TouchableOpacity style={styles.arrowAdd}>
+          <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
             <FontAwesomeIcon icon={faCirclePlus} style={styles.arrowAdd} />
           </TouchableOpacity>
         </View>
@@ -45,7 +179,7 @@ const PetProfile = () => {
               style={styles.input}
               placeholder="Pet Name"
               value={petName}
-              onChangeText={(text) => setPetName(text)}
+              onChangeText={text => setPetName(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -54,7 +188,7 @@ const PetProfile = () => {
               style={styles.input}
               placeholder="Breed"
               value={breed}
-              onChangeText={(text) => setBreed(text)}
+              onChangeText={text => setBreed(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -63,7 +197,7 @@ const PetProfile = () => {
               style={styles.input}
               placeholder="Age"
               value={age}
-              onChangeText={(text) => setAge(text)}
+              onChangeText={text => setAge(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -72,7 +206,7 @@ const PetProfile = () => {
               style={styles.input}
               placeholder="Weight"
               value={weight}
-              onChangeText={(text) => setWeight(text)}
+              onChangeText={text => setWeight(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -81,7 +215,7 @@ const PetProfile = () => {
               style={styles.input}
               placeholder="Color"
               value={color}
-              onChangeText={(text) => setColor(text)}
+              onChangeText={text => setColor(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -96,7 +230,7 @@ const PetProfile = () => {
               uncheckedColor="#FF8D4D"
             />
             <Text style={styles.maleinput}>Male</Text>
-            <View style={{ marginLeft: -20 }} />
+            <View style={{marginLeft: -20}} />
             <RadioButton
               value="Female"
               status={checked === 'Female' ? 'checked' : 'unchecked'}
@@ -113,22 +247,19 @@ const PetProfile = () => {
               justifyContent: 'space-between',
               paddingHorizontal: 70,
               left: 40,
-            }}
-          >
+            }}>
             <View style={styles.buttonContainerSaveCancel}>
               <View>
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={() => console.log('Save Changes')}
+                  onPress={() => uploadPetPicture()}
                   accessible={true}
-                  accessibilityRole="button"
-                >
+                  accessibilityRole="button">
                   <LinearGradient
                     colors={['#FFAC4E', '#FF6464']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.gradientBackground}
-                  >
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    style={styles.gradientBackground}>
                     <Text style={styles.buttonSave}>Save Changes</Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -138,8 +269,7 @@ const PetProfile = () => {
                   style={styles.cancelButton}
                   onPress={() => console.log('Cancel Changes')}
                   accessible={true}
-                  accessibilityRole="button"
-                >
+                  accessibilityRole="button">
                   <Text style={styles.buttonTextCancel}>Cancel</Text>
                 </TouchableOpacity>
               </View>
@@ -287,7 +417,7 @@ const styles = StyleSheet.create({
     left: -20,
     elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },
@@ -315,9 +445,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 40,
-    elevation: 3, 
+    elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },

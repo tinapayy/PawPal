@@ -48,16 +48,6 @@ const PawPalApp = () => {
       setSelectedDays([...selectedDays, { day, open: '', close: '' }]);
     }
   };
-  
-  const daysOfWeek = [
-    { day: 'Monday', open: '', close: '' },
-    { day: 'Tuesday', open: '', close: '' },
-    { day: 'Wednesday', open: '', close: '' },
-    { day: 'Thursday', open: '', close: '' },
-    { day: 'Friday', open: '', close: '' },
-    { day: 'Saturday', open: '', close: '' },
-    { day: 'Sunday', open: '', close: '' },
-];
 
   const saveClinicInfo = async () => {
     try{
@@ -428,16 +418,20 @@ const PawPalApp = () => {
                   <Text style={styles.text}>{day}</Text>
                   {selectedDays.some((selectedDay) => selectedDay.day === day) && (
                     <TextInput
-                      style={{fontSize: 20, marginLeft: 25, color: '#5A2828', width: 75}}
+                      style={{fontSize: 15, marginLeft: 25, color: '#5A2828', width: 75, textAlign: 'center'}}
                       placeholderTextColor={'#D3D3D3'}
                       placeholder="Open"
                       value={open}
                       onChangeText={(text) => handleOpenHoursChange(day, text)}
                     />
                   )}
+                  <Text
+                    style={{fontSize: 15, color: '#5A2828', fontWeight: 'bold'}}
+                    > - 
+                    </Text>
                   {selectedDays.some((selectedDay) => selectedDay.day === day) && (
                     <TextInput
-                      style={{fontSize: 20, marginLeft: 25, color: '#5A2828', width: 75}}
+                      style={{fontSize: 15, marginLeft: 10, color: '#5A2828', width: 75, textAlign: 'center'}}
                       placeholderTextColor={'#D3D3D3'}
                       placeholder="Close"
                       value={close}
@@ -647,6 +641,7 @@ const styles = StyleSheet.create({
     padding: 3,
     color: '#878787',
     fontFamily: 'Poppins-Regular',
+    width: 130,
   },
   btn: {
     marginLeft: 45,
@@ -678,12 +673,16 @@ const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 5,
     marginBottom: 10,
     borderColor: '#FFAC4E',
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: 'white',
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    marginHorizontal: 5,
+    height: 58,
+    width: 335,
   },
   tagitems: {
     flexDirection: 'row',
@@ -712,6 +711,8 @@ const styles = StyleSheet.create({
     margintop: 10,
     marginBottom: 5,
     fontWeight: 'bold',
+    paddingHorizontal: 5,
+    backgroundColor: '#F1D5C6',
   },
 
   taginput: {
@@ -727,7 +728,6 @@ const styles = StyleSheet.create({
   tagupdatecontainer:{
     flexDirection: 'row',
     alignItems: 'center',
-
   },
 });
 

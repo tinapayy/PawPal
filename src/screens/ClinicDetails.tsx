@@ -2,10 +2,15 @@ import React, {useState} from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert, StyleProp, ViewStyle, TextStyle, FlatList} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus, faImage, faLocationDot, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import {faCirclePlus, 
+        faImage, 
+        faLocationDot, 
+        faTimesCircle,
+        faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import { FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -20,25 +25,39 @@ const PawPalApp = () => {
   const [user, setUser] = useState(null);
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [selectedDays, setSelectedDays] = useState([
+    { day: 'Monday', open: '', close: '' },
+    { day: 'Tuesday', open: '', close: '' },
+    { day: 'Wednesday', open: '', close: '' },
+    { day: 'Thursday', open: '', close: '' },
+    { day: 'Friday', open: '', close: '' },
+    { day: 'Saturday', open: '', close: '' },
+    { day: 'Sunday', open: '', close: '' },
+  ]);
+
   const [tagsInput, setTagsInput] = useState([]);
 
   const toggleDaySelection = (day: string) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays(selectedDays.filter(selectedDay => selectedDay !== day));
+    const existingDay = selectedDays.find((selectedDay) => selectedDay.day === day);
+  
+    if (existingDay) {
+      // Day exists, remove it from the array
+      setSelectedDays(selectedDays.filter((selectedDay) => selectedDay.day !== day));
     } else {
-      setSelectedDays([...selectedDays, day]);
+      // Day doesn't exist, add it to the array with default open and close hours
+      setSelectedDays([...selectedDays, { day, open: '', close: '' }]);
     }
   };
+  
   const daysOfWeek = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
+    { day: 'Monday', open: '', close: '' },
+    { day: 'Tuesday', open: '', close: '' },
+    { day: 'Wednesday', open: '', close: '' },
+    { day: 'Thursday', open: '', close: '' },
+    { day: 'Friday', open: '', close: '' },
+    { day: 'Saturday', open: '', close: '' },
+    { day: 'Sunday', open: '', close: '' },
+];
 
   const saveClinicInfo = async () => {
     try{
@@ -49,7 +68,7 @@ const PawPalApp = () => {
           const updateData = {
             picture: selectedImage,
             services: tagsInput,
-            phoneInfo: number,
+            contactInfo: number,
             about: description,
             storeHours: selectedDays,
           };
@@ -92,9 +111,14 @@ const PawPalApp = () => {
 
   const [isInputVisible, setInputVisible] = useState(false);
 
+  const handleSaveTagInput = () => {
+    handleTagsChange(tags);
+    Alert.alert('Services tags updated successfully');
+    setInputVisible(!isInputVisible);
+  };
+
   const handleToggleInput = () => {
     setInputVisible(!isInputVisible);
-    handleTagsChange(tags);
   };
 
   const handleTagsChange = (updatedTags) => {
@@ -140,6 +164,23 @@ const PawPalApp = () => {
       const updatedTags = tags.filter((_, index) => index !== indexToRemove);
       setTags(updatedTags);
     }
+
+    const handleOpenHoursChange = (day: string, text: string) => {
+      setSelectedDays((prevDays) =>
+        prevDays.map((selectedDay) =>
+          selectedDay.day === day ? { ...selectedDay, open: text } : selectedDay
+        )
+      );
+    };
+    
+    const handleCloseHoursChange = (day: string, text: string) => {
+      setSelectedDays((prevDays) =>
+        prevDays.map((selectedDay) =>
+          selectedDay.day === day ? { ...selectedDay, close: text } : selectedDay
+        )
+      );
+    };
+    
 
   {/* CONCERN: LOCATION IMPLEMENTATION */}
   const handleIconPress = () => {
@@ -275,23 +316,29 @@ const PawPalApp = () => {
             )}
           </TouchableOpacity>
 
-          <View style={{flexDirection: 'row', alignItems: 'flex-end' ,flexWrap:'wrap'}}>
+          <View style={{flexDirection: 'column',flexWrap:'wrap'}}>
+            <View style={{flexDirection: 'row', alignItems: 'flex-end' ,flexWrap:'wrap'}}>
             <Text style={styles.services}>Services</Text>
+            <TouchableOpacity onPress={handleToggleInput}>
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                size={25}
+                style={{color: '#ff8700', marginLeft: 10}}
+              />
+            </TouchableOpacity>
+            </View>
 
-            <View>
-              <TouchableOpacity onPress={handleToggleInput}>
-                <FontAwesomeIcon
-                  icon={faCirclePlus}
-                  size={25}
-                  style={{color: '#ff8700', marginLeft: 10}}
-                />
-              </TouchableOpacity>
-
-
-
+            <View 
+              style={{ justifyContent: 'center',
+                      alignItems: 'flex-end',
+                      marginLeft: 40,
+                      flexWrap:'wrap',
+                      width: 350
+                      }}
+            >
               {/* CONCERN: ADDING MORE TAGS */}
               {isInputVisible && (
-                <View>
+              <View>
                 <View style={styles.tagsContainer}>
                   <FlatList
                     data={tags}
@@ -311,24 +358,34 @@ const PawPalApp = () => {
                     keyExtractor={(item, index) => index.toString()}
                   />
                 </View>
-                <View>
-                  <TextInput
-                    value={tagVal}
-                    onChangeText={(text) => setTagVal(text)}
-                    placeholder="Enter service"
-                    onSubmitEditing={addTag}
-                    style={styles.taginput}
-                  />
-                  <TouchableOpacity onPress={addTag}>
+
+                <View style={styles.tagupdatecontainer}>
+                  <View style={styles.taginputcontainer}>
+                    <TextInput
+                      value={tagVal}
+                      onChangeText={(text) => setTagVal(text)}
+                      placeholder="Enter service"
+                      onSubmitEditing={addTag}
+                      style={styles.taginput}
+                    />
+                    <TouchableOpacity onPress={addTag}>
+                      <FontAwesomeIcon
+                        icon={faCirclePlus}
+                        size={25}
+                        style={{color: '#ff8700', marginLeft: 10}}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  
+                  <TouchableOpacity onPress={handleSaveTagInput}>
                     <Text
                       style={{
-                        marginLeft: 20,
+                        marginLeft: 10,
                         color: 'white',
-                        textDecorationLine: 'underline',
                         fontSize: 13,
                         backgroundColor: '#ff8700',
                         borderRadius: 10,
-                        textAlign: 'center',
+                        padding: 10,
                       }}>
                       Save
                     </Text>
@@ -356,31 +413,35 @@ const PawPalApp = () => {
 
           <Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
-            {daysOfWeek.map((day, index) => (
+            {selectedDays.map(({day, open, close }, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => toggleDaySelection(day)}>
                 <View style={styles.wrap}>
                   <View style={styles.btn}>
-                    {selectedDays.includes(day) && (
+                  {selectedDays.some((selectedDay) => selectedDay.day === day) && (
                       <View style={styles.bg}></View>
                     )}
                   </View>
 
                   {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
-                  {selectedDays.includes(day) && (
+                  {selectedDays.some((selectedDay) => selectedDay.day === day) && (
                     <TextInput
-                      style={{fontSize: 20, marginLeft: 35, color: '#5A2828'}}
+                      style={{fontSize: 20, marginLeft: 25, color: '#5A2828', width: 75}}
                       placeholderTextColor={'#D3D3D3'}
                       placeholder="Open"
+                      value={open}
+                      onChangeText={(text) => handleOpenHoursChange(day, text)}
                     />
                   )}
-                  {selectedDays.includes(day) && (
+                  {selectedDays.some((selectedDay) => selectedDay.day === day) && (
                     <TextInput
-                      style={{fontSize: 20, marginLeft: 40, color: '#5A2828'}}
+                      style={{fontSize: 20, marginLeft: 25, color: '#5A2828', width: 75}}
                       placeholderTextColor={'#D3D3D3'}
                       placeholder="Close"
+                      value={close}
+                      onChangeText={(text) => handleCloseHoursChange(day, text)}
                     />
                   )}
                 </View>
@@ -617,35 +678,56 @@ const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    padding: 5,
     marginBottom: 10,
+    borderColor: '#FFAC4E',
+    borderWidth: 2,
+    borderRadius: 15,
+    backgroundColor: 'white',
   },
   tagitems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    margin: 6,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#FFAC4E',
+    color: '#5A2828', 
+    backgroundColor: '#F1D5C6', 
+    borderRadius: 15, 
+
+    
+  },
+  taginputcontainer: {
     textAlign: 'center',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     color: '#5A2828', 
-    backgroundColor: '#F1D5C6',
     fontSize: 15, 
-    marginRight: 3,
-    marginVertical: 5,
     marginLeft: 5,
-    paddingLeft: 10, 
-    borderRadius: 15, 
+    marginRight: 0,
+    borderRadius: 15,
+    margintop: 10,
+    marginBottom: 5,
     fontWeight: 'bold',
-    
   },
+
   taginput: {
     textAlign: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 3,
-    marginBottom: 5,
     color: '#5A2828', 
     fontSize: 15, 
     marginLeft: 5, 
     backgroundColor: '#F1D5C6', 
     borderRadius: 10, 
-    marginVertical: 5
+  },
+  tagupdatecontainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+
   },
 });
 

@@ -39,7 +39,9 @@ class LogOutModal extends React.Component {
                 <TouchableOpacity
                   onPress={() => {
                     setModalVisible(false); // Close the modal when the button is pressed
-                    auth.signOut();
+                    auth.signOut().then(() => {
+                      console.log('User signed out');
+                    });
                   }}>
                   <Text style={styles.confirmbuttonText}>Log Out</Text>
                 </TouchableOpacity>

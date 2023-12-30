@@ -37,7 +37,6 @@ const CreatePost = () => {
 
   const handleButton1Press = () => {
     uploadPost();
-    Alert.alert('Posted successfully!');
   };
   interface AppButtonProps {
     onPress: () => void;
@@ -98,6 +97,11 @@ const CreatePost = () => {
   const [postText, setPostText] = useState('');
 
   const uploadPost = async () => {
+    if (!postText && !selectedImage) {
+      Alert.alert('Please enter a message or upload a photo');
+      return;
+    }
+
     let post = {
       userId: auth.currentUser?.uid,
       postText: postText,
@@ -108,7 +112,7 @@ const CreatePost = () => {
     if (selectedImage) {
       const storageRef = ref(
         storage,
-        'postPicture/' + selectedImage.split('/').pop() + '.jpeg',
+        'postPicture/' + selectedImage.split('/').pop(),
       );
       const metadata = {
         contentType: 'image/jpeg',
@@ -120,6 +124,7 @@ const CreatePost = () => {
       post.postPicture = imageUrl;
     }
     await setDoc(doc(db, 'forum', Date.now().toString()), post);
+    Alert.alert('Posted successfully!');
   };
 
   return (

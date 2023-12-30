@@ -148,7 +148,7 @@ const FoodAdvisable= () => {
 
   return (
     <SafeAreaView style={styles.bigcontainer}>
-      <TouchableOpacity style={styles.backButton} onPress={_goBack}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
         <BackIcon size="24" color="white" strokeWidth={3} />
       </TouchableOpacity>
 

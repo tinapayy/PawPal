@@ -86,13 +86,12 @@ const Messages = [
 const MessagePage = () => {
   const navigation = useNavigation();
   return (
-    <View style={styles.containerHeader}> 
+    <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{ width: '100%', height: '100%' }}
-      >
+        style={{width: '100%', height: '100%'}}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('home')}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}
@@ -104,24 +103,25 @@ const MessagePage = () => {
         <Container style={styles.container}>
           <FlatList
             data={Messages}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Chat', { userId: item.id })}
-                >
-                <UserInfo>
-                  <UserImgWrapper>
-                    <UserImg source={item.userImage} />
-                  </UserImgWrapper>
-                  <TextSection>
-                    <UserInfoText>
-                      <UserName>{item.userName}</UserName>
-                      <PostTime>{item.messageTime}</PostTime>
-                    </UserInfoText>
-                    <MessageText>{item.messageText}</MessageText>
-                  </TextSection>
-                </UserInfo>
+                  onPress={() =>
+                    navigation.navigate('Chat', {userId: item.id})
+                  }>
+                  <UserInfo>
+                    <UserImgWrapper>
+                      <UserImg source={item.userImage} />
+                    </UserImgWrapper>
+                    <TextSection>
+                      <UserInfoText>
+                        <UserName>{item.userName}</UserName>
+                        <PostTime>{item.messageTime}</PostTime>
+                      </UserInfoText>
+                      <MessageText>{item.messageText}</MessageText>
+                    </TextSection>
+                  </UserInfo>
                 </TouchableOpacity>
               </Card>
             )}

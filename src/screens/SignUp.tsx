@@ -175,12 +175,28 @@ const SignIn = () => {
             </View>
           </View>
         </View>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <Text style={styles.loginText}>
+          Already have an account? <Text style={styles.loginLink}>Log In</Text>
+        </Text>
+      </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  loginText: {
+    alignSelf: 'center',
+    fontSize: 14,
+    top: -180,
+    fontFamily: 'Poppins-Regular',
+  },
+  loginLink: {
+    fontSize: 14,
+    color: '#FFAC4E',
+    fontFamily: 'Poppins-SemiBold',
+  },
   container: {
     flex: 1,
     backgroundColor: 'orange',

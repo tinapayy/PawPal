@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faCircleChevronRight,
   faCircleChevronLeft,
@@ -19,14 +19,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // import addpet from '../components/addpet';
 // import { petData, ownerData } from '../components/addpet';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ViewPropTypes from 'deprecated-react-native-prop-types';
 
-
-import { Card, Avatar } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { getDocs, collection } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import {Card, Avatar} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
 interface Pet {
   id: number;
@@ -54,7 +53,6 @@ const ProfileDetails = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [petDatabase, setPetDatabase] = useState<Pet[]>([
-
     {
       id: 1,
       name: 'Buddy',
@@ -62,7 +60,7 @@ const ProfileDetails = () => {
       color: 'Golden',
       age: '2 months',
       sex: 'Male',
-      weight: '2 kg'
+      weight: '2 kg',
     },
     // {age: '2 months' , sex: 'Male', weight: '2 kg' }
   ]);
@@ -73,9 +71,8 @@ const ProfileDetails = () => {
       username: 'Kristina V. Celis',
       profilePicture: require('../images/userIcon3.png'), // Path to profile icon
       title: 'Pet Owner',
-      description: 'I am an avid pet owner!'
+      description: 'I am an avid pet owner!',
     },
-
   ]);
   useEffect(() => {
     const fetchData = async () => {
@@ -94,15 +91,13 @@ const ProfileDetails = () => {
     fetchData();
   }, []);
 
-
-  const renderCarouselItem = ({ item, index }: { item: Pet; index: number }) => (
+  const renderCarouselItem = ({item, index}: {item: Pet; index: number}) => (
     <View key={item.id} style={styles.boxContainer}>
       <LinearGradient
         colors={['#FFAC4E', '#FF6464']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={[styles.gradientBackground, { height: 150 }]}
-      >
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        style={[styles.gradientBackground, {height: 150}]}>
         <View style={styles.boxContent}>
           <View style={styles.profileText}>
             <Text style={styles.petName}>{item.name}</Text>
@@ -115,8 +110,7 @@ const ProfileDetails = () => {
               onPress={() => {
                 const newIndex = activeIndex > 0 ? activeIndex - 1 : 0;
                 setActiveIndex(newIndex);
-              }}
-            >
+              }}>
               <FontAwesomeIcon
                 icon={faCircleChevronLeft}
                 size={30}
@@ -133,8 +127,7 @@ const ProfileDetails = () => {
                     ? activeIndex + 1
                     : petDatabase.length - 1;
                 setActiveIndex(newIndex);
-              }}
-            >
+              }}>
               <FontAwesomeIcon
                 icon={faCircleChevronRight}
                 size={30}
@@ -168,7 +161,7 @@ const ProfileDetails = () => {
     </View>
   );
 
-  const UserProfileCard = ({ user }: { user: Owner }) => {
+  const UserProfileCard = ({user}: {user: Owner}) => {
     const calculateMargin = (usernameLength: number) => {
       // Your logic for calculating margin based on username length
       // Adjust this based on your specific requirements
@@ -183,7 +176,7 @@ const ProfileDetails = () => {
               <Avatar.Image
                 size={80}
                 source={user.profilePicture}
-              // style={styles.userIcon}
+                // style={styles.userIcon}
               />
             </View>
             <View style={styles.userInfoText}>
@@ -195,13 +188,12 @@ const ProfileDetails = () => {
           <View style={styles.iconContainer}>
             <TouchableOpacity
               style={styles.messageIcon}
-              onPress={() => navigation.navigate('MessagePage')}
-            >
+              onPress={() => navigation.navigate('MessagePage')}>
               <FontAwesomeIcon
                 icon={faMessage}
                 style={[
                   styles.icon,
-                  { marginLeft: calculateMargin(user.username.length) },
+                  {marginLeft: calculateMargin(user.username.length)},
                 ]}
                 size={20}
               />
@@ -209,11 +201,14 @@ const ProfileDetails = () => {
 
             <TouchableOpacity
               style={styles.settingsIcon}
-              onPress={() => navigation.navigate('SettingsPage')}
-            >
+              onPress={() => navigation.navigate('SettingsPage')}>
               <FontAwesomeIcon icon={faCog} style={styles.icon} size={20} />
               <View style={styles.content}>
-                <FontAwesomeIcon icon={faAddressCard} style={styles.icon1} size={20} />
+                <FontAwesomeIcon
+                  icon={faAddressCard}
+                  style={styles.icon1}
+                  size={20}
+                />
                 <Text style={styles.bio}>About the Pet Owner</Text>
                 <Text style={styles.description}>{user.description}</Text>
               </View>
@@ -224,10 +219,9 @@ const ProfileDetails = () => {
     );
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ padding: 0, flex: 1 }}>
+      <View style={{padding: 0, flex: 1}}>
         <View style={styles.container1}>
           <Image
             source={require('../images/profile.png')}
@@ -244,19 +238,18 @@ const ProfileDetails = () => {
             top: 405,
             height: 900,
             elevation: 20,
-          }}
-        >
+          }}>
           <Carousel
             data={petDatabase}
             renderItem={renderCarouselItem}
             sliderWidth={360}
             itemWidth={360}
-            onSnapToItem={(index) => setActiveIndex(index)}
+            onSnapToItem={index => setActiveIndex(index)}
           />
           <Pagination
             dotsLength={petDatabase.length}
             activeDotIndex={activeIndex}
-            containerStyle={{ paddingTop: 10 }}
+            containerStyle={{paddingTop: 10}}
             dotStyle={{
               width: 10,
               height: 10,
@@ -269,7 +262,7 @@ const ProfileDetails = () => {
             inactiveDotOpacity={0.6}
             inactiveDotScale={0.8}
           />
-          {ownerDatabase.map((owner) => (
+          {ownerDatabase.map(owner => (
             <React.Fragment key={owner.id}>
               <UserProfileCard user={owner} />
             </React.Fragment>
@@ -283,7 +276,6 @@ const ProfileDetails = () => {
 ProfileDetails.propTypes = {
   // Add propTypes if needed
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -371,17 +363,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: -35,
   },
-  bottomContainer: {
-
-  },
+  bottomContainer: {},
   bottomTexts: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     top: 20,
-
   },
   petDetail: {
-    fontFamily: "Poppins",
+    fontFamily: 'Poppins',
     fontSize: 18,
     // justifyContent: 'space-between',
   },
@@ -393,13 +382,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignContent: 'center',
     justifyContent: 'center',
-
   },
   boxContain: {
     flexDirection: 'row',
     top: 30,
     justifyContent: 'space-between',
-
   },
   horizontalLine: {
     alignSelf: 'center',
@@ -470,8 +457,6 @@ const styles = StyleSheet.create({
     left: -240,
     zIndex: 999,
     position: 'relative',
-
-
   },
   icon1: {
     color: '#F87000',
@@ -480,7 +465,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     right: 20,
     position: 'relative',
-
   },
 
   content: {
@@ -494,8 +478,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     left: 20,
     // textDecorationLine: '#F87000',
-
-
   },
 });
 

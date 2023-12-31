@@ -40,6 +40,7 @@ import { BackgroundImage } from 'react-native-elements/dist/config';
 import ModalDropdown from 'react-native-modal-dropdown';
 
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import { getDocs, collection, doc } from 'firebase/firestore';
 
 
 const ClinicProfile = () => {
@@ -74,24 +75,22 @@ const ClinicProfile = () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'user'));
                 querySnapshot.forEach(doc => {
-                    const userData = doc.data();
-                    if (userData.userId === auth.currentUser?.uid && userData.userType === 'clinic') {
-                        setCurrentName(userData.username);
-                        setCurrentDescription(userData.about);
-                        setCurrentImage(userData.picture);
-                        setCurrentNumber(userData.contactNumber);
-                        setCurrentStoreHours(userData.storeHours);
-                        setCurrentServices(userData.services);
+                    if (doc.data().userId === auth.currentUser?.uid) {
+                        setCurrentName(doc.data().username);
+                        setCurrentDescription(doc.data().about);
+                        setCurrentImage(doc.data().picture);
+                        setCurrentNumber(doc.data().contactInfo);
+                        setCurrentStoreHours(doc.data().storeHours);
+                        setCurrentServices(doc.data().services);
                     }
                 });
             } catch (error) {
                 console.log(error);
             }
         };
-    
-        // Call the fetchData function
+        
         fetchData();
-    }, [auth.currentUser?.uid]); // Ensure that the effect runs when the user ID changes
+    }, []);
     
 
     const handleIconPress = () => {

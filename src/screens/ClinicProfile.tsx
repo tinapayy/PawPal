@@ -123,7 +123,12 @@ const ClinicProfile = () => {
                 </View>
                 
                 <View>
-                    <ImageBackground source = {currentImage} resizeMode = 'stretch'
+                    <ImageBackground 
+                        source = {
+                        currentImage 
+                            ? {uri: currentImage}
+                            : require('../images/userIcon.png')} 
+                        resizeMode = 'stretch'
                     style = {{
                         flex: 1,
                         alignItems: 'center',

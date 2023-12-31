@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { useState, Component, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -39,15 +39,60 @@ import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { BackgroundImage } from 'react-native-elements/dist/config';
 import ModalDropdown from 'react-native-modal-dropdown';
 
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
 
 const ClinicProfile = () => {
+
+    const auth = FIREBASE_AUTH;
+    const db = FIREBASE_DB;
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
+
+    const [currentName, setCurrentName] = useState('');
+    const [currentImage, setCurrentImage] = useState(null);
+    const [currentnumber, setCurrentNumber] = useState('');
+    const [currentdescription, setCurrentDescription] = useState('');
+    const [currentstorehours, setCurrentStoreHours] = useState([
+        { day: 'Monday', open: '', close: '' },
+        { day: 'Tuesday', open: '', close: '' },
+        { day: 'Wednesday', open: '', close: '' },
+        { day: 'Thursday', open: '', close: '' },
+        { day: 'Friday', open: '', close: '' },
+        { day: 'Saturday', open: '', close: '' },
+        { day: 'Sunday', open: '', close: '' },
+    ]);
+
+    const [currentservices, setCurrentServices] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'user'));
+                querySnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    if (userData.userId === auth.currentUser?.uid && userData.userType === 'clinic') {
+                        setCurrentName(userData.username);
+                        setCurrentDescription(userData.about);
+                        setCurrentImage(userData.picture);
+                        setCurrentNumber(userData.contactNumber);
+                        setCurrentStoreHours(userData.storeHours);
+                        setCurrentServices(userData.services);
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+    
+        // Call the fetchData function
+        fetchData();
+    }, [auth.currentUser?.uid]); // Ensure that the effect runs when the user ID changes
+    
 
     const handleIconPress = () => {
         Alert.alert('Google Map API to be implemented :>')
@@ -71,7 +116,7 @@ const ClinicProfile = () => {
       };
 
     return(
-        <SafeAreaView style = {{backgroundColor: 'orange', width: Dimensions.get('window').width, height: Dimensions.get('window').heigh}}>
+        <SafeAreaView style = {{backgroundColor: 'orange', width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
             <View>
                 <View style = {styles.icon}>
                 <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
@@ -79,7 +124,7 @@ const ClinicProfile = () => {
                 </View>
                 
                 <View>
-                    <ImageBackground source = {clinicDetails.imageSource} resizeMode = 'stretch'
+                    <ImageBackground source = {currentImage} resizeMode = 'stretch'
                     style = {{
                         flex: 1,
                         alignItems: 'center',
@@ -113,7 +158,7 @@ const ClinicProfile = () => {
                 
                 <Text
                     style = {{color: 'black', fontSize: 30, fontFamily: 'Poppins-Bold', marginTop: 30, marginLeft: 20}}>
-                    {clinicDetails.name}
+                    {currentName}
                 </Text>
 
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -122,7 +167,7 @@ const ClinicProfile = () => {
                     color: '#FF8D4D'
                 }}/>
                 <Text style = {{color: '#ff8d4d', fontSize: 18, fontFamily: 'Poppins-Medium', marginLeft: 7}}>
-                    {clinicDetails.phoneNo}
+                    {currentnumber}
                 </Text>
                 </View>
 
@@ -142,13 +187,11 @@ const ClinicProfile = () => {
                     </TouchableOpacity>
                     {isDropdownOpen && (
                     <View style={styles.dropdown}>
-                    <Text>{clinicDetails.storeHours1}</Text>
-                    <Text>{clinicDetails.storeHours2}</Text>
-                    <Text>{clinicDetails.storeHours3}</Text>
-                    <Text>{clinicDetails.storeHours4}</Text>
-                    <Text>{clinicDetails.storeHours5}</Text>
-                    <Text>{clinicDetails.storeHours6}</Text>
-                    <Text>{clinicDetails.storeHours7}</Text>
+                    {currentstorehours.map((dayHours, index) => (
+                    <Text key={index}>
+                        {dayHours.day}: {dayHours.open} to {dayHours.close}
+                    </Text>
+                ))}
                     </View>
                 )}
                         </View>
@@ -160,7 +203,7 @@ const ClinicProfile = () => {
                     color: '#FF8D4D'
                 }} />
                 <Text style = {{color: '#ff8d4d', fontSize: 18, fontFamily: 'Poppins-Medium', marginLeft: 7}}>
-                    {clinicDetails.telNo}
+                    {currentnumber}
                 </Text>
                 </View>
 
@@ -168,7 +211,7 @@ const ClinicProfile = () => {
                     Services
                 </Text>
             <View style = {{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', margin: 10}}>
-                {clinicDetails.services.map((service, index) => (
+                {currentservices.map((service, index) => (
                 // <Text style = {{
                 //     display: 'flex',
                 //     justifyContent:'flex-start',
@@ -210,7 +253,7 @@ const ClinicProfile = () => {
                 </View>
 
             <Text style = {{color: 'black', marginLeft: 10, fontSize: 16, fontFamily: 'Poppins-Semi'}}>
-                {clinicDetails.userDetails}
+                {currentdescription}
             </Text>
 
             <Text style = {{color: '#ff8d4d', 

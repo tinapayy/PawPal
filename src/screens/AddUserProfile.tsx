@@ -69,11 +69,6 @@ const UserProfile = () => {
 
   const uploadProfilePicture = async () => {
     try {
-      if (!profilePicture) {
-        Alert.alert('Please select a profile picture');
-        return;
-      }
-
       const metadata = {
         contentType: 'image/jpeg', // Adjust the content type based on your image type
       };
@@ -129,7 +124,7 @@ const UserProfile = () => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setCurrentName(doc.data().name);
             setCurrentBio(doc.data().bio);
-            setProfilePicture(doc.data().profilePicture);
+            setProfilePicture(doc.data().profilePicture || null);
           }
         });
       } catch (error) {
@@ -165,6 +160,9 @@ const UserProfile = () => {
       Alert.alert('Please enter a name');
       return;
     }
+    if (profilePicture !== null) {
+      uploadProfilePicture();
+    }
     try {
       const userQuery = await getDocs(collection(db, 'user'));
       userQuery.forEach(async currentDoc => {
@@ -186,7 +184,7 @@ const UserProfile = () => {
               updateData.password = newPassword;
               // Update the user document with new profile data and potentially new password
               await updateDoc(userRef, updateData);
-              navigation.navigate('PetProfile');
+              navigation.navigate('AddPetProfileSignUp');
               // Update the password after successfully updating the profile
               try {
                 await updatePassword(auth.currentUser!, newPassword);
@@ -204,7 +202,7 @@ const UserProfile = () => {
             try {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
-              navigation.navigate('PetProfile');
+              navigation.navigate('AddPetProfileSignUp');
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');
@@ -284,7 +282,6 @@ const UserProfile = () => {
               style={styles.saveButton}
               onPress={() => {
                 updateProfile();
-                uploadProfilePicture();
               }}
               accessible={true}
               accessibilityRole="button">

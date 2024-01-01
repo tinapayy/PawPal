@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {faMessage} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -113,17 +114,12 @@ const ForumPage = () => {
     fetchData();
   }, []);
 
-  // Refresh every 5 seconds
-  setTimeout(() => {
-    fetchData();
-  }, 5000);
-
   function getTimeDifference(postTime) {
     const currentTime = new Date().getTime();
     const postTimestamp = postTime.toDate().getTime();
     const timeDifference = currentTime - postTimestamp;
 
-    if (timeDifference < 5000) {
+    if (timeDifference < 10000) {
       return 'Just Now';
     } else if (timeDifference < 60000) {
       return Math.floor(timeDifference / 1000) + 's';
@@ -155,7 +151,17 @@ const ForumPage = () => {
   }
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView
+      style={styles.scrollView}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => {
+            fetchData();
+          }}
+        />
+      }>
       <View style={styles.header}>
         <View>
           <Image

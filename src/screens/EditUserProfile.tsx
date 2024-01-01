@@ -186,7 +186,7 @@ const UserProfile = () => {
               updateData.password = newPassword;
               // Update the user document with new profile data and potentially new password
               await updateDoc(userRef, updateData);
-              navigation.navigate('PetProfile');
+              navigation.navigate('SettingsPage');
               // Update the password after successfully updating the profile
               try {
                 await updatePassword(auth.currentUser!, newPassword);
@@ -204,7 +204,7 @@ const UserProfile = () => {
             try {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
-              navigation.navigate('PetProfile');
+              navigation.navigate('SettingsPage');
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');

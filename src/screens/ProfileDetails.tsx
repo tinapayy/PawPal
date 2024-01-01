@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Carousel from 'react-native-snap-carousel';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,13 +6,11 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  GestureResponderEvent,
   ScrollView,
 } from 'react-native';
-import { Card, Avatar, Surface, Divider } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-
+import {Card, Avatar, Surface, Divider} from 'react-native-paper';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useNavigation} from '@react-navigation/native';
 import {
   faArrowLeft,
   faMessage,
@@ -21,72 +18,114 @@ import {
   faAddressCard,
   faComments,
 } from '@fortawesome/free-solid-svg-icons';
-
-// Import your data
-import { petData, ownerData } from '../components/data';
-
+import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import Carousel from 'react-native-snap-carousel';
 
 // window dimensions
-const { width: screenWidth } = Dimensions.get('window');
+const {width: screenWidth} = Dimensions.get('window');
 
+interface Pet {
+  id: number;
+  name: string;
+  breed: string;
+  color: string;
+  age: string;
+  sex: string;
+  weight: string;
+  petPicture: any;
+}
 
+type CarouselItem = {
+  type: string;
+  data: Pet;
+};
 
 const ProfileDetails = () => {
-  const [entries, setEntries] = useState<CarouselItem[]>([]);
-  const [ownerDataDetails, setOwnerDataDetails] = useState<OwnerData | null>(null);
+  const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  const [pet, setPet] = useState<CarouselItem[]>([]);
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
   const MAX_DESCRIPTION_LENGTH = 200;
 
   // Use ownerDataDetails.description as the initial description
-  const initialDescription = ownerDataDetails?.description || '...';
+  // const bio = ownerDataDetails?.description || '...';
 
-  const [showFullDescription, setShowFullDescription] = useState(true);
-  const [truncatedDescription, setTruncatedDescription] = useState(
-    `${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`
+  const [showFullBio, setShowFullBio] = useState(true);
+  const [truncatedBio, setTruncatedBio] = useState(
+    `${bio.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
   );
 
   const [lines, setLines] = useState<string[]>([]);
   const [numLines, setNumLines] = useState<number | undefined>(2);
 
   const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
+    setShowFullBio(!showFullBio);
   };
 
   const handleDescriptionPress = () => {
     toggleDescription();
-
-
-    if (showFullDescription) {
-      setTruncatedDescription(`${initialDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`);
-      setLines(initialDescription.split('\n')); // Split text into lines
+    if (showFullBio) {
+      setTruncatedBio(`${bio.slice(0, MAX_DESCRIPTION_LENGTH)}...`);
+      setLines(bio.split('\n')); // Split text into lines
       setNumLines(undefined); // Display full text with unlimited lines
     } else {
-      setTruncatedDescription(initialDescription);
+      setTruncatedBio(bio);
       setLines([]); // Clear lines
       setNumLines(2); // Display truncated text with 2 lines
     }
   };
   const carouselRef = useRef<Carousel<CarouselItem> | null>(null);
-  const navigation = useNavigation();
   const [maxHeight, setMaxHeight] = useState<number | null>(null);
 
   useEffect(() => {
-    setMaxHeight(showFullDescription ? null : 100);
-  }, [showFullDescription]);
+    setMaxHeight(showFullBio ? null : 100);
+  }, [showFullBio]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setEntries([...petData.map((pet) => ({ type: 'pet', data: pet })), { type: 'owner', data: ownerData }]);
-        setOwnerDataDetails(ownerData);
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setName(doc.data().name);
+            setBio(doc.data().bio);
+            setProfilePicture({uri: doc.data().profilePicture || null});
+          }
+        });
+        const pet: Pet[] = [];
+        for (const petDoc of querySnapshot.docs) {
+          if (petDoc.data().userId === auth.currentUser?.uid) {
+            const petIds = petDoc.data().pet;
+            for (const petId of petIds) {
+              const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
+              if (petDoc.exists()) {
+                pet.push({
+                  id: pet.length + 1,
+                  name: petDoc.data().name,
+                  breed: petDoc.data().breed,
+                  age: petDoc.data().age,
+                  sex: petDoc.data().sex,
+                  weight: petDoc.data().weight,
+                  color: petDoc.data().color,
+                  petPicture: {uri: petDoc.data().petPicture || null},
+                });
+              }
+            }
+          }
+        }
+        setPet([...pet.map(pet => ({type: 'pet', data: pet}))]);
       } catch (error) {
-        console.error('Error setting data:', error);
+        console.error(error);
       }
     };
-
     fetchData();
   }, []);
-
-
 
   // navigate next carousel item
   const goForward = () => {
@@ -95,7 +134,7 @@ const ProfileDetails = () => {
 
   //render each carousel item
   //handling pet data inside the carousel
-  const renderItem = ({ item, index }: { item: CarouselItem; index: number }) => {
+  const renderItem = ({item}: {item: CarouselItem}) => {
     return (
       <View style={styles.item}>
         {/* Render pet data */}
@@ -112,37 +151,87 @@ const ProfileDetails = () => {
             </Text>
             <View style={styles.bottomContainer}>
               <View style={styles.bottomTexts}>
-                <Divider style={{ height: '100%', marginHorizontal: 20, backgroundColor: '#FF8D4D80' }} />
+                <Divider
+                  style={{
+                    height: '100%',
+                    marginHorizontal: 20,
+                    backgroundColor: '#FF8D4D80',
+                  }}
+                />
                 <Text style={styles.petDetail}>Age</Text>
-                <Divider style={{ height: '100%', marginHorizontal: 28, backgroundColor: '#FF8D4D80' }} />
+                <Divider
+                  style={{
+                    height: '100%',
+                    marginHorizontal: 28,
+                    backgroundColor: '#FF8D4D80',
+                  }}
+                />
+                <Text style={styles.petDetail}>Color</Text>
+                <Divider
+                  style={{
+                    height: '100%',
+                    marginHorizontal: 25,
+                    backgroundColor: '#FF8D4D80',
+                  }}
+                />
                 <Text style={styles.petDetail}>Sex</Text>
-                <Divider style={{ height: '100%', marginHorizontal: 25, backgroundColor: '#FF8D4D80' }} />
+                <Divider
+                  style={{
+                    height: '100%',
+                    marginHorizontal: 15,
+                    backgroundColor: '#FF8D4D80',
+                  }}
+                />
                 <Text style={styles.petDetail}>Weight</Text>
-                <Divider style={{ height: '100%', marginHorizontal: 15, backgroundColor: '#FF8D4D80' }} />
-                <Text style={styles.petDetail}>Height</Text>
               </View>
             </View>
             <View style={styles.bottomTexts}>
               <Surface style={styles.surface} elevation={2}>
-                <Text style={{ color: '#5A2828', fontFamily: 'Poppins-Bold', fontSize: 13.1 }}>{item.data.age}</Text>
-
+                <Text
+                  style={{
+                    color: '#5A2828',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 13.1,
+                  }}>
+                  {item.data.age}
+                </Text>
               </Surface>
               <Surface style={styles.surface} elevation={2}>
-                <Text style={{ color: '#5A2828', fontFamily: 'Poppins-Bold', fontSize: 13.1 }}>{item.data.sex}</Text>
+                <Text
+                  style={{
+                    color: '#5A2828',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 13.1,
+                  }}>
+                  {item.data.color}
+                </Text>
               </Surface>
-
               <Surface style={styles.surface} elevation={2}>
-                <Text style={{ color: '#5A2828', fontFamily: 'Poppins-Bold', fontSize: 13.1 }}>{item.data.weight}</Text>
+                <Text
+                  style={{
+                    color: '#5A2828',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 13.1,
+                  }}>
+                  {item.data.sex}
+                </Text>
               </Surface>
               <Surface style={styles.surface} elevation={2}>
-                <Text style={{ color: '#5A2828', fontFamily: 'Poppins-Bold', fontSize: 13.1 }}>{item.data.height}</Text>
+                <Text
+                  style={{
+                    color: '#5A2828',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 13.1,
+                  }}>
+                  {item.data.weight}
+                </Text>
               </Surface>
               <Image
                 source={require('../images/gradient_logo.png')}
                 style={{
                   ...StyleSheet.absoluteFillObject,
                   resizeMode: 'contain',
-                  width: "20%",
+                  width: '20%',
                   height: 40,
                   // zIndex: -10,
                   top: -90,
@@ -158,25 +247,24 @@ const ProfileDetails = () => {
   };
 
   //handling the card which must contain the profile, username, title (pet owner) and description
-  const ownerCard = ownerDataDetails && (
-
+  const ownerCard = (
     <Card style={styles.card}>
       <Card.Content style={styles.cardContent}>
         <View style={styles.userInfo}>
           <View style={styles.avatarContainer}>
-            <Avatar.Image size={50} source={ownerDataDetails.profilePicture} />
+            <Avatar.Image size={50} source={profilePicture} />
           </View>
           <View style={styles.descriptionContainer}>
-            <Text style={styles.userName}>{ownerDataDetails.username}</Text>
-            <Text style={styles.ownerTitle}>{ownerDataDetails.title}</Text>
+            <Text style={styles.userName}>{name}</Text>
+            <Text style={styles.ownerTitle}>Pet Owner</Text>
             <TouchableOpacity onPress={handleDescriptionPress}>
-              <TouchableOpacity onPress={handleDescriptionPress} >
+              <TouchableOpacity onPress={handleDescriptionPress}>
                 <View style={styles.contentScroll}>
                   <Text style={styles.contentProfile}>
-                    {showFullDescription ? initialDescription : truncatedDescription}
+                    {showFullBio ? bio : truncatedBio}
                   </Text>
-                  <Text style={styles.readMore}>
-                    {showFullDescription ? 'Read Less' : 'Read More'}
+                  <Text style={styles.seeMore}>
+                    {showFullBio ? 'See Less' : 'See More'}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -186,11 +274,20 @@ const ProfileDetails = () => {
         <View style={styles.iconContainer}>
           <TouchableOpacity
             style={styles.messageIcon}
-            onPress={() => navigation.navigate('MessagePage')}
-          >
+            onPress={() => navigation.navigate('MessagePage')}>
             <Surface style={styles.surfaceMessage} elevation={2}>
-              <FontAwesomeIcon icon={faComments} style={styles.iconMessage} size={20} />
-              <Text style={{ color: '#ffffff', fontFamily: 'Poppins', fontSize: 16, marginLeft: 5 }}>
+              <FontAwesomeIcon
+                icon={faComments}
+                style={styles.iconMessage}
+                size={20}
+              />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  marginLeft: 5,
+                }}>
                 Message
               </Text>
             </Surface>
@@ -198,8 +295,7 @@ const ProfileDetails = () => {
 
           <TouchableOpacity
             style={styles.settingsIcon}
-            onPress={() => navigation.navigate('SettingsPage')}
-          >
+            onPress={() => navigation.navigate('SettingsPage')}>
             <FontAwesomeIcon icon={faCog} style={styles.icon} size={20} />
           </TouchableOpacity>
 
@@ -207,7 +303,6 @@ const ProfileDetails = () => {
               <FontAwesomeIcon icon={faAddressCard} style={styles.icon} size={20} />
               <Text style={styles.bio}>About the Pet Owner</Text>
             </View> */}
-
         </View>
       </Card.Content>
     </Card>
@@ -216,8 +311,7 @@ const ProfileDetails = () => {
   // Return the component's UI
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={goForward}>
-      </TouchableOpacity>
+      <TouchableOpacity onPress={goForward}></TouchableOpacity>
       <Image
         source={require('../images/header.png')}
         style={{
@@ -227,14 +321,22 @@ const ProfileDetails = () => {
           zIndex: -10,
         }}
       />
-      <Text style={{ fontSize: 24, fontFamily: 'Poppins-Bold', color: '#ffffff', left: 50, top: 20 }}>
+      <Text
+        style={{
+          fontSize: 24,
+          fontFamily: 'Poppins-Bold',
+          color: '#ffffff',
+          left: 50,
+          top: 20,
+        }}>
         Profile Details
       </Text>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ top: -15, left: 15 }}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{top: -15, left: 15}}>
         <FontAwesomeIcon icon={faArrowLeft} size={24} color="#FFF" />
       </TouchableOpacity>
       <View style={styles.horizontalLine} />
-
 
       <View style={styles.carouselContainer}>
         <Carousel
@@ -242,47 +344,18 @@ const ProfileDetails = () => {
           sliderWidth={screenWidth - 10}
           sliderHeight={screenWidth - 20}
           itemWidth={screenWidth - 30}
-          data={entries}
+          data={pet}
           renderItem={renderItem}
           hasParallaxImages={true}
-          style={{ zIndex: 0 }} // Adjust this value
+          style={{zIndex: 0}} // Adjust this value
         />
         {/* <ScrollView style={styles.descriptionScrollView}>
           <View style={styles.ownerCardContainer}>{ownerCard}</View>
         </ScrollView> */}
         <View>{ownerCard}</View>
-
       </View>
     </View>
   );
-};
-type CarouselItem = {
-  type: string;
-  data: {
-    id: number;
-    name?: string;
-    breed?: string;
-    color?: string;
-    age?: string;
-    sex?: string;
-    weight?: string;
-    height?: string;
-    petPicture?: any;
-    user?: {
-      profilePicture: any;
-      username: string;
-      title: string;
-      description: string;
-    };
-  };
-};
-
-type OwnerData = {
-  id: number;
-  username: string;
-  profilePicture: any;
-  title: string;
-  description: string;
 };
 
 const styles = StyleSheet.create({
@@ -324,7 +397,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 100, 100, 0)',
     textAlign: 'left',
     borderRadius: 30,
-
   },
   title1: {
     fontFamily: 'Poppins-Regular',
@@ -412,7 +484,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     left: 50,
     // fontWeight: 'bold',
-
   },
   description: {
     fontSize: 18,
@@ -426,7 +497,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     // left: 50,
-
   },
   messageIcon: {
     color: '#ffffffff',
@@ -463,7 +533,6 @@ const styles = StyleSheet.create({
   },
   iconMessage: {
     color: '#ffffff',
-
   },
   content: {
     flexDirection: 'row',
@@ -484,8 +553,6 @@ const styles = StyleSheet.create({
     top: -9,
     left: 9,
     textDecorationLine: 'underline',
-
-
   },
   carouselContainer: {},
   cardContainer: {},
@@ -501,8 +568,6 @@ const styles = StyleSheet.create({
     // marginTop: 20,
     top: 140,
     zIndex: 1,
-
-
   },
   descriptionText: {
     fontSize: 18,
@@ -531,7 +596,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     right: 30,
   },
-  readMore: {
+  seeMore: {
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
     textDecorationStyle: 'solid',

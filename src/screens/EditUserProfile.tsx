@@ -263,7 +263,7 @@ const UserProfile = () => {
             <FontAwesomeIcon icon={faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder={currentName ? currentName : 'Username'}
+              placeholder={currentName ? currentName : 'Name'}
               value={currentName}
               onChangeText={text => setCurrentName(text)}
             />

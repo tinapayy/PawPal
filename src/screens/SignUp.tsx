@@ -63,8 +63,8 @@ const SignIn = () => {
 
       if (getUserType() === 'petOwner') {
         // Adds bio empty field to userDoc when user type is pet owner
-        userDoc.name = '';
         userDoc.bio = '';
+        userDoc.pet = [];
       } else if (getUserType() === 'clinic') {
         // Adds contact# and about fields to userDoc  when user type is clinic
         userDoc.picture = null;
@@ -81,7 +81,7 @@ const SignIn = () => {
         if (getUserType() === 'petOwner') {
           navigation.reset({
             index: 0,
-            routes: [{name: 'UserProfile'}],
+            routes: [{name: 'AddUserProfile'}],
           });
         } else if (getUserType() === 'clinic') {
           navigation.reset({
@@ -122,7 +122,7 @@ const SignIn = () => {
                 <FontAwesomeIcon icon={faUser} style={styles.icon} />
                 <TextInput
                   style={styles.input}
-                  placeholder="Username"
+                  placeholder="Name"
                   value={name}
                   underlineColorAndroid="orange"
                   onChangeText={text => setName(text)}
@@ -176,10 +176,11 @@ const SignIn = () => {
           </View>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-        <Text style={styles.loginText}>
-          Already have an account? <Text style={styles.loginLink}>Log In</Text>
-        </Text>
-      </TouchableOpacity>
+          <Text style={styles.loginText}>
+            Already have an account?{' '}
+            <Text style={styles.loginLink}>Log In</Text>
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

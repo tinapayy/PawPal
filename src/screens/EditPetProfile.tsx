@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {RadioButton} from 'react-native-paper';
 import {
@@ -22,7 +22,7 @@ import {
   faVenusMars,
   faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
   FIREBASE_DB,
@@ -34,21 +34,23 @@ import {
   updatePassword,
 } from 'firebase/auth';
 import {
-  addDoc,
   getDocs,
   collection,
   arrayUnion,
   updateDoc,
   doc,
+  getDoc,
 } from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-const PetProfile = () => {
+const PetProfile = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+
+  const {petId} = route.params;
 
   const [petName, setPetName] = useState('');
   const [breed, setBreed] = useState('');
@@ -57,6 +59,24 @@ const PetProfile = () => {
   const [color, setColor] = useState('');
   const [checked, setChecked] = useState('null');
   const [petPicture, setPetPicture] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const petDoc = await getDoc(doc(db, 'pet', petId));
+        setPetName(petDoc.data().name);
+        setBreed(petDoc.data().breed);
+        setAge(petDoc.data().age);
+        setWeight(petDoc.data().weight);
+        setColor(petDoc.data().color);
+        setChecked(petDoc.data().sex);
+        setPetPicture(petDoc.data().petPicture);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const openImagePicker = async () => {
     const options = {
@@ -77,7 +97,7 @@ const PetProfile = () => {
     });
   };
 
-  const uploadPetPicture = async () => {
+  const updatePetProfile = async () => {
     try {
       if (!petPicture) {
         Alert.alert('Please select a picture of your pet');
@@ -105,7 +125,7 @@ const PetProfile = () => {
       const imageUrl = await getDownloadURL(storageRef);
 
       // Update the user profile in Firestore with the new image URL
-      const petRef = await addDoc(collection(db, 'pet'), {
+      const petRef = await updateDoc(doc(db, 'pet', petId), {
         name: petName,
         breed: breed,
         age: age,
@@ -177,7 +197,7 @@ const PetProfile = () => {
             <FontAwesomeIcon icon={faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Pet Name"
+              placeholder={petName ? petName : 'Pet Name'}
               value={petName}
               onChangeText={text => setPetName(text)}
             />
@@ -186,7 +206,7 @@ const PetProfile = () => {
             <FontAwesomeIcon icon={faPaw} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Breed"
+              placeholder={breed ? breed : 'Breed'}
               value={breed}
               onChangeText={text => setBreed(text)}
             />
@@ -195,7 +215,7 @@ const PetProfile = () => {
             <FontAwesomeIcon icon={faCalendar} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Age"
+              placeholder={age ? age : 'Age'}
               value={age}
               onChangeText={text => setAge(text)}
             />
@@ -204,7 +224,7 @@ const PetProfile = () => {
             <FontAwesomeIcon icon={faWeight} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Weight"
+              placeholder={weight ? weight : 'Weight'}
               value={weight}
               onChangeText={text => setWeight(text)}
             />
@@ -213,7 +233,7 @@ const PetProfile = () => {
             <FontAwesomeIcon icon={faPalette} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Color"
+              placeholder={color ? color : 'Color'}
               value={color}
               onChangeText={text => setColor(text)}
             />
@@ -252,7 +272,7 @@ const PetProfile = () => {
               <View>
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={() => uploadPetPicture()}
+                  onPress={() => updatePetProfile()}
                   accessible={true}
                   accessibilityRole="button">
                   <LinearGradient
@@ -267,7 +287,7 @@ const PetProfile = () => {
               <View>
                 <TouchableOpacity
                   style={styles.cancelButton}
-                  onPress={() => console.log('Cancel Changes')}
+                  onPress={() => navigation.goBack()}
                   accessible={true}
                   accessibilityRole="button">
                   <Text style={styles.buttonTextCancel}>Cancel</Text>

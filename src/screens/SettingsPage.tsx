@@ -46,7 +46,7 @@ function SettingsPage() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('UserProfile')}>
+          onPress={() => navigation.navigate('EditUserProfile')}>
           <User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit User Profile</Text>
         </TouchableOpacity>

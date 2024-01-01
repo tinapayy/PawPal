@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
@@ -52,10 +53,10 @@ const ChoosePet = () => {
               const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
               if (petDoc.exists()) {
                 newUsers.push({
-                  id: 1,
-                  petId: petDoc.data()?.petId,
-                  name: petDoc.data()?.name,
-                  profilePicture: petDoc.data()?.petPicture,
+                  id: newUsers.length + 1,
+                  petId: petDoc.data().petId,
+                  name: petDoc.data().name,
+                  profilePicture: petDoc.data().petPicture,
                 });
               }
             }
@@ -75,7 +76,7 @@ const ChoosePet = () => {
   const renderUserCard = ({item}: {item: User}) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => handleUserSelection(item)}>
+      onPress={() => handleUserSelection(item.id, item.petId)}>
       {item.id === 0 ? (
         <FontAwesomeIcon icon={faCirclePlus} size={90} color="#F87000" />
       ) : (
@@ -89,12 +90,12 @@ const ChoosePet = () => {
     </TouchableOpacity>
   );
 
-  const handleUserSelection = (selectedUser: User | {petId: number}) => {
+  const handleUserSelection = (userId: number, petId: string) => {
     // If it's not the "Add Pet" item, navigate to the pet profile
-    if (selectedUser.id !== 0) {
-      navigation.navigate('PetProfile', {petId: selectedUser.petId});
+    if (userId !== 0) {
+      navigation.navigate('EditPetProfile', {petId: petId});
     } else {
-      navigation.navigate('PetProfile');
+      navigation.navigate('AddPetProfile');
     }
   };
 

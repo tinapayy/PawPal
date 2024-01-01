@@ -212,16 +212,16 @@ const ProfileDetails = () => {
               style={styles.settingsIcon}
               onPress={() => navigation.navigate('SettingsPage')}>
               <FontAwesomeIcon icon={faCog} style={styles.icon} size={20} />
-              <View style={styles.content}>
-                <FontAwesomeIcon
-                  icon={faAddressCard}
-                  style={styles.icon1}
-                  size={20}
-                />
-                <Text style={styles.bio}>About the Pet Owner</Text>
-                <Text style={styles.description}>{bio}</Text>
-              </View>
             </TouchableOpacity>
+            <View style={styles.content}>
+              <FontAwesomeIcon
+                icon={faAddressCard}
+                style={styles.icon1}
+                size={20}
+              />
+              <Text style={styles.bio}>About the Pet Owner</Text>
+              <Text style={styles.description}>{bio}</Text>
+            </View>
           </View>
         </Card.Content>
       </Card>

@@ -46,10 +46,13 @@ interface Owner {
 
 const ProfileDetails = () => {
   const navigation = useNavigation();
+
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+
   const [name, setName] = useState('');
-  const [initialDescription, setInitialDescription] = useState('');
+  const [bio, setBio] = useState('');
+  const [profilePicture, setProfilePicture] = useState<any>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [petDatabase, setPetDatabase] = useState<Pet[]>([
@@ -74,14 +77,16 @@ const ProfileDetails = () => {
       description: 'I am an avid pet owner!',
     },
   ]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
-            setName(doc.data().username);
-            setInitialDescription(doc.data().bio);
+            setName(doc.data().name);
+            setBio(doc.data().bio);
+            setProfilePicture(doc.data().profilePicture);
           }
         });
       } catch (error) {
@@ -175,12 +180,16 @@ const ProfileDetails = () => {
             <View style={styles.avatarContainer}>
               <Avatar.Image
                 size={80}
-                source={user.profilePicture}
+                source={
+                  profilePicture
+                    ? {uri: profilePicture}
+                    : require('../images/userIcon3.png')
+                }
                 // style={styles.userIcon}
               />
             </View>
             <View style={styles.userInfoText}>
-              <Text style={styles.userName}>{user.username}</Text>
+              <Text style={styles.userName}>{name}</Text>
               <Text style={styles.title}>{user.title}</Text>
               {/* <Text style={styles.description}>{user.description}</Text> */}
             </View>
@@ -210,7 +219,7 @@ const ProfileDetails = () => {
                   size={20}
                 />
                 <Text style={styles.bio}>About the Pet Owner</Text>
-                <Text style={styles.description}>{user.description}</Text>
+                <Text style={styles.description}>{bio}</Text>
               </View>
             </TouchableOpacity>
           </View>

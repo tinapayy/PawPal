@@ -44,6 +44,7 @@ import FoodRestricted from './src/screens/FoodRestricted';
 import ChoosePet from './src/screens/ChoosePet';
 import NewMessage from './src/screens/NewMessage';
 import CreatePost from './src/screens/CreatePost';
+import SettingsPage_Clinic from './src/screens/SettingsPage_Clinic';
 
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
@@ -249,6 +250,11 @@ export default function App() {
           name="ClinicProfile"
           component={ClinicProfile}
           options={{headerShown: true}}
+        />
+        <Stack.Screen
+          name="SettingsPage_Clinic"
+          component={SettingsPage_Clinic}
+          options={{ headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>

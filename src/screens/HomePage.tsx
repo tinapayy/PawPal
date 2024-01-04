@@ -19,6 +19,8 @@ import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import ViewPropTypes from 'deprecated-react-native-prop-types';
+import StyleSheetPropType from 'deprecated-react-native-prop-types';
+
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -175,7 +177,7 @@ const renderItem = ({item, index, navigation}) => {
             {item.info1}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 13, fontWeight: 300, color: '#5a2828'}}>
+            <Text style ={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
               {item.info2}
             </Text>
             <TouchableOpacity onPress= {handleSeeMoreClick} >

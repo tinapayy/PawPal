@@ -218,7 +218,7 @@ const itemNumber2 = ({item}) => {
                 style={{color: '#5a2828', fontWeight: 'bold', fontSize: 20}}>
                 {item.title}
               </Text>
-              <Text style={{color: '#5a2828', fontWeight: 300, fontSize: 15}}>
+              <Text style={{color: '#5a2828', fontWeight: '300', fontSize: 15}}>
                 {item.description}
               </Text>
             </View>

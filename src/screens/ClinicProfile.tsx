@@ -90,11 +90,13 @@ const ClinicProfile = () => {
       }}>
       <View>
         <View style={styles.icon}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            size={30}
-            style={{color: '#ff8700'}}
-          />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              size={30}
+              style={{color: '#ff8700'}}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('SettingsPage_Clinic')}>
             <FontAwesomeIcon

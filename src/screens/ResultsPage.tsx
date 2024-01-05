@@ -21,7 +21,6 @@ import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 
-
 const screenWidth = Dimensions.get('window').width;
 
 const clinics = [
@@ -120,24 +119,26 @@ const ClinicCard = ({clinicInfo, onPress}) => {
 const ResultsPage = () => {
   const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
   const [filteredClinics, setFilteredClinics] = useState(clinics); // Replace with actual filtered clinics from the search bar]
-  
-  const handleSearch = (text) => {
+
+  const handleSearch = text => {
     setSearchQuery(text);
 
     // Filter clinics based on search query
     const filtered = clinics.filter(
-      (clinic) =>
+      clinic =>
         clinic.name.toLowerCase().includes(text.toLowerCase()) ||
-        clinic.address.toLowerCase().includes(text.toLowerCase())
+        clinic.address.toLowerCase().includes(text.toLowerCase()),
     );
     setFilteredClinics(filtered);
   };
-  
+
   const navigation = useNavigation();
+
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
   const [profilePicture, setProfilePicture] = useState(null);
+  const [userType, setUserType] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,6 +147,7 @@ const ResultsPage = () => {
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setProfilePicture(doc.data().profilePicture);
+            setUserType(doc.data().userType);
           }
         });
       } catch (error) {
@@ -163,50 +165,70 @@ const ResultsPage = () => {
     throw new Error('Function not implemented.');
   }
 
+  const handleProfileClick = () => {
+    if (userType === 'petOwner') {
+      navigation.navigate('ProfileDetails');
+    } else {
+      navigation.navigate('ClinicProfile');
+    }
+  };
+
   return (
     <View style={styles.container}>
-        <View style={styles.headercontainer}>
-            <View style={styles.headercontent}>
-                <View style={styles.headertextandicon}>
-                    <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
-                        <BackIcon size="35" color="#ff8d4d" strokeWidth={10}/>           
-                    </TouchableOpacity>
-                    <Text style={styles.headerText}>Explore Clinics</Text>
-                    <Image source = {require('../images/doggy.png')}
-                    style= {{height: 130, width: 130, left: '100%', position: 'absolute', top: '5%'}}/>
-                    <TextInput style={styles.input}    
-                    placeholder="Search Clinics..."
-                    onChangeText={handleSearch}
-                    value={searchQuery}
-                    placeholderTextColor="white"
-                    />
-                </View>
-                <View style={styles.userheadercontent}>
-                    <TouchableOpacity onPress={_goBack}>
-              <TouchableOpacity onPress={() => navigation.navigate('ProfileDetails')}>
+      <View style={styles.headercontainer}>
+        <View style={styles.headercontent}>
+          <View style={styles.headertextandicon}>
+            <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
+              <BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>Explore Clinics</Text>
+            <Image
+              source={require('../images/doggy.png')}
+              style={{
+                height: 130,
+                width: 130,
+                left: '100%',
+                position: 'absolute',
+                top: '5%',
+              }}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Search Clinics..."
+              onChangeText={handleSearch}
+              value={searchQuery}
+              placeholderTextColor="white"
+            />
+          </View>
+          <View style={styles.userheadercontent}>
+            <TouchableOpacity onPress={_goBack}>
+              <TouchableOpacity onPress={handleProfileClick}>
                 <Image
-                source={
-                  profilePicture
-                    ? {uri: profilePicture}
-                    : require('../images/userIcon.png')
-                }
-                style={{width: 50, height: 50, borderRadius: 50}}
-              />
+                  source={
+                    profilePicture
+                      ? {uri: profilePicture}
+                      : require('../images/userIcon.png')
+                  }
+                  style={{width: 50, height: 50, borderRadius: 50}}
+                />
               </TouchableOpacity>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </TouchableOpacity>
+          </View>
         </View>
-        
-    <View style={styles.scrollcontainer}>
-    <FlatList
-      data={filteredClinics}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <ClinicCard clinicInfo={item} onPress={() => handleClinicPress(item)} />
-      )}
-    />
-    </View>
+      </View>
+
+      <View style={styles.scrollcontainer}>
+        <FlatList
+          data={filteredClinics}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <ClinicCard
+              clinicInfo={item}
+              onPress={() => handleClinicPress(item)}
+            />
+          )}
+        />
+      </View>
     </View>
   );
 };

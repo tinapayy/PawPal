@@ -12,7 +12,8 @@ import {
   ChatBubbleOvalLeftEllipsisIcon as ChatBubbleLeftSolid,
   PlusCircleIcon as PlusCircleSolid,
   ChatBubbleLeftRightIcon as ForumSolid,
-  UserIcon as UserSolid,
+  UserIcon as UserSolid, MagnifyingGlassIcon as MagnifyingGlass,
+  ChatBubbleBottomCenterTextIcon as Bubble
 } from 'react-native-heroicons/solid';
 
 import Homesamp from './screens/Homesamp';
@@ -67,9 +68,9 @@ const menuIcons = (
     );
   } else if (route.name === 'favourite') {
     icon = focused ? (
-      <ChatBubbleLeftSolid size="30" color={'#FF8D4D'} />
+      <MagnifyingGlass size="29" stroke="#FF8D4D" strokeWidth={2} color={'#FF8D4D'} />
     ) : (
-      <ChatBubbleLeftSolid size="30" strokeWidth={2} color="#5A2828" />
+      <MagnifyingGlass size="29" stroke="#5A2828" strokeWidth={2} color="#5A2828" />
     );
   } else if (route.name === 'cart') {
     icon = focused ? (
@@ -119,7 +120,7 @@ function HomeTabs() {
         },
       })}>
       <Tab.Screen name="home" component={HomePage} />
-      <Tab.Screen name="favourite" component={MessagePage} />
+      <Tab.Screen name="favourite" component={ResultsPage} />
       <Tab.Screen name="cart" component={CreatePost} />
       <Tab.Screen name="ca" component={ForumPage} />
       <Tab.Screen name="car" component={ProfileDetails} />

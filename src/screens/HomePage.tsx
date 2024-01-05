@@ -18,9 +18,6 @@ import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
-import ViewPropTypes from 'deprecated-react-native-prop-types';
-import StyleSheetPropType from 'deprecated-react-native-prop-types';
-
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -130,7 +127,10 @@ const renderItem = ({item, index, navigation}) => {
             borderRadius: 20,
             backgroundColor: 'white',
             borderColor: 'white',
-            elevation: 10,
+            elevation: 5,
+            marginBottom: 20,
+            position: 'relative',
+            
           }}>
           <View
             style={{
@@ -138,13 +138,14 @@ const renderItem = ({item, index, navigation}) => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              bottom: 9,
+              bottom: 10,
+              
             }}>
             <Image
               source={item.imageSource}
               style={{
-                width: 283,
-                height: 150,
+                width: 330,
+                height: 180,
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}
@@ -194,14 +195,18 @@ const itemNumber2 = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
+        {/* urgent announcement card */}
         <View
           style={{
             borderWidth: 1,
             padding: 10,
             borderRadius: 20,
             backgroundColor: 'white',
-            elevation: 20,
+            elevation: 5,
+            shadowColor: 'black',
             borderColor: '#FF8484',
+            marginBottom: 10,
+            marginHorizontal: 6
           }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Image
@@ -266,10 +271,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const handleProfileClick = () => {
     navigation.navigate('ProfileDetails');
   };
-  const handleSearchSubmit = () => {
-    navigation.navigate('ResultsPage', {searchQuery});
-  };
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -300,30 +301,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       borderRadius: 20,
                       width: 200,
                     }}>
-
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('ResultsPage')}>
-                      <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        size={20}
-                        style={{color: '#ff8700', marginRight: 10}}
-                      />
-                    </TouchableOpacity>
-
-                    <TextInput
-                      style={{
-                        flex: 1,
-                        color: 'black',
-                        fontSize: 13,
-                        height: 35,
-                        marginLeft: 10,
-                      }}
-                      placeholder="Search"
-                      placeholderTextColor={'#ff8d4d'}
-                      value={searchQuery}
-                      onChangeText={text => setSearchQuery(text)}
-                      onSubmitEditing={handleSearchSubmit}
-                    />
                   </View>
                 </View>
                 <TouchableOpacity onPress={handleProfileClick}>
@@ -332,7 +309,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     style={{
                       width: 35,
                       height: 35,
-                      top: '35%',
+                      top: '50%',
                       paddingRight: '20%',
                       position: 'relative',
                       borderRadius: 50,
@@ -419,7 +396,8 @@ const HomePage = () => {
     <>
       <SafeAreaView>
         <ScrollView>
-          <View>
+          <View
+          style = {{width: Dimensions.get('window').width,}}>
             <View>
               <Carousel
                 ref={isCarousel}
@@ -480,11 +458,8 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
-                  // onPress={() => {
-                  //   navigation.navigate('ForumPage');
-                  // }}
                   onPress={() => {
-                    navigation.navigate('ClinicDetails');
+                    navigation.navigate('ForumPage');
                   }}
                   >
                   <Text
@@ -506,6 +481,7 @@ const HomePage = () => {
                 data={data2}
                 renderItem={itemNumber2}
                 sliderWidth={screenWidth}
+                sliderHeight={screenHeight}
                 itemWidth={Math.round(screenWidth * 0.9)}
               />
             </View>
@@ -517,6 +493,7 @@ const HomePage = () => {
                   justifyContent: 'space-between',
                   marginLeft: 20,
                   marginRight: 30,
+                  top: -30
                 }}>
                 <Text
                   style={{
@@ -524,11 +501,11 @@ const HomePage = () => {
                     fontFamily: 'Poppins-Bold',
                     fontSize: 20,
                   }}>
-                  Popular Clinics
+                  Explore Clinics
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('PopularClinics');
+                    navigation.navigate('ResultsPage');
                   }}>
                   <Text
                     style={{
@@ -540,7 +517,8 @@ const HomePage = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-                <Carousel
+              <View style = {{ width: Dimensions.get('window').width, top: -30}}>
+              <Carousel
                   data={data1}
                   renderItem={({ item, index }) => renderItem({ item, index, navigation })}
                   sliderWidth={screenWidth}
@@ -548,6 +526,7 @@ const HomePage = () => {
                   itemWidth={Math.round(screenWidth * 0.8)}
                   itemHeight={Math.round(screenHeight - 30 * 0.7)}
                 />
+              </View>
             </View>
           </View>
         </ScrollView>

@@ -19,6 +19,8 @@ import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import ViewPropTypes from 'deprecated-react-native-prop-types';
+import StyleSheetPropType from 'deprecated-react-native-prop-types';
+
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -115,7 +117,7 @@ const renderItem = ({item, index, navigation}) => {
   //const navigation = useNavigation();
 
   const handleSeeMoreClick = () => {
-    navigation.navigate('ClinicProfile');
+    navigation.navigate('ForumPage');
   };
 
   return (
@@ -175,7 +177,7 @@ const renderItem = ({item, index, navigation}) => {
             {item.info1}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 13, fontWeight: 300, color: '#5a2828'}}>
+            <Text style ={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
               {item.info2}
             </Text>
             <TouchableOpacity onPress= {handleSeeMoreClick} >
@@ -216,7 +218,7 @@ const itemNumber2 = ({item}) => {
                 style={{color: '#5a2828', fontWeight: 'bold', fontSize: 20}}>
                 {item.title}
               </Text>
-              <Text style={{color: '#5a2828', fontWeight: 300, fontSize: 15}}>
+              <Text style={{color: '#5a2828', fontWeight: '300', fontSize: 15}}>
                 {item.description}
               </Text>
             </View>
@@ -264,10 +266,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const handleProfileClick = () => {
     navigation.navigate('ProfileDetails');
   };
-  const handleSearchSubmit = () => {
-    navigation.navigate('ResultsPage', {searchQuery});
-  };
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -298,39 +296,17 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       borderRadius: 20,
                       width: 200,
                     }}>
-
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('ResultsPage')}>
-                      <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        size={20}
-                        style={{color: '#ff8700', marginRight: 10}}
-                      />
-                    </TouchableOpacity>
-
-                    <TextInput
-                      style={{
-                        flex: 1,
-                        color: 'black',
-                        fontSize: 13,
-                        height: 35,
-                        marginLeft: 10,
-                      }}
-                      placeholder="Search"
-                      placeholderTextColor={'#ff8d4d'}
-                      value={searchQuery}
-                      onChangeText={text => setSearchQuery(text)}
-                      onSubmitEditing={handleSearchSubmit}
-                    />
                   </View>
                 </View>
+                
+                {/* profile click */}
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image
                     source={item.imageSome}
                     style={{
                       width: 35,
                       height: 35,
-                      top: '35%',
+                      top: '50%',
                       paddingRight: '20%',
                       position: 'relative',
                       borderRadius: 50,

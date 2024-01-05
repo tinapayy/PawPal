@@ -350,18 +350,31 @@ const ClinicProfile = () => {
               }}
             />
           </View> */}
-          <MapView
-            style={{margin: 20, height: 500}}
-            provider={PROVIDER_GOOGLE}
-            initialRegion={mapRegion}
-            region={mapRegion}>
-            <Marker
-              coordinate={{
-                latitude: mapRegion.latitude,
-                longitude: mapRegion.longitude,
-              }}
-            />
-          </MapView>
+          {mapRegion && (
+            <MapView
+              style={{margin: 20, height: 500}}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={mapRegion}
+              region={mapRegion}>
+              <Marker
+                coordinate={{
+                  latitude: mapRegion.latitude,
+                  longitude: mapRegion.longitude,
+                }}
+              />
+            </MapView>
+          )}
+          {!mapRegion && (
+            <MapView
+              style={{margin: 20, height: 500}}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={{
+                latitude: 10.7202,
+                longitude: 122.5621,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}></MapView>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

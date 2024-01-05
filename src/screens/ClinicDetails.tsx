@@ -26,28 +26,32 @@ const PawPalApp = () => {
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
-    { day: 'Monday', open: '', close: '' },
-    { day: 'Tuesday', open: '', close: '' },
-    { day: 'Wednesday', open: '', close: '' },
-    { day: 'Thursday', open: '', close: '' },
-    { day: 'Friday', open: '', close: '' },
-    { day: 'Saturday', open: '', close: '' },
-    { day: 'Sunday', open: '', close: '' },
+    { day: '', open: '', close: '' },
   ]);
+
+  const daysOfWeek = [
+    { day: 'Monday'},
+    { day: 'Tuesday'},
+    { day: 'Wednesday'},
+    { day: 'Thursday'},
+    { day: 'Friday'},
+    { day: 'Saturday'},
+    { day: 'Sunday'},
+  ];
 
   const [tagsInput, setTagsInput] = useState([]);
 
-  const toggleDaySelection = (day: string) => {
-    const existingDay = selectedDays.find((selectedDay) => selectedDay.day === day);
-  
+  const toggleDaySelection = (day) => {
+    const existingDay = selectedDays.find((daysOfWeek) => daysOfWeek.day === day);
+
     if (existingDay) {
-      // Day exists, remove it from the array
       setSelectedDays(selectedDays.filter((selectedDay) => selectedDay.day !== day));
     } else {
-      // Day doesn't exist, add it to the array with default open and close hours
       setSelectedDays([...selectedDays, { day, open: '', close: '' }]);
     }
   };
+  
+  
 
   const saveClinicInfo = async () => {
     try{
@@ -401,9 +405,9 @@ const PawPalApp = () => {
           value={description}
           />
 
-          <Text style={styles.storeHours}>Store Hours</Text>
+<Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
-            {selectedDays.map(({day, open, close }, index) => (
+            {daysOfWeek.map(({day, open, close }, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => toggleDaySelection(day)}>
@@ -416,7 +420,7 @@ const PawPalApp = () => {
 
                   {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
-                  {selectedDays.some((selectedDay) => selectedDay.day === day) && (
+                  {daysOfWeek.some((selectedDay) => selectedDay.day === day) && (
                     <TextInput
                       style={{fontSize: 15, marginLeft: 25, color: '#5A2828', width: 75, textAlign: 'center'}}
                       placeholderTextColor={'#D3D3D3'}
@@ -429,7 +433,7 @@ const PawPalApp = () => {
                     style={{fontSize: 15, color: '#5A2828', fontWeight: 'bold'}}
                     > - 
                     </Text>
-                  {selectedDays.some((selectedDay) => selectedDay.day === day) && (
+                  {daysOfWeek.some((selectedDay) => selectedDay.day === day) && (
                     <TextInput
                       style={{fontSize: 15, marginLeft: 10, color: '#5A2828', width: 75, textAlign: 'center'}}
                       placeholderTextColor={'#D3D3D3'}

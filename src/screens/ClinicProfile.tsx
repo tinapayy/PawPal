@@ -96,23 +96,6 @@ const ClinicProfile = () => {
     const handleIconPress = () => {
         Alert.alert('Google Map API to be implemented :>')
       };
-      
-      const clinicDetails = {
-        id: 1,
-        imageSource: require('../images/image_29.png'),
-        name: 'Cornerstone Animal Hospital and Veterinary Supply',
-        phoneNo: '0917 633 8278',
-        storeHours1: 'Monday -- 8:00 AM to 6:00 PM',
-        storeHours2: 'Tuesday -- CLOSED',
-        storeHours3: 'Wednesday -- 8:00 AM to 6:00 PM',
-        storeHours4: 'Thursday -- 8:00 AM to 6:00 PM',
-        storeHours5: 'Friday -- 8:00 AM to 6:00 PM',
-        storeHours6: 'Saturday -- 8:00 AM to 6:00 PM',
-        storeHours7: 'Sunday -- 8:00 AM to 6:00 PM',
-        telNo: '(033) 503-29-12',
-        services: ['Grooming', 'Surgery', 'Consultation', 'Pharmacy'] ,
-        userDetails: 'Veterinary services, grooming for dogs and cats and pet supplies.',
-      };
 
     return(
         <SafeAreaView style = {{backgroundColor: 'orange', width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
@@ -192,9 +175,11 @@ const ClinicProfile = () => {
                     {isDropdownOpen && (
                     <View style={styles.dropdown}>
                     {currentstorehours.map((dayHours, index) => (
+                        dayHours.open !== '' && dayHours.close !== '' && (
                     <Text key={index}>
                         {dayHours.day}: {dayHours.open} to {dayHours.close}
                     </Text>
+                    )
                 ))}
                     </View>
                 )}

@@ -1,16 +1,32 @@
 import React, {useState, useEffect} from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert, StyleProp, ViewStyle, TextStyle, FlatList} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  FlatList,
+} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus, 
-        faImage, 
-        faLocationDot, 
-        faTimesCircle,
-        faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import { FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
+import {
+  faCirclePlus,
+  faImage,
+  faTimesCircle,
+  faCaretDown,
+} from '@fortawesome/free-solid-svg-icons';
+import {FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
-import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
+import {red} from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -25,45 +41,47 @@ const PawPalApp = () => {
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
-    { day: '', open: '', close: '' },
+    {day: '', open: '', close: ''},
   ]);
 
   const daysOfWeek = [
-    { day: 'Monday'},
-    { day: 'Tuesday'},
-    { day: 'Wednesday'},
-    { day: 'Thursday'},
-    { day: 'Friday'},
-    { day: 'Saturday'},
-    { day: 'Sunday'},
+    {day: 'Monday'},
+    {day: 'Tuesday'},
+    {day: 'Wednesday'},
+    {day: 'Thursday'},
+    {day: 'Friday'},
+    {day: 'Saturday'},
+    {day: 'Sunday'},
   ];
 
   const [tagsInput, setTagsInput] = useState([]);
 
-  const toggleDaySelection = (day) => {
-    const existingDay = selectedDays.find((daysOfWeek) => daysOfWeek.day === day);
+  const toggleDaySelection = day => {
+    const existingDay = selectedDays.find(daysOfWeek => daysOfWeek.day === day);
 
     if (existingDay) {
-      setSelectedDays(selectedDays.filter((selectedDay) => selectedDay.day !== day));
+      setSelectedDays(
+        selectedDays.filter(selectedDay => selectedDay.day !== day),
+      );
     } else {
-      setSelectedDays([...selectedDays, { day, open: '', close: '' }]);
+      setSelectedDays([...selectedDays, {day, open: '', close: ''}]);
     }
   };
-  
-  
 
   const saveClinicInfo = async () => {
-    try{
+    try {
       const userQuery = await getDocs(collection(db, 'user'));
       userQuery.forEach(async currentDoc => {
         if (currentDoc.data().userId === auth.currentUser?.uid) {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
-            picture: selectedImage,
+            clinicPicture: selectedImage || null,
             services: tagsInput,
             contactInfo: number,
             about: description,
             storeHours: selectedDays,
+            location: mapRegion,
+            address: await getAddress(),
           };
           try {
             await updateDoc(userRef, updateData);
@@ -77,9 +95,9 @@ const PawPalApp = () => {
       });
     } catch (error) {
       console.log('Error querying user data: ', error);
-      Alert.alert('Error updating clinic details. Please try again.')
+      Alert.alert('Error updating clinic details. Please try again.');
     }
-  }
+  };
 
   const exitClinicEdit = () => {
     navigation.navigate('HomePage');
@@ -114,7 +132,7 @@ const PawPalApp = () => {
     setInputVisible(!isInputVisible);
   };
 
-  const handleTagsChange = (updatedTags) => {
+  const handleTagsChange = updatedTags => {
     setTagsInput(updatedTags);
   };
 
@@ -143,61 +161,79 @@ const PawPalApp = () => {
     });
   };
 
-    const [tags, setTags] = useState([]);
-    const [tagVal, setTagVal] = useState('');
-  
-    function addTag() {
-      if (tagVal.trim() !== '') {
-        setTags([...tags, tagVal]);
-        setTagVal(''); // Clear the input field after adding a tag
+  const [tags, setTags] = useState([]);
+  const [tagVal, setTagVal] = useState('');
+
+  function addTag() {
+    if (tagVal.trim() !== '') {
+      setTags([...tags, tagVal]);
+      setTagVal(''); // Clear the input field after adding a tag
+    }
+  }
+
+  function removeTag(indexToRemove) {
+    const updatedTags = tags.filter((_, index) => index !== indexToRemove);
+    setTags(updatedTags);
+  }
+
+  const handleOpenHoursChange = (day: string, text: string) => {
+    setSelectedDays(prevDays =>
+      prevDays.map(selectedDay =>
+        selectedDay.day === day ? {...selectedDay, open: text} : selectedDay,
+      ),
+    );
+  };
+
+  const handleCloseHoursChange = (day: string, text: string) => {
+    setSelectedDays(prevDays =>
+      prevDays.map(selectedDay =>
+        selectedDay.day === day ? {...selectedDay, close: text} : selectedDay,
+      ),
+    );
+  };
+
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 10.7202,
+    longitude: 122.5621,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setDescription(doc.data().about);
+            setSelectedImage(doc.data().clinicPicture);
+            setNumber(doc.data().contactInfo);
+            setSelectedDays(doc.data().storeHours);
+            setTags(doc.data().services);
+            setMapRegion(doc.data().location);
+            setAddress(doc.data().address);
+          }
+        });
+      } catch (error) {
+        console.log(error);
       }
-    }
-  
-    function removeTag(indexToRemove) {
-      const updatedTags = tags.filter((_, index) => index !== indexToRemove);
-      setTags(updatedTags);
-    }
-
-    const handleOpenHoursChange = (day: string, text: string) => {
-      setSelectedDays((prevDays) =>
-        prevDays.map((selectedDay) =>
-          selectedDay.day === day ? { ...selectedDay, open: text } : selectedDay
-        )
-      );
     };
-    
-    const handleCloseHoursChange = (day: string, text: string) => {
-      setSelectedDays((prevDays) =>
-        prevDays.map((selectedDay) =>
-          selectedDay.day === day ? { ...selectedDay, close: text } : selectedDay
-        )
-      );
-    };
-    
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'user'));
-                querySnapshot.forEach(doc => {
-                    if (doc.data().userId === auth.currentUser?.uid) {
-                        setDescription(doc.data().about);
-                        setSelectedImage(doc.data().picture);
-                        setNumber(doc.data().contactInfo);
-                        setSelectedDays(doc.data().storeHours);
-                        setTags(doc.data().services);
-                    }
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-  {/* CONCERN: LOCATION IMPLEMENTATION */}
-  const handleIconPress = () => {
-    Alert.alert('Google Map API to be implemented :>');
+  const handleRegionChange = region => {
+    setMapRegion(region);
+  };
+
+  const getAddress = async () => {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBKZoguQ4iBcqCuDqOSkj6OpPskqaY7epg`,
+    );
+    const data = await response.json();
+    const address = data.results[0].formatted_address.split(',');
+    address.pop();
+    return address.join(',');
   };
 
   return (
@@ -250,8 +286,6 @@ const PawPalApp = () => {
             }}
           />
         </View>
-
-        <Text style={styles.skip}>Skip</Text>
       </View>
 
       <ScrollView>
@@ -300,7 +334,7 @@ const PawPalApp = () => {
           <TouchableOpacity onPress={openImagePicker}>
             {selectedImage ? (
               <Image
-                source={{ uri: selectedImage }}
+                source={{uri: selectedImage}}
                 style={{
                   borderRadius: 30,
                   margin: 30,
@@ -316,8 +350,7 @@ const PawPalApp = () => {
                   height: 150,
                   justifyContent: 'center',
                   alignItems: 'center',
-                }}
-              >
+                }}>
                 <FontAwesomeIcon
                   icon={faImage}
                   size={30}
@@ -329,82 +362,87 @@ const PawPalApp = () => {
             )}
           </TouchableOpacity>
 
-          <View style={{flexDirection: 'column',flexWrap:'wrap'}}>
-            <View style={{flexDirection: 'row', alignItems: 'flex-end' ,flexWrap:'wrap'}}>
-            <Text style={styles.services}>Services</Text>
-            <TouchableOpacity onPress={handleToggleInput}>
-              <FontAwesomeIcon
-                icon={faCaretDown}
-                size={25}
-                style={{color: '#ff8700', marginLeft: 10}}
-              />
-            </TouchableOpacity>
+          <View style={{flexDirection: 'column', flexWrap: 'wrap'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+                flexWrap: 'wrap',
+              }}>
+              <Text style={styles.services}>Services</Text>
+              <TouchableOpacity onPress={handleToggleInput}>
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  size={25}
+                  style={{color: '#ff8700', marginLeft: 10}}
+                />
+              </TouchableOpacity>
             </View>
 
-            <View 
-              style={{ justifyContent: 'center',
-                      alignItems: 'flex-end',
-                      marginLeft: 40,
-                      flexWrap:'wrap',
-                      width: 350
-                      }}
-            >
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                marginLeft: 40,
+                flexWrap: 'wrap',
+                width: 350,
+              }}>
               {/* CONCERN: ADDING MORE TAGS */}
               {isInputVisible && (
-              <View>
-                <View style={styles.tagsContainer}>
-                  <FlatList
-                    data={tags}
-                    horizontal
-                    renderItem={({ item, index }) => (
-                      <View style={styles.tagitems}>
-                        <Text>{item}</Text>
-                        <TouchableOpacity onPress={() => removeTag(index)}>
-                          <FontAwesomeIcon
-                            icon={faTimesCircle}
-                            size={25}
-                            style={{ color: '#ff8700', marginLeft: 5 }}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                </View>
-
-                <View style={styles.tagupdatecontainer}>
-                  <View style={styles.taginputcontainer}>
-                    <TextInput
-                      value={tagVal}
-                      onChangeText={(text) => setTagVal(text)}
-                      placeholder="Enter service"
-                      onSubmitEditing={addTag}
-                      style={styles.taginput}
+                <View>
+                  <View style={styles.tagsContainer}>
+                    <FlatList
+                      data={tags}
+                      horizontal
+                      renderItem={({item, index}) => (
+                        <View style={styles.tagitems}>
+                          <Text>{item}</Text>
+                          <TouchableOpacity onPress={() => removeTag(index)}>
+                            <FontAwesomeIcon
+                              icon={faTimesCircle}
+                              size={25}
+                              style={{color: '#ff8700', marginLeft: 5}}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                      keyExtractor={(item, index) => index.toString()}
                     />
-                    <TouchableOpacity onPress={addTag}>
-                      <FontAwesomeIcon
-                        icon={faCirclePlus}
-                        size={25}
-                        style={{color: '#ff8700', marginLeft: 10}}
+                  </View>
+
+                  <View style={styles.tagupdatecontainer}>
+                    <View style={styles.taginputcontainer}>
+                      <TextInput
+                        value={tagVal}
+                        onChangeText={text => setTagVal(text)}
+                        placeholder="Enter service"
+                        onSubmitEditing={addTag}
+                        style={styles.taginput}
                       />
+                      <TouchableOpacity onPress={addTag}>
+                        <FontAwesomeIcon
+                          icon={faCirclePlus}
+                          size={25}
+                          style={{color: '#ff8700', marginLeft: 10}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    <TouchableOpacity onPress={handleSaveTagInput}>
+                      <Text
+                        style={{
+                          marginLeft: 10,
+                          color: 'white',
+                          fontSize: 13,
+                          backgroundColor: '#ff8700',
+                          borderRadius: 10,
+                          padding: 10,
+                        }}>
+                        Save
+                      </Text>
                     </TouchableOpacity>
                   </View>
-                  
-                  <TouchableOpacity onPress={handleSaveTagInput}>
-                    <Text
-                      style={{
-                        marginLeft: 10,
-                        color: 'white',
-                        fontSize: 13,
-                        backgroundColor: '#ff8700',
-                        borderRadius: 10,
-                        padding: 10,
-                      }}>
-                      Save
-                    </Text>
-                  </TouchableOpacity>
                 </View>
-              </View>
               )}
             </View>
           </View>
@@ -418,47 +456,64 @@ const PawPalApp = () => {
           />
 
           <Text style={styles.about}>About</Text>
-          <TextInput 
-          style={styles.input}
-          onChangeText={ text => setDescription(text)}
-          value={description}
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setDescription(text)}
+            value={description}
           />
 
-<Text style={styles.storeHours}>Store Hours</Text>
+          <Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
-            {daysOfWeek.map(({day, open, close }, index) => (
+            {daysOfWeek.map(({day, open, close}, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => toggleDaySelection(day)}>
                 <View style={styles.wrap}>
                   <View style={styles.btn}>
-                  {selectedDays.some((selectedDay) => selectedDay.day === day) && (
-                      <View style={styles.bg}></View>
-                    )}
+                    {selectedDays.some(
+                      selectedDay => selectedDay.day === day,
+                    ) && <View style={styles.bg}></View>}
                   </View>
 
                   {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
-                  {daysOfWeek.some((selectedDay) => selectedDay.day === day) && (
+                  {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
                     <TextInput
-                      style={{fontSize: 15, marginLeft: 25, color: '#5A2828', width: 75, textAlign: 'center'}}
+                      style={{
+                        fontSize: 15,
+                        marginLeft: 25,
+                        color: '#5A2828',
+                        width: 75,
+                        textAlign: 'center',
+                      }}
                       placeholderTextColor={'#D3D3D3'}
                       placeholder="Open"
                       value={open}
-                      onChangeText={(text) => handleOpenHoursChange(day, text)}
+                      onChangeText={text => handleOpenHoursChange(day, text)}
                     />
                   )}
                   <Text
-                    style={{fontSize: 15, color: '#5A2828', fontWeight: 'bold'}}
-                    > - 
-                    </Text>
-                  {daysOfWeek.some((selectedDay) => selectedDay.day === day) && (
+                    style={{
+                      fontSize: 15,
+                      color: '#5A2828',
+                      fontWeight: 'bold',
+                    }}>
+                    {' '}
+                    -
+                  </Text>
+                  {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
                     <TextInput
-                      style={{fontSize: 15, marginLeft: 10, color: '#5A2828', width: 75, textAlign: 'center'}}
+                      style={{
+                        fontSize: 15,
+                        marginLeft: 10,
+                        color: '#5A2828',
+                        width: 75,
+                        textAlign: 'center',
+                      }}
                       placeholderTextColor={'#D3D3D3'}
                       placeholder="Close"
                       value={close}
-                      onChangeText={(text) => handleCloseHoursChange(day, text)}
+                      onChangeText={text => handleCloseHoursChange(day, text)}
                     />
                   )}
                 </View>
@@ -467,35 +522,22 @@ const PawPalApp = () => {
           </View>
 
           <Text style={styles.loc}>Location</Text>
-          
-          <TouchableOpacity onPress={handleIconPress}>
-            <FontAwesomeIcon
-              icon={faLocationDot}
-              size={30}
-              style={{
-                color: '#ff8700',
-                padding: 0,
-                flex: 1,
-                justifyContent: 'center',
-                position: 'absolute',
-                top: 90,
-                marginLeft: '35%',
-              }}
-            />
-
-            <View>
-              <View
-                style={{
-                  backgroundColor: '#ffb78f80',
-                  borderRadius: 30,
-                  margin: 30,
-                  height: 150,
-                  // flex: 1,
-                  justifyContent: 'center',
+          <View style={{flex: 1}}>
+            <MapView
+              style={{flex: 1, margin: 40, height: 300}}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={mapRegion}
+              region={mapRegion}
+              onRegionChangeComplete={handleRegionChange}>
+              <Marker
+                coordinate={{
+                  latitude: mapRegion.latitude,
+                  longitude: mapRegion.longitude,
                 }}
               />
-            </View>
-          </TouchableOpacity>
+            </MapView>
+          </View>
+
           <View style={{height: 300}}>
             <AppButton
               title="Save"
@@ -715,19 +757,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#FFAC4E',
-    color: '#5A2828', 
-    backgroundColor: '#F1D5C6', 
-    borderRadius: 15, 
-
-    
+    color: '#5A2828',
+    backgroundColor: '#F1D5C6',
+    borderRadius: 15,
   },
   taginputcontainer: {
     textAlign: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#5A2828', 
-    fontSize: 15, 
+    color: '#5A2828',
+    fontSize: 15,
     marginLeft: 5,
     marginRight: 0,
     borderRadius: 15,
@@ -742,13 +782,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    color: '#5A2828', 
-    fontSize: 15, 
-    marginLeft: 5, 
-    backgroundColor: '#F1D5C6', 
-    borderRadius: 10, 
+    color: '#5A2828',
+    fontSize: 15,
+    marginLeft: 5,
+    backgroundColor: '#F1D5C6',
+    borderRadius: 10,
   },
-  tagupdatecontainer:{
+  tagupdatecontainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },

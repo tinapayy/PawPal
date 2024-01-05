@@ -81,6 +81,7 @@ const PawPalApp = () => {
             about: description,
             storeHours: selectedDays,
             location: mapRegion,
+            address: await getAddress(),
           };
           try {
             await updateDoc(userRef, updateData);
@@ -213,7 +214,9 @@ const PawPalApp = () => {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBKZoguQ4iBcqCuDqOSkj6OpPskqaY7epg`,
     );
     const data = await response.json();
-    console.log(data);
+    const address = data.results[0].formatted_address.split(',');
+    address.pop();
+    return address.join(',');
   };
 
   return (

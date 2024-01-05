@@ -237,7 +237,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const db = FIREBASE_DB;
 
   const [profilePicture, setProfilePicture] = useState(null);
-  const [userType, setUserType] = useState('petOwner');
+  const [userType, setUserType] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {

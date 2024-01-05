@@ -86,7 +86,7 @@ const SignIn = () => {
         } else if (getUserType() === 'clinic') {
           navigation.reset({
             index: 0,
-            routes: [{name: 'ClinicDetails'}],
+            routes: [{name: 'AddClinicDetails'}],
           });
         }
       }

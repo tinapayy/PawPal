@@ -31,7 +31,8 @@ import SignIn from './src/screens/SignIn';
 import GettingStarted from './src/screens/GettingStarted';
 import GettingStarted2 from './src/screens/GettingStarted2';
 import SignUp from './src/screens/SignUp';
-import ClinicDetails from './src/screens/ClinicDetails';
+import AddClinicDetails from './src/screens/AddClinicDetails';
+import EditClinicDetails from './src/screens/EditClinicDetails';
 import AddUserProfile from './src/screens/AddUserProfile';
 import EditUserProfile from './src/screens/EditUserProfile';
 
@@ -163,8 +164,13 @@ export default function App() {
           options={{headerShown: true}}
         />
         <Stack.Screen
-          name="ClinicDetails"
-          component={ClinicDetails}
+          name="AddClinicDetails"
+          component={AddClinicDetails}
+          options={{headerShown: true}}
+        />
+        <Stack.Screen
+          name="EditClinicDetails"
+          component={EditClinicDetails}
           options={{headerShown: true}}
         />
         <Stack.Screen

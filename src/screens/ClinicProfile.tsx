@@ -90,11 +90,13 @@ const ClinicProfile = () => {
       }}>
       <View>
         <View style={styles.icon}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            size={30}
-            style={{color: '#ff8700'}}
-          />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              size={30}
+              style={{color: '#ff8700'}}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('SettingsPage_Clinic')}>
             <FontAwesomeIcon
@@ -261,51 +263,39 @@ const ClinicProfile = () => {
             }}>
             Services
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'flex-start',
-              margin: 10,
-            }}>
-            {services.map((service, index) => (
-              // <Text style = {{
-              //     display: 'flex',
-              //     justifyContent:'flex-start',
-              //     color: 'black',
-              //     textAlign: 'center',
-              //     backgroundColor:'#f1d5c5',
-              //     width: 100,
-              //     opacity: 0.5,
-              //     borderRadius: 20,
-              //     padding: 10,
-              //     margin: 10,
-              //     fontFamily: 'Poppins-Medium',
-              //     }} >
-              //         {service}
-              // </Text>
-              <View
-                key={index}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  margin: 5,
-                }}>
-                <Text
+          {Array.isArray(services) && services.length > 0 && (
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'flex-start',
+                margin: 10,
+              }}>
+              {services.map((service, index) => (
+                <View
+                  key={index}
                   style={{
-                    color: 'black',
-                    textAlign: 'center',
-                    backgroundColor: '#f1d5c5',
-                    padding: 10,
-                    borderRadius: 20,
-                    fontFamily: 'Poppins-Medium',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    margin: 5,
                   }}>
-                  {service}
-                </Text>
-              </View>
-            ))}
-          </View>
+                  <Text
+                    style={{
+                      color: 'black',
+                      textAlign: 'center',
+                      backgroundColor: '#f1d5c5',
+                      padding: 10,
+                      borderRadius: 20,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    {service}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
           <View>
             <Image
               source={require('../images/Line_23.png')}
@@ -350,18 +340,31 @@ const ClinicProfile = () => {
               }}
             />
           </View> */}
-          <MapView
-            style={{margin: 20, height: 500}}
-            provider={PROVIDER_GOOGLE}
-            initialRegion={mapRegion}
-            region={mapRegion}>
-            <Marker
-              coordinate={{
-                latitude: mapRegion.latitude,
-                longitude: mapRegion.longitude,
-              }}
-            />
-          </MapView>
+          {mapRegion && (
+            <MapView
+              style={{margin: 20, height: 500}}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={mapRegion}
+              region={mapRegion}>
+              <Marker
+                coordinate={{
+                  latitude: mapRegion.latitude,
+                  longitude: mapRegion.longitude,
+                }}
+              />
+            </MapView>
+          )}
+          {!mapRegion && (
+            <MapView
+              style={{margin: 20, height: 500}}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={{
+                latitude: 10.7202,
+                longitude: 122.5621,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}></MapView>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -2,10 +2,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {useState} from 'react';
 import React from 'react';
 
-let userType = 'petOwner';
-
-const SwitchButton = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+const SwitchButton = ({selectedUserType, setSelectedUserType}) => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <View
@@ -24,19 +21,17 @@ const SwitchButton = () => {
           style={{
             width: '49%',
             height: 49,
-            elevation: selectedTab == 0 ? 3 : 0,
-            backgroundColor: selectedTab == 0 ? 'orange' : 'white',
+            elevation: selectedUserType === 'petOwner' ? 3 : 0,
+            backgroundColor:
+              selectedUserType === 'petOwner' ? 'orange' : 'white',
             borderRadius: 25,
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          onPress={() => {
-            setSelectedTab(0);
-            userType = 'petOwner';
-          }}>
+          onPress={() => setSelectedUserType('petOwner')}>
           <Text
             style={{
-              color: selectedTab == 0 ? '#fff' : '#000',
+              color: selectedUserType === 'petOwner' ? '#fff' : '#000',
               fontSize: 18,
               fontWeight: '700',
             }}>
@@ -47,19 +42,16 @@ const SwitchButton = () => {
           style={{
             width: '49%',
             height: 49,
-            elevation: selectedTab == 1 ? 3 : 0,
-            backgroundColor: selectedTab == 1 ? 'orange' : 'white',
+            elevation: selectedUserType === 'clinic' ? 3 : 0,
+            backgroundColor: selectedUserType === 'clinic' ? 'orange' : 'white',
             borderRadius: 25,
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          onPress={() => {
-            setSelectedTab(1);
-            userType = 'clinic';
-          }}>
+          onPress={() => setSelectedUserType('clinic')}>
           <Text
             style={{
-              color: selectedTab == 1 ? '#fff' : '#000',
+              color: selectedUserType === 'clinic' ? '#fff' : '#000',
               fontSize: 18,
               fontWeight: '700',
             }}>
@@ -69,10 +61,6 @@ const SwitchButton = () => {
       </View>
     </View>
   );
-};
-
-export const getUserType = () => {
-  return userType;
 };
 
 export default SwitchButton;

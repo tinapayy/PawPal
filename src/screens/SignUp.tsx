@@ -25,7 +25,7 @@ import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton, {getUserType} from '../components/SwitchButton';
+import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 
 const SignIn = () => {
@@ -38,11 +38,10 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [selectedUserType, setSelectedUserType] = useState('petOwner');
 
   const signUp = async () => {
     try {
-      setLoading(true);
       if (password !== confirmPassword) {
         Alert.alert('Password do not match');
         return;
@@ -58,14 +57,14 @@ const SignIn = () => {
         name: name,
         email: email,
         password: password,
-        userType: getUserType(),
+        userType: selectedUserType,
       };
 
-      if (getUserType() === 'petOwner') {
+      if (selectedUserType === 'petOwner') {
         // Adds bio empty field to userDoc when user type is pet owner
         userDoc.bio = '';
         userDoc.pet = [];
-      } else if (getUserType() === 'clinic') {
+      } else if (selectedUserType === 'clinic') {
         // Adds contact# and about fields to userDoc  when user type is clinic
         userDoc.clinicPicture = null;
         userDoc.services = '';
@@ -78,12 +77,12 @@ const SignIn = () => {
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {
-        if (getUserType() === 'petOwner') {
+        if (selectedUserType === 'petOwner') {
           navigation.reset({
             index: 0,
             routes: [{name: 'AddUserProfile'}],
           });
-        } else if (getUserType() === 'clinic') {
+        } else if (selectedUserType === 'clinic') {
           navigation.reset({
             index: 0,
             routes: [{name: 'AddClinicDetails'}],
@@ -94,7 +93,6 @@ const SignIn = () => {
       console.error(error);
       Alert.alert(error.message);
     }
-    setLoading(false);
   };
 
   return (
@@ -114,7 +112,10 @@ const SignIn = () => {
             height: 1000,
             elevation: 20,
           }}>
-          <SwitchButton />
+          <SwitchButton
+            selectedUserType={selectedUserType}
+            setSelectedUserType={setSelectedUserType}
+          />
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>

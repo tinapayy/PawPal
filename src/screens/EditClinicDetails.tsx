@@ -211,8 +211,8 @@ const PawPalApp = () => {
             setNumber(doc.data().contactInfo);
             setSelectedDays(doc.data().storeHours);
             setTags(doc.data().services);
-            setMapRegion(doc.data().location);
-            setAddress(doc.data().address);
+            setMapRegion(doc.data().location || mapRegion);
+            setAddress(doc.data().address || address);
           }
         });
       } catch (error) {

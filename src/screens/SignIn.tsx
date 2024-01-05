@@ -21,7 +21,7 @@ import {collection, getDocs} from 'firebase/firestore';
 import {FIREBASE_AUTH} from '../../firebase.config';
 import {FIREBASE_DB} from '../../firebase.config';
 import MyComponent from '../components/SegmentedButton';
-import SwitchButton, {getUserType} from '../components/SwitchButton';
+import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 import {faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons';
 
@@ -33,14 +33,16 @@ const SignIn = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedUserType, setSelectedUserType] = useState('petOwner');
 
   const signIn = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
       let userFound = false;
+
       querySnapshot.forEach(doc => {
         if (
-          doc.data().userType === getUserType() &&
+          doc.data().userType === selectedUserType &&
           doc.data().email === email &&
           doc.data().password === password
         ) {
@@ -85,7 +87,10 @@ const SignIn = () => {
             height: 1000,
             elevation: 20,
           }}>
-          <SwitchButton />
+          <SwitchButton
+            selectedUserType={selectedUserType}
+            setSelectedUserType={setSelectedUserType}
+          />
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign In</Text>
             <View style={styles.inputs}>

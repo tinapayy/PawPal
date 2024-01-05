@@ -41,35 +41,35 @@ const PawPalApp = () => {
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
-    { day: '', open: '', close: '' },
+    {day: '', open: '', close: ''},
   ]);
 
   const daysOfWeek = [
-    { day: 'Monday'},
-    { day: 'Tuesday'},
-    { day: 'Wednesday'},
-    { day: 'Thursday'},
-    { day: 'Friday'},
-    { day: 'Saturday'},
-    { day: 'Sunday'},
+    {day: 'Monday'},
+    {day: 'Tuesday'},
+    {day: 'Wednesday'},
+    {day: 'Thursday'},
+    {day: 'Friday'},
+    {day: 'Saturday'},
+    {day: 'Sunday'},
   ];
 
   const [tagsInput, setTagsInput] = useState([]);
 
-  const toggleDaySelection = (day) => {
-    const existingDay = selectedDays.find((daysOfWeek) => daysOfWeek.day === day);
+  const toggleDaySelection = day => {
+    const existingDay = selectedDays.find(daysOfWeek => daysOfWeek.day === day);
 
     if (existingDay) {
-      setSelectedDays(selectedDays.filter((selectedDay) => selectedDay.day !== day));
+      setSelectedDays(
+        selectedDays.filter(selectedDay => selectedDay.day !== day),
+      );
     } else {
-      setSelectedDays([...selectedDays, { day, open: '', close: '' }]);
+      setSelectedDays([...selectedDays, {day, open: '', close: ''}]);
     }
   };
-  
-  
 
   const saveClinicInfo = async () => {
-    try{
+    try {
       const userQuery = await getDocs(collection(db, 'user'));
       userQuery.forEach(async currentDoc => {
         if (currentDoc.data().userId === auth.currentUser?.uid) {
@@ -85,7 +85,10 @@ const PawPalApp = () => {
           try {
             await updateDoc(userRef, updateData);
             Alert.alert('Profile updated successfully');
-            navigation.navigate('HomePage');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'HomePage'}],
+            });
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating clinic profile. Please try again.');
@@ -98,8 +101,11 @@ const PawPalApp = () => {
     }
   };
 
-  const exitClinicEdit = () => {
-    navigation.navigate('HomePage');
+  const skipAddClinic = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'HomePage'}],
+    });
   };
 
   interface AppButtonProps {
@@ -260,8 +266,6 @@ const PawPalApp = () => {
             }}
           />
         </View>
-
-        <Text style={styles.skip}>Skip</Text>
       </View>
 
       <ScrollView>
@@ -512,6 +516,7 @@ const PawPalApp = () => {
               />
             </MapView>
           </View>
+
           <View style={{height: 300}}>
             <AppButton
               title="Save"
@@ -520,10 +525,10 @@ const PawPalApp = () => {
               textStyle={styles.bt1}
             />
             <AppButton
-              title="Cancel"
-              onPress={exitClinicEdit}
-              buttonStyle={styles.cancel}
-              textStyle={styles.cancelText}
+              title="Skip"
+              onPress={skipAddClinic}
+              buttonStyle={styles.skip}
+              textStyle={styles.skipText}
             />
           </View>
         </View>
@@ -533,16 +538,6 @@ const PawPalApp = () => {
 };
 
 const styles = StyleSheet.create({
-  skip: {
-    flex: 1,
-    position: 'absolute',
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#5A2828',
-    fontFamily: 'Poppins-Medium',
-    marginLeft: '85%',
-    textDecorationLine: 'underline',
-  },
   clinic: {
     paddingTop: 10,
     paddingLeft: 40,
@@ -640,7 +635,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
     textAlign: 'center',
   },
-  cancel: {
+  skip: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -662,7 +657,7 @@ const styles = StyleSheet.create({
     bottom: '70%',
     //display: 'flex',
   },
-  cancelText: {
+  skipText: {
     color: '#FF8D4D',
     fontSize: 20,
     fontWeight: '400',

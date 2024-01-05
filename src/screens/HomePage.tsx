@@ -458,7 +458,7 @@ const HomePage = () => {
                   //   navigation.navigate('ForumPage');
                   // }}
                   onPress={() => {
-                    navigation.navigate('ClinicDetails');
+                    navigation.navigate('ForumPage');
                   }}
                   >
                   <Text

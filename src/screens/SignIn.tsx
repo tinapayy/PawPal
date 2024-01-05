@@ -65,6 +65,7 @@ const SignIn = () => {
     } catch (error) {
       console.error(error);
       Alert.alert('Error fetching user data');
+    }
   };
 
   return (

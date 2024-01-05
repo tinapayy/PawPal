@@ -39,11 +39,14 @@ import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { BackgroundImage } from 'react-native-elements/dist/config';
 import ModalDropdown from 'react-native-modal-dropdown';
 
+import { useNavigation } from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import { getDocs, collection, doc } from 'firebase/firestore';
 
 
 const ClinicProfile = () => {
+
+    const navigation = useNavigation();
 
     const auth = FIREBASE_AUTH;
     const db = FIREBASE_DB;
@@ -102,7 +105,9 @@ const ClinicProfile = () => {
             <View>
                 <View style = {styles.icon}>
                 <FontAwesomeIcon icon={faArrowLeft} size = {30} style = {{color: '#ff8700',}} />
-                <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}}/>
+                <TouchableOpacity onPress={() => navigation.navigate('SettingsPage_Clinic')}>
+                <FontAwesomeIcon icon={faGear} size = {30} style = {{color: '#ff8700',}} />
+                </TouchableOpacity>
                 </View>
                 
                 <View>

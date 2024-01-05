@@ -130,7 +130,6 @@ const renderItem = ({item, index, navigation}) => {
             elevation: 5,
             marginBottom: 20,
             position: 'relative',
-            
           }}>
           <View
             style={{
@@ -139,7 +138,6 @@ const renderItem = ({item, index, navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
               bottom: 10,
-              
             }}>
             <Image
               source={item.imageSource}
@@ -178,10 +176,10 @@ const renderItem = ({item, index, navigation}) => {
             {item.info1}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style ={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
+            <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
               {item.info2}
             </Text>
-            <TouchableOpacity onPress= {handleSeeMoreClick} >
+            <TouchableOpacity onPress={handleSeeMoreClick}>
               <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
             </TouchableOpacity>
           </View>
@@ -206,7 +204,7 @@ const itemNumber2 = ({item}) => {
             shadowColor: 'black',
             borderColor: '#FF8484',
             marginBottom: 10,
-            marginHorizontal: 6
+            marginHorizontal: 6,
           }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Image
@@ -239,6 +237,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const db = FIREBASE_DB;
 
   const [profilePicture, setProfilePicture] = useState(null);
+  const [userType, setUserType] = useState('petOwner');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -247,6 +246,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setProfilePicture(doc.data().profilePicture);
+            setUserType(doc.data().userType);
           }
         });
       } catch (error) {
@@ -268,9 +268,15 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const handleSeeMoreClick = () => {
     navigation.navigate('FoodAdvisable');
   };
+
   const handleProfileClick = () => {
-    navigation.navigate('ProfileDetails');
+    if (userType === 'petOwner') {
+      navigation.navigate('ProfileDetails');
+    } else {
+      navigation.navigate('ClinicProfile');
+    }
   };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -300,8 +306,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}>
-                  </View>
+                    }}></View>
                 </View>
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image
@@ -348,8 +353,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   </Text>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleSeeMoreClick} 
-                  >
+                    onPress={handleSeeMoreClick}>
                     <Text
                       style={{
                         fontSize: 17,
@@ -381,7 +385,7 @@ const HomePage = () => {
   const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    navigation.navigate('FoodAdvisable'); 
+    navigation.navigate('FoodAdvisable');
   };
   const handleSearchSubmit = () => {
     console.log('Search query:', searchQuery);
@@ -389,15 +393,14 @@ const HomePage = () => {
     navigation.navigate('ResultsPage', {searchQuery});
   };
   const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage'); 
+    navigation.navigate('ResultsPage');
   };
 
   return (
     <>
       <SafeAreaView>
         <ScrollView>
-          <View
-          style = {{width: Dimensions.get('window').width,}}>
+          <View style={{width: Dimensions.get('window').width}}>
             <View>
               <Carousel
                 ref={isCarousel}
@@ -460,8 +463,7 @@ const HomePage = () => {
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('ForumPage');
-                  }}
-                  >
+                  }}>
                   <Text
                     style={{
                       color: '#FF6464',
@@ -493,7 +495,7 @@ const HomePage = () => {
                   justifyContent: 'space-between',
                   marginLeft: 20,
                   marginRight: 30,
-                  top: -30
+                  top: -30,
                 }}>
                 <Text
                   style={{
@@ -517,10 +519,12 @@ const HomePage = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <View style = {{ width: Dimensions.get('window').width, top: -30}}>
-              <Carousel
+              <View style={{width: Dimensions.get('window').width, top: -30}}>
+                <Carousel
                   data={data1}
-                  renderItem={({ item, index }) => renderItem({ item, index, navigation })}
+                  renderItem={({item, index}) =>
+                    renderItem({item, index, navigation})
+                  }
                   sliderWidth={screenWidth}
                   sliderHeight={screenHeight}
                   itemWidth={Math.round(screenWidth * 0.8)}

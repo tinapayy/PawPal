@@ -86,7 +86,7 @@ const PawPalApp = () => {
           try {
             await updateDoc(userRef, updateData);
             Alert.alert('Profile updated successfully');
-            navigation.navigate('HomePage');
+            navigation.navigate('SettingsPage_Clinic');
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating clinic profile. Please try again.');
@@ -100,7 +100,7 @@ const PawPalApp = () => {
   };
 
   const exitClinicEdit = () => {
-    navigation.navigate('HomePage');
+    navigation.navigate('SettingsPage_Clinic');
   };
 
   interface AppButtonProps {

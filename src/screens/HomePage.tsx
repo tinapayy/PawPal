@@ -464,9 +464,13 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
+                  // onPress={() => {
+                  //   navigation.navigate('ForumPage');
+                  // }}
                   onPress={() => {
-                    navigation.navigate('ForumPage');
-                  }}>
+                    navigation.navigate('ApprovalPage');
+                  }}
+                  >
                   <Text
                     style={{
                       color: '#FF6464',

@@ -48,6 +48,7 @@ import ChoosePet from './src/screens/ChoosePet';
 import NewMessage from './src/screens/NewMessage';
 import CreatePost from './src/screens/CreatePost';
 import SettingsPage_Clinic from './src/screens/SettingsPage_Clinic';
+import Approval_page from './src/screens/Approval Page';
 
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
@@ -299,7 +300,12 @@ export default function App() {
         <Stack.Screen
           name="SettingsPage_Clinic"
           component={SettingsPage_Clinic}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ApprovalPage"
+          component={Approval_page}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

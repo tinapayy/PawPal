@@ -67,9 +67,9 @@ const SignIn = () => {
         userDoc.pet = [];
       } else if (getUserType() === 'clinic') {
         // Adds contact# and about fields to userDoc  when user type is clinic
-        userDoc.picture = null;
+        userDoc.clinicPicture = null;
         userDoc.services = '';
-        userDoc.phoneInfo = '';
+        userDoc.contactInfo = '';
         userDoc.about = '';
         userDoc.storeHours = '';
       }

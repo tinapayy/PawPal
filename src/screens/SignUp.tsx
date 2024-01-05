@@ -38,11 +38,9 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const signUp = async () => {
     try {
-      setLoading(true);
       if (password !== confirmPassword) {
         Alert.alert('Password do not match');
         return;
@@ -94,7 +92,6 @@ const SignIn = () => {
       console.error(error);
       Alert.alert(error.message);
     }
-    setLoading(false);
   };
 
   return (

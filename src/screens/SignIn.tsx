@@ -33,11 +33,8 @@ const SignIn = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
-    setLoading(true);
-
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
       let userFound = false;
@@ -68,9 +65,6 @@ const SignIn = () => {
     } catch (error) {
       console.error(error);
       Alert.alert('Error fetching user data');
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (

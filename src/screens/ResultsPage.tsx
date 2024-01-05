@@ -171,7 +171,7 @@ const ResultsPage = () => {
                     <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
                         <BackIcon size="35" color="#ff8d4d" strokeWidth={10}/>           
                     </TouchableOpacity>
-                    <Text style={styles.headerText}>Results Found</Text>
+                    <Text style={styles.headerText}>Explore Clinics</Text>
                     <Image source = {require('../images/doggy.png')}
                     style= {{height: 130, width: 130, left: '100%', position: 'absolute', top: '5%'}}/>
                     <TextInput style={styles.input}    

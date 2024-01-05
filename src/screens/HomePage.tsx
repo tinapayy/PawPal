@@ -277,6 +277,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
+  // first carousel
   return (
     <SafeAreaView>
       <ScrollView>
@@ -331,6 +332,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     width: 130,
                     height: 130,
                     top: 20,
+
                   }}
                 />
 
@@ -343,11 +345,12 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   }}>
                   <Text
                     style={{
-                      fontSize: 20,
+                      fontSize: 23,
                       fontWeight: 'bold',
                       color: 'white',
                       textAlign: 'center',
                       marginBottom: 20,
+                      bottom: '30%'
                     }}>
                     {item.title}
                   </Text>
@@ -544,7 +547,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff6464',
     padding: 10,
     borderRadius: 20,
-    bottom: 10,
+    bottom: '20%',
   },
 });
 

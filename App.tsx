@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer, ParamListBase} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Dimensions, LogBox, Platform, Text, View} from 'react-native';
@@ -12,8 +12,9 @@ import {
   ChatBubbleOvalLeftEllipsisIcon as ChatBubbleLeftSolid,
   PlusCircleIcon as PlusCircleSolid,
   ChatBubbleLeftRightIcon as ForumSolid,
-  UserIcon as UserSolid, MagnifyingGlassIcon as MagnifyingGlass,
-  ChatBubbleBottomCenterTextIcon as Bubble
+  UserIcon as UserSolid,
+  MagnifyingGlassIcon as MagnifyingGlass,
+  ChatBubbleBottomCenterTextIcon as Bubble,
 } from 'react-native-heroicons/solid';
 
 import Homesamp from './screens/Homesamp';
@@ -48,6 +49,9 @@ import NewMessage from './src/screens/NewMessage';
 import CreatePost from './src/screens/CreatePost';
 import SettingsPage_Clinic from './src/screens/SettingsPage_Clinic';
 
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
+
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
 
@@ -69,9 +73,19 @@ const menuIcons = (
     );
   } else if (route.name === 'favourite') {
     icon = focused ? (
-      <MagnifyingGlass size="29" stroke="#FF8D4D" strokeWidth={2} color={'#FF8D4D'} />
+      <MagnifyingGlass
+        size="29"
+        stroke="#FF8D4D"
+        strokeWidth={2}
+        color={'#FF8D4D'}
+      />
     ) : (
-      <MagnifyingGlass size="29" stroke="#5A2828" strokeWidth={2} color="#5A2828" />
+      <MagnifyingGlass
+        size="29"
+        stroke="#5A2828"
+        strokeWidth={2}
+        color="#5A2828"
+      />
     );
   } else if (route.name === 'cart') {
     icon = focused ? (
@@ -104,6 +118,27 @@ const menuIcons = (
 };
 
 function HomeTabs() {
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  const [userType, setUserType] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setUserType(doc.data().userType);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -124,7 +159,10 @@ function HomeTabs() {
       <Tab.Screen name="favourite" component={ResultsPage} />
       <Tab.Screen name="cart" component={CreatePost} />
       <Tab.Screen name="ca" component={ForumPage} />
-      <Tab.Screen name="car" component={ProfileDetails} />
+      <Tab.Screen
+        name="car"
+        component={userType === 'petOwner' ? ProfileDetails : ClinicProfile}
+      />
     </Tab.Navigator>
   );
 }
@@ -261,7 +299,7 @@ export default function App() {
         <Stack.Screen
           name="SettingsPage_Clinic"
           component={SettingsPage_Clinic}
-          options={{ headerShown: true }}
+          options={{headerShown: true}}
         />
       </Stack.Navigator>
     </NavigationContainer>

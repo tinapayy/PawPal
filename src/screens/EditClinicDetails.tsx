@@ -209,7 +209,7 @@ const PawPalApp = () => {
             setDescription(doc.data().about);
             setSelectedImage(doc.data().clinicPicture);
             setNumber(doc.data().contactInfo);
-            setSelectedDays(doc.data().storeHours);
+            setSelectedDays(doc.data().storeHours || selectedDays);
             setTags(doc.data().services);
             setMapRegion(doc.data().location || mapRegion);
             setAddress(doc.data().address || address);

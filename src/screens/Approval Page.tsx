@@ -12,14 +12,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 
-// const handleCheck = () => {
-//   console.log('Check button pressed');
-// };
-
-// const handleX = () => {
-//   console.log('X button pressed');
-// };
-
 const data = [
   {
     id: 1,

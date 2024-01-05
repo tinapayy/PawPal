@@ -266,10 +266,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const handleProfileClick = () => {
     navigation.navigate('ProfileDetails');
   };
-  const handleSearchSubmit = () => {
-    navigation.navigate('ResultsPage', {searchQuery});
-  };
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -300,30 +296,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       borderRadius: 20,
                       width: 200,
                     }}>
-
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('ResultsPage')}>
-                      <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        size={20}
-                        style={{color: '#ff8700', marginRight: 10}}
-                      />
-                    </TouchableOpacity>
-
-                    <TextInput
-                      style={{
-                        flex: 1,
-                        color: 'black',
-                        fontSize: 13,
-                        height: 35,
-                        marginLeft: 10,
-                      }}
-                      placeholder="Search"
-                      placeholderTextColor={'#ff8d4d'}
-                      value={searchQuery}
-                      onChangeText={text => setSearchQuery(text)}
-                      onSubmitEditing={handleSearchSubmit}
-                    />
                   </View>
                 </View>
                 <TouchableOpacity onPress={handleProfileClick}>
@@ -332,7 +304,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     style={{
                       width: 35,
                       height: 35,
-                      top: '35%',
+                      top: '50%',
                       paddingRight: '20%',
                       position: 'relative',
                       borderRadius: 50,

@@ -46,7 +46,7 @@ function SettingsPage_Clinic() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('ClinicDetails')}>
+          onPress={() => navigation.navigate('EditClinicDetails')}>
           <User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Profile</Text>
         </TouchableOpacity>

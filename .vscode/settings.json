@@ -1,3 +1,12 @@
 {
-    "java.compile.nullAnalysis.mode": "disabled"
+    "java.compile.nullAnalysis.mode": "disabled",
+    "cSpell.words": [
+        "Detailsamp",
+        "Dogzie",
+        "favourite",
+        "Homesamp",
+        "Meowzi",
+        "newmessage",
+        "Pressable"
+    ]
 }

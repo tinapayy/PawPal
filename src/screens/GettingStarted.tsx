@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet, Pressable, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const GettingStarted: React.FC = () => {
+  const navigation = useNavigation();
   return (
     <View>
     <View style={styles.container1}>
-    {/* <SvgXml xml={logo} width="100%" height="100%"/> */}
       <Image
         source={require('../images/corgiCat.png')}
         style={styles.welcomeImage}
@@ -18,10 +19,11 @@ const GettingStarted: React.FC = () => {
       style={({ pressed }) => [
         styles.button,
         {
-          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
         },
       ]}
       onPress={() => {
+        navigation.navigate('GettingStarted2');
       }}>
       <Text style={styles.text}>Getting Started</Text>
     </Pressable>
@@ -34,32 +36,32 @@ const GettingStarted: React.FC = () => {
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
-    top: 350,
+    top: "600%",
     alignItems:'center',
     justifyContent: 'center',
 
   },
   welcomeImage: {
-    width: 400, // Set the width of the image
-
+    width: "90%", 
   },
   container2: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 190
+    paddingTop: "80%",
   },
   petImage: {
-    width: 1000 // Set the width of the image
+    width: 1000 
   },
   buttonView: {
     alignItems:'center',
     justifyContent: 'center',
-    borderRadius: 20, // Add rounded corners
+    borderRadius: 20, 
     paddingHorizontal: 90,
     top: 700
   },
   button: {
+    top: "-200%",
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     position: 'absolute',
     color: '#894848',
-    bottom: 80
+    bottom: "350%",
   },
   taglineView: {
     flex: 1,

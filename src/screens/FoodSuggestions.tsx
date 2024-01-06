@@ -2,7 +2,8 @@ import * as React from 'react';
 import { SafeAreaView, FlatList, ScrollView, ImageBackground, Text, StyleSheet, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 import {ArrowLeftIcon as BackIcon} from 'react-native-heroicons/solid';
-import { LinearGradient } from 'react-native-svg';
+import BottomNavbar from '../components/BottomNavBar';
+import { useNavigation } from '@react-navigation/native';
 
 const FoodSuggestions = () => {
 const appleImage = require('../images/apple.jpg');
@@ -63,15 +64,13 @@ const foodData = [
     imageUrl: breadImage,
     description: 'A nutritious and delicious fruit.',
   },
-  // Add more food items with local image paths here
 ];
 
-
   const [value, setValue] = React.useState('');
-  const _goBack = () => console.log('Went back');
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.bigcontainer}>
-    <TouchableOpacity style={styles.backButton} onPress={_goBack}>
+    <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
           <BackIcon size="24" color="white" strokeWidth={3}/>
         </TouchableOpacity>
     <View style={styles.header}>
@@ -101,7 +100,7 @@ const foodData = [
     <View style={styles.scrollContainer}>
     <FlatList
       data={foodData}
-      numColumns={2} // Set the number of columns to 2
+      numColumns={2} 
       contentContainerStyle={styles.container3}
       renderItem={({ item }) => (
         <View style={styles.card}>
@@ -114,7 +113,7 @@ const foodData = [
       )}
     />
     </View>
-
+        
     </SafeAreaView>
   );
 };
@@ -161,8 +160,8 @@ const styles = StyleSheet.create({
     
   },
   card: {
-    width: '50%', // Each card takes up 50% of the container's width
-    position: 'relative', // To position the text overlay
+    width: '50%', 
+    position: 'relative', 
     padding: 5,
     height: 160,
   },
@@ -185,18 +184,7 @@ const styles = StyleSheet.create({
     height:80,
     position: 'relative',
     overflow: 'hidden',
-
-
-
   },
-  // textOverlay: {
-  //   position: 'absolute',
-  //   overflow: 'hidden',
-  //   width: '100%',
-  //   height: '100%',
-  //   padding: 10,
-  //   justifyContent: 'flex-end',
-  // },
   label: {
     color: '#fff',
     fontSize: 20,

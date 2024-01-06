@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { RadioButton } from 'react-native-paper';
+import {RadioButton} from 'react-native-paper';
 import {
   View,
   TextInput,
@@ -10,8 +9,9 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  Alert,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faArrowLeft,
   faUser,
@@ -22,23 +22,155 @@ import {
   faVenusMars,
   faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
+import {
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+} from 'firebase/auth';
+import {
+  getDocs,
+  collection,
+  arrayUnion,
+  updateDoc,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {launchImageLibrary} from 'react-native-image-picker';
 
-const PetProfile = () => {
+const PetProfile = ({route}) => {
+  const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  const {petId} = route.params;
+
   const [petName, setPetName] = useState('');
   const [breed, setBreed] = useState('');
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [color, setColor] = useState('');
   const [checked, setChecked] = useState('null');
+  const [petPicture, setPetPicture] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const petDoc = await getDoc(doc(db, 'pet', petId));
+        setPetName(petDoc.data().name);
+        setBreed(petDoc.data().breed);
+        setAge(petDoc.data().age);
+        setWeight(petDoc.data().weight);
+        setColor(petDoc.data().color);
+        setChecked(petDoc.data().sex);
+        setPetPicture(petDoc.data().petPicture);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const openImagePicker = async () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.error('Image picker error:', response.errorMessage);
+      } else {
+        setPetPicture(response.assets[0].uri);
+      }
+    });
+  };
+
+  const updatePetProfile = async () => {
+    try {
+      if (!petPicture) {
+        Alert.alert('Please select a picture of your pet');
+        return;
+      }
+
+      const metadata = {
+        contentType: 'image/jpeg', // Adjust the content type based on your image type
+      };
+
+      const storage = FIREBASE_STORAGE;
+      const storageRef = ref(
+        storage,
+        `petPicture/${auth.currentUser?.uid}.jpeg`,
+      );
+
+      // Convert image URI to Blob
+      const response = await fetch(petPicture);
+      const blob = await response.blob();
+
+      // Upload the image to Firebase Storage
+      await uploadBytes(storageRef, blob, metadata);
+
+      // Get the download URL of the uploaded image
+      const imageUrl = await getDownloadURL(storageRef);
+
+      // Update the user profile in Firestore with the new image URL
+      const petRef = await updateDoc(doc(db, 'pet', petId), {
+        name: petName,
+        breed: breed,
+        age: age,
+        weight: weight,
+        color: color,
+        sex: checked,
+        petPicture: imageUrl,
+      });
+      console.log('Document written with ID: ', petRef.id);
+
+      const userQuery = await getDocs(collection(db, 'user'));
+
+      userQuery.forEach(async currentDoc => {
+        if (currentDoc.data().userId === auth.currentUser?.uid) {
+          const userRef = doc(collection(db, 'user'), currentDoc.id);
+
+          try {
+            await updateDoc(userRef, {
+              pet: arrayUnion(petRef.id),
+            });
+
+            Alert.alert('Profile picture updated successfully');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'HomePage'}],
+            });
+          } catch (updateError) {
+            console.error('Error updating profile:', updateError);
+            Alert.alert('Error updating profile. Please try again.');
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      Alert.alert('Error updating profile picture. Please try again.');
+    }
+  };
 
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
-      style={styles.backgroundImage1}
-    >
+      style={styles.backgroundImage1}>
       <View style={styles.container}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}
@@ -49,10 +181,14 @@ const PetProfile = () => {
         </View>
         <View>
           <Image
-            source={require('../images/UserIcon1.png')}
+            source={
+              petPicture
+                ? {uri: petPicture}
+                : require('../images/UserIcon1.png')
+            }
             style={styles.profileImage}
           />
-          <TouchableOpacity style={styles.arrowAdd}>
+          <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
             <FontAwesomeIcon icon={faCirclePlus} style={styles.arrowAdd} />
           </TouchableOpacity>
         </View>
@@ -61,45 +197,45 @@ const PetProfile = () => {
             <FontAwesomeIcon icon={faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Pet Name"
+              placeholder={petName ? petName : 'Pet Name'}
               value={petName}
-              onChangeText={(text) => setPetName(text)}
+              onChangeText={text => setPetName(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faPaw} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Breed"
+              placeholder={breed ? breed : 'Breed'}
               value={breed}
-              onChangeText={(text) => setBreed(text)}
+              onChangeText={text => setBreed(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faCalendar} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Age"
+              placeholder={age ? age : 'Age'}
               value={age}
-              onChangeText={(text) => setAge(text)}
+              onChangeText={text => setAge(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faWeight} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Weight"
+              placeholder={weight ? weight : 'Weight'}
               value={weight}
-              onChangeText={(text) => setWeight(text)}
+              onChangeText={text => setWeight(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={faPalette} style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Color"
+              placeholder={color ? color : 'Color'}
               value={color}
-              onChangeText={(text) => setColor(text)}
+              onChangeText={text => setColor(text)}
             />
           </View>
           <View style={styles.iconInputRow}>
@@ -114,7 +250,7 @@ const PetProfile = () => {
               uncheckedColor="#FF8D4D"
             />
             <Text style={styles.maleinput}>Male</Text>
-            <View style={{ marginLeft: -20 }} />
+            <View style={{marginLeft: -20}} />
             <RadioButton
               value="Female"
               status={checked === 'Female' ? 'checked' : 'unchecked'}
@@ -131,23 +267,19 @@ const PetProfile = () => {
               justifyContent: 'space-between',
               paddingHorizontal: 70,
               left: 40,
-            }}
-          >
+            }}>
             <View style={styles.buttonContainerSaveCancel}>
               <View>
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={() => console.log('Save Changes')}
+                  onPress={() => updatePetProfile()}
                   accessible={true}
-                  accessibilityRole="button"
-                  // activeOpacity={1}
-                >
+                  accessibilityRole="button">
                   <LinearGradient
-                    colors={['#FFAC4E', '#FF6464']} // Colors in the gradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.gradientBackground}
-                  >
+                    colors={['#FFAC4E', '#FF6464']}
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    style={styles.gradientBackground}>
                     <Text style={styles.buttonSave}>Save Changes</Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -155,10 +287,9 @@ const PetProfile = () => {
               <View>
                 <TouchableOpacity
                   style={styles.cancelButton}
-                  onPress={() => console.log('Cancel Changes')}
+                  onPress={() => navigation.goBack()}
                   accessible={true}
-                  accessibilityRole="button"
-                >
+                  accessibilityRole="button">
                   <Text style={styles.buttonTextCancel}>Cancel</Text>
                 </TouchableOpacity>
               </View>
@@ -167,7 +298,6 @@ const PetProfile = () => {
         </View>
       </View>
     </ImageBackground>
-    // </ImageBackground>
   );
 };
 
@@ -182,7 +312,6 @@ const styles = StyleSheet.create({
     right: 15,
     paddingVertical: 10,
     color: 'gray',
-    // position: 'absolute',
     top: 2,
     paddingLeft: 15,
     flexDirection: 'row',
@@ -195,12 +324,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     left: 50,
     color: 'gray',
-    // position: 'absolute',
     top: -1,
-    // right: 100,
-    // marginLeft: 30,
     marginRight: 30,
-    // paddingRight: 30,
     flexDirection: 'row',
     fontFamily: 'Poppins-Regular',
   },
@@ -209,7 +334,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     left: 40,
     color: '#FF8D4D',
-    // position: 'absolute',
     top: 10,
     flexDirection: 'row',
     marginBottom: 20,
@@ -221,13 +345,11 @@ const styles = StyleSheet.create({
   },
   back: {
     flexDirection: 'row',
-    // alignItems: 'center',
     marginBottom: 40,
     top: 45,
   },
   backIcon: {
     color: '#FF8D4D',
-    // fontSize: 80,
     flexDirection: 'row',
     position: 'absolute',
     top: -92,
@@ -260,13 +382,11 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     marginBottom: 90,
     paddingVertical: 40,
-    // flexDirection: 'row',
   },
   formContainer: {
     marginTop: 30,
   },
   iconInputRow: {
-    //adjust length of input
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
@@ -317,26 +437,23 @@ const styles = StyleSheet.create({
     left: -20,
     elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },
   saveButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    // top: 20,
     right: 10,
     paddingTop: 50,
     paddingHorizontal: 75,
   },
-  //texts save
   buttonSave: {
     color: '#ffffff',
     fontSize: 19,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',
-    // alignItems: 'center',
     top: 10,
   },
   cancelButton: {
@@ -345,19 +462,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 20,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 40,
-    elevation: 3, //elevation effects
+    elevation: 3,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },
   buttonText: {
     color: '#ffffff',
-    // fontSize: 18,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',

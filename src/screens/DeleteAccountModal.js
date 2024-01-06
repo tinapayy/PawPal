@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 
-import { TrashIcon as Trash } from 'react-native-heroicons/solid';
+import {TrashIcon as Trash} from 'react-native-heroicons/solid';
+
+import {deleteUser} from 'firebase/auth';
+import {FIREBASE_AUTH} from '../../firebase.config';
 
 class DeleteAccountModal extends React.Component {
   render() {
-    const { modalVisible, setModalVisible } = this.props;
+    const auth = FIREBASE_AUTH;
+
+    const {modalVisible, setModalVisible} = this.props;
 
     return (
       <Modal transparent={true} visible={modalVisible}>
@@ -15,34 +20,39 @@ class DeleteAccountModal extends React.Component {
               <Trash size={30} color="#FF8700" strokeWidth={3} />
               <Text style={styles.logoutText}>Delete Account</Text>
             </View>
-            
+
             <View style={styles.modalcontentbody}>
               <Text style={styles.contentbody}>
-                    Are you sure you want to delete your account?{'\n'}{'\n'}
-                    
-                    If you delete your account, you will permanently lose your profile, messages and photos.
+                Are you sure you want to delete your account?{'\n'}
+                {'\n'}
+                If you delete your account, you will permanently lose your
+                profile, messages and photos.
               </Text>
             </View>
 
             <View style={styles.modalcontentbuttons}>
               <View style={styles.rejectbutton}>
-                <TouchableOpacity
-                  onPress={() => setModalVisible(false)} // Close the modal when the button is pressed
-                >
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
                   <Text style={styles.rejectbuttonText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
-              
+
               <View style={styles.confirmbutton}>
                 <TouchableOpacity
-                  onPress={() => setModalVisible(false)} // Close the modal when the button is pressed
-                >
+                  onPress={() => {
+                    setModalVisible(false);
+                    deleteUser(auth.currentUser)
+                      .then(() => {
+                        console.log('User deleted');
+                      })
+                      .catch(error => {
+                        console.log(error);
+                      });
+                  }}>
                   <Text style={styles.confirmbuttonText}>Delete</Text>
                 </TouchableOpacity>
               </View>
             </View>
-
-            
           </View>
         </View>
       </Modal>
@@ -69,7 +79,6 @@ const styles = StyleSheet.create({
   modalcontentheader: {
     flexDirection: 'row',
     alignItems: 'center',
-
   },
 
   modalcontentbody: {
@@ -78,18 +87,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  contentbody:{
+  contentbody: {
     marginTop: 10,
     fontSize: 20,
     color: '#5A2828',
     fontWeight: '400',
-    lineHeight: 24
+    lineHeight: 24,
   },
   logoutText: {
     marginLeft: 10,
     fontSize: 20,
     paddingVertical: 10,
-    fontWeight: "300",
+    fontWeight: '300',
     color: '#FF8700',
     fontWeight: '400',
   },

@@ -1,7 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { faMessage } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,65 +6,162 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
-import { Card, Avatar } from 'react-native-paper';
-// import Video from 'react-native-video';
+import {faMessage} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {Card, Avatar} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 
-const userPosts = [
+let userPosts = [
   {
     id: 1,
-    username: 'Kristina V. Celis',
-    postTime: 'Just Now',
-    profilePicture: require('../images/userIcon.png'), // profile icon
-    content:
+    name: 'Kristina V. Celis',
+    profilePicture: require('../images/userIcon.png'),
+    postText:
       "When your puppy's growth slows, you should start switching to adult food. first user post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    image: require('../images/forum_dog.jpg'), // post image
-    // video: require('../images/dog_vid2.mp4'),
+    postTime: 'Just Now',
+    postPicture: require('../images/forum_dog.jpg'),
   },
   {
     id: 2,
-    username: 'Lee Ji Eun',
+    name: 'Lee Ji Eun',
     postTime: '1 hour ago',
-    profilePicture: require('../images/userIcon3.png'), // Path to profile icon
-    content:
+    profilePicture: require('../images/userIcon3.png'),
+    postText:
       "The more you know about your pet's health and nutrition needs, the better you'll be able to take care of them.",
-    image: require('../images/forum_cat.jpg'), // Path to post image
+    postPicture: require('../images/forum_cat.jpg'),
   },
   {
     id: 3,
-    username: 'Katniss Everdeen',
+    name: 'Katniss Everdeen',
     postTime: '30 minutes ago',
     profilePicture: require('../images/userIcon2.png'),
-    content:
+    postText:
       'Show your love to your pets by giving them the best food and best bath.',
-    image: require('../images/forum_dog1.jpg'),
+    postPicture: require('../images/forum_dog1.jpg'),
   },
   {
     id: 4,
-    username: 'Olivia Rodrigo',
+    name: 'Olivia Rodrigo',
     postTime: '1 day ago',
     profilePicture: require('../images/userIcon5.png'),
-    content: 'Spent wonderful time with my cats today. They are so cute!',
-    image: require('../images/forum_cat1.jpg'),
+    postText: 'Spent wonderful time with my cats today. They are so cute!',
+    postPicture: require('../images/forum_cat1.jpg'),
   },
   {
     id: 5,
-    username: 'Louis Partridge',
+    name: 'Louis Partridge',
     postTime: 'October 1, 2023',
     profilePicture: require('../images/userIcon4.png'),
-    content:
+    postText:
       'Tonight, on October 1, 2023, we are saddened to inform that our dearly beloved campus dog — ISKA, was involved in a fatal road accident along the highway and was declared dead on arrival at the veterinary clinic.',
-    image: require('../images/forum_iska.jpg'),
+    postPicture: require('../images/forum_iska.jpg'),
   },
 ];
 
-const ForumPage = () => {
-  function calculateMargin(length: number): number {
-  return length * 2;
+interface Post {
+  id: number;
+  name: string;
+  profilePicture: any;
+  postText: string;
+  postTime: string;
+  postPicture: any;
 }
 
+const ForumPage = () => {
+  const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  const [userPosts, setUserPosts] = useState<User[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'forum'));
+      const posts: Post[] = [];
+      for (const forumDoc of querySnapshot.docs) {
+        const userSnapshot = await getDocs(collection(db, 'user'));
+        for (const userDoc of userSnapshot.docs) {
+          if (userDoc.data().userId === forumDoc.data().userId) {
+            if (forumDoc.data().isApproved) {
+              continue;
+            }
+            posts.push({
+              id: posts.length + 1,
+              name: userDoc.data().name,
+              profilePicture: {uri: userDoc.data().profilePicture},
+              postText: forumDoc.data().postText,
+              postTime: getTimeDifference(forumDoc.data().postTime),
+              postPicture: forumDoc.data().postPicture
+                ? {uri: forumDoc.data().postPicture}
+                : '',
+            });
+          }
+        }
+      }
+      setUserPosts(posts.reverse());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Fetch data on first render
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function getTimeDifference(postTime) {
+    const currentTime = new Date().getTime();
+    const postTimestamp = postTime.toDate().getTime();
+    const timeDifference = currentTime - postTimestamp;
+
+    if (timeDifference < 10000) {
+      return 'Just Now';
+    } else if (timeDifference < 60000) {
+      return Math.floor(timeDifference / 1000) + 's';
+    } else if (timeDifference < 3600000) {
+      return Math.floor(timeDifference / 60000) + 'm';
+    } else if (timeDifference < 86400000) {
+      return Math.floor(timeDifference / 3600000) + 'h';
+    } else {
+      return (
+        postTime.toDate().toLocaleDateString('en-US', {
+          timeZone: 'Asia/Manila',
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }) +
+        ' at ' +
+        postTime.toDate().toLocaleTimeString('en-US', {
+          timeZone: 'Asia/Manila',
+          hour: 'numeric',
+          minute: 'numeric',
+        })
+      );
+    }
+  }
+
+  function calculateMargin(length: number): number {
+    return length * 2;
+  }
+
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView
+      style={styles.scrollView}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => {
+            fetchData();
+          }}
+        />
+      }>
       <View style={styles.header}>
         <View>
           <Image
@@ -75,7 +169,11 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            console.log('Message icon pressed');
+            navigation.navigate('FoodAdvisable');
+          }}>
           <View>
             <Image
               source={require('../images/dog_food.png')}
@@ -85,7 +183,7 @@ const ForumPage = () => {
           </View>
         </TouchableOpacity>
       </View>
-      {userPosts.map((post) => (
+      {userPosts.map(post => (
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
@@ -95,21 +193,36 @@ const ForumPage = () => {
                 style={styles.userIcon}
               />
               <View style={styles.userInfoText}>
-                <Text style={styles.userName}>{post.username}</Text>
+                <Text style={styles.userName}>{post.name}</Text>
                 <View style={styles.message}>
-                  <TouchableOpacity style={styles.messageIcon} />
-                  <FontAwesomeIcon
-                  icon={faMessage}
-                 style={[styles.messageIcon, { marginLeft: calculateMargin(post.username.length) }]}
-                  size={17}
-                  />
-                  </View>
-                  <Text style={styles.postTime}>{post.postTime}</Text>
-                  </View>
+                  <TouchableOpacity
+                    style={styles.messageIcon}
+                    onPress={() => {
+                      console.log('Message icon pressed');
+                      navigation.navigate('MessagePage');
+                    }}>
+                    <FontAwesomeIcon
+                      icon={faMessage}
+                      style={[
+                        styles.messageIcon,
+                        {marginLeft: calculateMargin(post.name.length)},
+                      ]}
+                      size={17}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
-            <Text style={styles.postText}>{post.content}</Text>
+            </View>
+            {post.postText !== '' && (
+              <Text style={styles.postText}>{post.postText}</Text>
+            )}
             <View style={styles.postImageContainer}>
-              <Image source={post.image} style={styles.image} />
+              <Image
+                source={post.postPicture}
+                // Add image style if post is not empty string
+                {...(post.postPicture !== '' && {style: styles.image})}
+              />
             </View>
           </Card.Content>
         </Card>
@@ -128,12 +241,9 @@ const styles = StyleSheet.create({
     height: 200,
   },
   header: {
-    // position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // margin: 'auto',
-    // marginTop: 5,
     bottom: 5,
     left: 30,
   },
@@ -142,16 +252,10 @@ const styles = StyleSheet.create({
     height: 70,
     bottom: 5,
     objectFit: 'contain',
-    // marginRight: -100,
     paddingHorizontal: 10,
-    // borderRadius: 25,
     position: 'relative',
-    // justifyContent: 'center',
   },
   imageHeader1: {
-    // width: 50,
-    // height: 50,
-    // borderRadius: 25,
     position: 'relative',
     bottom: 5,
     top: 20,
@@ -160,12 +264,9 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 14,
     left: -57,
-    // fontWeight: 'bold',
-    // marginLeft: 12,
   },
   card: {
     margin: 19,
-    // borderBlockColor: '#F87000',
   },
   cardContent: {
     flexDirection: 'column',
@@ -185,18 +286,12 @@ const styles = StyleSheet.create({
   },
   message: {
     marginLeft: 'auto',
-    // flexDirection: 'row',
     position: 'absolute',
   },
   messageIcon: {
     color: '#F87000',
-    // flexDirection: 'row',
-    // marginLeft:10,
-    // position: 'absolute',
     top: 2,
-    // right: 135,
-    left: 100,
-    // paddingRight: 30,
+    left: 50,
   },
   userName: {
     fontSize: 16,
@@ -209,7 +304,6 @@ const styles = StyleSheet.create({
   },
   postText: {
     fontSize: 14,
-    // marginTop: 8,
     textAlign: 'justify',
     fontFamily: 'Poppins',
     color: '#000',

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
   FlatList,
@@ -23,6 +22,8 @@ import {
 } from '../components/MessageStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCirclePlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '@react-navigation/native';
+
 const Messages = [
   {
     id: '1',
@@ -31,9 +32,6 @@ const Messages = [
     messageTime: '10:00 AM',
     messageText:
       'Hello, Good morning! I would like to set an appointment for my dog today.',
-    // messageStatus: 'read',
-    // messageCount: 2,
-    // isOnline: true,
   },
   {
     id: '2',
@@ -41,7 +39,6 @@ const Messages = [
     userImage: require('../images/user2.jpg'),
     messageTime: '2 hr',
     messageText: 'Please visit the clinic based on your time scheduled.',
-    // messageStatus: 'unread',
   },
   {
     id: '3',
@@ -49,7 +46,6 @@ const Messages = [
     userImage: require('../images/user3.jpg'),
     messageTime: 'Nov 3',
     messageText: 'Thank you for visiting our clinic today.',
-    // messageStatus: 'unread',
   },
   {
     id: '4',
@@ -57,7 +53,6 @@ const Messages = [
     userImage: require('../images/user4.jpg'),
     messageTime: 'Nov 1',
     messageText: 'Thank you for visiting our store today.',
-    // messageStatus: 'unread',
   },
   {
     id: '5',
@@ -65,7 +60,6 @@ const Messages = [
     userImage: require('../images/user5.jpg'),
     messageTime: 'Sep 30',
     messageText: 'Thank you for visiting our store today.',
-    // messageStatus: 'unread',
   },
   {
     id: '6',
@@ -73,7 +67,6 @@ const Messages = [
     userImage: require('../images/user5.jpg'),
     messageTime: 'Sep 30',
     messageText: 'Thank you for visiting our store today.',
-    // messageStatus: 'unread',
   },
   {
     id: '7',
@@ -81,7 +74,6 @@ const Messages = [
     userImage: require('../images/user5.jpg'),
     messageTime: 'Sep 30',
     messageText: 'Thank you for visiting our store today.',
-    // messageStatus: 'unread',
   },
   {
     id: '8',
@@ -89,18 +81,17 @@ const Messages = [
     userImage: require('../images/user5.jpg'),
     messageTime: 'Sep 30',
     messageText: 'Thank you for visiting our store today.',
-    // messageStatus: 'unread',
   },
 ];
 const MessagePage = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{ width: '100%', height: '100%' }}
-      >
+        style={{width: '100%', height: '100%'}}>
         <View style={styles.back}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('home')}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}
@@ -112,21 +103,26 @@ const MessagePage = () => {
         <Container style={styles.container}>
           <FlatList
             data={Messages}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
               <Card style={styles.cardContainer}>
-                <UserInfo>
-                  <UserImgWrapper>
-                    <UserImg source={item.userImage} />
-                  </UserImgWrapper>
-                  <TextSection>
-                    <UserInfoText>
-                      <UserName>{item.userName}</UserName>
-                      <PostTime>{item.messageTime}</PostTime>
-                    </UserInfoText>
-                    <MessageText>{item.messageText}</MessageText>
-                  </TextSection>
-                </UserInfo>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Chat', {userId: item.id})
+                  }>
+                  <UserInfo>
+                    <UserImgWrapper>
+                      <UserImg source={item.userImage} />
+                    </UserImgWrapper>
+                    <TextSection>
+                      <UserInfoText>
+                        <UserName>{item.userName}</UserName>
+                        <PostTime>{item.messageTime}</PostTime>
+                      </UserInfoText>
+                      <MessageText>{item.messageText}</MessageText>
+                    </TextSection>
+                  </UserInfo>
+                </TouchableOpacity>
               </Card>
             )}
           />
@@ -147,18 +143,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 150,
-    // borderRadius: 80,
   },
   containerHeader: {
     flex: 1,
-    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   back: {
     flexDirection: 'row',
-    // marginBottom: 40,
-    // top: 90,
   },
   backIcon: {
     color: '#ffffff',
@@ -173,14 +165,12 @@ const styles = StyleSheet.create({
     color: '#F87000',
     fontSize: 30,
     fontWeight: 'bold',
-    // marginTop: 20,
     top: 170,
     left: 30,
     marginBottom: 40,
   },
   cardContainer: {
     width: '90%',
-    // marginTop: 20,
   },
   addIcon: {
     position: 'absolute',

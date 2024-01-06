@@ -9,16 +9,21 @@ import {HomeIcon as HomeSolid,
         ChatBubbleOvalLeftEllipsisIcon as ChatBubbleLeftSolid, 
         PlusCircleIcon as PlusCircleSolid,
         ChatBubbleLeftRightIcon as ForumSolid, 
-        UserIcon as UserSolid } from 'react-native-heroicons/solid'; 
+        UserIcon as UserSolid, 
+        MagnifyingGlassCircleIcon as MagnifyingGlass,
+        ChatBubbleBottomCenterTextIcon as Bubble
+     } from 'react-native-heroicons/solid'; 
 
-import Homesamp from './screens/Homesamp';
-import Detailsamp from './screens/Detailsamp';
-import ClinicProfile from './src/screens/ClinicProfile';  
-import ForumPage from './src/screens/ForumPage';
-import PetProfile from './src/screens/PetProfile';  
-import ProfileDetails from './src/screens/ProfileDetails';
-import MessagePage from './src/screens/MessagePage';
-import HomePage from './src/screens/HomePage';
+import Homesamp from '../../screens/Homesamp';
+import Detailsamp from '../../screens/Detailsamp';
+import ClinicProfile from '../screens/ClinicProfile';  
+import ForumPage from '../screens/ForumPage';
+import PetProfile from '../screens/PetProfile';  
+import ProfileDetails from '../screens/ProfileDetails';
+import MessagePage from '../screens/MessagePage';
+import HomePage from '../screens/HomePage';
+import CreatePost from '../screens/CreatePost';
+import ResultsPage from '../screens/ResultsPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,8 +67,8 @@ export default function BottomNavBar(){
         
         >
         <Tab.Screen name="home" component={HomePage} />
-        <Tab.Screen name="favourite" component={ForumPage} />
-        <Tab.Screen name="cart" component={Homesamp} />
+        <Tab.Screen name="favourite" component={ResultsPage} />
+        <Tab.Screen name="cart" component={CreatePost} />
         <Tab.Screen name="ca" component={MessagePage}/>
         <Tab.Screen name="car" component={ProfileDetails} />
       </Tab.Navigator>
@@ -77,7 +82,7 @@ export default function BottomNavBar(){
     if (route.name === 'home') {
       icon =  focused? <HomeSolid size="30" color={'#FF8D4D'} /> : <HomeSolid size="30" strokeWidth={2} color="#5A2828" />
     } else if (route.name === 'favourite') {
-      icon =  focused? <ChatBubbleLeftSolid size="30" color={'#FF8D4D'} /> : <ChatBubbleLeftSolid size="30" strokeWidth={2} color="#5A2828" />
+      icon =  focused? <MagnifyingGlass size="30" stroke="#5A2828" color={'#FF8D4D'} /> : <MagnifyingGlass size="30" stroke="#5A2828" strokeWidth={2} color="#5A2828" />
     }else if(route.name==='cart'){
       icon =  focused? <PlusCircleSolid size="30" color={'#FF8D4D'} /> : <PlusCircleSolid size="30" strokeWidth={2} color="#5A2828" />
     }else if(route.name==='ca'){

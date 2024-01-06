@@ -381,7 +381,7 @@ horizontalLine: {
   textDecorationStyle: 'solid',
   },
   bottomContainer: {
-    top: -25,
+    top: "-20%",
     alignItems: 'center',
   },
   textUserInfo: {
@@ -389,7 +389,8 @@ horizontalLine: {
     // alignItems: 'center',
     // left:10,
     textAlign: 'left',
-    marginTop: 20,
+    top:"20%",
+    // marginTop: 20,
   },
   userIcon: {
     width: 60,

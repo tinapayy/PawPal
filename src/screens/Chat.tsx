@@ -1,28 +1,53 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  Text,
-  ScrollView,
-  TextInput,
-  Image,
+import { View, StyleSheet, Pressable, Text, ScrollView, TextInput, Image, TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from "@react-navigation/native";
+import ImagePicker, {ImagePickerResponse, launchImageLibrary} from 'react-native-image-picker';
 
 const Chat = () => {
   const [text, onChangeText] = useState('');
+  const navigation = useNavigation();
+  
+  const handleImagePress = () => {
+    // Navigate to the clinic profile screen here
+    navigation.navigate('ClinicProfile');
+  };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorMessage) {
+        console.log('Image picker error: ', response.errorMessage);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage(imageUri);
+      }
+    });
+  };
+    
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.backButton}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
-        </Pressable>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleImagePress}>
         <Image
           style={styles.avatar}
           source={require('../images/chat_icon.jpg')}
         />
+        </TouchableOpacity>
         <Text style={styles.headerText}>Labrod Veterinary Clinic</Text>
       </View>
 
@@ -61,9 +86,10 @@ const Chat = () => {
       </ScrollView>
 
       <View style={styles.inputContainer}>
-        <Pressable style={styles.attachmentButton}>
+        <TouchableOpacity onPress={openImagePicker} style={styles.attachmentButton}>
           <MaterialIcons name="attachment" size={30} color="#FFBA69" />
-        </Pressable>
+        </TouchableOpacity>
+
         <TextInput
           style={styles.input}
           onChangeText={onChangeText}

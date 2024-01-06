@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Image, StyleSheet, Pressable, Text, ImageBackground, } from 'react-native';
-// import {BgSvg} from './src/images';
+import { useNavigation } from '@react-navigation/native';
 
 const GettingStarted2 = () => {
+  const navigation = useNavigation();
   return (
     <View>
     <View style={styles.container1}>
     <ImageBackground
-        source={require('../images/onboarding_bg1.png')} // Replace with the correct image file path
+        source={require('../images/onboarding_bg1.png')} 
         style={styles.bgImage} >
 
     </ImageBackground>
@@ -18,13 +19,13 @@ const GettingStarted2 = () => {
       style={({ pressed }) => [
         styles.SignInBtn,
         {
-          backgroundColor: pressed ? 'lightgray' : 'white', // Change color when pressed
+          backgroundColor: pressed ? 'lightgray' : 'white', 
           borderColor: pressed ? '#FFAC4E' : '#FFAC4E',
           borderWidth: 3
         },
       ]}
       onPress={() => {
-        // Add your button click action here
+        navigation.navigate('SignIn');
       }}>
       <Text style={styles.text1}>SIGN IN</Text>
     </Pressable>
@@ -35,11 +36,11 @@ const GettingStarted2 = () => {
       style={({ pressed }) => [
         styles.SignUpBtn,
         {
-          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
         },
       ]}
       onPress={() => {
-        // Add your button click action here
+        navigation.navigate('SignUp');
       }}>
       <Text style={styles.text2}>SIGN UP</Text>
     </Pressable>
@@ -65,16 +66,16 @@ const styles = StyleSheet.create({
   SignInView: {
     alignItems:'center',
     justifyContent: 'center',
-    top: 500,
-    borderRadius: 20, // Add rounded corners
+    top: "390%",
+    borderRadius: 20, 
     paddingHorizontal: 90,
   },
   SignUpView: {
     alignItems:'center',
     justifyContent: 'center',
-    borderRadius: 20, // Add rounded corners
-    paddingHorizontal: 90,
-    top: 530
+    borderRadius: 20, 
+    paddingHorizontal: "50%",
+    top: "400%",
 
   },
   SignInBtn: {
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 25,
     backgroundColor:"#FFAC4E",
-    width:200
+    width:200,
   },
   text1: {
     fontSize: 18,
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   taglineView: {
     alignItems: 'center',
     justifyContent:'center',
-    top: 600
+    bottom: "-440%",
     
   }
 });

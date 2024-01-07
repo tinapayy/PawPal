@@ -74,10 +74,9 @@ interface Post {
 const ForumPage = () => {
   const navigation = useNavigation();
 
-  const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const [userPosts, setUserPosts] = useState<User[]>([]);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
 
   const fetchData = async () => {
     try {
@@ -88,18 +87,17 @@ const ForumPage = () => {
         for (const userDoc of userSnapshot.docs) {
           if (userDoc.data().userId === forumDoc.data().userId) {
             if (forumDoc.data().isApproved) {
-              continue;
+              posts.push({
+                id: posts.length + 1,
+                name: userDoc.data().name,
+                profilePicture: {uri: userDoc.data().profilePicture},
+                postText: forumDoc.data().postText,
+                postTime: getTimeDifference(forumDoc.data().postTime),
+                postPicture: forumDoc.data().postPicture
+                  ? {uri: forumDoc.data().postPicture}
+                  : '',
+              });
             }
-            posts.push({
-              id: posts.length + 1,
-              name: userDoc.data().name,
-              profilePicture: {uri: userDoc.data().profilePicture},
-              postText: forumDoc.data().postText,
-              postTime: getTimeDifference(forumDoc.data().postTime),
-              postPicture: forumDoc.data().postPicture
-                ? {uri: forumDoc.data().postPicture}
-                : '',
-            });
           }
         }
       }
@@ -108,7 +106,6 @@ const ForumPage = () => {
       console.error(error);
     }
   };
-
   // Fetch data on first render
   useEffect(() => {
     fetchData();

@@ -94,7 +94,7 @@ const ClinicProfile = () => {
             <FontAwesomeIcon
               icon={faArrowLeft}
               size={30}
-              style={{color: '#ff8700'}}
+              style={{color: 'brown'}}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -102,7 +102,7 @@ const ClinicProfile = () => {
             <FontAwesomeIcon
               icon={faGear}
               size={30}
-              style={{color: '#ff8700'}}
+              style={{color: 'brown'}}
             />
           </TouchableOpacity>
         </View>

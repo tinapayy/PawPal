@@ -8,6 +8,8 @@ import {
   TrashIcon as Trash,
   ArrowRightOnRectangleIcon as ExitIcon,
 } from 'react-native-heroicons/solid';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
@@ -42,7 +44,16 @@ function SettingsPage_Clinic() {
         </View>
         <Image source={grh} style={styles.headerimg} />
       </View>
-
+      <TouchableOpacity onPress={() => {
+            navigation.navigate('ClinicProfile');
+        }}>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            size={27}
+            style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
+          />
+      </TouchableOpacity>
+    
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -50,12 +61,7 @@ function SettingsPage_Clinic() {
           <User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Profile</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('ChoosePet')}>
-          <ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
-          <Text style={styles.buttonText}>Edit Pet Profile</Text>
-        </TouchableOpacity> */}
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => setDeleteAccountModal(true)}>

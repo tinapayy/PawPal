@@ -91,72 +91,69 @@ const renderItem = ({item, index, navigation}) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <View
+        style={{
+          borderWidth: 1,
+          padding: 10,
+          borderRadius: 20,
+          backgroundColor: 'white',
+          borderColor: 'white',
+          elevation: 5,
+          marginBottom: 15,
+          position: 'relative',
+        }}>
         <View
           style={{
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 20,
-            backgroundColor: 'white',
-            borderColor: 'white',
-            elevation: 5,
-            marginBottom: 20,
-            position: 'relative',
+            alignSelf: 'center',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            bottom: 10,
           }}>
-          <View
+          <Image
+            source={item.imageSource}
             style={{
-              alignSelf: 'center',
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              bottom: 10,
-            }}>
-            <Image
-              source={item.imageSource}
-              style={{
-                width: 330,
-                height: 180,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }}
-            />
-          </View>
-          <Text
-            style={{
-              fontSize: 19,
-              fontWeight: 'bold',
-              color: '#5a2828',
-              textAlign: 'center',
-              fontFamily: 'Poppins-Bold',
-            }}>
-            {item.title}
-          </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
-            <Text
-              style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
-              {item.description}
-            </Text>
-          </View>
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: '#5a2828',
-              textAlign: 'left',
-            }}>
-            {item.info1}
-          </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
-              {item.info2}
-            </Text>
-            <TouchableOpacity onPress={handleSeeMoreClick}>
-              <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
-            </TouchableOpacity>
-          </View>
+              width: 330,
+              height: 180,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}
+          />
         </View>
-      </ScrollView>
+        <Text
+          style={{
+            fontSize: 19,
+            fontWeight: 'bold',
+            color: '#5a2828',
+            textAlign: 'center',
+            fontFamily: 'Poppins-Bold',
+          }}>
+          {item.title}
+        </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
+          <Text style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
+            {item.description}
+          </Text>
+        </View>
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: 'bold',
+            color: '#5a2828',
+            textAlign: 'left',
+          }}>
+          {item.info1}
+        </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
+            {item.info2}
+          </Text>
+          <TouchableOpacity onPress={handleSeeMoreClick}>
+            <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };

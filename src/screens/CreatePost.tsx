@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Image
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -21,6 +22,7 @@ import {
   faCircleXmark,
   faImage,
   faVideo,
+  faTrashCan
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -130,7 +132,10 @@ const CreatePost = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={{backgroundColor: 'white'}}>
+        <View style={{backgroundColor: 'white', 
+        width: Dimensions.get('window').width, 
+        height: Dimensions.get('window').height, 
+        }}>
           <View
             style={{
               flexDirection: 'row',
@@ -166,7 +171,10 @@ const CreatePost = () => {
               />
             </TouchableOpacity>
           </View>
-
+          <View style = {{}}>
+            <Image source={require('../images/cutePug.png')}
+            style = {{ right: '10%' , position: 'absolute'}}/>
+          </View>
           <View
             style={{
               width: 350,
@@ -189,7 +197,7 @@ const CreatePost = () => {
           <View
             style={{
               backgroundColor: 'white',
-              borderRadius: 30,
+              borderRadius: 20,
               borderColor: '#ff8d4d',
               padding: 10,
               borderWidth: 2,
@@ -200,6 +208,7 @@ const CreatePost = () => {
               numberOfLines={5}
               onChangeText={text => setPostText(text)}
               placeholder="Write something here..."
+              textAlignVertical='top'
               style={{
                 color: '#5a2828',
                 fontSize: 15,
@@ -216,47 +225,6 @@ const CreatePost = () => {
             Upload Media
           </Text>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              backgroundColor: '#d9d9d9',
-              borderRadius: 30,
-              margin: 30,
-            }}>
-            <TouchableOpacity
-              onPress={togglePressedState}
-              style={{
-                backgroundColor: isPressed ? '#ff8d4d' : 'transparent',
-                borderRadius: 30,
-                padding: 10,
-                width: 172,
-                alignItems: 'center',
-              }}>
-              <FontAwesomeIcon
-                icon={faImage}
-                size={50}
-                style={{color: 'white'}}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={togglePressedStateIcon1}
-              style={{
-                backgroundColor: isPressedIcon1 ? '#ff8d4d' : 'transparent',
-                borderRadius: 30,
-                padding: 10,
-                width: 172,
-                alignItems: 'center',
-              }}>
-              <FontAwesomeIcon
-                icon={faVideo}
-                size={50}
-                style={{color: 'white'}}
-              />
-            </TouchableOpacity>
-          </View>
-
           <View style={{}}>
             <View
               style={{
@@ -272,27 +240,32 @@ const CreatePost = () => {
             <TouchableOpacity onPress={openImagePicker}>
               <View
                 style={{
-                  backgroundColor: '#ff8d4d',
+                  backgroundColor: 'white',
                   borderRadius: 30,
-                  padding: 10,
+                  padding: 8,
                   margin: 150,
-                  flex: 1,
+                  //flex: 1,
                   bottom: 210,
                   left: 130,
+                  elevation: 3,
+                  borderColor: '#ff8d4d',
+                  borderWidth: 1
                 }}>
                 <Text
                   style={{
-                    color: 'white',
+                    color: '#ff8d4d',
                     fontFamily: 'Poppins-Regular',
-                    fontSize: 13,
+                    fontSize: 15,
                     textAlign: 'center',
+                    fontWeight: '100'
                   }}>
                   Upload
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelectedImage('')}>
-              <View
+          </View>
+          <TouchableOpacity onPress={() => setSelectedImage('')}>
+              {/* <View
                 style={{
                   backgroundColor: '#ff8d4d',
                   borderRadius: 30,
@@ -311,27 +284,31 @@ const CreatePost = () => {
                   }}>
                   Remove
                 </Text>
+              </View> */}
+              <View>
+                <FontAwesomeIcon icon={faCircleXmark} size = {23} style = {{color: 'grey', bottom: '1700%', left: '61%'}}/>
               </View>
             </TouchableOpacity>
-          </View>
           <Text
             style={{
               color: '#5a2828',
               fontFamily: 'Poppins-Regular',
               fontSize: 13,
-              flex: 1,
-              bottom: 350,
+              //flex: 1,
               left: 30,
+              //backgroundColor: 'black'
+              bottom: '45%'
             }}>
             Maximum upload file size : 100 MB
           </Text>
-          <View style={{flex: 1, bottom: 400}}>
+          <View style={{ bottom: '50%'}}>
             <AppButton
-              title="Post"
+              title= "Post"
               onPress={handleButton1Press}
               buttonStyle={styles.btn1}
               textStyle={styles.bt1}
             />
+           
           </View>
         </View>
       </ScrollView>
@@ -340,12 +317,11 @@ const CreatePost = () => {
 };
 const styles = StyleSheet.create({
   btn1: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: '20%',
     margin: 70,
-    padding: 4,
+    padding: 10,
     borderRadius: 50,
     backgroundColor: '#ff8d4d',
   },
@@ -354,6 +330,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
     fontSize: 18,
     textAlign: 'center',
+
   },
   container: {
     flex: 1,

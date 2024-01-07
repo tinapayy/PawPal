@@ -21,7 +21,6 @@ import {getDocs, collection} from 'firebase/firestore';
 import ViewPropTypes from 'deprecated-react-native-prop-types';
 import StyleSheetPropType from 'deprecated-react-native-prop-types';
 
-
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const data1 = [
@@ -130,7 +129,9 @@ const renderItem = ({item, index, navigation}) => {
             borderRadius: 20,
             backgroundColor: 'white',
             borderColor: 'white',
-            elevation: 10,
+            elevation: 5,
+            marginBottom: 20,
+            position: 'relative',
           }}>
           <View
             style={{
@@ -138,13 +139,13 @@ const renderItem = ({item, index, navigation}) => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              bottom: 9,
+              bottom: 10,
             }}>
             <Image
               source={item.imageSource}
               style={{
-                width: 283,
-                height: 150,
+                width: 330,
+                height: 180,
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
               }}
@@ -177,10 +178,10 @@ const renderItem = ({item, index, navigation}) => {
             {item.info1}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style ={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
+            <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
               {item.info2}
             </Text>
-            <TouchableOpacity onPress= {handleSeeMoreClick} >
+            <TouchableOpacity onPress={handleSeeMoreClick}>
               <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
             </TouchableOpacity>
           </View>
@@ -194,14 +195,18 @@ const itemNumber2 = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
+        {/* urgent announcement card */}
         <View
           style={{
             borderWidth: 1,
             padding: 10,
             borderRadius: 20,
             backgroundColor: 'white',
-            elevation: 20,
+            elevation: 5,
+            shadowColor: 'black',
             borderColor: '#FF8484',
+            marginBottom: 10,
+            marginHorizontal: 6,
           }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Image
@@ -234,6 +239,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const db = FIREBASE_DB;
 
   const [profilePicture, setProfilePicture] = useState(null);
+  const [userType, setUserType] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -242,6 +248,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setProfilePicture(doc.data().profilePicture);
+            setUserType(doc.data().userType);
           }
         });
       } catch (error) {
@@ -263,9 +270,16 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const handleSeeMoreClick = () => {
     navigation.navigate('FoodAdvisable');
   };
+
   const handleProfileClick = () => {
-    navigation.navigate('ProfileDetails');
+    if (userType === 'petOwner') {
+      navigation.navigate('ProfileDetails');
+    } else {
+      navigation.navigate('ClinicProfile');
+    }
   };
+
+  // first carousel
   return (
     <SafeAreaView>
       <ScrollView>
@@ -323,6 +337,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     width: 130,
                     height: 130,
                     top: 20,
+
                   }}
                 />
 
@@ -335,18 +350,18 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   }}>
                   <Text
                     style={{
-                      fontSize: 20,
+                      fontSize: 23,
                       fontWeight: 'bold',
                       color: 'white',
                       textAlign: 'center',
                       marginBottom: 20,
+                      bottom: '30%'
                     }}>
                     {item.title}
                   </Text>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleSeeMoreClick} 
-                  >
+                    onPress={handleSeeMoreClick}>
                     <Text
                       style={{
                         fontSize: 17,
@@ -378,7 +393,7 @@ const HomePage = () => {
   const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    navigation.navigate('FoodAdvisable'); 
+    navigation.navigate('FoodAdvisable');
   };
   const handleSearchSubmit = () => {
     console.log('Search query:', searchQuery);
@@ -386,14 +401,14 @@ const HomePage = () => {
     navigation.navigate('ResultsPage', {searchQuery});
   };
   const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage'); 
+    navigation.navigate('ResultsPage');
   };
 
   return (
     <>
       <SafeAreaView>
         <ScrollView>
-          <View>
+          <View style={{width: Dimensions.get('window').width}}>
             <View>
               <Carousel
                 ref={isCarousel}
@@ -480,6 +495,7 @@ const HomePage = () => {
                 data={data2}
                 renderItem={itemNumber2}
                 sliderWidth={screenWidth}
+                sliderHeight={screenHeight}
                 itemWidth={Math.round(screenWidth * 0.9)}
               />
             </View>
@@ -491,6 +507,7 @@ const HomePage = () => {
                   justifyContent: 'space-between',
                   marginLeft: 20,
                   marginRight: 30,
+                  top: -30,
                 }}>
                 <Text
                   style={{
@@ -498,11 +515,11 @@ const HomePage = () => {
                     fontFamily: 'Poppins-Bold',
                     fontSize: 20,
                   }}>
-                  Popular Clinics
+                  Explore Clinics
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('PopularClinics');
+                    navigation.navigate('ResultsPage');
                   }}>
                   <Text
                     style={{
@@ -514,14 +531,18 @@ const HomePage = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
+              <View style={{width: Dimensions.get('window').width, top: -30}}>
                 <Carousel
                   data={data1}
-                  renderItem={({ item, index }) => renderItem({ item, index, navigation })}
+                  renderItem={({item, index}) =>
+                    renderItem({item, index, navigation})
+                  }
                   sliderWidth={screenWidth}
                   sliderHeight={screenHeight}
                   itemWidth={Math.round(screenWidth * 0.8)}
                   itemHeight={Math.round(screenHeight - 30 * 0.7)}
                 />
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -535,7 +556,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff6464',
     padding: 10,
     borderRadius: 20,
-    bottom: 10,
+    bottom: '20%',
   },
 });
 

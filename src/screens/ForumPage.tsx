@@ -195,7 +195,7 @@ const ForumPage = () => {
               />
               <View style={styles.userInfoText}>
                 <Text style={styles.userName}>{post.name}</Text>
-                <View style={styles.message}>
+                {/* <View style={styles.message}>
                   <TouchableOpacity
                     style={styles.messageIcon}
                     onPress={() => {
@@ -211,7 +211,7 @@ const ForumPage = () => {
                       size={17}
                     />
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
             </View>

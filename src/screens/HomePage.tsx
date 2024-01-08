@@ -115,7 +115,7 @@ const renderItem = ({item, index, navigation}) => {
           <Image
             source={item.imageSource}
             style={{
-              width: 330,
+              width: 288,
               height: 180,
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,

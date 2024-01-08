@@ -21,6 +21,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
+import {Avatar} from 'react-native-paper';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -253,13 +254,13 @@ const ResultsPage = () => {
           <View style={styles.userheadercontent}>
             <TouchableOpacity onPress={navigation.goBack}>
               <TouchableOpacity onPress={handleProfileClick}>
-                <Image
+                <Avatar.Image
                   source={
                     profilePicture
                       ? {uri: profilePicture}
-                      : require('../images/userIcon.png')
+                      : require('../images/defaultIcon.png')
                   }
-                  style={{width: 50, height: 50, borderRadius: 50}}
+                  size={50}
                 />
               </TouchableOpacity>
             </TouchableOpacity>

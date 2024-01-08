@@ -186,7 +186,7 @@ const UserProfile = () => {
               updateData.password = newPassword;
               // Update the user document with new profile data and potentially new password
               await updateDoc(userRef, updateData);
-              navigation.navigate('SettingsPage');
+              navigation.navigate('ProfileDetails');
               // Update the password after successfully updating the profile
               try {
                 await updatePassword(auth.currentUser!, newPassword);
@@ -204,7 +204,7 @@ const UserProfile = () => {
             try {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
-              navigation.navigate('SettingsPage');
+              navigation.navigate('ProfileDetails');
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');
@@ -238,7 +238,7 @@ const UserProfile = () => {
             source={
               profilePicture
                 ? {uri: profilePicture}
-                : require('../images/userIcon.png')
+                : require('../images/defaultIcon.png')
             }
             style={styles.profilePicture}
           />

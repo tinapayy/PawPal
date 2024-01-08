@@ -95,7 +95,11 @@ const ProfileDetails = () => {
           if (doc.data().userId === auth.currentUser?.uid) {
             setName(doc.data().name);
             setBio(doc.data().bio);
-            setProfilePicture({uri: doc.data().profilePicture || null});
+            setProfilePicture(
+              doc.data().profilePicture
+                ? {uri: doc.data().profilePicture}
+                : require('../images/defaultIcon.png'),
+            );
           }
         });
         const pet: Pet[] = [];
@@ -352,7 +356,7 @@ const ProfileDetails = () => {
         Profile Details
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('home')}
         style={{top: -15, left: 15}}>
         <FontAwesomeIcon icon={faArrowLeft} size={24} color="#FFF" />
       </TouchableOpacity>

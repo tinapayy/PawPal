@@ -112,7 +112,7 @@ const PawPalApp = () => {
           try {
             await updateDoc(userRef, updateData);
             Alert.alert('Profile updated successfully');
-            navigation.navigate('SettingsPage_Clinic');
+            navigation.navigate('ClinicProfile');
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating clinic profile. Please try again.');

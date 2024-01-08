@@ -44,16 +44,17 @@ function SettingsPage_Clinic() {
         </View>
         <Image source={grh} style={styles.headerimg} />
       </View>
-      <TouchableOpacity onPress={() => {
-            navigation.navigate('ClinicProfile');
+      <TouchableOpacity
+        onPress={() => {
+          navigation.goBack();
         }}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            size={27}
-            style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
-          />
+        <FontAwesomeIcon
+          icon={faArrowLeft}
+          size={27}
+          style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
+        />
       </TouchableOpacity>
-    
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}

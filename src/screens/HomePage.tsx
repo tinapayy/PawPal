@@ -211,28 +211,36 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'user'));
-        querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      querySnapshot.forEach(doc => {
+        if (doc.data().userId === auth.currentUser?.uid) {
+          setProfilePicture(null);
+          setUserType(doc.data().userType);
+          if (doc.data().profilePicture) {
             setProfilePicture(doc.data().profilePicture);
+          } else if (doc.data().clinicPicture) {
             setProfilePicture(doc.data().clinicPicture);
-            setUserType(doc.data().userType);
           }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
   if (profilePicture != null) {
     for (let i = 0; i < data3.length; i++) {
       data3[i].imageSome = {uri: profilePicture};
+    }
+  } else {
+    for (let i = 0; i < data3.length; i++) {
+      data3[i].imageSome = require('../images/defaultIcon.png');
     }
   }
 

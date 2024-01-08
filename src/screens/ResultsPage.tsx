@@ -9,6 +9,7 @@ import {
   Dimensions,
   TextInput,
   GestureResponderEvent,
+  Alert,
 } from 'react-native';
 
 import {
@@ -92,23 +93,35 @@ const clinics = [
   // Add more clinic data here
 ];
 
-const ClinicCard = ({clinicInfo, onPress}) => {
+const ClinicCard = ({clinicInfo}) => {
   const navigation = useNavigation();
   const handleClinicPress = () => {
-    // Navigate to the clinic profile screen and pass clinicInfo
-    navigation.navigate('ClinicProfile', {clinicInfo});
+    navigation.navigate('ClinicProfileforCards', {
+      clinicId: clinicInfo.clinicId,
+    });
   };
 
   return (
     <TouchableOpacity onPress={handleClinicPress}>
       <View style={styles.card}>
-        <Image source={clinicInfo.imageUrl} style={styles.image} />
+        <Image
+          source={
+            clinicInfo.clinicPicture
+              ? {uri: clinicInfo.clinicPicture}
+              : require('../images/placeholder.png')
+          }
+          style={styles.image}
+          resizeMode="cover"
+        />
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{clinicInfo.name}</Text>
           <Text style={styles.address}>{clinicInfo.address}</Text>
-          <Text style={styles.hours}>{clinicInfo.openingHours}</Text>
-          <Text style={clinicInfo.isOpen ? styles.open : styles.closed}>
+          <Text style={styles.hours}>
             {clinicInfo.isOpen ? 'Open' : 'Closed'}
+          </Text>
+          <Text style={styles.hours}>
+            {/* format: '8:00 AM - 5:00 PM' */}
+            {clinicInfo.storeHours[0].open} - {clinicInfo.storeHours[0].close}
           </Text>
         </View>
       </View>
@@ -116,7 +129,21 @@ const ClinicCard = ({clinicInfo, onPress}) => {
   );
 };
 
+type Clinic = {
+  id: number;
+  clinicId: string;
+  name: string;
+  address: string;
+  isOpen: boolean;
+  storeHours: any;
+  clinicPicture: any;
+};
+
 const ResultsPage = () => {
+  const navigation = useNavigation();
+
+  const db = FIREBASE_DB;
+
   const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
   const [filteredClinics, setFilteredClinics] = useState(clinics); // Replace with actual filtered clinics from the search bar]
 
@@ -132,24 +159,31 @@ const ResultsPage = () => {
     setFilteredClinics(filtered);
   };
 
-  const navigation = useNavigation();
-
-  const auth = FIREBASE_AUTH;
-  const db = FIREBASE_DB;
-
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
+  const [clinics, setClinics] = useState<Clinic[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'user'));
-        querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
-            setProfilePicture(doc.data().profilePicture);
-            setUserType(doc.data().userType);
+        const clinicsData: Clinic[] = [];
+        for (const clinicDoc of querySnapshot.docs) {
+          if (clinicDoc.data().userType === 'clinic') {
+            clinicsData.push({
+              id: clinicsData.length + 1,
+              clinicId: clinicDoc.data().userId,
+              name: clinicDoc.data().name,
+              address: clinicDoc.data().address,
+              isOpen: clinicDoc.data().storeHours
+                ? isClinicOpen(clinicDoc.data().storeHours)
+                : false,
+              storeHours: clinicDoc.data().storeHours,
+              clinicPicture: clinicDoc.data().clinicPicture,
+            });
           }
-        });
+        }
+        setClinics(clinicsData);
       } catch (error) {
         console.log(error);
       }
@@ -157,19 +191,27 @@ const ResultsPage = () => {
     fetchData();
   }, []);
 
-  const handleClinicPress = clinic => {
-    // Handle what happens when a clinic card is pressed, e.g., open a detail screen.
+  const isClinicOpen = storeHours => {
+    for (let i = 0; i < storeHours.length; i++) {
+      const currentDay = new Date().getDay();
+      if (currentDay === storeHours[i].day) {
+        const currentTime = new Date().getTime();
+        const openingTime = storeHours[i].open.toDate().getTime();
+        const closingTime = storeHours[i].close.toDate().getTime();
+        if (currentTime >= openingTime && currentTime <= closingTime) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
-
-  function _goBack(event: GestureResponderEvent): void {
-    throw new Error('Function not implemented.');
-  }
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
       navigation.navigate('ProfileDetails');
     } else {
-      navigation.navigate('ClinicProfile');
+      // navigation.navigate('ClinicProfile');
+      Alert.alert(clinics[12].name);
     }
   };
 
@@ -201,7 +243,7 @@ const ResultsPage = () => {
             />
           </View>
           <View style={styles.userheadercontent}>
-            <TouchableOpacity onPress={_goBack}>
+            <TouchableOpacity onPress={navigation.goBack}>
               <TouchableOpacity onPress={handleProfileClick}>
                 <Image
                   source={
@@ -219,14 +261,9 @@ const ResultsPage = () => {
 
       <View style={styles.scrollcontainer}>
         <FlatList
-          data={filteredClinics}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <ClinicCard
-              clinicInfo={item}
-              onPress={() => handleClinicPress(item)}
-            />
-          )}
+          data={clinics}
+          renderItem={({item}) => <ClinicCard clinicInfo={item} />}
+          keyExtractor={item => item.id.toString()}
         />
       </View>
     </View>

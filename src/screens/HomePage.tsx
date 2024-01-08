@@ -409,10 +409,15 @@ const HomePage = () => {
               posts.push({
                 id: posts.length + 1,
                 name: userDoc.data().name,
-                profilePicture: userDoc.data().profilePicture
-                  ? {uri: userDoc.data().profilePicture}
-                  : require('../images/defaultIcon.png'),
-                postText: forumDoc.data().postText,
+                profilePicture:
+                  userDoc.data().profilePicture || userDoc.data().clinicPicture
+                    ? {
+                        uri:
+                          userDoc.data().profilePicture ||
+                          userDoc.data().clinicPicture,
+                      }
+                    : require('../images/defaultIcon.png'),
+                postText: forumDoc.data().postText.slice(0, 100) + '...',
               });
             }
           }

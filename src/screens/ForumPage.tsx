@@ -90,9 +90,11 @@ const ForumPage = () => {
               posts.push({
                 id: posts.length + 1,
                 name: userDoc.data().name,
-                profilePicture: userDoc.data().profilePicture
-                  ? {uri: userDoc.data().profilePicture}
-                  : require('../images/defaultIcon.png'),
+                profilePicture: {
+                  uri:
+                    userDoc.data().profilePicture ||
+                    userDoc.data().clinicPicture,
+                },
                 postText: forumDoc.data().postText,
                 postTime: getTimeDifference(forumDoc.data().postTime),
                 postPicture: forumDoc.data().postPicture

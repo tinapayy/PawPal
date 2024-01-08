@@ -102,20 +102,33 @@ const ProfileDetails = () => {
         for (const petDoc of querySnapshot.docs) {
           if (petDoc.data().userId === auth.currentUser?.uid) {
             const petIds = petDoc.data().pet;
-            for (const petId of petIds) {
-              const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
-              if (petDoc.exists()) {
-                pet.push({
-                  id: pet.length + 1,
-                  name: petDoc.data().name,
-                  breed: petDoc.data().breed,
-                  age: petDoc.data().age,
-                  sex: petDoc.data().sex,
-                  weight: petDoc.data().weight,
-                  color: petDoc.data().color,
-                  petPicture: {uri: petDoc.data().petPicture || null},
-                });
+            if (petIds.length > 0) {
+              for (const petId of petIds) {
+                const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
+                if (petDoc.exists()) {
+                  pet.push({
+                    id: pet.length + 1,
+                    name: petDoc.data().name,
+                    breed: petDoc.data().breed,
+                    age: petDoc.data().age,
+                    sex: petDoc.data().sex,
+                    weight: petDoc.data().weight,
+                    color: petDoc.data().color,
+                    petPicture: {uri: petDoc.data().petPicture || null},
+                  });
+                }
               }
+            } else {
+              pet.push({
+                id: 1,
+                name: 'No pet',
+                breed: 'No pet',
+                age: 'No pet',
+                sex: 'No pet',
+                weight: 'No pet',
+                color: 'No pet',
+                petPicture: null,
+              });
             }
           }
         }
@@ -141,7 +154,14 @@ const ProfileDetails = () => {
         {item.type === 'pet' && (
           <>
             <View style={styles.imageContainer}>
-              <Image source={item.data.petPicture} style={styles.image} />
+              <Image
+                source={
+                  item.data.petPicture
+                    ? item.data.petPicture
+                    : require('../images/placeholder.png')
+                }
+                style={styles.image}
+              />
             </View>
             <Text style={styles.title} numberOfLines={2}>
               {item.data.name}

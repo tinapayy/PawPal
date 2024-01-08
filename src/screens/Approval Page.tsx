@@ -50,14 +50,7 @@ const ForumCard = ({userPost, onCheck, onX}) => {
           alignItems: 'center',
         }}>
         <View>
-          <Avatar.Image
-            size={60}
-            source={
-              userPost.profilePicture
-                ? userPost.profilePicture
-                : require('../images/userIcon.png')
-            }
-          />
+          <Avatar.Image size={60} source={userPost.profilePicture} />
         </View>
         <View
           style={{
@@ -163,7 +156,9 @@ const ApprovalPage = () => {
                 id: posts.length + 1,
                 postId: forumDoc.id,
                 name: userDoc.data().name,
-                profilePicture: {uri: userDoc.data().profilePicture},
+                profilePicture: userDoc.data().profilePicture
+                  ? {uri: userDoc.data().profilePicture}
+                  : require('../images/defaultIcon.png'),
                 postText: forumDoc.data().postText,
                 postTime: getTimeDifference(forumDoc.data().postTime),
                 postPicture: forumDoc.data().postPicture

@@ -57,7 +57,7 @@ const data3 = [
     img1: require('../images/Ellipse17.png'),
     img2: require('../images/Vector_11.png'),
     img3: require('../images/Ellipse18.png'),
-    imageSome: require('../images/idPic.png'),
+    imageSome: require('../images/defaultIcon.png'),
     title: 'Are cats allowed to eat chocolates?',
     description: 'Click Here',
     imageSource: require('../images/kitty.png'),
@@ -67,7 +67,7 @@ const data3 = [
     img1: require('../images/Ellipse17.png'),
     img2: require('../images/Vector_11.png'),
     img3: require('../images/Ellipse18.png'),
-    imageSome: require('../images/idPic.png'),
+    imageSome: require('../images/defaultIcon.png'),
     title: 'Are dogs allowed to eat grapes?',
     description: 'Click Here',
     imageSource: require('../images/doggy.png'),
@@ -77,7 +77,7 @@ const data3 = [
     img1: require('../images/Ellipse17.png'),
     img2: require('../images/Vector_11.png'),
     img3: require('../images/Ellipse18.png'),
-    imageSome: require('../images/idPic.png'),
+    imageSome: require('../images/defaultIcon.png'),
     title: 'Are cats allowed to eat peanut butter?',
     description: 'Click Here',
     imageSource: require('../images/kitty.png'),
@@ -117,7 +117,7 @@ const renderItem = ({item, index, navigation}) => {
           <Image
             source={item.clinicPicture}
             style={{
-              width: 288,
+              width: 330,
               height: 180,
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
@@ -211,33 +211,22 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
 
-  const fetchData = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, 'user'));
-      querySnapshot.forEach(doc => {
-        if (doc.data().userId === auth.currentUser?.uid) {
-          setUserType(doc.data().userType);
-          if (doc.data().userType === 'petOwner') {
-            setProfilePicture(
-              doc.data().profilePicture
-                ? doc.data().profilePicture
-                : require('../images/idPic.png'),
-            );
-          } else {
-            setProfilePicture(
-              doc.data().clinicPicture
-                ? doc.data().clinicPicture
-                : require('../images/placeholder.png'),
-            );
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setProfilePicture(doc.data().profilePicture);
+            setProfilePicture(doc.data().clinicPicture);
+            setUserType(doc.data().userType);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -388,7 +377,7 @@ const HomePage = () => {
     {
       id: 1,
       name: 'Jeff',
-      profilePicture: require('../images/idPic.png'),
+      profilePicture: require('../images/defaultIcon.png'),
       postText:
         'My cat, Snow is suffering from anemia and in need of blood type A ...',
     },
@@ -414,7 +403,7 @@ const HomePage = () => {
                 name: userDoc.data().name,
                 profilePicture: userDoc.data().profilePicture
                   ? {uri: userDoc.data().profilePicture}
-                  : require('../images/idPic.png'),
+                  : require('../images/defaultIcon.png'),
                 postText: forumDoc.data().postText,
               });
             }

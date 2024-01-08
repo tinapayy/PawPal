@@ -104,7 +104,7 @@ const ClinicProfile = ({route}) => {
             source={
               clinicPicture
                 ? {uri: clinicPicture}
-                : require('../images/userIcon.png')
+                : require('../images/placeholder.png')
             }
             resizeMode="stretch"
             style={{

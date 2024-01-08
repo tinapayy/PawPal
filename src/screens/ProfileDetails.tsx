@@ -49,43 +49,52 @@ const ProfileDetails = () => {
 
   const [pet, setPet] = useState<CarouselItem[]>([]);
   const [name, setName] = useState('');
-  const [bio, setBio] = useState('');
+  // const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const MAX_DESCRIPTION_LENGTH = 200;
+  const MAX_DESCRIPTION_LENGTH = 25;
 
-  // Use ownerDataDetails.description as the initial description
-  // const bio = ownerDataDetails?.description || '...';
+  // // Use ownerDataDetails.description as the initial description
+  // // const bio = ownerDataDetails?.description || '...';
 
-  const [showFullBio, setShowFullBio] = useState(true);
-  const [truncatedBio, setTruncatedBio] = useState(
-    `${bio.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
-  );
+  // const [showFullBio, setShowFullBio] = useState(true);
+  // const [truncatedBio, setTruncatedBio] = useState(
+  //   `${bio.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
+  // );
 
-  const [lines, setLines] = useState<string[]>([]);
-  const [numLines, setNumLines] = useState<number | undefined>(2);
+  // const [lines, setLines] = useState<string[]>([]);
+  // const [numLines, setNumLines] = useState<number | undefined>(2);
+
+  const [bio, setBio] = useState(''); // Ensure bio starts as an empty string
+  const [showFullBio, setShowFullBio] = useState(false); // Ensure showFullBio starts as false
+  const [truncatedBio, setTruncatedBio] = useState(''); // Ensure truncatedBio starts as an empty string
+  const [lines, setLines] = useState<string[]>([]); // Ensure lines starts as an empty array
+  const [numLines, setNumLines] = useState<number | undefined>(2); // Ensure numLines starts as 2 or undefined
 
   const toggleDescription = () => {
     setShowFullBio(!showFullBio);
   };
 
   const handleDescriptionPress = () => {
-    toggleDescription();
-    if (showFullBio) {
-      setTruncatedBio(`${bio.slice(0, MAX_DESCRIPTION_LENGTH)}...`);
-      setLines(bio.split('\n')); // Split text into lines
-      setNumLines(undefined); // Display full text with unlimited lines
-    } else {
-      setTruncatedBio(bio);
-      setLines([]); // Clear lines
-      setNumLines(2); // Display truncated text with 2 lines
-    }
+    setShowFullBio(!showFullBio);
   };
+
   const carouselRef = useRef<Carousel<CarouselItem> | null>(null);
   const [maxHeight, setMaxHeight] = useState<number | null>(null);
 
   useEffect(() => {
-    setMaxHeight(showFullBio ? null : 100);
-  }, [showFullBio]);
+    if (bio) {
+      if (showFullBio) {
+        setTruncatedBio(bio);
+        setLines(bio.split('\n'));
+        setNumLines(undefined);
+      } else {
+        const truncated = bio.slice(0, MAX_DESCRIPTION_LENGTH);
+        setTruncatedBio(truncated);
+        setLines(truncated.split('\n'));
+        setNumLines(2);
+      }
+    }
+  }, [bio, showFullBio]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -175,37 +184,9 @@ const ProfileDetails = () => {
             </Text>
             <View style={styles.bottomContainer}>
               <View style={styles.bottomTexts}>
-                <Divider
-                  style={{
-                    height: '100%',
-                    marginHorizontal: 20,
-                    backgroundColor: '#FF8D4D80',
-                  }}
-                />
                 <Text style={styles.petDetail}>Age</Text>
-                <Divider
-                  style={{
-                    height: '100%',
-                    marginHorizontal: 28,
-                    backgroundColor: '#FF8D4D80',
-                  }}
-                />
                 <Text style={styles.petDetail}>Color</Text>
-                <Divider
-                  style={{
-                    height: '100%',
-                    marginHorizontal: 25,
-                    backgroundColor: '#FF8D4D80',
-                  }}
-                />
                 <Text style={styles.petDetail}>Sex</Text>
-                <Divider
-                  style={{
-                    height: '100%',
-                    marginHorizontal: 15,
-                    backgroundColor: '#FF8D4D80',
-                  }}
-                />
                 <Text style={styles.petDetail}>Weight</Text>
               </View>
             </View>
@@ -282,51 +263,24 @@ const ProfileDetails = () => {
             <Text style={styles.userName}>{name}</Text>
             <Text style={styles.ownerTitle}>Pet Owner</Text>
             <TouchableOpacity onPress={handleDescriptionPress}>
-              <TouchableOpacity onPress={handleDescriptionPress}>
-                <View style={styles.contentScroll}>
-                  <Text style={styles.contentProfile}>
-                    {showFullBio ? bio : truncatedBio}
-                  </Text>
-                  <Text style={styles.seeMore}>
-                    {showFullBio ? 'See Less' : 'See More'}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <View style={styles.contentScroll}>
+                <Text style={styles.contentProfile}>
+                  {showFullBio ? bio : truncatedBio}
+                </Text>
+                <Text style={styles.seeMore}>
+                  {showFullBio ? 'See Less' : 'See More'}
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            style={styles.messageIcon}
-            onPress={() => navigation.navigate('MessagePage')}>
-            <Surface style={styles.surfaceMessage} elevation={2}>
-              <FontAwesomeIcon
-                icon={faComments}
-                style={styles.iconMessage}
-                size={20}
-              />
-              <Text
-                style={{
-                  color: '#ffffff',
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  marginLeft: 5,
-                }}>
-                Message
-              </Text>
-            </Surface>
-          </TouchableOpacity>
 
+        <View style={styles.iconContainer}>
           <TouchableOpacity
             style={styles.settingsIcon}
             onPress={() => navigation.navigate('SettingsPage')}>
             <FontAwesomeIcon icon={faCog} style={styles.icon} size={20} />
           </TouchableOpacity>
-
-          {/* <View style={styles.content}>
-              <FontAwesomeIcon icon={faAddressCard} style={styles.icon} size={20} />
-              <Text style={styles.bio}>About the Pet Owner</Text>
-            </View> */}
         </View>
       </Card.Content>
     </Card>
@@ -341,7 +295,7 @@ const ProfileDetails = () => {
         style={{
           position: 'absolute',
           width: screenWidth,
-          height: 200,
+          height: 160,
           zIndex: -10,
         }}
       />
@@ -434,30 +388,31 @@ const styles = StyleSheet.create({
   },
   petDetail: {
     fontFamily: 'Poppins-Regular',
-    // color:'#5A2828',
     color: 'gray',
-    fontSize: 18,
-    top: 40,
+    fontSize: 15,
+    top: 35,
+    marginHorizontal: 25,
+    left: 15,
   },
   bottomTexts: {
     flexDirection: 'row',
     alignItems: 'center',
     top: -70,
-    paddingVertical: 20,
+    paddingVertical: 15,
   },
   horizontalLine: {
     alignSelf: 'center',
     width: screenWidth,
     height: 3,
     backgroundColor: '#FF8D4D',
-    top: 497,
+    top: 523,
   },
   surface: {
     flexDirection: 'row',
     backgroundColor: '#F1D5C6',
     padding: 8,
     height: 50,
-    width: 80,
+    width: 75,
     top: -5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -489,16 +444,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   avatarContainer: {
-    left: 45,
-    top: -60,
-    position: 'relative',
+    left: 70,
+    top: -5,
+    position: 'absolute',
   },
   userName: {
     fontFamily: 'Poppins-Bold',
     color: '#5A2828',
     top: -7,
     fontSize: 18,
-    left: 50,
+    left: 120,
     fontWeight: 'bold',
   },
   ownerTitle: {
@@ -506,7 +461,7 @@ const styles = StyleSheet.create({
     color: '#5A2819',
     top: -10,
     fontSize: 18,
-    left: 50,
+    left: 120,
     // fontWeight: 'bold',
   },
   description: {
@@ -519,14 +474,9 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   iconContainer: {
-    flexDirection: 'row',
-    // left: 50,
-  },
-  messageIcon: {
-    color: '#ffffffff',
-    // marginRight: 10,
-    right: 210,
-    top: -60,
+    position: 'absolute',
+    right: -25,
+    top: 55,
   },
   surfaceMessage: {
     flexDirection: 'row',
@@ -542,9 +492,8 @@ const styles = StyleSheet.create({
     left: 15,
   },
   settingsIcon: {
-    // top: 7,
-    right: 200,
-    top: -55,
+    right: 110,
+    top: -35,
   },
 
   icon: {
@@ -555,15 +504,10 @@ const styles = StyleSheet.create({
     zIndex: 999,
     position: 'relative',
   },
-  iconMessage: {
-    color: '#ffffff',
-  },
   content: {
     flexDirection: 'row',
     top: 45,
     left: -575,
-    // left:'auto',
-    // justifyContent: 'flex-start',
     alignContent: 'flex-start',
     fontFamily: 'Poppins',
   },
@@ -611,14 +555,17 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'justify',
     paddingHorizontal: 20,
+    top: 10,
   },
   contentProfile: {
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
     color: 'black',
-    textAlign: 'justify',
+    textAlign: 'left',
     lineHeight: 24,
-    right: 30,
+    right: -50,
+    maxWidth: 300,
+    maxHeight: 300,
   },
   seeMore: {
     fontFamily: 'Poppins-Regular',
@@ -626,10 +573,11 @@ const styles = StyleSheet.create({
     textDecorationStyle: 'solid',
     color: '#ff8700',
     // marginTop: 10,
-    top: -23,
-    left: 55,
+    top: -25,
+    left: 130,
     textAlign: 'center',
     textDecorationLine: 'underline',
+    position: 'relative',
   },
 });
 

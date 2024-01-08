@@ -95,7 +95,7 @@ const SignIn = () => {
             backgroundColor: 'white',
             borderTopStartRadius: 50,
             borderTopEndRadius: 50,
-            top: 305,
+            top: 285,
             height: 1000,
             elevation: 20,
           }}>

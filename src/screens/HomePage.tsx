@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
+import {Avatar} from 'react-native-paper';
 import {Image} from 'react-native-elements';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -47,35 +48,6 @@ const data1 = [
     description: '88 Commission Civil St, Jaro, Iloilo City',
     info1: 'Open Now',
     info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-];
-
-const data2 = [
-  {
-    id: 1,
-    imageSource: require('../images/cutieCat.jpg'),
-    title: 'Looking for Blood Donor',
-    description:
-      'My cat, Snow is suffering from anemia and in need of blood type A ...',
-  },
-  {
-    id: 2,
-    imageSource: require('../images/announcement1.jpg'),
-    title: 'Emergency',
-    description: 'My dog, Summer needs to undergo surgery...',
-  },
-  {
-    id: 3,
-    imageSource: require('../images/cutieCat.jpg'),
-    title: 'Looking for Blood Donor',
-    description:
-      'My cat, Snow is suffering from anemia and in need of blood type A ...',
-  },
-  {
-    id: 4,
-    imageSource: require('../images/announcement1.jpg'),
-    title: 'Emergency',
-    description: 'My dog, Summer needs to undergo surgery...',
   },
 ];
 
@@ -121,72 +93,69 @@ const renderItem = ({item, index, navigation}) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <View
+        style={{
+          borderWidth: 1,
+          padding: 10,
+          borderRadius: 20,
+          backgroundColor: 'white',
+          borderColor: 'white',
+          elevation: 5,
+          marginBottom: 15,
+          position: 'relative',
+        }}>
         <View
           style={{
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 20,
-            backgroundColor: 'white',
-            borderColor: 'white',
-            elevation: 5,
-            marginBottom: 20,
-            position: 'relative',
+            alignSelf: 'center',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            bottom: 10,
           }}>
-          <View
+          <Image
+            source={item.imageSource}
             style={{
-              alignSelf: 'center',
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              bottom: 10,
-            }}>
-            <Image
-              source={item.imageSource}
-              style={{
-                width: 330,
-                height: 180,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }}
-            />
-          </View>
-          <Text
-            style={{
-              fontSize: 19,
-              fontWeight: 'bold',
-              color: '#5a2828',
-              textAlign: 'center',
-              fontFamily: 'Poppins-Bold',
-            }}>
-            {item.title}
-          </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
-            <Text
-              style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
-              {item.description}
-            </Text>
-          </View>
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: '#5a2828',
-              textAlign: 'left',
-            }}>
-            {item.info1}
-          </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
-              {item.info2}
-            </Text>
-            <TouchableOpacity onPress={handleSeeMoreClick}>
-              <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
-            </TouchableOpacity>
-          </View>
+              width: 330,
+              height: 180,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}
+          />
         </View>
-      </ScrollView>
+        <Text
+          style={{
+            fontSize: 19,
+            fontWeight: 'bold',
+            color: '#5a2828',
+            textAlign: 'center',
+            fontFamily: 'Poppins-Bold',
+          }}>
+          {item.title}
+        </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
+          <Text style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
+            {item.description}
+          </Text>
+        </View>
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: 'bold',
+            color: '#5a2828',
+            textAlign: 'left',
+          }}>
+          {item.info1}
+        </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
+            {item.info2}
+          </Text>
+          <TouchableOpacity onPress={handleSeeMoreClick}>
+            <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -195,7 +164,6 @@ const itemNumber2 = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        {/* urgent announcement card */}
         <View
           style={{
             borderWidth: 1,
@@ -206,13 +174,9 @@ const itemNumber2 = ({item}) => {
             shadowColor: 'black',
             borderColor: '#FF8484',
             marginBottom: 10,
-            marginHorizontal: 6,
           }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Image
-              source={item.imageSource}
-              style={{width: 80, height: 80, borderRadius: 80 / 2}}
-            />
+            <Avatar.Image source={item.profilePicture} size={80} />
             <View
               style={{
                 flex: 1,
@@ -221,10 +185,10 @@ const itemNumber2 = ({item}) => {
               }}>
               <Text
                 style={{color: '#5a2828', fontWeight: 'bold', fontSize: 20}}>
-                {item.title}
+                {item.name}
               </Text>
               <Text style={{color: '#5a2828', fontWeight: '300', fontSize: 15}}>
-                {item.description}
+                {item.postText}
               </Text>
             </View>
           </View>
@@ -337,7 +301,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     width: 130,
                     height: 130,
                     top: 20,
-
                   }}
                 />
 
@@ -355,7 +318,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       color: 'white',
                       textAlign: 'center',
                       marginBottom: 20,
-                      bottom: '30%'
+                      bottom: '30%',
                     }}>
                     {item.title}
                   </Text>
@@ -382,13 +345,64 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   );
 };
 
+type Post = {
+  id: number;
+  name: string;
+  profilePicture: any;
+  postText: string;
+};
+
 const HomePage = () => {
   const navigation = useNavigation();
+
+  const db = FIREBASE_DB;
+
+  // Add default announcement so that the carousel will not be empty
+  const [userPosts, setUserPosts] = useState<Post[]>([
+    {
+      id: 1,
+      name: 'Jeff',
+      profilePicture: require('../images/idPic.png'),
+      postText:
+        'My cat, Snow is suffering from anemia and in need of blood type A ...',
+    },
+  ]);
+
   const [index, setIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const isCarousel = useRef(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'forum'));
+      const posts: Post[] = [];
+      for (const forumDoc of querySnapshot.docs) {
+        const userSnapshot = await getDocs(collection(db, 'user'));
+        for (const userDoc of userSnapshot.docs) {
+          if (userDoc.data().userId === forumDoc.data().userId) {
+            if (forumDoc.data().isApproved && forumDoc.data().postText) {
+              posts.push({
+                id: posts.length + 1,
+                name: userDoc.data().name,
+                profilePicture: userDoc.data().profilePicture
+                  ? {uri: userDoc.data().profilePicture}
+                  : require('../images/idPic.png'),
+                postText: forumDoc.data().postText,
+              });
+            }
+          }
+        }
+      }
+      setUserPosts(posts.reverse().slice(0, 3));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleItemClick = item => {
     setSelectedItem(item);
@@ -469,13 +483,9 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
-                  // onPress={() => {
-                  //   navigation.navigate('ForumPage');
-                  // }}
                   onPress={() => {
                     navigation.navigate('ForumPage');
-                  }}
-                  >
+                  }}>
                   <Text
                     style={{
                       color: '#FF6464',
@@ -492,7 +502,7 @@ const HomePage = () => {
                   alignContent: 'center',
                   justifyContent: 'center',
                 }}
-                data={data2}
+                data={userPosts}
                 renderItem={itemNumber2}
                 sliderWidth={screenWidth}
                 sliderHeight={screenHeight}

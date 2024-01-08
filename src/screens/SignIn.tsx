@@ -36,37 +36,49 @@ const SignIn = () => {
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
 
   const signIn = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, 'user'));
-      let userFound = false;
-
-      querySnapshot.forEach(doc => {
-        if (
-          doc.data().userType === selectedUserType &&
-          doc.data().email === email &&
-          doc.data().password === password
-        ) {
-          userFound = true;
-          signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-              Alert.alert('Logged in successfully');
-              navigation.reset({
-                index: 0,
-                routes: [{name: 'HomePage'}],
+    if (email === 'admin@pawpal.com' && password === 'pawpal') {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'ApprovalPage'}],
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          Alert.alert('Error signing in');
+        });
+    } else {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        let userFound = false;
+        querySnapshot.forEach(doc => {
+          if (
+            doc.data().userType === selectedUserType &&
+            doc.data().email === email &&
+            doc.data().password === password
+          ) {
+            userFound = true;
+            signInWithEmailAndPassword(auth, email, password)
+              .then(() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'HomePage'}],
+                });
+              })
+              .catch(error => {
+                console.error(error);
+                Alert.alert('Error signing in');
               });
-            })
-            .catch(error => {
-              console.error(error);
-              Alert.alert('Error signing in');
-            });
+          }
+        });
+        if (!userFound) {
+          Alert.alert('User not found');
         }
-      });
-      if (!userFound) {
-        Alert.alert('User not found');
+      } catch (error) {
+        console.error(error);
+        Alert.alert('Error fetching user data');
       }
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error fetching user data');
     }
   };
 

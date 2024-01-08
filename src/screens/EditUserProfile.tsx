@@ -204,7 +204,7 @@ const UserProfile = () => {
             try {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
-              navigation.navigate('SettingsPage');
+              navigation.navigate('car');
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');

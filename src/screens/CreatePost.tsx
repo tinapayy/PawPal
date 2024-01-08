@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  Image
+  Image,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -22,7 +22,7 @@ import {
   faCircleXmark,
   faImage,
   faVideo,
-  faTrashCan
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -132,10 +132,12 @@ const CreatePost = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={{backgroundColor: 'white', 
-        width: Dimensions.get('window').width, 
-        height: Dimensions.get('window').height, 
-        }}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+          }}>
           <View
             style={{
               flexDirection: 'row',
@@ -171,9 +173,11 @@ const CreatePost = () => {
               />
             </TouchableOpacity>
           </View>
-          <View style = {{}}>
-            <Image source={require('../images/cutePug.png')}
-            style = {{ right: '10%' , position: 'absolute'}}/>
+          <View style={{}}>
+            <Image
+              source={require('../images/cutePug.png')}
+              style={{right: '10%', position: 'absolute'}}
+            />
           </View>
           <View
             style={{
@@ -208,7 +212,7 @@ const CreatePost = () => {
               numberOfLines={5}
               onChangeText={text => setPostText(text)}
               placeholder="Write something here..."
-              textAlignVertical='top'
+              textAlignVertical="top"
               style={{
                 color: '#5a2828',
                 fontSize: 15,
@@ -249,7 +253,7 @@ const CreatePost = () => {
                   left: 130,
                   elevation: 3,
                   borderColor: '#ff8d4d',
-                  borderWidth: 1
+                  borderWidth: 1,
                 }}>
                 <Text
                   style={{
@@ -257,7 +261,7 @@ const CreatePost = () => {
                     fontFamily: 'Poppins-Regular',
                     fontSize: 15,
                     textAlign: 'center',
-                    fontWeight: '100'
+                    fontWeight: '100',
                   }}>
                   Upload
                 </Text>
@@ -265,50 +269,33 @@ const CreatePost = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => setSelectedImage('')}>
-              {/* <View
-                style={{
-                  backgroundColor: '#ff8d4d',
-                  borderRadius: 30,
-                  padding: 10,
-                  margin: 150,
-                  flex: 1,
-                  bottom: 500,
-                  left: 130,
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 13,
-                    textAlign: 'center',
-                  }}>
-                  Remove
-                </Text>
-              </View> */}
-              <View>
-                <FontAwesomeIcon icon={faCircleXmark} size = {23} style = {{color: 'grey', bottom: '1700%', left: '61%'}}/>
-              </View>
-            </TouchableOpacity>
+            <View>
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                size={23}
+                style={{color: 'grey', bottom: '1710%', left: '66%'}}
+              />
+            </View>
+          </TouchableOpacity>
           <Text
             style={{
-              color: '#5a2828',
-              fontFamily: 'Poppins-Regular',
+              color: 'lightgray',
+              fontFamily: 'Poppins-Italic',
               fontSize: 13,
               //flex: 1,
               left: 30,
               //backgroundColor: 'black'
-              bottom: '45%'
+              bottom: '49%',
             }}>
             Maximum upload file size : 100 MB
           </Text>
-          <View style={{ bottom: '50%'}}>
+          <View style={{bottom: '57%'}}>
             <AppButton
-              title= "Post"
+              title="Post"
               onPress={handleButton1Press}
               buttonStyle={styles.btn1}
               textStyle={styles.bt1}
             />
-           
           </View>
         </View>
       </ScrollView>
@@ -330,7 +317,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
     fontSize: 18,
     textAlign: 'center',
-
   },
   container: {
     flex: 1,

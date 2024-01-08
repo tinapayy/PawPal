@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     width: screenWidth,
     height: 3,
     backgroundColor: '#FF8D4D',
-    top: 523,
+    top: 553,
   },
   surface: {
     flexDirection: 'row',

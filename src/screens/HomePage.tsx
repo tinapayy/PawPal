@@ -88,7 +88,9 @@ const renderItem = ({item, index, navigation}) => {
   //const navigation = useNavigation();
 
   const handleSeeMoreClick = () => {
-    navigation.navigate('ForumPage');
+    navigation.navigate('ClinicProfileforCards', {
+      clinicId: item.clinicId,
+    });
   };
 
   return (
@@ -209,21 +211,33 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'user'));
-        querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
-            setProfilePicture(doc.data().profilePicture);
-            setUserType(doc.data().userType);
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      querySnapshot.forEach(doc => {
+        if (doc.data().userId === auth.currentUser?.uid) {
+          setUserType(doc.data().userType);
+          if (doc.data().userType === 'petOwner') {
+            setProfilePicture(
+              doc.data().profilePicture
+                ? doc.data().profilePicture
+                : require('../images/idPic.png'),
+            );
+          } else {
+            setProfilePicture(
+              doc.data().clinicPicture
+                ? doc.data().clinicPicture
+                : require('../images/placeholder.png'),
+            );
           }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -357,6 +371,7 @@ type Post = {
 
 type Clinic = {
   id: number;
+  clinicId: string;
   clinicPicture: any;
   name: string;
   address: string;
@@ -422,6 +437,7 @@ const HomePage = () => {
         if (clinicDoc.data().userType === 'clinic') {
           clinics.push({
             id: clinics.length + 1,
+            clinicId: clinicDoc.data().userId,
             clinicPicture: clinicDoc.data().clinicPicture
               ? {uri: clinicDoc.data().clinicPicture}
               : require('../images/placeholder.png'),

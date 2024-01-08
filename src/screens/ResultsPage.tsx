@@ -33,64 +33,6 @@ const clinics = [
     openingHours: '8:00 AM - 5:00 PM',
     imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
   },
-  {
-    id: '2',
-    name: 'Cornerstone Animal Hospital',
-    address: 'Jalandoni St., Jaro, Iloilo City',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-  {
-    id: '3',
-    name: 'Dr. Paws Veterinary Clinic',
-    address: 'Jaro, Iloilo City',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-  {
-    id: '4',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-  {
-    id: '5',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
-    isOpen: false,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-  {
-    id: '6',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-  {
-    id: '7',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
-    isOpen: false,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-  {
-    id: '8',
-    name: 'Rebadulla Animal Hospital',
-    address: '123 Main St, City, Country',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-
-  // Add more clinic data here
 ];
 
 const ClinicCard = ({clinicInfo}) => {
@@ -117,11 +59,11 @@ const ClinicCard = ({clinicInfo}) => {
           <Text style={styles.name}>{clinicInfo.name}</Text>
           <Text style={styles.address}>{clinicInfo.address}</Text>
           <Text style={styles.hours}>
-            {clinicInfo.isOpen ? 'Open' : 'Closed'}
-          </Text>
-          <Text style={styles.hours}>
-            {/* format: '8:00 AM - 5:00 PM' */}
-            {clinicInfo.storeHours[0].open} - {clinicInfo.storeHours[0].close}
+            {clinicInfo.isOpen ? (
+              <Text style={styles.open}>Open</Text>
+            ) : (
+              <Text style={styles.closed}>Closed</Text>
+            )}
           </Text>
         </View>
       </View>
@@ -142,63 +84,98 @@ type Clinic = {
 const ResultsPage = () => {
   const navigation = useNavigation();
 
+  const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
-
-  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState(clinics); // Replace with actual filtered clinics from the search bar]
-
-  const handleSearch = text => {
-    setSearchQuery(text);
-
-    // Filter clinics based on search query
-    const filtered = clinics.filter(
-      clinic =>
-        clinic.name.toLowerCase().includes(text.toLowerCase()) ||
-        clinic.address.toLowerCase().includes(text.toLowerCase()),
-    );
-    setFilteredClinics(filtered);
-  };
 
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
   const [clinics, setClinics] = useState<Clinic[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'user'));
-        const clinicsData: Clinic[] = [];
-        for (const clinicDoc of querySnapshot.docs) {
-          if (clinicDoc.data().userType === 'clinic') {
-            clinicsData.push({
-              id: clinicsData.length + 1,
-              clinicId: clinicDoc.data().userId,
-              name: clinicDoc.data().name,
-              address: clinicDoc.data().address,
-              isOpen: clinicDoc.data().storeHours
-                ? isClinicOpen(clinicDoc.data().storeHours)
-                : false,
-              storeHours: clinicDoc.data().storeHours,
-              clinicPicture: clinicDoc.data().clinicPicture,
-            });
+  const fetchUser = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      for (const userDoc of querySnapshot.docs) {
+        if (userDoc.data().userId === auth.currentUser.uid) {
+          setUserType(userDoc.data().userType);
+          if (userDoc.data().userType === 'petOwner') {
+            setProfilePicture(userDoc.data().profilePicture);
+          } else {
+            setProfilePicture(userDoc.data().clinicPicture);
           }
         }
-        setClinics(clinicsData);
-      } catch (error) {
-        console.log(error);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      const clinicsData: Clinic[] = [];
+      for (const clinicDoc of querySnapshot.docs) {
+        if (clinicDoc.data().userType === 'clinic') {
+          clinicsData.push({
+            id: clinicsData.length + 1,
+            clinicId: clinicDoc.data().userId,
+            name: clinicDoc.data().name,
+            address: clinicDoc.data().address,
+            isOpen: clinicDoc.data().storeHours
+              ? isClinicOpen(clinicDoc.data().storeHours)
+              : false,
+            storeHours: clinicDoc.data().storeHours,
+            clinicPicture: clinicDoc.data().clinicPicture,
+          });
+        }
+      }
+      setClinics(clinicsData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
     fetchData();
   }, []);
 
   const isClinicOpen = storeHours => {
+    const currentDay = Date.now();
+
+    // Add 8 hours to current day
+    const currentDayPlus8 = new Date(currentDay).setHours(
+      new Date(currentDay).getHours() + 8,
+    );
+
+    // Get UTC day
+    const utcDay = new Date(currentDayPlus8).getUTCDay();
+
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    const currentDayName = dayNames[utcDay];
+
+    const currentTime = new Date().toLocaleString('en-US', {
+      timeZone: 'Asia/Manila',
+      hour12: false,
+    });
+
+    const formattedTime = currentTime.split(',')[1].trim().slice(0, -3);
+
     for (let i = 0; i < storeHours.length; i++) {
-      const currentDay = new Date().getDay();
-      if (currentDay === storeHours[i].day) {
-        const currentTime = new Date().getTime();
-        const openingTime = storeHours[i].open.toDate().getTime();
-        const closingTime = storeHours[i].close.toDate().getTime();
-        if (currentTime >= openingTime && currentTime <= closingTime) {
+      if (currentDayName === storeHours[i].day) {
+        const openingTime = convertTo24HourFormat(storeHours[i].open);
+
+        const closingTime = convertTo24HourFormat(storeHours[i].close);
+
+        if (formattedTime >= openingTime && formattedTime <= closingTime) {
           return true;
         }
       }
@@ -206,12 +183,43 @@ const ResultsPage = () => {
     return false;
   };
 
+  const convertTo24HourFormat = timeString => {
+    let [time, period] = timeString.split(' ');
+    let [hours, minutes] = time.split(':');
+
+    if (period === 'AM' && hours === '12') {
+      hours = '00';
+    } else if (period === 'PM' && hours !== '12') {
+      hours = String(parseInt(hours) + 12);
+    }
+
+    if (parseInt(hours) < 10) {
+      hours = '0' + hours;
+    }
+
+    return `${hours}:${minutes}`;
+  };
+
+  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
+  const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
+
+  const handleSearch = text => {
+    setSearchQuery(text);
+
+    const filtered = clinics.filter(
+      clinic => clinic.name.toLowerCase().includes(text.toLowerCase()),
+      // || clinic.address.toLowerCase().includes(text.toLowerCase()),
+    );
+
+    fetchData();
+    setFilteredClinics(filtered);
+  };
+
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
       navigation.navigate('ProfileDetails');
     } else {
-      // navigation.navigate('ClinicProfile');
-      Alert.alert(clinics[12].name);
+      navigation.navigate('ClinicProfile');
     }
   };
 
@@ -261,7 +269,7 @@ const ResultsPage = () => {
 
       <View style={styles.scrollcontainer}>
         <FlatList
-          data={clinics}
+          data={filteredClinics ? filteredClinics : clinics}
           renderItem={({item}) => <ClinicCard clinicInfo={item} />}
           keyExtractor={item => item.id.toString()}
         />

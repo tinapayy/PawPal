@@ -45,17 +45,17 @@ const PawPalApp = () => {
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
-    { day: '', open: '', close: '' },
+    {day: '', open: '', close: ''},
   ]);
 
   const daysOfWeek = [
-    { day: 'Monday' },
-    { day: 'Tuesday' },
-    { day: 'Wednesday' },
-    { day: 'Thursday' },
-    { day: 'Friday' },
-    { day: 'Saturday' },
-    { day: 'Sunday' },
+    {day: 'Monday'},
+    {day: 'Tuesday'},
+    {day: 'Wednesday'},
+    {day: 'Thursday'},
+    {day: 'Friday'},
+    {day: 'Saturday'},
+    {day: 'Sunday'},
   ];
 
   const [date, setDate] = useState(new Date());
@@ -181,13 +181,13 @@ const PawPalApp = () => {
     }
   };
 
-  const showOpenTimepicker = (day) => {
+  const showOpenTimepicker = day => {
     setOpenShow(true);
     setMode('time');
     setCurrentDay(day);
   };
 
-  const showCloseTimepicker = (day) => {
+  const showCloseTimepicker = day => {
     setCloseShow(true);
     setMode('time');
     setCurrentDay(day);
@@ -201,16 +201,15 @@ const PawPalApp = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
-    
 
     // Update the selected day's open or close time based on the current mode
-    const updatedDays = selectedDays.map((selectedDay) =>
+    const updatedDays = selectedDays.map(selectedDay =>
       selectedDay.day === currentDay
         ? {
             ...selectedDay,
             [mode === 'time' ? 'open' : '']: formattedTime,
           }
-        : selectedDay
+        : selectedDay,
     );
 
     setSelectedDays(updatedDays);
@@ -224,16 +223,15 @@ const PawPalApp = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
-    
 
     // Update the selected day's open or close time based on the current mode
-    const updatedDays = selectedDays.map((selectedDay) =>
+    const updatedDays = selectedDays.map(selectedDay =>
       selectedDay.day === currentDay
         ? {
             ...selectedDay,
             [mode === 'time' ? 'close' : 'close']: formattedTime,
           }
-        : selectedDay
+        : selectedDay,
     );
 
     setSelectedDays(updatedDays);
@@ -510,7 +508,7 @@ const PawPalApp = () => {
             value={description}
           />
 
-<Text style={styles.storeHours}>Store Hours</Text>
+          <Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
             {daysOfWeek.map(({day, open, close}, index) => (
               <TouchableOpacity
@@ -526,12 +524,14 @@ const PawPalApp = () => {
                   {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <View
-                        style={{width: 85}}>
-                        <Button onPress={() => showOpenTimepicker(day)} 
-                                title= {selectedDays.find((d) => d.day === day)?.open || 'Open'}
-                                color={'#FFAC4E'}
-                                />
+                    <View style={{width: 85}}>
+                      <Button
+                        onPress={() => showOpenTimepicker(day)}
+                        title={
+                          selectedDays.find(d => d.day === day)?.open || 'Open'
+                        }
+                        color={'#FFAC4E'}
+                      />
                     </View>
                   )}
                   <Text
@@ -546,39 +546,41 @@ const PawPalApp = () => {
                   </Text>
 
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <View
-                    style={{width: 85}}>
-                        <Button onPress={() => showCloseTimepicker(day)} 
-                                title= {selectedDays.find((d) => d.day === day)?.close || 'Close'}
-                                color={'#FFAC4E'}
-                                />
-
+                    <View style={{width: 85}}>
+                      <Button
+                        onPress={() => showCloseTimepicker(day)}
+                        title={
+                          selectedDays.find(d => d.day === day)?.close ||
+                          'Close'
+                        }
+                        color={'#FFAC4E'}
+                      />
                     </View>
                   )}
                 </View>
               </TouchableOpacity>
             ))}
           </View>
-      {openshow && (
-        <DateTimePicker
-          testID="dateOpenTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChangeOpenTime}
-        />
-      )}
-      {closeshow && (
-        <DateTimePicker
-          testID="dateCloseTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChangeCloseTime}
-        />
-      )}
+          {openshow && (
+            <DateTimePicker
+              testID="dateOpenTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChangeOpenTime}
+            />
+          )}
+          {closeshow && (
+            <DateTimePicker
+              testID="dateCloseTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChangeCloseTime}
+            />
+          )}
 
           <Text style={styles.loc}>Location</Text>
           <View style={{flex: 1}}>

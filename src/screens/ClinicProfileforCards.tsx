@@ -21,7 +21,7 @@ import {faCircleArrowDown} from '@fortawesome/free-solid-svg-icons';
 
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_DB} from '../../firebase.config';
-import {getDoc, doc} from 'firebase/firestore';
+import {getDocs, collection} from 'firebase/firestore';
 
 const ClinicProfile = ({route}) => {
   const navigation = useNavigation();
@@ -61,15 +61,19 @@ const ClinicProfile = ({route}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const clinicDoc = await getDoc(doc(db, 'user', clinicId));
-        setClinicName(clinicDoc.data().name);
-        setAbout(clinicDoc.data().about);
-        setClinicPicture(clinicDoc.data().clinicPicture);
-        setContactInfo(clinicDoc.data().contactInfo);
-        setStoreHours(clinicDoc.data().storeHours);
-        setServices(clinicDoc.data().services);
-        setMapRegion(clinicDoc.data().location);
-        setAddress(clinicDoc.data().address);
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        for (const clinicDoc of querySnapshot.docs) {
+          if (clinicDoc.data().userId === clinicId) {
+            setClinicName(clinicDoc.data().name);
+            setAbout(clinicDoc.data().about);
+            setClinicPicture(clinicDoc.data().clinicPicture);
+            setContactInfo(clinicDoc.data().contactInfo);
+            setStoreHours(clinicDoc.data().storeHours);
+            setServices(clinicDoc.data().services);
+            setMapRegion(clinicDoc.data().location);
+            setAddress(clinicDoc.data().address);
+          }
+        }
       } catch (error) {
         console.log(error);
       }

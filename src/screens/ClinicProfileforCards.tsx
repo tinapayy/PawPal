@@ -333,18 +333,28 @@ const ClinicProfile = ({route}) => {
             />
           </View> */}
           {mapRegion && (
-            <MapView
-              style={{margin: 20, height: 500}}
-              provider={PROVIDER_GOOGLE}
-              initialRegion={mapRegion}
-              region={mapRegion}>
-              <Marker
-                coordinate={{
-                  latitude: mapRegion.latitude,
-                  longitude: mapRegion.longitude,
-                }}
-              />
-            </MapView>
+            <View>
+              <Text
+                style={{
+                  marginLeft: 20,
+                  fontSize: 18,
+                  fontFamily: 'Poppins-Medium',
+                }}>
+                {address}
+              </Text>
+              <MapView
+                style={{margin: 20, height: 500}}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={mapRegion}
+                region={mapRegion}>
+                <Marker
+                  coordinate={{
+                    latitude: mapRegion.latitude,
+                    longitude: mapRegion.longitude,
+                  }}
+                />
+              </MapView>
+            </View>
           )}
           {!mapRegion && (
             <MapView

@@ -24,8 +24,13 @@ import {
   faTimesCircle,
   faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
-import {FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
+import {
+  FIREBASE_DB,
+  FIREBASE_AUTH,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 import DateTimePicker, {
   DateTimePickerAndroid,
@@ -40,6 +45,7 @@ const PawPalApp = () => {
 
   const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
+  const storage = FIREBASE_STORAGE;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [number, setNumber] = useState('');
@@ -81,6 +87,28 @@ const PawPalApp = () => {
             location: mapRegion,
             address: await getAddress(),
           };
+          if (selectedImage) {
+            const metadata = {
+              contentType: 'image/jpeg', // Adjust the content type based on your image type
+            };
+
+            const storageRef = ref(
+              storage,
+              `clinicPicture/${auth.currentUser?.uid}.jpeg`,
+            );
+
+            // Convert image URI to Blob
+            const response = await fetch(selectedImage);
+            const blob = await response.blob();
+
+            // Upload the image to Firebase Storage
+            await uploadBytes(storageRef, blob, metadata);
+
+            // Get the download URL of the uploaded image
+            const imageUrl = await getDownloadURL(storageRef);
+
+            updateData.clinicPicture = imageUrl;
+          }
           try {
             await updateDoc(userRef, updateData);
             Alert.alert('Profile updated successfully');

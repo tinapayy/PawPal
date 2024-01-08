@@ -24,8 +24,13 @@ import {
   faTimesCircle,
   faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
-import {FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
+import {
+  FIREBASE_DB,
+  FIREBASE_AUTH,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 import DateTimePicker, {
   DateTimePickerAndroid,
@@ -40,22 +45,23 @@ const PawPalApp = () => {
 
   const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
+  const storage = FIREBASE_STORAGE;
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState('');
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
-    { day: '', open: '', close: '' },
+    {day: '', open: '', close: ''},
   ]);
 
   const daysOfWeek = [
-    { day: 'Monday' },
-    { day: 'Tuesday' },
-    { day: 'Wednesday' },
-    { day: 'Thursday' },
-    { day: 'Friday' },
-    { day: 'Saturday' },
-    { day: 'Sunday' },
+    {day: 'Monday'},
+    {day: 'Tuesday'},
+    {day: 'Wednesday'},
+    {day: 'Thursday'},
+    {day: 'Friday'},
+    {day: 'Saturday'},
+    {day: 'Sunday'},
   ];
 
   const [date, setDate] = useState(new Date());
@@ -65,7 +71,6 @@ const PawPalApp = () => {
   const [currentDay, setCurrentDay] = useState('');
 
   const [tagsInput, setTagsInput] = useState([]);
-
 
   const saveClinicInfo = async () => {
     try {
@@ -82,6 +87,28 @@ const PawPalApp = () => {
             location: mapRegion,
             address: await getAddress(),
           };
+          if (selectedImage) {
+            const metadata = {
+              contentType: 'image/jpeg', // Adjust the content type based on your image type
+            };
+
+            const storageRef = ref(
+              storage,
+              `clinicPicture/${auth.currentUser?.uid}.jpeg`,
+            );
+
+            // Convert image URI to Blob
+            const response = await fetch(selectedImage);
+            const blob = await response.blob();
+
+            // Upload the image to Firebase Storage
+            await uploadBytes(storageRef, blob, metadata);
+
+            // Get the download URL of the uploaded image
+            const imageUrl = await getDownloadURL(storageRef);
+
+            updateData.clinicPicture = imageUrl;
+          }
           try {
             await updateDoc(userRef, updateData);
             Alert.alert('Profile updated successfully');
@@ -188,13 +215,13 @@ const PawPalApp = () => {
     }
   };
 
-  const showOpenTimepicker = (day) => {
+  const showOpenTimepicker = day => {
     setOpenShow(true);
     setMode('time');
     setCurrentDay(day);
   };
 
-  const showCloseTimepicker = (day) => {
+  const showCloseTimepicker = day => {
     setCloseShow(true);
     setMode('time');
     setCurrentDay(day);
@@ -208,16 +235,15 @@ const PawPalApp = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
-    
 
     // Update the selected day's open or close time based on the current mode
-    const updatedDays = selectedDays.map((selectedDay) =>
+    const updatedDays = selectedDays.map(selectedDay =>
       selectedDay.day === currentDay
         ? {
             ...selectedDay,
             [mode === 'time' ? 'open' : '']: formattedTime,
           }
-        : selectedDay
+        : selectedDay,
     );
 
     setSelectedDays(updatedDays);
@@ -231,16 +257,15 @@ const PawPalApp = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
-    
 
     // Update the selected day's open or close time based on the current mode
-    const updatedDays = selectedDays.map((selectedDay) =>
+    const updatedDays = selectedDays.map(selectedDay =>
       selectedDay.day === currentDay
         ? {
             ...selectedDay,
             [mode === 'time' ? 'close' : 'close']: formattedTime,
           }
-        : selectedDay
+        : selectedDay,
     );
 
     setSelectedDays(updatedDays);
@@ -494,7 +519,7 @@ const PawPalApp = () => {
             value={description}
           />
 
-<Text style={styles.storeHours}>Store Hours</Text>
+          <Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
             {daysOfWeek.map(({day, open, close}, index) => (
               <TouchableOpacity
@@ -510,12 +535,14 @@ const PawPalApp = () => {
                   {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <View
-                        style={{width: 85}}>
-                        <Button onPress={() => showOpenTimepicker(day)} 
-                                title= {selectedDays.find((d) => d.day === day)?.open || 'Open'}
-                                color={'#FFAC4E'}
-                                />
+                    <View style={{width: 85}}>
+                      <Button
+                        onPress={() => showOpenTimepicker(day)}
+                        title={
+                          selectedDays.find(d => d.day === day)?.open || 'Open'
+                        }
+                        color={'#FFAC4E'}
+                      />
                     </View>
                   )}
                   <Text
@@ -530,39 +557,41 @@ const PawPalApp = () => {
                   </Text>
 
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <View
-                    style={{width: 85}}>
-                        <Button onPress={() => showCloseTimepicker(day)} 
-                                title= {selectedDays.find((d) => d.day === day)?.close || 'Close'}
-                                color={'#FFAC4E'}
-                                />
-
+                    <View style={{width: 85}}>
+                      <Button
+                        onPress={() => showCloseTimepicker(day)}
+                        title={
+                          selectedDays.find(d => d.day === day)?.close ||
+                          'Close'
+                        }
+                        color={'#FFAC4E'}
+                      />
                     </View>
                   )}
                 </View>
               </TouchableOpacity>
             ))}
           </View>
-      {openshow && (
-        <DateTimePicker
-          testID="dateOpenTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChangeOpenTime}
-        />
-      )}
-      {closeshow && (
-        <DateTimePicker
-          testID="dateCloseTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChangeCloseTime}
-        />
-      )}
+          {openshow && (
+            <DateTimePicker
+              testID="dateOpenTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChangeOpenTime}
+            />
+          )}
+          {closeshow && (
+            <DateTimePicker
+              testID="dateCloseTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChangeCloseTime}
+            />
+          )}
 
           <Text style={styles.loc}>Location</Text>
           <View style={{flex: 1}}>

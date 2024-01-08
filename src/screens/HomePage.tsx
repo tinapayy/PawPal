@@ -142,7 +142,7 @@ const renderItem = ({item, index, navigation}) => {
             <Image
               source={item.imageSource}
               style={{
-                width: 330,
+                width: 288,
                 height: 180,
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
@@ -332,7 +332,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     width: 130,
                     height: 130,
                     top: 20,
-
                   }}
                 />
 
@@ -350,7 +349,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       color: 'white',
                       textAlign: 'center',
                       marginBottom: 20,
-                      bottom: '30%'
+                      bottom: '30%',
                     }}>
                     {item.title}
                   </Text>
@@ -469,8 +468,7 @@ const HomePage = () => {
                   // }}
                   onPress={() => {
                     navigation.navigate('ApprovalPage');
-                  }}
-                  >
+                  }}>
                   <Text
                     style={{
                       color: '#FF6464',

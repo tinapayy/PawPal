@@ -20,6 +20,7 @@ import {
 import Homesamp from './screens/Homesamp';
 import Detailsamp from './screens/Detailsamp';
 import ClinicProfile from './src/screens/ClinicProfile';
+import ClinicProfileforCards from './src/screens/ClinicProfileforCards';
 import ForumPage from './src/screens/ForumPage';
 import AddPetProfile from './src/screens/AddPetProfile';
 import AddPetProfileSignUp from './src/screens/AddPetProfileSignUp';
@@ -295,6 +296,11 @@ export default function App() {
         <Stack.Screen
           name="ClinicProfile"
           component={ClinicProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ClinicProfileforCards"
+          component={ClinicProfileforCards}
           options={{headerShown: false}}
         />
         <Stack.Screen

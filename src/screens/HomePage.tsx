@@ -113,7 +113,7 @@ const renderItem = ({item, index, navigation}) => {
             bottom: 10,
           }}>
           <Image
-            source={item.imageSource}
+            source={item.clinicPicture}
             style={{
               width: 288,
               height: 180,
@@ -130,12 +130,12 @@ const renderItem = ({item, index, navigation}) => {
             textAlign: 'center',
             fontFamily: 'Poppins-Bold',
           }}>
-          {item.title}
+          {item.name}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
           <Text style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
-            {item.description}
+            {item.address}
           </Text>
         </View>
         <Text
@@ -145,11 +145,15 @@ const renderItem = ({item, index, navigation}) => {
             color: '#5a2828',
             textAlign: 'left',
           }}>
-          {item.info1}
+          {item.isOpen ? (
+            <Text style={styles.open}>Open</Text>
+          ) : (
+            <Text style={styles.closed}>Closed</Text>
+          )}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
-            {item.info2}
+            {/* {item.info2} */}
           </Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
@@ -273,10 +277,9 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}>
-                  </View>
+                    }}></View>
                 </View>
-                
+
                 {/* profile click */}
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image
@@ -352,6 +355,14 @@ type Post = {
   postText: string;
 };
 
+type Clinic = {
+  id: number;
+  clinicPicture: any;
+  name: string;
+  address: string;
+  isOpen: boolean;
+};
+
 const HomePage = () => {
   const navigation = useNavigation();
 
@@ -374,7 +385,7 @@ const HomePage = () => {
   const isCarousel = useRef(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const fetchData = async () => {
+  const fetchLatestPosts = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'forum'));
       const posts: Post[] = [];
@@ -400,8 +411,98 @@ const HomePage = () => {
       console.error(error);
     }
   };
+
+  const [clinics, setClinics] = useState<Clinic[]>([]);
+
+  const fetchClinics = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      const clinics: any[] = [];
+      for (const clinicDoc of querySnapshot.docs) {
+        if (clinicDoc.data().userType === 'clinic') {
+          clinics.push({
+            id: clinics.length + 1,
+            clinicPicture: clinicDoc.data().clinicPicture
+              ? {uri: clinicDoc.data().clinicPicture}
+              : require('../images/placeholder.png'),
+            name: clinicDoc.data().name,
+            address: clinicDoc.data().address,
+            isOpen: clinicDoc.data().storeHours
+              ? isClinicOpen(clinicDoc.data().storeHours)
+              : false,
+          });
+        }
+      }
+      setClinics(clinics.slice(0, 5));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const isClinicOpen = storeHours => {
+    const currentDay = Date.now();
+
+    // Add 8 hours to current day
+    const currentDayPlus8 = new Date(currentDay).setHours(
+      new Date(currentDay).getHours() + 8,
+    );
+
+    // Get UTC day
+    const utcDay = new Date(currentDayPlus8).getUTCDay();
+
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    const currentDayName = dayNames[utcDay];
+
+    const currentTime = new Date().toLocaleString('en-US', {
+      timeZone: 'Asia/Manila',
+      hour12: false,
+    });
+
+    const formattedTime = currentTime.split(',')[1].trim().slice(0, -3);
+
+    for (let i = 0; i < storeHours.length; i++) {
+      if (currentDayName === storeHours[i].day) {
+        const openingTime = convertTo24HourFormat(storeHours[i].open);
+
+        const closingTime = convertTo24HourFormat(storeHours[i].close);
+
+        if (formattedTime >= openingTime && formattedTime <= closingTime) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const convertTo24HourFormat = timeString => {
+    let [time, period] = timeString.split(' ');
+    let [hours, minutes] = time.split(':');
+
+    if (period === 'AM' && hours === '12') {
+      hours = '00';
+    } else if (period === 'PM' && hours !== '12') {
+      hours = String(parseInt(hours) + 12);
+    }
+
+    if (parseInt(hours) < 10) {
+      hours = '0' + hours;
+    }
+
+    return `${hours}:${minutes}`;
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchLatestPosts();
+    fetchClinics();
   }, []);
 
   const handleItemClick = item => {
@@ -543,7 +644,7 @@ const HomePage = () => {
               </View>
               <View style={{width: Dimensions.get('window').width, top: -30}}>
                 <Carousel
-                  data={data1}
+                  data={clinics}
                   renderItem={({item, index}) =>
                     renderItem({item, index, navigation})
                   }
@@ -567,6 +668,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     bottom: '20%',
+  },
+  open: {
+    fontSize: 14,
+    color: 'green',
+  },
+  closed: {
+    fontSize: 14,
+    color: 'red',
   },
 });
 

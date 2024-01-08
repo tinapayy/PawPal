@@ -356,7 +356,7 @@ const ProfileDetails = () => {
         Profile Details
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('home')}
         style={{top: -15, left: 15}}>
         <FontAwesomeIcon icon={faArrowLeft} size={24} color="#FFF" />
       </TouchableOpacity>

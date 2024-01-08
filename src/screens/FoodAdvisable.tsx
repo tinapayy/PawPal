@@ -1,13 +1,24 @@
-import * as React from "react";
-import {SafeAreaView, FlatList, ImageBackground, Text, StyleSheet, View, Image, Dimensions, TouchableOpacity, Modal,} from "react-native";
-import { SegmentedButtons } from "react-native-paper";
-import { ArrowLeftIcon as BackIcon } from "react-native-heroicons/solid";
-import { useNavigation } from "@react-navigation/native";
+import * as React from 'react';
+import {
+  SafeAreaView,
+  FlatList,
+  ImageBackground,
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
+import {SegmentedButtons} from 'react-native-paper';
+import {ArrowLeftIcon as BackIcon} from 'react-native-heroicons/solid';
+import {useNavigation} from '@react-navigation/native';
 
 interface SegmentedButtonsProps {
   value: string;
   onValueChange: (value: string) => void;
-  buttons: { value: string; label: string }[];
+  buttons: {value: string; label: string}[];
 }
 interface FoodItemDetails {
   glutenFree: boolean;
@@ -22,13 +33,13 @@ interface FoodItem {
   details?: FoodItemDetails;
 }
 
-const FoodAdvisable= () => {
-  const navigation = useNavigation(); 
-  const [value, setValue] = React.useState<string>("");
+const FoodAdvisable = () => {
+  const navigation = useNavigation();
+  const [value, setValue] = React.useState<string>('');
   const [selectedItem, setSelectedItem] = React.useState<FoodItem | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
 
-  const appleImage = require("../images/apple.jpg");
+  const appleImage = require('../images/apple.jpg');
   const broccoliImage = require('../images/broccoli.jpg');
   const chickenImage = require('../images/chicken.jpg');
   const carrotImage = require('../images/carrots.jpg');
@@ -39,14 +50,14 @@ const FoodAdvisable= () => {
 
   const foodData: FoodItem[] = [
     {
-      key: "apple",
-      name: "Apple",
+      key: 'apple',
+      name: 'Apple',
       imageUrl: appleImage,
-      description: "A nutritious and delicious fruit.",
+      description: 'A nutritious and delicious fruit.',
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "10g",
+        amountOfSugar: '10g',
       },
     },
     {
@@ -57,7 +68,7 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "1.7g",
+        amountOfSugar: '1.7g',
       },
     },
     {
@@ -68,7 +79,7 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "0g",
+        amountOfSugar: '0g',
       },
     },
     {
@@ -79,7 +90,7 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "4.7g",
+        amountOfSugar: '4.7g',
       },
     },
     {
@@ -90,7 +101,7 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "0g",
+        amountOfSugar: '0g',
       },
     },
     {
@@ -101,7 +112,7 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "12g",
+        amountOfSugar: '12g',
       },
     },
     {
@@ -112,7 +123,7 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: true,
         containsSodium: true,
-        amountOfSugar: "1.1g",
+        amountOfSugar: '1.1g',
       },
     },
     {
@@ -123,12 +134,12 @@ const FoodAdvisable= () => {
       details: {
         glutenFree: false,
         containsSodium: true,
-        amountOfSugar: "5g",
+        amountOfSugar: '5g',
       },
     },
   ];
 
-  const _goBack = () => console.log("Went back");
+  const _goBack = () => console.log('Went back');
 
   const handleItemPress = (item: FoodItem) => {
     setSelectedItem(item);
@@ -143,12 +154,14 @@ const FoodAdvisable= () => {
     setValue(value);
     if (value === 'Restricted') {
       navigation.navigate('FoodRestricted');
-    } 
+    }
   };
 
   return (
     <SafeAreaView style={styles.bigcontainer}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.navigate('HomePage')}>
         <BackIcon size="24" color="white" strokeWidth={3} />
       </TouchableOpacity>
 
@@ -166,8 +179,20 @@ const FoodAdvisable= () => {
           value={value}
           onValueChange={handleSegmentChange}
           buttons={[
-            { value: "Advisable", label: "Advisable" },
-            { value: "Restricted", label: "Restricted" },
+            {
+              value: 'Advisable',
+              label: 'Advisable',
+              style: {
+                backgroundColor: value === 'Advisable' ? 'orange' : 'white',
+              },
+            },
+            {
+              value: 'Restricted',
+              label: 'Restricted',
+              style: {
+                backgroundColor: value === 'Restricted' ? 'orange' : 'white',
+              },
+            },
           ]}
         />
       </SafeAreaView>
@@ -177,11 +202,10 @@ const FoodAdvisable= () => {
           data={foodData}
           numColumns={2}
           contentContainerStyle={styles.container3}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => handleItemPress(item)}
-            >
+              onPress={() => handleItemPress(item)}>
               <ImageBackground source={item.imageUrl} style={styles.image}>
                 <View style={styles.textbox}>
                   <Text style={[styles.label, styles.textOverlay]}>
@@ -201,28 +225,23 @@ const FoodAdvisable= () => {
         animationType="slide"
         transparent={false}
         visible={isModalVisible}
-        onRequestClose={closeModal}
-      >
+        onRequestClose={closeModal}>
         <ImageBackground
           source={require('../images/real_bg.png')}
-          style={styles.backgroundImage1}
-        >
+          style={styles.backgroundImage1}>
           <Text style={styles.title}>Food Contents</Text>
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>{selectedItem?.name}</Text>
             {isModalVisible && (
-              <Image
-                source={selectedItem?.imageUrl}
-                style={styles.foodImage}
-              />
+              <Image source={selectedItem?.imageUrl} style={styles.foodImage} />
             )}
             <View style={styles.infoContainer}>
               <Text style={styles.modalText}>
-                Gluten-free: {selectedItem?.details?.glutenFree ? "Yes" : "No"}
+                Gluten-free: {selectedItem?.details?.glutenFree ? 'Yes' : 'No'}
               </Text>
               <Text style={styles.modalText}>
-                Contains Sodium:{" "}
-                {selectedItem?.details?.containsSodium ? "Yes" : "No"}
+                Contains Sodium:{' '}
+                {selectedItem?.details?.containsSodium ? 'Yes' : 'No'}
               </Text>
               <Text style={styles.modalText}>
                 Amount of Sugar: {selectedItem?.details?.amountOfSugar}
@@ -250,38 +269,38 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     margin: 20,
   },
   modalTitle: {
     fontSize: 30,
-    color: "#5a2828",
-    fontFamily: "Poppins-Regular",
+    color: '#5a2828',
+    fontFamily: 'Poppins-Regular',
     marginBottom: 20,
   },
   modalText: {
     fontSize: 18,
-    color: "#5a2828",
-    fontFamily: "Poppins-Regular",
+    color: '#5a2828',
+    fontFamily: 'Poppins-Regular',
     marginBottom: 10,
   },
   title: {
-    fontFamily: "Poppins-Bold",
+    fontFamily: 'Poppins-Bold',
     fontSize: 30,
-    color: "#5a2828",
+    color: '#5a2828',
     top: 50,
     marginTop: 0,
     alignSelf: 'center',
   },
   foodImage: {
     width: 200,
-    height: 200, 
+    height: 200,
     resizeMode: 'cover',
     borderRadius: 20,
   },
   closeButton: {
-    backgroundColor: "#ff8700",
+    backgroundColor: '#ff8700',
     borderRadius: 20,
     padding: 10,
     elevation: 20,
@@ -289,10 +308,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   closeButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 15,
-    fontFamily: "Poppins-Regular",
-    textAlign: "center",
+    fontFamily: 'Poppins-Regular',
+    textAlign: 'center',
   },
   container: {
     alignItems: 'center',
@@ -311,7 +330,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     resizeMode: 'contain',
     top: -275,
-    zIndex: -1
+    zIndex: -1,
   },
   backButton: {
     top: 12,
@@ -328,15 +347,14 @@ const styles = StyleSheet.create({
   scrollContainer: {
     top: 250,
     position: 'absolute',
-    height: 600
+    height: 600,
   },
   container3: {
     padding: 16,
-
   },
   card: {
-    width: '50%', 
-    position: 'relative', 
+    width: '50%',
+    position: 'relative',
     padding: 5,
     height: 160,
   },
@@ -358,7 +376,6 @@ const styles = StyleSheet.create({
     height: 33,
     marginLeft: 10,
     marginTop: -5,
-
   },
   textbox: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -377,12 +394,10 @@ const styles = StyleSheet.create({
   description: {
     color: '#fff',
     fontSize: 14,
-    elevation: 30
+    elevation: 30,
   },
-  bigcontainer: {
-  },
-  header: {
-  },
+  bigcontainer: {},
+  header: {},
 });
 
 export default FoodAdvisable;

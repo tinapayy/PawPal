@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     color: '#FF8D4D',
     flexDirection: 'row',
     position: 'absolute',
-    top: -69,
+    bottom: 170,
     left: 10,
     paddingRight: 30,
   },
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     fontWeight: 'bold',
     marginLeft: 30,
-    top: -70,
+    bottom: 170,
     left: 25,
   },
   profileContainer: {

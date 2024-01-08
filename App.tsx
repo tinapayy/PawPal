@@ -195,7 +195,7 @@ export default function App() {
         <Stack.Screen
           name="AddUserProfile"
           component={AddUserProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="AddPetProfileSignUp"
@@ -215,7 +215,7 @@ export default function App() {
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="HomePage"
@@ -225,7 +225,7 @@ export default function App() {
         <Stack.Screen
           name="ProfileDetails"
           component={ProfileDetails}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SettingsPage"

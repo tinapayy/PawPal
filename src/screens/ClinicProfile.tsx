@@ -63,9 +63,9 @@ const ClinicProfile = () => {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
-            setClinicName(doc.data().username);
+            setClinicName(doc.data().name);
             setAbout(doc.data().about);
-            setClinicPicture(doc.data().picture);
+            setClinicPicture(doc.data().clinicPicture);
             setContactInfo(doc.data().contactInfo);
             setStoreHours(doc.data().storeHours);
             setServices(doc.data().services);
@@ -94,7 +94,7 @@ const ClinicProfile = () => {
             <FontAwesomeIcon
               icon={faArrowLeft}
               size={30}
-              style={{color: '#ff8700'}}
+              style={{color: 'brown'}}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -102,7 +102,7 @@ const ClinicProfile = () => {
             <FontAwesomeIcon
               icon={faGear}
               size={30}
-              style={{color: '#ff8700'}}
+              style={{color: 'brown'}}
             />
           </TouchableOpacity>
         </View>

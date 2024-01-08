@@ -19,6 +19,8 @@ import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
+import ViewPropTypes from 'deprecated-react-native-prop-types';
+import StyleSheetPropType from 'deprecated-react-native-prop-types';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -86,7 +88,7 @@ const renderItem = ({item, index, navigation}) => {
   //const navigation = useNavigation();
 
   const handleSeeMoreClick = () => {
-    navigation.navigate('ClinicProfile');
+    navigation.navigate('ForumPage');
   };
 
   return (
@@ -271,8 +273,11 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}></View>
+                    }}>
+                  </View>
                 </View>
+                
+                {/* profile click */}
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image
                     source={item.imageSome}

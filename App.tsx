@@ -195,27 +195,27 @@ export default function App() {
         <Stack.Screen
           name="AddUserProfile"
           component={AddUserProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="AddPetProfileSignUp"
           component={AddPetProfileSignUp}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="AddClinicDetails"
           component={AddClinicDetails}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="EditClinicDetails"
           component={EditClinicDetails}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="HomePage"
@@ -225,42 +225,42 @@ export default function App() {
         <Stack.Screen
           name="ProfileDetails"
           component={ProfileDetails}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SettingsPage"
           component={SettingsPage}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="EditUserProfile"
           component={EditUserProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="AddPetProfile"
           component={AddPetProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="EditPetProfile"
           component={EditPetProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="ChoosePet"
           component={ChoosePet}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="ForumPage"
           component={ForumPage}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="PopularClinics"
           component={PopularClinics}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="MessagePage"
@@ -270,12 +270,12 @@ export default function App() {
         <Stack.Screen
           name="Chat"
           component={Chat}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="NewMessage"
           component={NewMessage}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="FoodAdvisable"
@@ -295,7 +295,7 @@ export default function App() {
         <Stack.Screen
           name="ClinicProfile"
           component={ClinicProfile}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SettingsPage_Clinic"

@@ -13,6 +13,7 @@ import {
   ViewStyle,
   TextStyle,
   FlatList,
+  Button,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -26,6 +27,9 @@ import {
 import {FIREBASE_DB, FIREBASE_AUTH} from '../../firebase.config';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from '@react-native-community/datetimepicker';
 import {red} from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -41,32 +45,27 @@ const PawPalApp = () => {
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
-    {day: '', open: '', close: ''},
+    { day: '', open: '', close: '' },
   ]);
 
   const daysOfWeek = [
-    {day: 'Monday'},
-    {day: 'Tuesday'},
-    {day: 'Wednesday'},
-    {day: 'Thursday'},
-    {day: 'Friday'},
-    {day: 'Saturday'},
-    {day: 'Sunday'},
+    { day: 'Monday' },
+    { day: 'Tuesday' },
+    { day: 'Wednesday' },
+    { day: 'Thursday' },
+    { day: 'Friday' },
+    { day: 'Saturday' },
+    { day: 'Sunday' },
   ];
+
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('time');
+  const [openshow, setOpenShow] = useState(false);
+  const [closeshow, setCloseShow] = useState(false);
+  const [currentDay, setCurrentDay] = useState('');
 
   const [tagsInput, setTagsInput] = useState([]);
 
-  const toggleDaySelection = day => {
-    const existingDay = selectedDays.find(daysOfWeek => daysOfWeek.day === day);
-
-    if (existingDay) {
-      setSelectedDays(
-        selectedDays.filter(selectedDay => selectedDay.day !== day),
-      );
-    } else {
-      setSelectedDays([...selectedDays, {day, open: '', close: ''}]);
-    }
-  };
 
   const saveClinicInfo = async () => {
     try {
@@ -142,11 +141,6 @@ const PawPalApp = () => {
     setTagsInput(updatedTags);
   };
 
-  const handleSaveInput = () => {
-    console.log('Input Text: ' + tagsInput);
-    setInputVisible(false);
-  };
-
   const openImagePicker = () => {
     const options = {
       mediaType: 'photo',
@@ -182,20 +176,75 @@ const PawPalApp = () => {
     setTags(updatedTags);
   }
 
-  const handleOpenHoursChange = (day: string, text: string) => {
-    setSelectedDays(prevDays =>
-      prevDays.map(selectedDay =>
-        selectedDay.day === day ? {...selectedDay, open: text} : selectedDay,
-      ),
-    );
+  const toggleDaySelection = day => {
+    const existingDay = selectedDays.find(daysOfWeek => daysOfWeek.day === day);
+
+    if (existingDay) {
+      setSelectedDays(
+        selectedDays.filter(selectedDay => selectedDay.day !== day),
+      );
+    } else {
+      setSelectedDays([...selectedDays, {day, open: '', close: ''}]);
+    }
   };
 
-  const handleCloseHoursChange = (day: string, text: string) => {
-    setSelectedDays(prevDays =>
-      prevDays.map(selectedDay =>
-        selectedDay.day === day ? {...selectedDay, close: text} : selectedDay,
-      ),
+  const showOpenTimepicker = (day) => {
+    setOpenShow(true);
+    setMode('time');
+    setCurrentDay(day);
+  };
+
+  const showCloseTimepicker = (day) => {
+    setCloseShow(true);
+    setMode('time');
+    setCurrentDay(day);
+  };
+
+  const onChangeOpenTime = (_, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setOpenShow(false);
+
+    const formattedTime = currentDate.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    
+
+    // Update the selected day's open or close time based on the current mode
+    const updatedDays = selectedDays.map((selectedDay) =>
+      selectedDay.day === currentDay
+        ? {
+            ...selectedDay,
+            [mode === 'time' ? 'open' : '']: formattedTime,
+          }
+        : selectedDay
     );
+
+    setSelectedDays(updatedDays);
+  };
+
+  const onChangeCloseTime = (_, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setCloseShow(false);
+
+    const formattedTime = currentDate.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    
+
+    // Update the selected day's open or close time based on the current mode
+    const updatedDays = selectedDays.map((selectedDay) =>
+      selectedDay.day === currentDay
+        ? {
+            ...selectedDay,
+            [mode === 'time' ? 'close' : 'close']: formattedTime,
+          }
+        : selectedDay
+    );
+
+    setSelectedDays(updatedDays);
+    console.log(selectedDays);
   };
 
   const [mapRegion, setMapRegion] = useState({
@@ -445,7 +494,7 @@ const PawPalApp = () => {
             value={description}
           />
 
-          <Text style={styles.storeHours}>Store Hours</Text>
+<Text style={styles.storeHours}>Store Hours</Text>
           <View style={styles.radio}>
             {daysOfWeek.map(({day, open, close}, index) => (
               <TouchableOpacity
@@ -461,48 +510,59 @@ const PawPalApp = () => {
                   {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <TextInput
-                      style={{
-                        fontSize: 15,
-                        marginLeft: 25,
-                        color: '#5A2828',
-                        width: 75,
-                        textAlign: 'center',
-                      }}
-                      placeholderTextColor={'#D3D3D3'}
-                      placeholder="Open"
-                      value={open}
-                      onChangeText={text => handleOpenHoursChange(day, text)}
-                    />
+                    <View
+                        style={{width: 85}}>
+                        <Button onPress={() => showOpenTimepicker(day)} 
+                                title= {selectedDays.find((d) => d.day === day)?.open || 'Open'}
+                                color={'#FFAC4E'}
+                                />
+                    </View>
                   )}
                   <Text
                     style={{
                       fontSize: 15,
                       color: '#5A2828',
                       fontWeight: 'bold',
+                      marginRight: 5,
                     }}>
                     {' '}
                     -
                   </Text>
+
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <TextInput
-                      style={{
-                        fontSize: 15,
-                        marginLeft: 10,
-                        color: '#5A2828',
-                        width: 75,
-                        textAlign: 'center',
-                      }}
-                      placeholderTextColor={'#D3D3D3'}
-                      placeholder="Close"
-                      value={close}
-                      onChangeText={text => handleCloseHoursChange(day, text)}
-                    />
+                    <View
+                    style={{width: 85}}>
+                        <Button onPress={() => showCloseTimepicker(day)} 
+                                title= {selectedDays.find((d) => d.day === day)?.close || 'Close'}
+                                color={'#FFAC4E'}
+                                />
+
+                    </View>
                   )}
                 </View>
               </TouchableOpacity>
             ))}
           </View>
+      {openshow && (
+        <DateTimePicker
+          testID="dateOpenTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChangeOpenTime}
+        />
+      )}
+      {closeshow && (
+        <DateTimePicker
+          testID="dateCloseTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChangeCloseTime}
+        />
+      )}
 
           <Text style={styles.loc}>Location</Text>
           <View style={{flex: 1}}>

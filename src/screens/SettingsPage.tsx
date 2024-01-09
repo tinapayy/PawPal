@@ -44,14 +44,15 @@ function SettingsPage() {
         </View>
         <Image source={grh} style={styles.headerimg} />
       </View>
-      <TouchableOpacity onPress={() => {
-            navigation.navigate('ProfileDetails');
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('ProfileDetails');
         }}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            size={27}
-            style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
-          />
+        <FontAwesomeIcon
+          icon={faArrowLeft}
+          size={27}
+          style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
+        />
       </TouchableOpacity>
 
       <View style={styles.buttonContainer}>

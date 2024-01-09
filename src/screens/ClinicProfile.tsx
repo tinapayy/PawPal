@@ -163,6 +163,7 @@ const ClinicProfile = () => {
                 size={23}
                 style={{
                   color: '#FF8D4D',
+                  left: 9,
                 }}
               />
               <Text
@@ -287,6 +288,7 @@ const ClinicProfile = () => {
               marginLeft: 10,
               fontSize: 16,
               fontFamily: 'Poppins-Semi',
+              left: 10,
             }}>
             {about}
           </Text>

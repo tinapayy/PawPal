@@ -244,7 +244,7 @@ const ApprovalPage = () => {
         <View style={{flexDirection: 'row', right: '3%'}}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('ForumPage');
+              navigation.navigate('AdminForumPage');
             }}>
             <Bubble
               size="33"

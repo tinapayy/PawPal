@@ -125,10 +125,6 @@ const PawPalApp = () => {
     }
   };
 
-  const exitClinicEdit = () => {
-    navigation.navigate('SettingsPage_Clinic');
-  };
-
   interface AppButtonProps {
     onPress: () => void;
     title: string;
@@ -636,7 +632,7 @@ const PawPalApp = () => {
             />
             <AppButton
               title="Cancel"
-              onPress={exitClinicEdit}
+              onPress={() => navigation.navigate('SettingsPage_Clinic')}
               buttonStyle={styles.cancel}
               textStyle={styles.cancelText}
             />

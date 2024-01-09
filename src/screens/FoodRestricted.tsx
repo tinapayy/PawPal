@@ -170,14 +170,14 @@ const FoodRestricted = () => {
               value: 'Advisable',
               label: 'Advisable',
               style: {
-                backgroundColor: value === 'Advisable' ? 'orange' : 'white',
+                backgroundColor: value === 'Advisable' ? 'white' : 'white',
               },
             },
             {
               value: 'Restricted',
               label: 'Restricted',
               style: {
-                backgroundColor: value === 'Restricted' ? 'orange' : 'white',
+                backgroundColor: value === 'Restricted' ? 'white' : 'white',
               },
             },
           ]}
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   backButton: {
-    top: 12,
+    top: -9,
     left: 10,
   },
   text: {
@@ -330,14 +330,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   scrollContainer: {
-    top: 250,
+    top: 180,
     position: 'absolute',
     height: 600,
   },
   container3: {
     padding: 16,
-    backgroundColor: '#000',
-    bottom: '10%',
   },
   card: {
     width: '50%',
@@ -369,7 +367,7 @@ const styles = StyleSheet.create({
     height: 80,
     position: 'relative',
     overflow: 'hidden',
-    top: 80,
+    top: 70,
     bottom: 0,
   },
   label: {
@@ -383,7 +381,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     elevation: 3,
   },
-  bigcontainer: {},
+  bigcontainer: {
+    top: 20,
+  },
   header: {},
 });
 

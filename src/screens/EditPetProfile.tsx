@@ -134,7 +134,6 @@ const PetProfile = ({route}) => {
         sex: checked,
         petPicture: imageUrl,
       });
-      console.log('Document written with ID: ', petRef.id);
 
       const userQuery = await getDocs(collection(db, 'user'));
 
@@ -144,7 +143,7 @@ const PetProfile = ({route}) => {
 
           try {
             await updateDoc(userRef, {
-              pet: arrayUnion(petRef.id),
+              pet: arrayUnion(petId),
             });
 
             Alert.alert('Profile picture updated successfully');

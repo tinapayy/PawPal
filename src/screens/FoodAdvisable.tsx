@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff8700',
     borderRadius: 20,
     padding: 10,
-    elevation: 20,
+    elevation: 3,
     width: 80,
     marginTop: 20,
   },
@@ -393,13 +393,13 @@ const styles = StyleSheet.create({
   label: {
     color: '#fff',
     fontSize: 20,
-    elevation: 1,
+    elevation: 3,
     fontFamily: 'Poppins-SemiBold',
   },
   description: {
     color: '#fff',
     fontSize: 14,
-    elevation: 30,
+    elevation: 3,
   },
   bigcontainer: {
     top: 20,

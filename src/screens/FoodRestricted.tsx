@@ -49,7 +49,7 @@ const FoodRestricted = () => {
       description: 'A psychoactive beverage.',
       details: {
         restriction:
-          "Alcohol is toxic to cats and dogs because their bodies process it differently than humans. Pets lack certain enzymes that are necessary to metabolize alcohol, leading to more severe and rapid effects. Even small amounts of alcohol can cause poisoning in pets, resulting in symptoms such as vomiting, diarrhea, coordination problems, difficulty breathing, and in severe cases, it can lead to coma or death. It's crucial to keep alcoholic beverages out of reach of pets and avoid giving them any food or treats containing alcohol.",
+          "Alcohol is toxic to cats and dogs because their bodies process it differently than humans. Pets lack certain enzymes that are necessary to metabolize alcohol, leading to more severe and rapid effects.",
       },
     },
     {
@@ -59,7 +59,7 @@ const FoodRestricted = () => {
       description: 'A stimulant found in coffee, tea.',
       details: {
         restriction:
-          'Caffeine is harmful to cats and dogs because they are much more sensitive to its effects than humans. Pets metabolize caffeine more slowly, leading to a buildup of the substance in their system, which can result in toxicity. Common sources of caffeine include coffee, tea, energy drinks, certain medications, and chocolate.',
+          'Caffeine is harmful to cats and dogs because they are much more sensitive to its effects than humans. Pets metabolize caffeine more slowly, leading to a buildup of the substance in their system, which can result in toxicity.',
       },
     },
     {
@@ -69,7 +69,7 @@ const FoodRestricted = () => {
       description: 'A decadent treat derived from cacao beans.',
       details: {
         restriction:
-          'Chocolate is toxic to cats and dogs due to the presence of substances called theobromine and caffeine, both of which belong to the methylxanthine class of chemicals. While humans can metabolize these compounds relatively efficiently, cats and dogs process them more slowly, leading to a buildup in their system.',
+          'Chocolate is toxic to cats and dogs due to the presence of substances called theobromine and caffeine, both of which belong to the methylxanthine class of chemicals.',
       },
     },
     {
@@ -79,7 +79,7 @@ const FoodRestricted = () => {
       description: 'A pungent bulb used in cooking.',
       details: {
         restriction:
-          'Garlic is considered toxic to cats and dogs. It belongs to the Allium family, which also includes onions and shallots, and contains compounds that can damage red blood cells and lead to a condition called hemolytic anemia. The specific toxic compounds in garlic are thiosulphate and allicin.',
+          'Garlic is considered toxic to cats and dogs. It belongs to the Allium family, which also includes onions and shallots, and contains compounds that can damage red blood cells and lead to a condition called hemolytic anemia.',
       },
     },
     {
@@ -89,7 +89,7 @@ const FoodRestricted = () => {
       description: 'An edible bulb with layers of pungent.',
       details: {
         restriction:
-          'Onions are toxic to cats and dogs due to the presence of substances called thiosulphates. These compounds can cause damage to red blood cells, leading to a condition known as hemolytic anemia. Cats and dogs are more sensitive to thiosulphates than humans, and the toxic effects can occur even if the onion is in small amounts or in powdered form.',
+          'Onions are toxic to cats and dogs due to the presence of substances called thiosulphates. These compounds can cause damage to red blood cells, leading to a condition known as hemolytic anemia.',
       },
     },
     {
@@ -99,7 +99,7 @@ const FoodRestricted = () => {
       description: 'A bite-sized fruits grown in clusters on vines.',
       details: {
         restriction:
-          'Grapes and raisins are known to be toxic to both cats and dogs, although the exact mechanism of toxicity is not fully understood. Ingesting grapes or raisins can lead to kidney failure in some individuals, and the toxic dose can vary widely among animals.',
+          'Grapes and raisins are known to be toxic to both cats and dogs, although the exact mechanism of toxicity is not fully understood. The toxic dose can vary widely among animals.',
       },
     },
     {
@@ -109,7 +109,7 @@ const FoodRestricted = () => {
       description: 'A chewable confection.',
       details: {
         restriction:
-          'Gum, especially sugar-free gum, can be harmful to cats and dogs due to the presence of a sugar substitute called xylitol. Xylitol is safe for human consumption, but it can cause a rapid release of insulin in pets, leading to hypoglycemia (low blood sugar). Ingesting xylitol can be particularly dangerous for dogs.',
+          'Gum, especially sugar-free gum, can be harmful to cats and dogs due to the presence of a sugar substitute called xylitol. Ingesting xylitol can be particularly dangerous for dogs.',
       },
     },
     {
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff8700',
     borderRadius: 20,
     padding: 10,
-    elevation: 20,
+    elevation: 3,
     width: 80,
     marginTop: 20,
   },
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
   description: {
     color: '#fff',
     fontSize: 14,
-    elevation: 30,
+    elevation: 3,
   },
   bigcontainer: {
     top: 20,

@@ -270,47 +270,30 @@ const CreatePost = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => setSelectedImage('')}>
-            {/* <View
-                style={{
-                  backgroundColor: '#ff8d4d',
-                  borderRadius: 30,
-                  padding: 10,
-                  margin: 150,
-                  flex: 1,
-                  bottom: 500,
-                  left: 130,
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 13,
-                    textAlign: 'center',
-                  }}>
-                  Remove
-                </Text>
-              </View> */}
+
             <View>
               <FontAwesomeIcon
                 icon={faCircleXmark}
                 size={23}
-                style={{color: 'grey', bottom: '1700%', left: '61%'}}
+                style={{color: 'grey', bottom: '1710%', left: '66%'}}
+
               />
             </View>
           </TouchableOpacity>
           <Text
             style={{
-              color: '#5a2828',
-              fontFamily: 'Poppins-Regular',
+              color: 'lightgray',
+              fontFamily: 'Poppins-Italic',
               fontSize: 13,
               //flex: 1,
               left: 30,
               //backgroundColor: 'black'
-              bottom: '45%',
+              bottom: '49%',
             }}>
             Maximum upload file size : 100 MB
           </Text>
-          <View style={{bottom: '50%'}}>
+          <View style={{bottom: '57%'}}>
+
             <AppButton
               title="Post"
               onPress={handleButton1Press}

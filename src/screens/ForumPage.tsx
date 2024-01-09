@@ -172,7 +172,7 @@ const ForumPage = () => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            console.log('Message icon pressed');
+            console.log('Food icon pressed');
             navigation.navigate('FoodAdvisable');
           }}>
           <View>
@@ -195,23 +195,6 @@ const ForumPage = () => {
               />
               <View style={styles.userInfoText}>
                 <Text style={styles.userName}>{post.name}</Text>
-                {/* <View style={styles.message}>
-                  <TouchableOpacity
-                    style={styles.messageIcon}
-                    onPress={() => {
-                      console.log('Message icon pressed');
-                      navigation.navigate('MessagePage');
-                    }}>
-                    <FontAwesomeIcon
-                      icon={faMessage}
-                      style={[
-                        styles.messageIcon,
-                        {marginLeft: calculateMargin(post.name.length)},
-                      ]}
-                      size={17}
-                    />
-                  </TouchableOpacity>
-                </View> */}
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
             </View>

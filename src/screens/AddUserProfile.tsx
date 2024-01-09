@@ -184,7 +184,7 @@ const UserProfile = () => {
               updateData.password = newPassword;
               // Update the user document with new profile data and potentially new password
               await updateDoc(userRef, updateData);
-              navigation.navigate('AddPetProfileSignUp');
+              navigation.navigate('Add Pet Profile');
               // Update the password after successfully updating the profile
               try {
                 await updatePassword(auth.currentUser!, newPassword);
@@ -202,7 +202,7 @@ const UserProfile = () => {
             try {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
-              navigation.navigate('AddPetProfileSignUp');
+              navigation.navigate('Add Pet Profile');
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');
@@ -353,11 +353,9 @@ const styles = StyleSheet.create({
   arrowAdd: {
     color: '#FF8D4D',
     position: 'absolute',
-    top: 45,
-    right: 65,
-    paddingRight: 30,
-    marginBottom: 90,
-    paddingVertical: 40,
+    top: 62,
+    right: 60,
+    paddingRight: 40,
   },
   formContainer: {
     marginTop: 5,
@@ -399,6 +397,7 @@ const styles = StyleSheet.create({
     marginLeft: 60,
     // marginBottom: 20,
     paddingHorizontal: 30,
+    color: '#5A2828',
     // width: 400,
   },
   inputName: {
@@ -433,16 +432,21 @@ const styles = StyleSheet.create({
   },
   buttonTextCancel: {
     color: '#FF8D4D',
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'center',
     top: 8,
+    elevation: 3,
+    backgroundColor: '#ffffff',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    left: 20,
+    top: 7,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    borderRadius: 40,
   },
   gradientBackground: {
     borderRadius: 20,
@@ -461,7 +465,7 @@ const styles = StyleSheet.create({
   buttonSave: {
     // flexDirection: 'row',
     color: '#ffffff',
-    fontSize: 19,
+    fontSize: 17,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'center',
     alignItems: 'center',
@@ -469,20 +473,11 @@ const styles = StyleSheet.create({
     top: 8,
   },
   cancelButton: {
-    backgroundColor: '#ffffff',
-    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 20,
     left: -40,
-    // paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 40,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
     top: 7,
   },
 });

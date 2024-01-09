@@ -272,7 +272,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
               justifyContent: 'center',
               borderRadius: 30,
               padding: 25,
-              left: 5,
+              left: 10,
             }}>
             <View style={{top: -3}}>
               <View
@@ -314,7 +314,8 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     flex: 1,
                     width: 130,
                     height: 130,
-                    top: 20,
+                    top: 30,
+                    left: -8,
                   }}
                 />
 
@@ -332,7 +333,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       color: 'white',
                       textAlign: 'center',
                       marginBottom: 20,
-                      bottom: '30%',
+                      bottom: '20%',
                     }}>
                     {item.title}
                   </Text>
@@ -341,7 +342,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     onPress={handleSeeMoreClick}>
                     <Text
                       style={{
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: 'bold',
                         color: 'white',
                         textAlign: 'center',
@@ -571,7 +572,7 @@ const HomePage = () => {
                   borderRadius: 10,
                   padding: 6,
                   backgroundColor: '#ff6464',
-                  bottom: 60,
+                  bottom: 85,
                 }}
                 tappableDots={true}
                 inactiveDotStyle={{

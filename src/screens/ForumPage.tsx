@@ -99,7 +99,7 @@ const ForumPage = () => {
                 postTime: getTimeDifference(forumDoc.data().postTime),
                 postPicture: forumDoc.data().postPicture
                   ? {uri: forumDoc.data().postPicture}
-                  : '',
+                  : null,
               });
             }
           }
@@ -205,7 +205,7 @@ const ForumPage = () => {
               <Image
                 source={post.postPicture}
                 // Add image style if post is not empty string
-                {...(post.postPicture !== '' && {style: styles.image})}
+                {...(post.postPicture && {style: styles.image})}
               />
             </View>
           </Card.Content>

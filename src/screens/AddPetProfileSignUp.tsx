@@ -56,7 +56,7 @@ const PetProfile = () => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [color, setColor] = useState('');
-  const [checked, setChecked] = useState('null');
+  const [checked, setChecked] = useState('');
   const [petPicture, setPetPicture] = useState(null);
 
   const openImagePicker = async () => {

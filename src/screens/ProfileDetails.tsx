@@ -121,12 +121,12 @@ const ProfileDetails = () => {
                 if (petDoc.exists()) {
                   pet.push({
                     id: pet.length + 1,
-                    name: petDoc.data().name,
-                    breed: petDoc.data().breed,
-                    age: petDoc.data().age,
-                    sex: petDoc.data().sex,
-                    weight: petDoc.data().weight,
-                    color: petDoc.data().color,
+                    name: petDoc.data().name || 'N/A',
+                    breed: petDoc.data().breed || 'N/A',
+                    age: petDoc.data().age || 'N/A',
+                    sex: petDoc.data().sex || 'N/A',
+                    weight: petDoc.data().weight || 'N/A',
+                    color: petDoc.data().color || 'N/A',
                     petPicture: {uri: petDoc.data().petPicture || null},
                   });
                 }

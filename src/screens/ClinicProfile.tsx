@@ -159,7 +159,7 @@ const ClinicProfile = () => {
                 justifyContent: 'flex-start',
               }}>
               <FontAwesomeIcon
-                icon={faMobileScreenButton}
+                icon={faPhone}
                 size={23}
                 style={{
                   color: '#FF8D4D',
@@ -226,29 +226,6 @@ const ClinicProfile = () => {
                 )}
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              margin: 10,
-              justifyContent: 'flex-start',
-            }}>
-            <FontAwesomeIcon
-              icon={faPhone}
-              size={23}
-              style={{
-                color: '#FF8D4D',
-              }}
-            />
-            <Text
-              style={{
-                color: '#ff8d4d',
-                fontSize: 18,
-                fontFamily: 'Poppins-Medium',
-                marginLeft: 7,
-              }}>
-              {contactInfo}
-            </Text>
           </View>
           <Text
             style={{
@@ -328,7 +305,7 @@ const ClinicProfile = () => {
               <Text
                 style={{
                   marginLeft: 20,
-                  fontSize: 18,
+                  fontSize: 14,
                   fontFamily: 'Poppins-Medium',
                 }}>
                 {address}

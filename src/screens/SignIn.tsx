@@ -9,18 +9,13 @@ import {
   Text,
   TextInput,
   SafeAreaView,
-  Keyboard,
   ScrollView,
-  Platform,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {collection, getDocs} from 'firebase/firestore';
 import {FIREBASE_AUTH} from '../../firebase.config';
 import {FIREBASE_DB} from '../../firebase.config';
-import MyComponent from '../components/SegmentedButton';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 import {faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons';
@@ -106,8 +101,6 @@ const SignIn = () => {
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign In</Text>
             <View style={styles.inputs}>
-              {/* <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faUser} style={styles.icon} /> */}
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
                 <TextInput
@@ -135,7 +128,7 @@ const SignIn = () => {
                 style={({pressed}) => [
                   styles.button,
                   {
-                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
                   },
                 ]}
                 onPress={signIn}>
@@ -222,7 +215,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'orange',
   },
   iconInputRow: {
-    // flexDirection: 'row',
     width: '100%',
     top: 200,
     height: 40,

@@ -16,7 +16,6 @@ import {
   faLock,
   faArrowLeft,
   faCirclePlus,
-  faCheckCircle,
   faEnvelope,
   faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
@@ -362,22 +361,18 @@ const styles = StyleSheet.create({
     marginLeft: -20,
   },
   iconInputRow: {
-    //adjust length of input
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
     marginBottom: 10,
-    // right: 100,
     left: 0,
-    // paddingRight: 15,
     width: 350,
   },
   icon: {
     color: '#FF8D4D',
     position: 'absolute',
     top: 15,
-    marginLeft: 65, //move icons
-    // marginRight: 10,
+    marginLeft: 65, 
     paddingRight: 10,
     flexDirection: 'row',
     alignContent: 'center',
@@ -385,7 +380,6 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#FF8D4D',
     marginBottom: 8,
-    // fontSize: 18,
   },
   input: {
     fontFamily: 'Poppins',
@@ -395,10 +389,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#FF8D4D',
     marginLeft: 60,
-    // marginBottom: 20,
     paddingHorizontal: 30,
     color: '#5A2828',
-    // width: 400,
   },
   inputName: {
     flex: 1,
@@ -408,9 +400,7 @@ const styles = StyleSheet.create({
     top: 10,
     borderBottomColor: '#FF8D4D',
     marginLeft: 60,
-    // marginBottom: 20,
     paddingHorizontal: 30,
-    // width: 400,
     color: '#5A2828',
   },
   changePassword: {
@@ -455,7 +445,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 100,
-    // right: -40,
     elevation: 3,
     shadowColor: '#000000',
     shadowOffset: {width: 0, height: 1},
@@ -463,7 +452,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   buttonSave: {
-    // flexDirection: 'row',
     color: '#ffffff',
     fontSize: 17,
     fontFamily: 'Poppins-Regular',

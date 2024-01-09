@@ -249,7 +249,6 @@ const PetProfile = () => {
             <Text style={styles.maleinput}>Female</Text>
           </View>
           <View
-            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',

@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  GestureResponderEvent,
-  Alert,
 } from 'react-native';
 
 import {
@@ -17,8 +15,6 @@ import {
   UserCircleIcon as User,
 } from 'react-native-heroicons/solid';
 import {useNavigation} from '@react-navigation/native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import {Avatar} from 'react-native-paper';
@@ -209,7 +205,6 @@ const ResultsPage = () => {
 
     const filtered = clinics.filter(
       clinic => clinic.name.toLowerCase().includes(text.toLowerCase()),
-      // || clinic.address.toLowerCase().includes(text.toLowerCase()),
     );
 
     fetchData();

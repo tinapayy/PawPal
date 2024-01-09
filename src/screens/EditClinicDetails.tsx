@@ -37,9 +37,6 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker';
 import {red} from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
-// import DateTimePicker from '@react-native-community/datetimepicker';
-// import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
 const PawPalApp = () => {
   const navigation = useNavigation();
 
@@ -461,7 +458,6 @@ const PawPalApp = () => {
                 flexWrap: 'wrap',
                 width: 350,
               }}>
-              {/* CONCERN: ADDING MORE TAGS */}
               {isInputVisible && (
                 <View>
                   <View style={styles.tagsContainer}>
@@ -548,8 +544,6 @@ const PawPalApp = () => {
                       selectedDay => selectedDay.day === day,
                     ) && <View style={styles.bg}></View>}
                   </View>
-
-                  {/* CONCERN: OPEN AND CLOSING HOURS HOW SHOULD I STORE */}
                   <Text style={styles.text}>{day}</Text>
                   {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
                     <View style={{width: 85}}>
@@ -775,7 +769,6 @@ const styles = StyleSheet.create({
     marginRight: '10%',
     height: '4%',
     bottom: '70%',
-    //display: 'flex',
   },
   cancelText: {
     color: '#FF8D4D',

@@ -20,9 +20,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faCommentDots,
   faCircleXmark,
-  faImage,
-  faVideo,
-  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -285,9 +282,7 @@ const CreatePost = () => {
               color: 'lightgray',
               fontFamily: 'Poppins-Italic',
               fontSize: 13,
-              //flex: 1,
               left: 30,
-              //backgroundColor: 'black'
               bottom: '49%',
             }}>
             Maximum upload file size : 100 MB

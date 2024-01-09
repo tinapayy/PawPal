@@ -14,7 +14,6 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {faGear} from '@fortawesome/free-solid-svg-icons';
-import {faMobileScreenButton} from '@fortawesome/free-solid-svg-icons';
 import {faPhone} from '@fortawesome/free-solid-svg-icons';
 import {faClock} from '@fortawesome/free-solid-svg-icons';
 import {faCircleArrowDown} from '@fortawesome/free-solid-svg-icons';
@@ -386,9 +385,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   drop: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center'
   },
   dropdown: {
     marginTop: 10,

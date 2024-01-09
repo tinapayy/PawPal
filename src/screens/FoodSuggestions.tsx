@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
   label: {
     color: '#fff',
     fontSize: 20,
-    elevation: 1,
+    elevation: 3,
     fontFamily: 'Poppins-SemiBold',
   },
   description: {
     color: '#fff',
     fontSize: 14,
-    elevation: 30
+    elevation: 3
   },
 });
 

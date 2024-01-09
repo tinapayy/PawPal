@@ -15,6 +15,8 @@ import DeleteAccountModal from './DeleteAccountModal';
 import {useNavigation} from '@react-navigation/native'; //added import
 import {onAuthStateChanged} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 function SettingsPage() {
   const navigation = useNavigation(); //added nav
@@ -42,6 +44,15 @@ function SettingsPage() {
         </View>
         <Image source={grh} style={styles.headerimg} />
       </View>
+      <TouchableOpacity onPress={() => {
+            navigation.navigate('ProfileDetails');
+        }}>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            size={27}
+            style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
+          />
+      </TouchableOpacity>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity

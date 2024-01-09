@@ -63,9 +63,9 @@ const ClinicProfile = () => {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
           if (doc.data().userId === auth.currentUser?.uid) {
-            setClinicName(doc.data().username);
+            setClinicName(doc.data().name);
             setAbout(doc.data().about);
-            setClinicPicture(doc.data().picture);
+            setClinicPicture(doc.data().clinicPicture);
             setContactInfo(doc.data().contactInfo);
             setStoreHours(doc.data().storeHours);
             setServices(doc.data().services);
@@ -94,16 +94,12 @@ const ClinicProfile = () => {
             <FontAwesomeIcon
               icon={faArrowLeft}
               size={30}
-              style={{color: '#ff8700'}}
+              style={{color: 'brown'}}
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('SettingsPage_Clinic')}>
-            <FontAwesomeIcon
-              icon={faGear}
-              size={30}
-              style={{color: '#ff8700'}}
-            />
+            <FontAwesomeIcon icon={faGear} size={30} style={{color: 'brown'}} />
           </TouchableOpacity>
         </View>
 
@@ -112,7 +108,7 @@ const ClinicProfile = () => {
             source={
               clinicPicture
                 ? {uri: clinicPicture}
-                : require('../images/userIcon.png')
+                : require('../images/placeholder.png')
             }
             resizeMode="stretch"
             style={{
@@ -327,32 +323,29 @@ const ClinicProfile = () => {
             }}>
             Location
           </Text>
-          {/* <View style={{height: 500}}>
-            <Image
-              source={require('../images/image_30.png')}
-              resizeMode="stretch"
-              style={{
-                height: 200,
-                width: 500,
-                justifyContent: 'center',
-                alignItems: 'center',
-                right: 40,
-              }}
-            />
-          </View> */}
           {mapRegion && (
-            <MapView
-              style={{margin: 20, height: 500}}
-              provider={PROVIDER_GOOGLE}
-              initialRegion={mapRegion}
-              region={mapRegion}>
-              <Marker
-                coordinate={{
-                  latitude: mapRegion.latitude,
-                  longitude: mapRegion.longitude,
-                }}
-              />
-            </MapView>
+            <View>
+              <Text
+                style={{
+                  marginLeft: 20,
+                  fontSize: 18,
+                  fontFamily: 'Poppins-Medium',
+                }}>
+                {address}
+              </Text>
+              <MapView
+                style={{margin: 20, height: 500}}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={mapRegion}
+                region={mapRegion}>
+                <Marker
+                  coordinate={{
+                    latitude: mapRegion.latitude,
+                    longitude: mapRegion.longitude,
+                  }}
+                />
+              </MapView>
+            </View>
           )}
           {!mapRegion && (
             <MapView

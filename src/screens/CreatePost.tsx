@@ -126,6 +126,7 @@ const CreatePost = () => {
       post.postPicture = imageUrl;
     }
     await setDoc(doc(db, 'forum', Date.now().toString()), post);
+    navigation.navigate('home');
     Alert.alert('Posted successfully!');
   };
 
@@ -269,11 +270,13 @@ const CreatePost = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => setSelectedImage('')}>
+
             <View>
               <FontAwesomeIcon
                 icon={faCircleXmark}
                 size={23}
                 style={{color: 'grey', bottom: '1710%', left: '66%'}}
+
               />
             </View>
           </TouchableOpacity>
@@ -290,6 +293,7 @@ const CreatePost = () => {
             Maximum upload file size : 100 MB
           </Text>
           <View style={{bottom: '57%'}}>
+
             <AppButton
               title="Post"
               onPress={handleButton1Press}

@@ -108,7 +108,7 @@ const SignIn = () => {
             backgroundColor: 'white',
             borderTopStartRadius: 50,
             borderTopEndRadius: 50,
-            top: 305,
+            top: 285,
             height: 1000,
             elevation: 20,
           }}>
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   loginText: {
     alignSelf: 'center',
     fontSize: 14,
-    top: -180,
+    top: -200,
     fontFamily: 'Poppins-Regular',
   },
   loginLink: {

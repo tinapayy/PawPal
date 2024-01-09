@@ -51,7 +51,7 @@ const ProfileDetails = () => {
   const [name, setName] = useState('');
   // const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const MAX_DESCRIPTION_LENGTH = 25;
+  const MAX_DESCRIPTION_LENGTH = 27;
 
   // // Use ownerDataDetails.description as the initial description
   // // const bio = ownerDataDetails?.description || '...';
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   },
   image: {
     // ...StyleSheet.absoluteFillObject,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     // position:'relative',
     height: '100%',
     // height: 200,
@@ -363,6 +363,9 @@ const styles = StyleSheet.create({
     // top: -205,
     // marginTop:-40,
     zIndex: 999,
+    width: '90%',
+    alignSelf: 'center',
+    right: 10,
   },
   title: {
     fontFamily: 'Poppins-Regular',
@@ -405,7 +408,7 @@ const styles = StyleSheet.create({
     width: screenWidth,
     height: 3,
     backgroundColor: '#FF8D4D',
-    top: 523,
+    top: 553,
   },
   surface: {
     flexDirection: 'row',

@@ -93,9 +93,9 @@ const ChoosePet = () => {
   const handleUserSelection = (userId: number, petId: string) => {
     // If it's not the "Add Pet" item, navigate to the pet profile
     if (userId !== 0) {
-      navigation.navigate('EditPetProfile', {petId: petId});
+      navigation.navigate('Edit Pet Profile', {petId: petId});
     } else {
-      navigation.navigate('AddPetProfile');
+      navigation.navigate('Add New Pet Profile');
     }
   };
 

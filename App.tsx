@@ -199,7 +199,7 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="AddPetProfileSignUp"
+          name="Add New Pet Profile"
           component={AddPetProfileSignUp}
           options={{headerShown: false}}
         />
@@ -239,12 +239,12 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="AddPetProfile"
+          name="Add Pet Profile"
           component={AddPetProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="EditPetProfile"
+          name="Edit Pet Profile"
           component={EditPetProfile}
           options={{headerShown: false}}
         />

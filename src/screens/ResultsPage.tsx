@@ -224,7 +224,7 @@ const ResultsPage = () => {
       <View style={styles.headercontainer}>
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
-            <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
+            <TouchableOpacity onPress={() => navigation.navigate('home')}>
               <BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
             <Text style={styles.headerText}>Explore Clinics</Text>

@@ -108,7 +108,6 @@ const UserProfile = () => {
 
           try {
             await updateDoc(userRef, updateData);
-            Alert.alert('Profile picture updated successfully');
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating profile. Please try again.');
@@ -205,7 +204,6 @@ const UserProfile = () => {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
               navigation.navigate('car');
-
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');
@@ -361,7 +359,7 @@ const styles = StyleSheet.create({
     color: '#FF8D4D',
     flexDirection: 'row',
     position: 'absolute',
-    top: -69,
+    top: -49,
     left: 10,
     paddingRight: 30,
   },
@@ -371,7 +369,7 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     fontWeight: 'bold',
     marginLeft: 30,
-    top: -70,
+    top: -50,
     left: 25,
   },
   profileContainer: {
@@ -388,8 +386,8 @@ const styles = StyleSheet.create({
   arrowAdd: {
     color: '#FF8D4D',
     position: 'absolute',
-    top: 45,
-    right: 65,
+    top: 48,
+    right: 54,
     paddingRight: 30,
     marginBottom: 90,
     paddingVertical: 40,
@@ -456,10 +454,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingVertical: 20,
     borderRadius: 40,
+    bottom: 30,
   },
   buttonTextCancel: {
     color: '#FF8D4D',
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'center',
     top: 8,
@@ -485,7 +484,7 @@ const styles = StyleSheet.create({
   },
   buttonSave: {
     color: '#ffffff',
-    fontSize: 19,
+    fontSize: 17,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'center',
     alignItems: 'center',
@@ -501,11 +500,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 40,
     elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    top: 7,
+    top: -23,
   },
 });
 

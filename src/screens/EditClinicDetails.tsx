@@ -122,10 +122,6 @@ const PawPalApp = () => {
     }
   };
 
-  const exitClinicEdit = () => {
-    navigation.navigate('SettingsPage_Clinic');
-  };
-
   interface AppButtonProps {
     onPress: () => void;
     title: string;
@@ -630,7 +626,7 @@ const PawPalApp = () => {
             />
             <AppButton
               title="Cancel"
-              onPress={exitClinicEdit}
+              onPress={() => navigation.navigate('SettingsPage_Clinic')}
               buttonStyle={styles.cancel}
               textStyle={styles.cancelText}
             />
@@ -700,6 +696,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#5A2828',
     fontFamily: 'Poppins',
+    paddingBottom: 10,
   },
   loc: {
     paddingTop: 20,
@@ -708,11 +705,12 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#5A2828',
     fontFamily: 'Poppins',
+    top: 10,
   },
   input: {
     padding: 0,
     fontSize: 25,
-    width: 350,
+    width: 300,
     color: 'black',
     borderBottomWidth: 1.5,
     borderColor: '#FFBA69',
@@ -720,6 +718,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: '7%',
+    left: 13,
   },
   btn1: {
     flex: 1,
@@ -727,25 +726,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: '20%',
     margin: 70,
-    padding: 4,
     borderRadius: 50,
     backgroundColor: '#FFAC4E',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: -2,
-      height: 4,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 15,
+    elevation: 3,
     marginRight: '45%',
-    height: '3%',
     bottom: '20%',
   },
   bt1: {
     color: 'white',
-    fontSize: 25,
-    fontWeight: '500',
+    fontSize: 20,
     fontFamily: 'Poppins',
     textAlign: 'center',
   },
@@ -755,19 +744,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: '60%',
     margin: 10,
-    padding: 4,
+    padding: 2,
     borderRadius: 50,
     backgroundColor: 'white',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: -2,
-      height: 4,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 15,
+    elevation: 3,
     marginRight: '10%',
-    height: '4%',
     bottom: '70%',
   },
   cancelText: {
@@ -783,9 +764,10 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   text: {
-    marginLeft: 15,
-    fontSize: 20,
+    marginLeft: 7,
+    fontSize: 18,
     padding: 3,
+    paddingVertical: 5,
     color: '#878787',
     fontFamily: 'Poppins-Regular',
     width: 130,
@@ -801,6 +783,7 @@ const styles = StyleSheet.create({
   wrap: {
     flexDirection: 'row',
     alignItems: 'center',
+    left: -25,
   },
   bg: {
     backgroundColor: '#FFAC4E',
@@ -808,6 +791,7 @@ const styles = StyleSheet.create({
     width: 15,
     borderRadius: 20,
     margin: 2,
+    color: '',
   },
   con: {
     flex: 1,

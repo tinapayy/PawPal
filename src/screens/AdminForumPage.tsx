@@ -99,7 +99,7 @@ const ForumPage = () => {
                 postTime: getTimeDifference(forumDoc.data().postTime),
                 postPicture: forumDoc.data().postPicture
                   ? {uri: forumDoc.data().postPicture}
-                  : null,
+                  : '',
               });
             }
           }
@@ -170,19 +170,6 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Food icon pressed');
-            navigation.navigate('FoodAdvisable');
-          }}>
-          <View>
-            <Image
-              source={require('../images/dog_food.png')}
-              style={styles.imageHeader1}
-            />
-            <Text style={styles.headerText}>Food Suggestions</Text>
-          </View>
-        </TouchableOpacity>
       </View>
       {userPosts.map(post => (
         <Card key={post.id} style={styles.card}>
@@ -205,7 +192,7 @@ const ForumPage = () => {
               <Image
                 source={post.postPicture}
                 // Add image style if post is not empty string
-                {...(post.postPicture && {style: styles.image})}
+                {...(post.postPicture !== '' && {style: styles.image})}
               />
             </View>
           </Card.Content>

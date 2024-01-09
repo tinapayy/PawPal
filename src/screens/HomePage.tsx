@@ -112,7 +112,7 @@ const renderItem = ({item, index, navigation}) => {
           <Image
             source={item.clinicPicture}
             style={{
-              width: 330,
+              width: 308,
               height: 180,
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
@@ -124,23 +124,32 @@ const renderItem = ({item, index, navigation}) => {
             fontSize: 19,
             fontWeight: 'bold',
             color: '#5a2828',
-            textAlign: 'center',
+            textAlign: 'left',
             fontFamily: 'Poppins-Bold',
           }}>
           {item.name}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <FontAwesomeIcon icon={faLocationDot} style={{color: '#ff8700'}} />
-          <Text style={{fontSize: 16, fontWeight: 'normal', color: '#ff8700'}}>
+          <FontAwesomeIcon
+            icon={faLocationDot}
+            style={{color: '#ff8700', marginTop: 5}}
+          />
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 'normal',
+              color: '#ff8700',
+            }}>
             {item.address}
           </Text>
         </View>
         <Text
           style={{
-            fontSize: 15,
             fontWeight: 'bold',
             color: '#5a2828',
             textAlign: 'left',
+            left: 16,
+            marginTop: 5,
           }}>
           {item.isOpen ? (
             <Text style={styles.open}>Open</Text>
@@ -152,7 +161,11 @@ const renderItem = ({item, index, navigation}) => {
           <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
           </Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
-            <FontAwesomeIcon icon={faArrowRight} style={{color: '#ff8700'}} />
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              size={20}
+              style={{color: '#ff8700', top: -15, left: -5}}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -184,7 +197,13 @@ const itemNumber2 = ({item}) => {
                 justifyContent: 'center',
               }}>
               <Text
-                style={{color: '#5a2828', fontWeight: 'bold', fontSize: 20}}>
+                style={{
+                  color: '#5a2828',
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                  left: -13,
+                  maxWidth: 200,
+                }}>
                 {item.name}
               </Text>
               <Text style={{color: '#5a2828', fontWeight: '300', fontSize: 15}}>
@@ -261,7 +280,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
             source={require('../images/Group_75.png')}
             resizeMode="contain"
             style={{
-              marginTop: 10,
+              marginTop: -5,
               flex: 1,
               justifyContent: 'center',
               borderRadius: 30,
@@ -403,10 +422,15 @@ const HomePage = () => {
               posts.push({
                 id: posts.length + 1,
                 name: userDoc.data().name,
-                profilePicture: userDoc.data().profilePicture
-                  ? {uri: userDoc.data().profilePicture}
-                  : require('../images/defaultIcon.png'),
-                postText: forumDoc.data().postText,
+                profilePicture:
+                  userDoc.data().profilePicture || userDoc.data().clinicPicture
+                    ? {
+                        uri:
+                          userDoc.data().profilePicture ||
+                          userDoc.data().clinicPicture,
+                      }
+                    : require('../images/defaultIcon.png'),
+                postText: forumDoc.data().postText.slice(0, 100) + '...',
               });
             }
           }
@@ -572,7 +596,7 @@ const HomePage = () => {
               />
             </View>
 
-            <View style={{bottom: 50}}>
+            <View style={{bottom: 90}}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -616,7 +640,7 @@ const HomePage = () => {
               />
             </View>
 
-            <View>
+            <View style={{top: -65}}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -675,11 +699,11 @@ const styles = StyleSheet.create({
     bottom: '20%',
   },
   open: {
-    fontSize: 14,
+    fontSize: 17,
     color: 'green',
   },
   closed: {
-    fontSize: 14,
+    fontSize: 17,
     color: 'red',
   },
 });

@@ -50,6 +50,7 @@ import NewMessage from './src/screens/NewMessage';
 import CreatePost from './src/screens/CreatePost';
 import SettingsPage_Clinic from './src/screens/SettingsPage_Clinic';
 import Approval_page from './src/screens/Approval Page';
+import AdminForumPage from './src/screens/AdminForumPage';
 
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
@@ -313,7 +314,14 @@ export default function App() {
           component={Approval_page}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="AdminForumPage"
+          component={AdminForumPage}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+LogBox.ignoreLogs(['ReactImageView: Image source "null" doesn\'t exist']);

@@ -317,3 +317,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+LogBox.ignoreLogs(['ReactImageView: Image source "null" doesn\'t exist']);

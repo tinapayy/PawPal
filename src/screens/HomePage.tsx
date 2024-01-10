@@ -7,7 +7,6 @@ import {
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import {Image} from 'react-native-elements';
@@ -15,12 +14,9 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
-import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
-import ViewPropTypes from 'deprecated-react-native-prop-types';
-import StyleSheetPropType from 'deprecated-react-native-prop-types';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -85,7 +81,6 @@ const data3 = [
 ];
 
 const renderItem = ({item, index, navigation}) => {
-  //const navigation = useNavigation();
 
   const handleSeeMoreClick = () => {
     navigation.navigate('ClinicProfileforCards', {
@@ -164,7 +159,6 @@ const renderItem = ({item, index, navigation}) => {
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
-            {/* {item.info2} */}
           </Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
@@ -400,7 +394,6 @@ const HomePage = () => {
 
   const db = FIREBASE_DB;
 
-  // Add default announcement so that the carousel will not be empty
   const [userPosts, setUserPosts] = useState<Post[]>([
     {
       id: 1,
@@ -480,12 +473,10 @@ const HomePage = () => {
   const isClinicOpen = storeHours => {
     const currentDay = Date.now();
 
-    // Add 8 hours to current day
     const currentDayPlus8 = new Date(currentDay).setHours(
       new Date(currentDay).getHours() + 8,
     );
 
-    // Get UTC day
     const utcDay = new Date(currentDayPlus8).getUTCDay();
 
     const dayNames = [

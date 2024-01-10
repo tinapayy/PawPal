@@ -10,7 +10,6 @@ const Chat = () => {
   const navigation = useNavigation();
   
   const handleImagePress = () => {
-    // Navigate to the clinic profile screen here
     navigation.navigate('ClinicProfile');
   };
 

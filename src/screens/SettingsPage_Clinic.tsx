@@ -14,12 +14,12 @@ import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
-import {useNavigation} from '@react-navigation/native'; //added import
+import {useNavigation} from '@react-navigation/native'; 
 import {onAuthStateChanged} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
 
 function SettingsPage_Clinic() {
-  const navigation = useNavigation(); //added nav
+  const navigation = useNavigation(); 
 
   const auth = FIREBASE_AUTH;
 

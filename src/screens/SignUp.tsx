@@ -15,16 +15,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faUser,
   faLock,
-  faArrowLeft,
-  faCirclePlus,
-  faCheckCircle,
   faEnvelope,
-  faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
-import MyComponent from '../components/SegmentedButton';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 
@@ -231,12 +226,9 @@ const styles = StyleSheet.create({
     top: '-93%',
     alignItems: 'center',
     height: 100,
-    // top: -300,
-    // width: '80%',
     alignSelf: 'center',
   },
   iconInputRow: {
-    // flexDirection: 'row',
     width: '100%',
     top: 200,
     height: 40,
@@ -250,14 +242,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   icon: {
-    // top:"-40%",
     top: '630%',
     marginRight: 10,
     paddingHorizontal: 12,
     color: 'orange',
   },
   btnContainer: {
-    // top: "200%",
     bottom: '-24%',
     alignSelf: 'center',
   },

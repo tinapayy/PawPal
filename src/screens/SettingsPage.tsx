@@ -12,14 +12,14 @@ import {
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
-import {useNavigation} from '@react-navigation/native'; //added import
+import {useNavigation} from '@react-navigation/native'; 
 import {onAuthStateChanged} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 function SettingsPage() {
-  const navigation = useNavigation(); //added nav
+  const navigation = useNavigation(); 
 
   const auth = FIREBASE_AUTH;
 

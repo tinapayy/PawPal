@@ -86,7 +86,7 @@ const PetProfile = () => {
       }
 
       const metadata = {
-        contentType: 'image/jpeg', // Adjust the content type based on your image type
+        contentType: 'image/jpeg', 
       };
 
       const storage = FIREBASE_STORAGE;
@@ -249,7 +249,6 @@ const PetProfile = () => {
             <Text style={styles.maleinput}>Female</Text>
           </View>
           <View
-            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',

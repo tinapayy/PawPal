@@ -49,20 +49,8 @@ const ProfileDetails = () => {
 
   const [pet, setPet] = useState<CarouselItem[]>([]);
   const [name, setName] = useState('');
-  // const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
   const MAX_DESCRIPTION_LENGTH = 27;
-
-  // // Use ownerDataDetails.description as the initial description
-  // // const bio = ownerDataDetails?.description || '...';
-
-  // const [showFullBio, setShowFullBio] = useState(true);
-  // const [truncatedBio, setTruncatedBio] = useState(
-  //   `${bio.slice(0, MAX_DESCRIPTION_LENGTH)}...`,
-  // );
-
-  // const [lines, setLines] = useState<string[]>([]);
-  // const [numLines, setNumLines] = useState<number | undefined>(2);
 
   const [bio, setBio] = useState(''); // Ensure bio starts as an empty string
   const [showFullBio, setShowFullBio] = useState(false); // Ensure showFullBio starts as false
@@ -238,7 +226,6 @@ const ProfileDetails = () => {
                   resizeMode: 'contain',
                   width: '20%',
                   height: 40,
-                  // zIndex: -10,
                   top: -90,
                   left: 300,
                 }}
@@ -246,7 +233,6 @@ const ProfileDetails = () => {
             </View>
           </>
         )}
-        {/* <View style={styles.ownerDetailsContainer}>{ownerCard}</View> */}
       </View>
     );
   };
@@ -327,9 +313,6 @@ const ProfileDetails = () => {
           hasParallaxImages={true}
           style={{zIndex: 0}} // Adjust this value
         />
-        {/* <ScrollView style={styles.descriptionScrollView}>
-          <View style={styles.ownerCardContainer}>{ownerCard}</View>
-        </ScrollView> */}
         <View>{ownerCard}</View>
       </View>
     </View>
@@ -345,23 +328,15 @@ const styles = StyleSheet.create({
     height: '88%',
     zIndex: 1,
     resizeMode: 'contain',
-    // aspectRatio:1,
-    // top: -205,
   },
   imageContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    // top: -200,
   },
   image: {
-    // ...StyleSheet.absoluteFillObject,
     resizeMode: 'cover',
-    // position:'relative',
     height: '100%',
-    // height: 200,
     borderRadius: 10,
-    // top: -205,
-    // marginTop:-40,
     zIndex: 999,
     width: '90%',
     alignSelf: 'center',
@@ -439,7 +414,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    // top: -40,
   },
   userInfo: {
     flexDirection: 'row',
@@ -465,13 +439,10 @@ const styles = StyleSheet.create({
     top: -10,
     fontSize: 18,
     left: 120,
-    // fontWeight: 'bold',
   },
   description: {
     fontSize: 18,
-    // april: 10,
     top: 400,
-    // maxWidth: screenWidth - 60,
     color: '#000000',
     fontFamily: 'Poppins',
     textAlign: 'justify',
@@ -517,8 +488,6 @@ const styles = StyleSheet.create({
   bio: {
     fontFamily: 'Poppins',
     fontSize: 18,
-    // left: 80,
-    // textAlign:'left'
     justifyContent: 'flex-start',
     color: '#5A2828',
     top: -9,
@@ -529,14 +498,11 @@ const styles = StyleSheet.create({
   cardContainer: {},
   descriptionContainer: {
     flex: 1,
-    marginLeft: 10, // Adjust margin as needed
-    // top: 35,
+    marginLeft: 10, 
   },
   descriptionScrollView: {
-    // maxHeight: showFullDescription ? null : 100,
     overflow: 'hidden',
     maxHeight: 100,
-    // marginTop: 20,
     top: 140,
     zIndex: 1,
   },
@@ -546,12 +512,9 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontFamily: 'Poppins',
     textAlign: 'justify',
-    // top: 10,
     padding: 10,
   },
   ownerCardContainer: {
-    // paddingHorizontal: 20,
-    // paddingBottom: 20,
   },
   contentScroll: {
     marginTop: 0,
@@ -575,7 +538,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textDecorationStyle: 'solid',
     color: '#ff8700',
-    // marginTop: 10,
     top: -25,
     left: 130,
     textAlign: 'center',

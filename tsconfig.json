@@ -6,5 +6,10 @@
       "*": ["tsconfig/*"]
     }
   },
-  "include": ["declarations.d.ts", "src/**/*.ts"]
+  "include": ["declarations.d.ts", "src/**/*.ts""src/**/*.tsx",
+  "index.tsx",
+  "/App/**/*.ts",
+  "App.tsx",
+  "app.d.ts",
+  "App/**/*.tsx",]
 }

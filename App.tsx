@@ -17,8 +17,6 @@ import {
   ChatBubbleBottomCenterTextIcon as Bubble,
 } from 'react-native-heroicons/solid';
 
-import Homesamp from './screens/Homesamp';
-import Detailsamp from './screens/Detailsamp';
 import ClinicProfile from './src/screens/ClinicProfile';
 import ClinicProfileforCards from './src/screens/ClinicProfileforCards';
 import ForumPage from './src/screens/ForumPage';

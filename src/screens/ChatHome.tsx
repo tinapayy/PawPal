@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -23,6 +23,8 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
 const Messages = [
   {
@@ -83,8 +85,52 @@ const Messages = [
     messageText: 'Thank you for visiting our store today.',
   },
 ];
+
+interface Chat {
+  id: number;
+  receiverId: number;
+  receiverPicture: any;
+  message: string;
+  time: string;
+}
+
 const MessagePage = () => {
   const navigation = useNavigation();
+
+  const db = FIREBASE_DB;
+
+  const [messages, setMessages] = useState<Chat[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'chat'));
+      const chat: Chat[] = [];
+      for (const chatDoc of querySnapshot.docs) {
+        const userSnapshot = await getDocs(collection(db, 'user'));
+        for (const userDoc of userSnapshot.docs) {
+          if (userDoc.data().userId === chatDoc.data().receiverId) {
+            chat.push({
+              id: chat.length + 1,
+              receiverId: chatDoc.data().receiverId,
+              receiverPicture: {
+                uri: userDoc.data().profilePicture,
+              },
+              message: chatDoc.data().message,
+              time: chatDoc.data().time.toDate().toDateString(),
+            });
+          }
+        }
+      }
+      setMessages(chat.reverse());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.containerHeader}>
       <ImageBackground
@@ -102,24 +148,27 @@ const MessagePage = () => {
         <Text style={styles.textHeader}>Messages</Text>
         <Container style={styles.container}>
           <FlatList
-            data={Messages}
+            data={messages}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('Chat', {userId: item.id})
+                    navigation.navigate('Chat', {
+                      userId: item.receiverId,
+                      receiverPicture: item.receiverPicture,
+                    })
                   }>
                   <UserInfo>
                     <UserImgWrapper>
-                      <UserImg source={item.userImage} />
+                      <UserImg source={item.receiverPicture} />
                     </UserImgWrapper>
                     <TextSection>
                       <UserInfoText>
-                        <UserName>{item.userName}</UserName>
-                        <PostTime>{item.messageTime}</PostTime>
+                        <UserName>{item.receiverId}</UserName>
+                        <PostTime>{item.time}</PostTime>
                       </UserInfoText>
-                      <MessageText>{item.messageText}</MessageText>
+                      <MessageText>{item.message}</MessageText>
                     </TextSection>
                   </UserInfo>
                 </TouchableOpacity>

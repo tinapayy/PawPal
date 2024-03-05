@@ -1,17 +1,70 @@
-import React, {useState} from 'react';
-import { View, StyleSheet, Pressable, Text, ScrollView, TextInput, Image, TouchableOpacity,
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Text,
+  ScrollView,
+  TextInput,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from "@react-navigation/native";
-import ImagePicker, {ImagePickerResponse, launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker, {
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
 
-const Chat = () => {
-  const [text, onChangeText] = useState('');
+interface Chat {
+  message: string;
+  time: string;
+}
+
+const Chat = ({route}) => {
   const navigation = useNavigation();
-  
+
+  const db = FIREBASE_DB;
+
+  const receiverId = route.params?.receiverId;
+  const receiverPicture = route.params?.receiverPicture;
+
   const handleImagePress = () => {
     navigation.navigate('ClinicProfile');
   };
+
+  const [messages, setMessages] = useState<Chat[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'chat'));
+      const chat: Chat[] = [];
+      for (const chatDoc of querySnapshot.docs) {
+        const userSnapshot = await getDocs(collection(db, 'user'));
+        for (const userDoc of userSnapshot.docs) {
+          if (userDoc.data().userId === chatDoc.data().receiverId) {
+            chat.push({
+              message: chatDoc.data().message,
+              time: chatDoc.data().time.toDate().toDateString(),
+            });
+          }
+        }
+      }
+      setMessages(chat.reverse());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const openImagePicker = () => {
@@ -22,7 +75,7 @@ const Chat = () => {
       maxWidth: 2000,
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.errorMessage) {
@@ -33,34 +86,39 @@ const Chat = () => {
       }
     });
   };
-    
-  
+
+  const [text, onChangeText] = useState('');
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('HomePage')}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
-        <Image
-          style={styles.avatar}
-          source={require('../images/chat_icon.jpg')}
-        />
+          <Image
+            style={styles.avatar}
+            source={
+              receiverPicture
+                ? receiverPicture
+                : require('../images/chat_icon.jpg')
+            }
+          />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Labrod Veterinary Clinic</Text>
+        <Text style={styles.headerText}>{receiverId}</Text>
       </View>
 
       <ScrollView style={styles.messageContainer}>
         <View style={[styles.messageWrapper, styles.outgoingMessageWrapper]}>
-          <Text style={styles.timestamp}>10:45 AM</Text>
+          <Text style={styles.timestamp}>{messages[0]?.time}</Text>
           <View style={[styles.messageBubble, styles.outgoingMessageBubble]}>
-            <Text style={styles.messageText}>
-              Hi Doc, I would like to schedule an urgent appointment
-            </Text>
+            <Text style={styles.messageText}>{messages[0]?.message}</Text>
           </View>
         </View>
 
-        <View style={[styles.messageWrapper, styles.incomingMessageWrapper]}>
+        {/* <View style={[styles.messageWrapper, styles.incomingMessageWrapper]}>
           <Text style={styles.timestamp}>10:47 AM</Text>
           <View style={[styles.incomingMessageAvatarWrapper]}>
             <Image
@@ -81,11 +139,13 @@ const Chat = () => {
             style={styles.messageImage}
             source={require('../images/chat_dog.png')}
           />
-        </View>
+        </View> */}
       </ScrollView>
 
       <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={openImagePicker} style={styles.attachmentButton}>
+        <TouchableOpacity
+          onPress={openImagePicker}
+          style={styles.attachmentButton}>
           <MaterialIcons name="attachment" size={30} color="#FFBA69" />
         </TouchableOpacity>
 

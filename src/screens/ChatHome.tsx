@@ -20,9 +20,9 @@ import {
   PostTime,
   MessageText,
 } from '../components/MessageStyle';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCirclePlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useNavigation } from '@react-navigation/native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
 
 const Messages = [
   {

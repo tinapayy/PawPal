@@ -26,7 +26,8 @@ import AddPetProfile from './src/screens/AddPetProfile';
 import AddPetProfileSignUp from './src/screens/AddPetProfileSignUp';
 import EditPetProfile from './src/screens/EditPetProfile';
 import ProfileDetails from './src/screens/ProfileDetails';
-import MessagePage from './src/screens/MessagePage';
+import ChatHome from './src/screens/ChatHome';
+import Chat from './src/screens/Chat';
 import HomePage from './src/screens/HomePage';
 
 import SignIn from './src/screens/SignIn';
@@ -39,7 +40,6 @@ import AddUserProfile from './src/screens/AddUserProfile';
 import EditUserProfile from './src/screens/EditUserProfile';
 
 import PopularClinics from './src/screens/PopularClinics';
-import Chat from './src/screens/Chat';
 import SettingsPage from './src/screens/SettingsPage';
 import ResultsPage from './src/screens/ResultsPage';
 import Onboarding from './src/screens/Onboarding';
@@ -265,8 +265,8 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="MessagePage"
-          component={MessagePage}
+          name="ChatHome"
+          component={ChatHome}
           options={{headerShown: false}}
         />
         <Stack.Screen

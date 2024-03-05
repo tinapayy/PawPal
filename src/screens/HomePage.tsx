@@ -81,7 +81,6 @@ const data3 = [
 ];
 
 const renderItem = ({item, index, navigation}) => {
-
   const handleSeeMoreClick = () => {
     navigation.navigate('ClinicProfileforCards', {
       clinicId: item.clinicId,
@@ -158,8 +157,8 @@ const renderItem = ({item, index, navigation}) => {
           )}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
-          </Text>
+          <Text
+            style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}></Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
               icon={faArrowRight}
@@ -614,7 +613,8 @@ const HomePage = () => {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('ForumPage');
+                    // navigation.navigate('ForumPage');
+                    navigation.navigate('ChatHome');
                   }}>
                   <Text
                     style={{

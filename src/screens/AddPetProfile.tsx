@@ -12,16 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faUser,
-  faPaw,
-  faCalendar,
-  faWeight,
-  faPalette,
-  faVenusMars,
-  faCirclePlus,
-} from '@fortawesome/free-solid-svg-icons';
+import '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,

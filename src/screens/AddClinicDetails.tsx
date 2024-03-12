@@ -18,12 +18,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faCirclePlus,
-  faImage,
-  faTimesCircle,
-  faCaretDown,
-} from '@fortawesome/free-solid-svg-icons';
+import '../constants/icons/icons';
 import {
   FIREBASE_DB,
   FIREBASE_AUTH,

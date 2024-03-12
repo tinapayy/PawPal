@@ -1,0 +1,10 @@
+import {faCirclePlus,faImage,faTimesCircle,faCaretDown,} from '@fortawesome/free-solid-svg-icons';
+import {faArrowLeft,faUser,faPaw,faCalendar,faWeight,faPalette,faVenusMars,} from '@fortawesome/free-solid-svg-icons';
+import {faLock,faEnvelope,faAddressCard,} from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import {CheckCircleIcon as CheckIcon, XCircleIcon as XIcon, ChatBubbleLeftRightIcon as ForumSolid, ChatBubbleBottomCenterTextIcon as Bubble,} from 'react-native-heroicons/solid';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { faGear, faPhone  } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowDown } from '@fortawesome/free-solid-svg-icons';

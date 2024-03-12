@@ -10,14 +10,8 @@ import {
   RefreshControl,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
-import {
-  CheckCircleIcon as CheckIcon,
-  XCircleIcon as XIcon,
-  ChatBubbleLeftRightIcon as ForumSolid,
-  ChatBubbleBottomCenterTextIcon as Bubble,
-} from 'react-native-heroicons/solid';
+import '../constants/icons/icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {

@@ -88,6 +88,7 @@ const Messages = [
 
 interface Chat {
   id: number;
+  senderId: string;
   senderName: number;
   senderPicture: any;
   message: string;
@@ -113,6 +114,7 @@ const MessagePage = () => {
             if (auth.currentUser?.uid === chatDoc.data().receiverId) {
               chat.push({
                 id: chat.length + 1,
+                senderId: chatDoc.data().senderId,
                 senderName: userDoc.data().name,
                 senderPicture: {
                   uri: userDoc.data().profilePicture,
@@ -186,7 +188,7 @@ const MessagePage = () => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('Chat', {
-                      userId: item.senderName,
+                      receiverId: item.senderId,
                       receiverPicture: item.senderPicture,
                     })
                   }>

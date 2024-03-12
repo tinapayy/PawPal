@@ -15,12 +15,8 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection} from 'firebase/firestore';
-import {
-  FIREBASE_AUTH,
-  FIREBASE_DB,
-  FIREBASE_STORAGE,
-} from '../../firebase.config';
+import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
 interface Chat {
   message: string;
@@ -30,6 +26,7 @@ interface Chat {
 const Chat = ({route}) => {
   const navigation = useNavigation();
 
+  const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
   const receiverId = route.params?.receiverId;
@@ -88,6 +85,25 @@ const Chat = ({route}) => {
   };
 
   const [text, onChangeText] = useState('');
+
+  const sendMessage = async () => {
+    if (!text && !selectedImage) {
+      return;
+    }
+
+    const chatDoc = {
+      senderId: auth.currentUser?.uid,
+      receiverId: receiverId,
+      message: text,
+      time: serverTimestamp(),
+    };
+    const chatRef = await addDoc(collection(db, 'chat'), chatDoc);
+    console.log('Document written with ID: ', chatRef.id);
+
+    onChangeText('');
+    setSelectedImage(null);
+    // fetchData();
+  };
 
   return (
     <View style={styles.container}>
@@ -156,7 +172,7 @@ const Chat = ({route}) => {
           value={text}
           multiline={true}
         />
-        <Pressable style={styles.sendButton}>
+        <Pressable style={styles.sendButton} onPress={sendMessage}>
           <MaterialIcons name="send" size={30} color="#FFBA69" />
         </Pressable>
       </View>

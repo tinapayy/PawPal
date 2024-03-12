@@ -88,8 +88,8 @@ const Messages = [
 
 interface Chat {
   id: number;
-  receiverId: number;
-  receiverPicture: any;
+  senderName: number;
+  senderPicture: any;
   message: string;
   time: string;
 }
@@ -97,6 +97,7 @@ interface Chat {
 const MessagePage = () => {
   const navigation = useNavigation();
 
+  const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
   const [messages, setMessages] = useState<Chat[]>([]);
@@ -108,20 +109,25 @@ const MessagePage = () => {
       for (const chatDoc of querySnapshot.docs) {
         const userSnapshot = await getDocs(collection(db, 'user'));
         for (const userDoc of userSnapshot.docs) {
-          if (userDoc.data().userId === chatDoc.data().receiverId) {
-            chat.push({
-              id: chat.length + 1,
-              receiverId: chatDoc.data().receiverId,
-              receiverPicture: {
-                uri: userDoc.data().profilePicture,
-              },
-              message: chatDoc.data().message,
-              time: chatDoc.data().time.toDate().toDateString(),
-            });
+          if (userDoc.data().userId === chatDoc.data().senderId) {
+            if (auth.currentUser?.uid === chatDoc.data().receiverId) {
+              chat.push({
+                id: chat.length + 1,
+                senderName: userDoc.data().name,
+                senderPicture: {
+                  uri: userDoc.data().profilePicture,
+                },
+                message: chatDoc.data().message,
+                time: getTimeDifference(chatDoc.data().time),
+              });
+            }
           }
         }
       }
-      setMessages(chat.reverse());
+      const unique = chat.filter(
+        (v, i, a) => a.findIndex(t => t.senderName === v.senderName) === i,
+      );
+      setMessages(unique.reverse());
     } catch (error) {
       console.error(error);
     }
@@ -130,6 +136,31 @@ const MessagePage = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  function getTimeDifference(postTime) {
+    const currentTime = new Date().getTime();
+    const postTimestamp = postTime.toDate().getTime();
+    const timeDifference = currentTime - postTimestamp;
+
+    if (timeDifference < 86400000) {
+      return postTime.toDate().toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Manila',
+        hour: 'numeric',
+        minute: 'numeric',
+      });
+      // } else if (timeDifference < 604800000) {
+      //   return postTime.toDate().toLocaleDateString('en-US', {
+      //     timeZone: 'Asia/Manila',
+      //     weekday: 'short',
+      //   });
+    } else {
+      return postTime.toDate().toLocaleDateString('en-US', {
+        timeZone: 'Asia/Manila',
+        month: 'short',
+        day: 'numeric',
+      });
+    }
+  }
 
   return (
     <View style={styles.containerHeader}>
@@ -155,17 +186,17 @@ const MessagePage = () => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('Chat', {
-                      userId: item.receiverId,
-                      receiverPicture: item.receiverPicture,
+                      userId: item.senderName,
+                      receiverPicture: item.senderPicture,
                     })
                   }>
                   <UserInfo>
                     <UserImgWrapper>
-                      <UserImg source={item.receiverPicture} />
+                      <UserImg source={item.senderPicture} />
                     </UserImgWrapper>
                     <TextSection>
                       <UserInfoText>
-                        <UserName>{item.receiverId}</UserName>
+                        <UserName>{item.senderName}</UserName>
                         <PostTime>{item.time}</PostTime>
                       </UserInfoText>
                       <MessageText>{item.message}</MessageText>

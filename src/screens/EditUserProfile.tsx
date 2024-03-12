@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import '../imports/icons/icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
@@ -217,7 +217,7 @@ const UserProfile = () => {
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
@@ -237,7 +237,7 @@ const UserProfile = () => {
             style={styles.arrowAdd}
             onPress={() => openImagePicker()}>
             <FontAwesomeIcon
-              icon={faCirclePlus}
+              icon={icons.faCirclePlus}
               style={styles.arrowAdd}
               size={25}
             />
@@ -245,13 +245,13 @@ const UserProfile = () => {
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
             <View style={styles.iconInputRow}>
               <Text style={styles.inputName}>{auth.currentUser?.email}</Text>
             </View>
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder={currentName ? currentName : 'Name'}
@@ -260,7 +260,7 @@ const UserProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faAddressCard} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faAddressCard} style={styles.icon} />
             <TextInput
               style={[styles.input, {fontSize: 16}, {top: 2}]}
               placeholder={currentBio ? currentBio : 'Tell more about yourself'}
@@ -272,7 +272,7 @@ const UserProfile = () => {
           <View style={styles.changePassword} />
           <Text style={styles.changePassword}>Change Password</Text>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faLock} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Current Password"
@@ -282,7 +282,7 @@ const UserProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faLock} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="New Password"
@@ -292,7 +292,7 @@ const UserProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faCheckCircle} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faCheckCircle} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Confirm Password"

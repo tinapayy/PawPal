@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import '../imports/icons/icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
@@ -78,7 +78,7 @@ const ChoosePet = () => {
       style={styles.card}
       onPress={() => handleUserSelection(item.id, item.petId)}>
       {item.id === 0 ? (
-        <FontAwesomeIcon icon={faCirclePlus} size={90} color="#F87000" />
+        <FontAwesomeIcon icon={icons.faCirclePlus} size={90} color="#F87000" />
       ) : (
         <Image
           source={{uri: item.profilePicture}}

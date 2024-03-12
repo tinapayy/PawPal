@@ -21,6 +21,7 @@ import {
   MessageText,
 } from '../components/MessageStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import * as icons from '../imports/icons/icons';
 import { faCirclePlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -93,7 +94,7 @@ const MessagePage = () => {
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.navigate('home')}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
@@ -129,7 +130,7 @@ const MessagePage = () => {
         </Container>
         <View style={styles.addIcon}>
           <TouchableHighlight>
-            <FontAwesomeIcon icon={faCirclePlus} size={50} color="#F87000" />
+            <FontAwesomeIcon icon={icons.faCirclePlus} size={50} color="#F87000" />
           </TouchableHighlight>
         </View>
       </ImageBackground>

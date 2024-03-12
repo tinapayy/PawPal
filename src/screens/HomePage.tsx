@@ -12,7 +12,7 @@ import {Avatar} from 'react-native-paper';
 import {Image} from 'react-native-elements';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import icons from '../imports/icons/icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
@@ -130,7 +130,7 @@ const renderItem = ({item, index, navigation}) => {
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <FontAwesomeIcon
-            icon={faLocationDot}
+            icon={icons.faLocationDot}
             style={{color: '#ff8700', marginTop: 5}}
           />
           <Text
@@ -161,7 +161,7 @@ const renderItem = ({item, index, navigation}) => {
           </Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
-              icon={faArrowRight}
+              icon={icons.faArrowRight}
               size={20}
               style={{color: '#ff8700', top: -15, left: -5}}
             />

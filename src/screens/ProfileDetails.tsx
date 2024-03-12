@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Card, Avatar, Surface, Divider} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   faArrowLeft,
@@ -265,7 +266,7 @@ const ProfileDetails = () => {
           <TouchableOpacity
             style={styles.settingsIcon}
             onPress={() => navigation.navigate('SettingsPage')}>
-            <FontAwesomeIcon icon={faCog} style={styles.icon} size={20} />
+            <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
           </TouchableOpacity>
         </View>
       </Card.Content>
@@ -298,7 +299,7 @@ const ProfileDetails = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate('home')}
         style={{top: -15, left: 15}}>
-        <FontAwesomeIcon icon={faArrowLeft} size={24} color="#FFF" />
+        <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color="#FFF" />
       </TouchableOpacity>
       <View style={styles.horizontalLine} />
 

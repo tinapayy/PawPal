@@ -10,9 +10,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
-import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
@@ -116,7 +114,7 @@ const ClinicCard = ({clinicInfo}) => {
           <Text style={styles.name}>{clinicInfo.name}</Text>
           <View style={{flexDirection: 'row'}}>
             <FontAwesomeIcon
-              icon={faLocationDot}
+              icon={icons.faLocationDot}
               size={11}
               style={{color: '#ff8d4d'}}
             />
@@ -128,7 +126,7 @@ const ClinicCard = ({clinicInfo}) => {
               {clinicInfo.isOpen ? 'Open' : 'Closed'}
             </Text>
             <FontAwesomeIcon
-              icon={faArrowRight}
+              icon={icons.faArrowRight}
               style={{color: '#ff8d4d', right: -4}}
             />
           </View>
@@ -177,7 +175,7 @@ const Apps = () => {
         }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesomeIcon
-            icon={faArrowLeft}
+            icon={icons.faArrowLeft}
             size={27}
             style={{color: '#ff8d4d', left: 15}}
           />

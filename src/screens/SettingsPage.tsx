@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-import {
-  Cog6ToothIcon as CogIcon,
-  UserIcon as User,
-  BuildingOfficeIcon as ClinicIcon,
-  TrashIcon as Trash,
-  ArrowRightOnRectangleIcon as ExitIcon,
-} from 'react-native-heroicons/solid';
-
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
@@ -16,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../firebase.config';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import icons from '../imports/icons/icons';
+import * as icons from '../imports/icons/icons';
 
 function SettingsPage() {
   const navigation = useNavigation();
@@ -39,7 +31,7 @@ function SettingsPage() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headertextandicon}>
-          <CogIcon size={40} color="#fff" strokeWidth={3} />
+          <icons.CogIcon size={40} color="#fff" strokeWidth={3} />
           <Text style={styles.headerText}>Settings</Text>
         </View>
         <Image source={grh} style={styles.headerimg} />
@@ -49,7 +41,8 @@ function SettingsPage() {
           navigation.navigate('ProfileDetails');
         }}>
         <FontAwesomeIcon
-          icon={faArrowLeft}
+          // icon={icons.faArrowLeft}
+          icon={icons.faArrowLeft}
           size={27}
           style={{ color: 'brown', left: 15, flex: 1, bottom: '500%' }}
         />

@@ -12,7 +12,6 @@ import {
   Modal,
 } from 'react-native';
 import {SegmentedButtons} from 'react-native-paper';
-import '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 
 interface FoodItemDetails {

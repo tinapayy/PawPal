@@ -10,7 +10,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
-import '../constants/icons/icons';
+import '../imports/icons/icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';

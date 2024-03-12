@@ -18,7 +18,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import '../constants/icons/icons';
+import icons from '../imports/icons';
 import {
   FIREBASE_DB,
   FIREBASE_AUTH,
@@ -400,7 +400,7 @@ const PawPalApp = () => {
                   alignItems: 'center',
                 }}>
                 <FontAwesomeIcon
-                  icon={faImage}
+                  icon={icons.faImage}
                   size={30}
                   style={{
                     color: '#ff8700',
@@ -420,7 +420,7 @@ const PawPalApp = () => {
               <Text style={styles.services}>Services</Text>
               <TouchableOpacity onPress={handleToggleInput}>
                 <FontAwesomeIcon
-                  icon={faCaretDown}
+                  icon={icons.faCaretDown}
                   size={25}
                   style={{color: '#ff8700', marginLeft: 10}}
                 />
@@ -446,7 +446,7 @@ const PawPalApp = () => {
                           <Text>{item}</Text>
                           <TouchableOpacity onPress={() => removeTag(index)}>
                             <FontAwesomeIcon
-                              icon={faTimesCircle}
+                              icon={icons.faTimesCircle}
                               size={25}
                               style={{color: '#ff8700', marginLeft: 5}}
                             />
@@ -468,7 +468,7 @@ const PawPalApp = () => {
                       />
                       <TouchableOpacity onPress={addTag}>
                         <FontAwesomeIcon
-                          icon={faCirclePlus}
+                          icon={icons.faCirclePlus}
                           size={25}
                           style={{color: '#ff8700', marginLeft: 10}}
                         />

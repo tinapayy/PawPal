@@ -17,10 +17,7 @@ import {
   Image,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faCommentDots,
-  faCircleXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,

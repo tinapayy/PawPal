@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import {
   Cog6ToothIcon as CogIcon,
@@ -12,14 +12,14 @@ import {
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
-import {useNavigation} from '@react-navigation/native'; 
-import {onAuthStateChanged} from 'firebase/auth';
-import {FIREBASE_AUTH} from '../../firebase.config';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '@react-navigation/native';
+import { onAuthStateChanged } from 'firebase/auth';
+import { FIREBASE_AUTH } from '../../firebase.config';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import icons from '../imports/icons/icons';
 
 function SettingsPage() {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
 
@@ -27,7 +27,7 @@ function SettingsPage() {
     if (!user) {
       navigation.reset({
         index: 0,
-        routes: [{name: 'GettingStarted2'}],
+        routes: [{ name: 'GettingStarted2' }],
       });
     }
   });
@@ -51,7 +51,7 @@ function SettingsPage() {
         <FontAwesomeIcon
           icon={faArrowLeft}
           size={27}
-          style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
+          style={{ color: 'brown', left: 15, flex: 1, bottom: '500%' }}
         />
       </TouchableOpacity>
 

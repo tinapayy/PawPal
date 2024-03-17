@@ -2,13 +2,14 @@
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
+     "moduleResolution": "node",
     "paths": {
       "*": ["tsconfig/*"],
        "@imports/*": ["src/imports/*"]
 
     }
   },
-  "include": ["declarations.d.ts", "src/**/*.ts""src/**/*.tsx",
+  "include": ["declarations.d.ts", "src/**/*.ts","src/**/*.tsx",
   "index.tsx",
   "/App/**/*.ts",
   "App.tsx",

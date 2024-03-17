@@ -1,123 +1,123 @@
 import React from 'react';
-import { View, Image, StyleSheet, Pressable, Text, ImageBackground, } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {View, StyleSheet, Pressable, Text, ImageBackground} from 'react-native';
+import {useNavigateTo} from '../components/navigation';
+import constants from '../styles/constants';
 
 const GettingStarted2 = () => {
-  const navigation = useNavigation();
+  const NavSignIn = useNavigateTo('SignIn');
+  const NavSignUp = useNavigateTo('SignUp');
+
   return (
-    <View>
-    <View style={styles.container1}>
-    <ImageBackground
-        source={require('../images/onboarding_bg1.png')} 
-        style={styles.bgImage} >
+    <View style={styles.bigContainer}>
+      <View style={styles.bgContainer}>
+        <ImageBackground
+          source={require('../images/onboarding_bg1.png')}
+          style={styles.bgImage}></ImageBackground>
+      </View>
 
-    </ImageBackground>
-    </View>
-    
-    <View style={styles.SignInView}>
-    <Pressable 
-      style={({ pressed }) => [
-        styles.SignInBtn,
-        {
-          backgroundColor: pressed ? 'lightgray' : 'white', 
-          borderColor: pressed ? '#FFAC4E' : '#FFAC4E',
-          borderWidth: 3
-        },
-      ]}
-      onPress={() => {
-        navigation.navigate('SignIn');
-      }}>
-      <Text style={styles.text1}>SIGN IN</Text>
-    </Pressable>
-    </View>
+      <View style={styles.signInView}>
+        <Pressable
+          style={({pressed}) => [
+            styles.signInButton,
+            {
+              backgroundColor: pressed ? 'lightgray' : 'white',
+              borderColor: pressed ? '#FFAC4E' : '#FFAC4E',
+              borderWidth: 3,
+            },
+          ]}
+          onPress={NavSignIn}>
+          <Text style={styles.signInText}>SIGN IN</Text>
+        </Pressable>
+      </View>
 
-    <View style={styles.SignUpView}>
-    <Pressable 
-      style={({ pressed }) => [
-        styles.SignUpBtn,
-        {
-          backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
-        },
-      ]}
-      onPress={() => {
-        navigation.navigate('SignUp');
-      }}>
-      <Text style={styles.text2}>SIGN UP</Text>
-    </Pressable>
-    </View>
-    <View style={styles.taglineView}>
+      <View style={styles.signUpView}>
+        <Pressable
+          style={({pressed}) => [
+            styles.signUpButton,
+            {
+              backgroundColor: pressed ? '#FF6464' : '#FFAC4E',
+            },
+          ]}
+          onPress={NavSignUp}>
+          <Text style={styles.signUpText}>SIGN UP</Text>
+        </Pressable>
+      </View>
+      <View style={styles.taglineView}>
         <Text style={styles.tagline}>Because your pal is our pal!</Text>
-    </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container1: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  bigContainer: {
+    flex: 1,
+  },
+  bgContainer: {
+    flex: 1,
   },
   bgImage: {
-    flex:1,
+    flex: 1,
     resizeMode: 'cover',
     width: '100%',
     height: 500,
   },
-  SignInView: {
-    alignItems:'center',
+  signInView: {
+    alignItems: 'center',
     justifyContent: 'center',
-    top: "390%",
-    borderRadius: 20, 
-    paddingHorizontal: 90,
+    borderRadius: 20,
+    paddingHorizontal: '50%',
+    bottom: '28%',
   },
-  SignUpView: {
-    alignItems:'center',
+  signUpView: {
+    alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20, 
-    paddingHorizontal: "50%",
-    top: "400%",
+    borderRadius: 20,
+    bottom: '25%',
+  },
+  signInButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    borderColor: constants.$primaryColor,
+    borderRadius: 25,
+    backgroundColor: constants.$tertiaryColor,
+    width: 200,
+    elevation: 2,
+  },
+  signUpButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    borderRadius: 25,
+    backgroundColor: constants.$primaryColor,
+    width: 200,
+    elevation: 2,
+  },
 
-  },
-  SignInBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    borderColor: 'orange',
-    borderRadius: 25,
-    backgroundColor:"white",
-    width:200
-  },
-  SignUpBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    borderRadius: 25,
-    backgroundColor:"#FFAC4E",
-    width:200,
-  },
-  text1: {
+  // APPLY DRY to repetitive text styles
+  signInText: {
     fontSize: 18,
-    letterSpacing: 0.25,
-    color: 'orange',
-    fontFamily: 'Poppins-Bold'
+    letterSpacing: constants.$spacingLetter,
+    color: constants.$primaryColor,
+    fontFamily: constants.$fontFamilyBold,
   },
-  text2: {
-    fontSize: 18,
-    letterSpacing: 0.25,
-    color: 'white',
-    fontFamily: 'Poppins-SemiBold'
+  signUpText: {
+    fontSize: constants.$fontSizeRegular,
+    letterSpacing: constants.$spacingLetter,
+    color: constants.$textColor2,
+    fontFamily: constants.$fontFamilyBold,
   },
   tagline: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: constants.$fontFamilyMedium,
     textAlign: 'center',
-    color: '#894848',
+    color: constants.$accentColor1,
   },
   taglineView: {
     alignItems: 'center',
-    justifyContent:'center',
-    bottom: "-440%",
-    
-  }
+    justifyContent: 'center',
+    bottom: '15%',
+  },
 });
 
 export default GettingStarted2;

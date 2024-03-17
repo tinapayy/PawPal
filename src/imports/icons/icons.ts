@@ -41,6 +41,11 @@ import {
     UserIcon as User,
     BuildingOfficeIcon as ClinicIcon,
     ArrowRightOnRectangleIcon as ExitIcon,
+    HomeIcon as HomeSolid,
+    ChatBubbleOvalLeftEllipsisIcon as ChatBubbleLeftSolid,
+    PlusCircleIcon as PlusCircleSolid,
+    UserIcon as UserSolid,
+    MagnifyingGlassIcon as MagnifyingGlass,
 } from 'react-native-heroicons/solid';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -84,4 +89,10 @@ export {
     User,
     ClinicIcon,
     ExitIcon,
+    HomeSolid,
+    MagnifyingGlass,
+    ChatBubbleLeftSolid,
+    PlusCircleSolid,
+    UserSolid,
+
 };

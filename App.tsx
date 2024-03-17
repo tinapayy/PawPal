@@ -17,38 +17,7 @@ import {
   ChatBubbleBottomCenterTextIcon as Bubble,
 } from 'react-native-heroicons/solid';
 
-import ClinicProfile from './src/screens/ClinicProfile';
-import ClinicProfileforCards from './src/screens/ClinicProfileforCards';
-import ForumPage from './src/screens/ForumPage';
-import AddPetProfile from './src/screens/AddPetProfile';
-import AddPetProfileSignUp from './src/screens/AddPetProfileSignUp';
-import EditPetProfile from './src/screens/EditPetProfile';
-import ProfileDetails from './src/screens/ProfileDetails';
-import MessagePage from './src/screens/MessagePage';
-import HomePage from './src/screens/HomePage';
-
-import SignIn from './src/screens/SignIn';
-import GettingStarted from './src/screens/GettingStarted';
-import GettingStarted2 from './src/screens/GettingStarted2';
-import SignUp from './src/screens/SignUp';
-import AddClinicDetails from './src/screens/AddClinicDetails';
-import EditClinicDetails from './src/screens/EditClinicDetails';
-import AddUserProfile from './src/screens/AddUserProfile';
-import EditUserProfile from './src/screens/EditUserProfile';
-
-import PopularClinics from './src/screens/PopularClinics';
-import Chat from './src/screens/Chat';
-import SettingsPage from './src/screens/SettingsPage';
-import ResultsPage from './src/screens/ResultsPage';
-import Onboarding from './src/screens/Onboarding';
-import FoodAdvisable from './src/screens/FoodAdvisable';
-import FoodRestricted from './src/screens/FoodRestricted';
-import ChoosePet from './src/screens/ChoosePet';
-import NewMessage from './src/screens/NewMessage';
-import CreatePost from './src/screens/CreatePost';
-import SettingsPage_Clinic from './src/screens/SettingsPage_Clinic';
-import Approval_page from './src/screens/Approval Page';
-import AdminForumPage from './src/screens/AdminForumPage';
+import * as import_screens from '../PawPal/src/imports/import_screens/import_screens'
 
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';

@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
-
-import {TrashIcon as Trash} from 'react-native-heroicons/solid';
+import '../imports/icons/icons';
 
 import {deleteUser} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';

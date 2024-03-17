@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {faMessage} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Card, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';

@@ -12,7 +12,6 @@ import {
   Modal,
 } from 'react-native';
 import {SegmentedButtons} from 'react-native-paper';
-import {ArrowLeftIcon as BackIcon} from 'react-native-heroicons/solid';
 import {useNavigation} from '@react-navigation/native';
 
 interface SegmentedButtonsProps {

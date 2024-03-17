@@ -12,12 +12,7 @@ import {
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
-import {faGear} from '@fortawesome/free-solid-svg-icons';
-import {faPhone} from '@fortawesome/free-solid-svg-icons';
-import {faClock} from '@fortawesome/free-solid-svg-icons';
-import {faCircleArrowDown} from '@fortawesome/free-solid-svg-icons';
-
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
@@ -91,14 +86,14 @@ const ClinicProfile = () => {
         <View style={styles.icon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               size={30}
               style={{color: 'brown'}}
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('SettingsPage_Clinic')}>
-            <FontAwesomeIcon icon={faGear} size={30} style={{color: 'brown'}} />
+            <FontAwesomeIcon icon={icons.faGear} size={30} style={{color: 'brown'}} />
           </TouchableOpacity>
         </View>
 
@@ -158,7 +153,7 @@ const ClinicProfile = () => {
                 justifyContent: 'flex-start',
               }}>
               <FontAwesomeIcon
-                icon={faPhone}
+                icon={icons.faPhone}
                 size={23}
                 style={{
                   color: '#FF8D4D',
@@ -183,7 +178,7 @@ const ClinicProfile = () => {
                 justifyContent: 'flex-start',
               }}>
               <FontAwesomeIcon
-                icon={faClock}
+                icon={icons.faClock}
                 size={23}
                 style={{
                   color: '#FF8D4D',
@@ -204,7 +199,7 @@ const ClinicProfile = () => {
               <View style={styles.drop}>
                 <TouchableOpacity onPress={toggleDropdown}>
                   <FontAwesomeIcon
-                    icon={faCircleArrowDown}
+                    icon={icons.faCircleArrowDown}
                     size={23}
                     style={{
                       color: '#FF8D4D',

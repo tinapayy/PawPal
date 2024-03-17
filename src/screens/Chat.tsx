@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { View, StyleSheet, Pressable, Text, ScrollView, TextInput, Image, TouchableOpacity,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as icons from '../imports/icons/icons';
 import { useNavigation } from "@react-navigation/native";
 import ImagePicker, {ImagePickerResponse, launchImageLibrary} from 'react-native-image-picker';
 

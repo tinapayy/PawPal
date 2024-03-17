@@ -18,7 +18,7 @@ import {FIREBASE_AUTH} from '../../firebase.config';
 import {FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
-import {faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -102,7 +102,7 @@ const SignIn = () => {
             <Text style={styles.header}>Sign In</Text>
             <View style={styles.inputs}>
               <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+                <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
@@ -112,7 +112,7 @@ const SignIn = () => {
                 />
               </View>
               <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faLock} style={styles.icon} />
+                <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Password"

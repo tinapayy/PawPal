@@ -1,15 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-
-import {
-  Cog6ToothIcon as CogIcon,
-  UserIcon as User,
-  BuildingOfficeIcon as ClinicIcon,
-  TrashIcon as Trash,
-  ArrowRightOnRectangleIcon as ExitIcon,
-} from 'react-native-heroicons/solid';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
@@ -39,7 +31,7 @@ function SettingsPage_Clinic() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headertextandicon}>
-          <CogIcon size={40} color="#fff" strokeWidth={3} />
+          <icons.CogIcon size={40} color="#fff" strokeWidth={3} />
           <Text style={styles.headerText}>Settings</Text>
         </View>
         <Image source={grh} style={styles.headerimg} />
@@ -49,7 +41,7 @@ function SettingsPage_Clinic() {
           navigation.goBack();
         }}>
         <FontAwesomeIcon
-          icon={faArrowLeft}
+          icon={icons.faArrowLeft}
           size={27}
           style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
         />
@@ -59,7 +51,7 @@ function SettingsPage_Clinic() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('EditClinicDetails')}>
-          <User size={30} color="#FF8700" strokeWidth={3} />
+          <icons.User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Profile</Text>
         </TouchableOpacity>
 
@@ -72,7 +64,7 @@ function SettingsPage_Clinic() {
         <TouchableOpacity
           style={styles.buttonlogout}
           onPress={() => setLogoutModal(true)}>
-          <ExitIcon size={30} color="#FFF" strokeWidth={3} />
+          <icons.ExitIcon size={30} color="#FFF" strokeWidth={3} />
           <Text style={styles.buttonlogoutText}>Log Out</Text>
         </TouchableOpacity>
       </View>

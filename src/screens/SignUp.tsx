@@ -12,11 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faUser,
-  faLock,
-  faEnvelope,
-} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
@@ -115,7 +111,7 @@ const SignIn = () => {
             <Text style={styles.header}>Sign Up</Text>
             <View style={styles.inputs}>
               <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faUser} style={styles.icon} />
+                <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Name"
@@ -125,7 +121,7 @@ const SignIn = () => {
                 />
               </View>
               <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+                <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
@@ -135,7 +131,7 @@ const SignIn = () => {
                 />
               </View>
               <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faLock} style={styles.icon} />
+                <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Password"

@@ -10,14 +10,11 @@ import {
   TextInput,
 } from 'react-native';
 
-import {
-  ArrowLeftIcon as BackIcon,
-  UserCircleIcon as User,
-} from 'react-native-heroicons/solid';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import {Avatar} from 'react-native-paper';
+import * as icons from '../imports/icons/icons';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -225,7 +222,7 @@ const ResultsPage = () => {
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
             <TouchableOpacity onPress={() => navigation.navigate('home')}>
-              <BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
             <Text style={styles.headerText}>Explore Clinics</Text>
             <Image

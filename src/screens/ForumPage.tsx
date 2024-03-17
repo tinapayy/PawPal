@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {faMessage} from '@fortawesome/free-solid-svg-icons';
+
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import * as icons from '../imports/icons/icons';
 import {Card, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';

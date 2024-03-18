@@ -107,7 +107,7 @@ function HomeTabs() {
       })}>
         {/* bottom navigation bars and corresponding screens*/}
       <Tab.Screen name="Home" component={import_screens.HomePage} />
-      <Tab.Screen name="Chat" component={import_screens.Chat} />
+      <Tab.Screen name="Chat" component={import_screens.MessagePage} />
       <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
       <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen

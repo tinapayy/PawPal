@@ -270,6 +270,10 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
+  function handleSearchSubmit(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void {
+    throw new Error('Function not implemented.');
+  }
+
   // first carousel
   return (
     <SafeAreaView>
@@ -310,8 +314,10 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       height: 35,
                       marginLeft: 10,
                     }}
+                    //search 
                       placeholder="Search"
                       placeholderTextColor={'#ff8d4d'}
+                      onSubmitEditing={handleSearchSubmit}
                     />
                     </View>
                 </View>
@@ -553,7 +559,6 @@ const HomePage = () => {
   };
   const handleSearchSubmit = () => {
     console.log('Search query:', searchQuery);
-
     navigation.navigate('ResultsPage', {searchQuery});
   };
   const handleSearchIconClick = () => {

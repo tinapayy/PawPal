@@ -314,7 +314,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       height: 35,
                       marginLeft: 10,
                     }}
-                    //search 
+                    //search not implemented
                       placeholder="Search"
                       placeholderTextColor={'#ff8d4d'}
                       onSubmitEditing={handleSearchSubmit}
@@ -559,6 +559,7 @@ const HomePage = () => {
   };
   const handleSearchSubmit = () => {
     console.log('Search query:', searchQuery);
+
     navigation.navigate('ResultsPage', {searchQuery});
   };
   const handleSearchIconClick = () => {

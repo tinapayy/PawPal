@@ -39,7 +39,7 @@ const Chat = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
-          <MaterialIcons name="arrow-back" size={30} color="#FFF" />
+          <icons.MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
         <Image
@@ -86,7 +86,7 @@ const Chat = () => {
 
       <View style={styles.inputContainer}>
         <TouchableOpacity onPress={openImagePicker} style={styles.attachmentButton}>
-          <MaterialIcons name="attachment" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="attachment" size={30} color="#FFBA69" />
         </TouchableOpacity>
 
         <TextInput
@@ -97,7 +97,7 @@ const Chat = () => {
           multiline={true}
         />
         <Pressable style={styles.sendButton}>
-          <MaterialIcons name="send" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="send" size={30} color="#FFBA69" />
         </Pressable>
       </View>
     </View>

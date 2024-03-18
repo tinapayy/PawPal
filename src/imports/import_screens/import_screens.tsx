@@ -1,4 +1,6 @@
-//import Chat from '../../screens/Chat';
+
+//contains all the the screens
+
 import ClinicProfile from '../../screens/ClinicProfile';
 import ClinicProfileforCards from '../../screens/ClinicProfileforCards';
 import ForumPage from '../../screens/ForumPage';

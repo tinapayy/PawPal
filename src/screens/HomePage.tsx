@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView, SafeAreaView, TextInput} from 'react-native';
 import {
   View,
   Text,
@@ -300,7 +300,20 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}></View>
+                    }}>
+                    <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
+                      style={{ color: "#ff8700", marginRight: 10 }} />
+                    <TextInput style={{
+                      flex: 1,
+                      color: 'black',
+                      fontSize: 13,
+                      height: 35,
+                      marginLeft: 10,
+                    }}
+                      placeholder="Search"
+                      placeholderTextColor={'#ff8d4d'}
+                    />
+                    </View>
                 </View>
 
                 {/* profile click */}

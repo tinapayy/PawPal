@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker, {
@@ -19,6 +20,11 @@ import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
 interface Chat {
+  id: number;
+  senderId: string;
+  receiverId: string;
+  senderName: string;
+  senderPicture: any;
   message: string;
   time: string;
 }
@@ -29,8 +35,9 @@ const Chat = ({route}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const receiverId = route.params?.receiverId;
-  const receiverPicture = route.params?.receiverPicture;
+  const senderId = route.params?.senderId;
+  const senderName = route.params?.senderName;
+  const senderPicture = route.params?.senderPicture;
 
   const handleImagePress = () => {
     navigation.navigate('ClinicProfile');
@@ -40,20 +47,37 @@ const Chat = ({route}) => {
 
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'chat'));
+      const chatSnapshot = await getDocs(collection(db, 'chat'));
       const chat: Chat[] = [];
-      for (const chatDoc of querySnapshot.docs) {
-        const userSnapshot = await getDocs(collection(db, 'user'));
-        for (const userDoc of userSnapshot.docs) {
-          if (userDoc.data().userId === chatDoc.data().receiverId) {
-            chat.push({
-              message: chatDoc.data().message,
-              time: chatDoc.data().time.toDate().toDateString(),
-            });
+      for (const chatDoc of chatSnapshot.docs) {
+        if (
+          chatDoc.data().senderId === senderId ||
+          chatDoc.data().receiverId === senderId
+        ) {
+          const userSnapshot = await getDocs(collection(db, 'user'));
+          for (const userDoc of userSnapshot.docs) {
+            if (
+              (userDoc.data().userId === senderId &&
+                auth.currentUser?.uid === chatDoc.data().receiverId) ||
+              (userDoc.data().userId === chatDoc.data().receiverId &&
+                auth.currentUser?.uid === senderId)
+            ) {
+              chat.push({
+                id: chat.length + 1,
+                senderId: chatDoc.data().senderId,
+                receiverId: chatDoc.data().receiverId,
+                senderName: userDoc.data().name,
+                senderPicture: userDoc.data().profilePicture
+                  ? {uri: userDoc.data().profilePicture}
+                  : require('../images/chat_icon.jpg'),
+                message: chatDoc.data().message,
+                time: chatDoc.data().time.toDate().toDateString(),
+              });
+            }
           }
         }
       }
-      setMessages(chat.reverse());
+      setMessages(chat.sort((a, b) => a.time.localeCompare(b.time)));
     } catch (error) {
       console.error(error);
     }
@@ -93,7 +117,7 @@ const Chat = ({route}) => {
 
     const chatDoc = {
       senderId: auth.currentUser?.uid,
-      receiverId: receiverId,
+      receiverId: senderId,
       message: text,
       time: serverTimestamp(),
     };
@@ -102,7 +126,7 @@ const Chat = ({route}) => {
 
     onChangeText('');
     setSelectedImage(null);
-    // fetchData();
+    fetchData();
   };
 
   return (
@@ -110,31 +134,61 @@ const Chat = ({route}) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.navigate('HomePage')}>
+          onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
           <Image
             style={styles.avatar}
             source={
-              receiverPicture
-                ? receiverPicture
-                : require('../images/chat_icon.jpg')
+              senderPicture ? senderPicture : require('../images/chat_icon.jpg')
             }
           />
         </TouchableOpacity>
-        <Text style={styles.headerText}>{receiverId}</Text>
+        <Text style={styles.headerText}>{senderName}</Text>
       </View>
 
-      <ScrollView style={styles.messageContainer}>
+      <FlatList
+        data={messages}
+        renderItem={({item}) => (
+          <View
+            style={
+              item.senderId === auth.currentUser?.uid
+                ? [styles.messageWrapper, styles.outgoingMessageWrapper]
+                : styles.messageWrapper
+            }>
+            <Text style={styles.timestamp}>{item.time}</Text>
+            {item.senderId === auth.currentUser?.uid ? (
+              <View
+                style={[styles.messageBubble, styles.outgoingMessageBubble]}>
+                <Text style={styles.messageText}>{item.message}</Text>
+              </View>
+            ) : (
+              <View style={[styles.incomingMessageAvatarWrapper]}>
+                <Image
+                  style={styles.incomingMessageAvatar}
+                  source={item.senderPicture}
+                />
+                <View
+                  style={[styles.messageBubble, styles.incomingMessageBubble]}>
+                  <Text style={styles.messageText}>{item.message}</Text>
+                </View>
+              </View>
+            )}
+          </View>
+        )}
+        keyExtractor={item => item.id}
+      />
+
+      {/* <ScrollView style={styles.messageContainer}>
         <View style={[styles.messageWrapper, styles.outgoingMessageWrapper]}>
-          <Text style={styles.timestamp}>{messages[0]?.time}</Text>
+          <Text style={styles.timestamp}>{messages[1]?.time}</Text>
           <View style={[styles.messageBubble, styles.outgoingMessageBubble]}>
-            <Text style={styles.messageText}>{messages[0]?.message}</Text>
+            <Text style={styles.messageText}>{messages[1]?.message}</Text>
           </View>
         </View>
 
-        {/* <View style={[styles.messageWrapper, styles.incomingMessageWrapper]}>
+        <View style={[styles.messageWrapper, styles.incomingMessageWrapper]}>
           <Text style={styles.timestamp}>10:47 AM</Text>
           <View style={[styles.incomingMessageAvatarWrapper]}>
             <Image
@@ -155,8 +209,8 @@ const Chat = ({route}) => {
             style={styles.messageImage}
             source={require('../images/chat_dog.png')}
           />
-        </View> */}
-      </ScrollView>
+        </View>
+      </ScrollView> */}
 
       <View style={styles.inputContainer}>
         <TouchableOpacity

@@ -110,19 +110,22 @@ const MessagePage = () => {
       for (const chatDoc of querySnapshot.docs) {
         const userSnapshot = await getDocs(collection(db, 'user'));
         for (const userDoc of userSnapshot.docs) {
-          if (userDoc.data().userId === chatDoc.data().senderId) {
-            if (auth.currentUser?.uid === chatDoc.data().receiverId) {
-              chat.push({
-                id: chat.length + 1,
-                senderId: chatDoc.data().senderId,
-                senderName: userDoc.data().name,
-                senderPicture: {
-                  uri: userDoc.data().profilePicture,
-                },
-                message: chatDoc.data().message,
-                time: getTimeDifference(chatDoc.data().time),
-              });
-            }
+          if (
+            (userDoc.data().userId === chatDoc.data().senderId &&
+              auth.currentUser?.uid === chatDoc.data().receiverId) ||
+            (userDoc.data().userId === chatDoc.data().receiverId &&
+              auth.currentUser?.uid === chatDoc.data().senderId)
+          ) {
+            chat.push({
+              id: chat.length + 1,
+              senderId: chatDoc.data().senderId,
+              senderName: userDoc.data().name,
+              senderPicture: {
+                uri: userDoc.data().profilePicture,
+              },
+              message: chatDoc.data().message,
+              time: getTimeDifference(chatDoc.data().time),
+            });
           }
         }
       }
@@ -188,8 +191,9 @@ const MessagePage = () => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('Chat', {
-                      receiverId: item.senderId,
-                      receiverPicture: item.senderPicture,
+                      senderId: item.senderId,
+                      senderName: item.senderName,
+                      senderPicture: item.senderPicture,
                     })
                   }>
                   <UserInfo>

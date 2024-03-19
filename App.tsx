@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 const android = Platform.OS === 'android';
 
 const menuIcons = (
-  route: RouteProp<ParamListBase, string>,
+  route: RouteProp<ParamListBase, keyof ParamListBase>,
   focused: boolean,
 ) => {
   let icon;

@@ -215,7 +215,7 @@ const itemNumber2 = ({item}) => {
     </SafeAreaView>
   );
 };
-
+//data 3
 const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;

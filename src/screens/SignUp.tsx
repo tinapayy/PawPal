@@ -142,7 +142,7 @@ const SignIn = () => {
                 />
               </View>
               <View style={styles.iconInputRow}>
-                <FontAwesomeIcon icon={faLock} style={styles.icon} />
+                <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Confirm Password"

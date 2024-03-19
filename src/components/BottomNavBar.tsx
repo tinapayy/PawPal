@@ -66,11 +66,11 @@ export default function BottomNavBar(){
         })}
         
         >
-        <Tab.Screen name="home" component={HomePage} />
+        <Tab.Screen name="Home" component={HomePage} />
         <Tab.Screen name="favourite" component={ResultsPage} />
-        <Tab.Screen name="cart" component={CreatePost} />
-        <Tab.Screen name="ca" component={MessagePage}/>
-        <Tab.Screen name="car" component={ProfileDetails} />
+        <Tab.Screen name="Create Post" component={CreatePost} />
+        <Tab.Screen name="Message" component={MessagePage}/>
+        <Tab.Screen name="Profile Details" component={ProfileDetails} />
       </Tab.Navigator>
     )
   }
@@ -81,13 +81,13 @@ export default function BottomNavBar(){
   
     if (route.name === 'home') {
       icon =  focused? <HomeSolid size="30" color={'#FF8D4D'} /> : <HomeSolid size="30" strokeWidth={2} color="#5A2828" />
-    } else if (route.name === 'favourite') {
+    } else if (route.name === 'Search') {
       icon =  focused? <MagnifyingGlass size="30" stroke="#5A2828" color={'#FF8D4D'} /> : <MagnifyingGlass size="30" stroke="#5A2828" strokeWidth={2} color="#5A2828" />
-    }else if(route.name==='cart'){
+    }else if(route.name==='Create Post'){
       icon =  focused? <PlusCircleSolid size="30" color={'#FF8D4D'} /> : <PlusCircleSolid size="30" strokeWidth={2} color="#5A2828" />
-    }else if(route.name==='ca'){
+    }else if(route.name==='Forum'){
       icon =  focused? <ForumSolid size="30" color={'#FF8D4D'} /> : <ForumSolid size="30" strokeWidth={2} color="#5A2828" />
-    }else if(route.name==='car'){
+    }else if(route.name==='Profile Details'){
       icon =  focused? <UserSolid size="30" color={'#FF8D4D'} /> : <UserSolid size="30" strokeWidth={3} color="#5A2828" />
     }
  

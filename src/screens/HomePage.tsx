@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView, SafeAreaView, TextInput} from 'react-native';
 import {
   View,
   Text,
@@ -215,7 +215,7 @@ const itemNumber2 = ({item}) => {
     </SafeAreaView>
   );
 };
-
+//data 3
 const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -270,6 +270,10 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
+  function handleSearchSubmit(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void {
+    throw new Error('Function not implemented.');
+  }
+
   // first carousel
   return (
     <SafeAreaView>
@@ -300,7 +304,22 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}></View>
+                    }}>
+                    <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
+                      style={{ color: "#ff8700", marginRight: 10 }} />
+                    <TextInput style={{
+                      flex: 1,
+                      color: 'black',
+                      fontSize: 13,
+                      height: 35,
+                      marginLeft: 10,
+                    }}
+                    //search not implemented
+                      placeholder="Search"
+                      placeholderTextColor={'#ff8d4d'}
+                      onSubmitEditing={handleSearchSubmit}
+                    />
+                    </View>
                 </View>
 
                 {/* profile click */}

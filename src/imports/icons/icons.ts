@@ -1,4 +1,5 @@
-// icon.ts
+
+// compilation of icons used 
 
 import {
     faCirclePlus,
@@ -28,6 +29,7 @@ import {
     faCircleXmark,
     faLocationDot,
     faArrowRight,
+    faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -46,6 +48,7 @@ import {
     PlusCircleIcon as PlusCircleSolid,
     UserIcon as UserSolid,
     MagnifyingGlassIcon as MagnifyingGlass,
+    ChatBubbleLeftIcon as ChatBubbleLeftIcon,
 } from 'react-native-heroicons/solid';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -92,7 +95,9 @@ export {
     HomeSolid,
     MagnifyingGlass,
     ChatBubbleLeftSolid,
+    ChatBubbleLeftIcon,
     PlusCircleSolid,
     UserSolid,
+    faMagnifyingGlass,
 
 };

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {SegmentedButtons} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import * as icons from '../imports/icons/icons';
 
 interface FoodItemDetails {
   restriction: string;
@@ -146,7 +147,7 @@ const FoodRestricted = () => {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('HomePage')}>
-        <BackIcon size="24" color="white" strokeWidth={3} />
+        <icons.BackIcon size="24" color="white" strokeWidth={3} />
       </TouchableOpacity>
 
       <View style={styles.header}>

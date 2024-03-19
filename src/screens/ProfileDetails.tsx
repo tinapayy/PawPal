@@ -12,13 +12,6 @@ import {Card, Avatar, Surface, Divider} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
-import {
-  faArrowLeft,
-  faMessage,
-  faCog,
-  faAddressCard,
-  faComments,
-} from '@fortawesome/free-solid-svg-icons';
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
@@ -297,7 +290,7 @@ const ProfileDetails = () => {
         Profile Details
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate('home')}
+        onPress={() => navigation.navigate('Home')}
         style={{top: -15, left: 15}}>
         <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color="#FFF" />
       </TouchableOpacity>

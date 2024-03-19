@@ -1,15 +1,5 @@
 //homepage array of information
 
-
-export interface data1 {
-    id: number;
-    imageSource: string;
-    title: string;
-    description: string;
-    info1: string;
-    info2: string;
-}
-
 export interface data3 {
     id: number;
     img1: string; 
@@ -20,34 +10,6 @@ export interface data3 {
     description: string;
     imageSource: string;
 }
-
-export const data1 = [
-    {
-        id: 1,
-        imageSource: require('../images/rebadulla.jpg'),
-        title: 'Rebadulla Animal Hospital',
-        description: '88 Commission Civil St, Jaro, Iloilo City',
-        info1: 'Open Now',
-        info2: 'Wednesday 9:00 AM - 5:00 PM',
-    },
-    {
-        id: 2,
-        imageSource: require('../images/cornerstone.jpg'),
-        title: 'Cornerstone Veterinary Clinic',
-        description: 'Faith Bldg, Jalandoni St., Jaro, Iloilo City',
-        info1: 'Open Now',
-        info2: 'Wednesday 9:00 AM - 5:00 PM',
-    },
-    {
-        id: 3,
-        imageSource: require('../images/rebadulla.jpg'),
-        title: 'Rebadulla Animal Hospital',
-        description: '88 Commission Civil St, Jaro, Iloilo City',
-        info1: 'Open Now',
-        info2: 'Wednesday 9:00 AM - 5:00 PM',
-    },
-];
-
 export const data3 = [
     {
         id: 1,

@@ -18,34 +18,6 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
-
-const data1 = [
-  {
-    id: 1,
-    imageSource: require('../images/rebadulla.jpg'),
-    title: 'Rebadulla Animal Hospital',
-    description: '88 Commission Civil St, Jaro, Iloilo City',
-    info1: 'Open Now',
-    info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-  {
-    id: 2,
-    imageSource: require('../images/cornerstone.jpg'),
-    title: 'Cornerstone Veterinary Clinic',
-    description: 'Faith Bldg, Jalandoni St., Jaro, Iloilo City',
-    info1: 'Open Now',
-    info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-  {
-    id: 3,
-    imageSource: require('../images/rebadulla.jpg'),
-    title: 'Rebadulla Animal Hospital',
-    description: '88 Commission Civil St, Jaro, Iloilo City',
-    info1: 'Open Now',
-    info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-];
-
 const data3 = [
   {
     id: 1,

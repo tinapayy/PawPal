@@ -285,51 +285,94 @@ const PawPalApp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeView}>
-      <View style={styles.safeView1}>
-        <View style={styles.safeView2}>
+    <SafeAreaView style={{backgroundColor: '#FFAC4E'}}>
+      <View style={{padding: 0, flex: 1}}>
+        <View style={{flex: 1}}>
           <Image
             source={require('../images/Ellipse_25.png')}
-            style={styles.img} />
+            style={{
+              position: 'relative',
+            }}
+          />
         </View>
 
         <View>
           <Image
             source={require('../images/Vector_12.png')}
-            style={styles.img1} />
+            style={{
+              flex: 1,
+              position: 'absolute',
+            }}
+          />
         </View>
-        <View style={styles.safeView2}>
+        <View style={{flex: 1}}>
           <Image
             source={require('../images/pug.png')}
-            style={styles.img2} />
+            style={{
+              position: 'relative',
+              bottom: '10%',
+            }}
+          />
         </View>
 
         <View>
           <Image
             source={require('../images/Ellipse_24.png')}
-            style={styles.img3} />
+            style={{
+              position: 'relative',
+              marginLeft: '82%',
+              bottom: '10%',
+            }}
+          />
         </View>
         <View>
           <Image
             source={require('../images/Vector_11.png')}
-            style={styles.img4} />
+            style={{
+              position: 'relative',
+              marginTop: 70,
+            }}
+          />
         </View>
       </View>
 
       <ScrollView>
         <View
-          style={styles.scrollView}>
+          style={{
+            backgroundColor: 'white',
+            borderTopStartRadius: 50,
+            borderTopEndRadius: 50,
+            flex: 1,
+            top: 170,
+            shadowColor: 'black',
+            shadowOffset: {
+              width: -2,
+              height: 10,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 3,
+            elevation: 20,
+          }}>
           <View>
             <Image
               source={require('../images/Vector_8.png')}
-              style={styles.img5}
+              style={{
+                flex: 1,
+                position: 'absolute',
+                top: 200,
+                left: '85%',
+              }}
             />
           </View>
 
           <View>
             <Image
               source={require('../images/Vector_7.png')}
-              style={styles.img6}
+              style={{
+                flex: 1,
+                position: 'absolute',
+                top: 830,
+              }}
             />
           </View>
 
@@ -340,11 +383,22 @@ const PawPalApp = () => {
             {selectedImage ? (
               <Image
                 source={{uri: selectedImage}}
-                style={styles.selectImage}
+                style={{
+                  borderRadius: 30,
+                  margin: 30,
+                  height: 150,
+                }}
               />
             ) : (
               <View
-                style={styles.view}>
+                style={{
+                  backgroundColor: '#ffb78f80',
+                  borderRadius: 30,
+                  margin: 30,
+                  height: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <FontAwesomeIcon
                   icon={icons.faImage}
                   size={30}
@@ -356,9 +410,13 @@ const PawPalApp = () => {
             )}
           </TouchableOpacity>
 
-          <View style={styles.style1}>
+          <View style={{flexDirection: 'column', flexWrap: 'wrap'}}>
             <View
-              style={styles.style2}>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+                flexWrap: 'wrap',
+              }}>
               <Text style={styles.services}>Services</Text>
               <TouchableOpacity onPress={handleToggleInput}>
                 <FontAwesomeIcon
@@ -370,7 +428,13 @@ const PawPalApp = () => {
             </View>
 
             <View
-              style={styles.style3}>
+              style={{
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                marginLeft: 40,
+                flexWrap: 'wrap',
+                width: 350,
+              }}>
               {isInputVisible && (
                 <View>
                   <View style={styles.tagsContainer}>
@@ -413,7 +477,14 @@ const PawPalApp = () => {
 
                     <TouchableOpacity onPress={handleSaveTagInput}>
                       <Text
-                        style={styles.saveText}>
+                        style={{
+                          marginLeft: 10,
+                          color: 'white',
+                          fontSize: 13,
+                          backgroundColor: '#ff8700',
+                          borderRadius: 10,
+                          padding: 10,
+                        }}>
                         Save
                       </Text>
                     </TouchableOpacity>
@@ -464,7 +535,12 @@ const PawPalApp = () => {
                     </View>
                   )}
                   <Text
-                    style={styles.dashText}>
+                    style={{
+                      fontSize: 15,
+                      color: '#5A2828',
+                      fontWeight: 'bold',
+                      marginRight: 5,
+                    }}>
                     {' '}
                     -
                   </Text>
@@ -507,9 +583,9 @@ const PawPalApp = () => {
           )}
 
           <Text style={styles.loc}>Location</Text>
-          <View style={styles.safeView2}>
+          <View style={{flex: 1}}>
             <MapView
-              style={styles.mapView}
+              style={{flex: 1, margin: 40, height: 300}}
               provider={PROVIDER_GOOGLE}
               initialRegion={mapRegion}
               onRegionChangeComplete={handleRegionChange}>
@@ -522,7 +598,7 @@ const PawPalApp = () => {
             </MapView>
           </View>
 
-          <View style={styles.btn}>
+          <View style={{height: 300}}>
             <AppButton
               title="Save"
               onPress={saveClinicInfo}
@@ -543,113 +619,6 @@ const PawPalApp = () => {
 };
 
 const styles = StyleSheet.create({
-  safeView: {
-    backgroundColor: '#FFAC4E'
-  },
-  safeView1: {
-    padding: 0, 
-    flex: 1
-  },
-  safeView2:{
-    flex: 1
-  },
-  img:{
-    position: 'relative',
-  },
-  img1:{
-    flex: 1,
-    position: 'absolute',
-  },
-  img2: {
-    position: 'relative',
-    bottom: '10%',
-  },
-  img3: {
-    position: 'relative',
-    marginLeft: '82%',          
-    bottom: '10%',
-  },
-  img4: {
-    position: 'relative',
-    marginTop: 70,
-  },
-  img5: {
-    flex: 1,
-    position: 'absolute',
-    top: 200,
-    left: '85%',
-  },
-  img6:{
-    flex: 1,
-    position: 'absolute',
-    top: 830,
-  },
-  scrollView:{
-    backgroundColor: 'white',
-    borderTopStartRadius: 50,
-    borderTopEndRadius: 50,
-    flex: 1,
-    top: 170,
-    shadowColor: 'black',
-    shadowOffset: {
-    width: -2,
-    height: 10,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 20,
-  },
-  selectImage:{
-    borderRadius: 30,
-    margin: 30,
-    height: 150,
-  },
-  view:{
-    backgroundColor: '#ffb78f80',
-    borderRadius: 30,
-    margin: 30,
-    height: 150,
-    justifyContent: 'center',
-    alignItems: 'center', 
-  },
-  style1:{
-    flexDirection: 'column', 
-    flexWrap: 'wrap' 
-  },
-  style2:{
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    flexWrap: 'wrap',
-  },
-  style3:{
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginLeft: 40,
-    flexWrap: 'wrap',
-    width: 350,
-  },
-  saveText:{
-    marginLeft: 10,
-    color: 'white',
-    fontSize: 13,
-    backgroundColor: '#ff8700',
-    borderRadius: 10,
-    padding: 10,
-  },
-  dashText:{
-    fontSize: 15,
-    color: '#5A2828',
-    fontWeight: 'bold',
-    marginRight: 5,
-  },
-  mapView:{
-    flex: 1, 
-    margin: 40, 
-    height: 300
-  },
-  btn:{
-    height: 300,
-  },
   clinic: {
     paddingTop: 10,
     paddingLeft: 40,

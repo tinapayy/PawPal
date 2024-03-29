@@ -14,6 +14,7 @@ import {
   TextStyle,
   FlatList,
   Button,
+  ImageBackground,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -299,57 +300,8 @@ const PawPalApp = () => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: '#FFAC4E'}}>
-      <View style={{padding: 0, flex: 1}}>
-        <View style={{flex: 1}}>
-          <Image
-            source={require('../images/Ellipse_25.png')}
-            style={{
-              position: 'relative',
-            }}
-          />
-        </View>
-
-        <View>
-          <Image
-            source={require('../images/Vector_12.png')}
-            style={{
-              flex: 1,
-              position: 'absolute',
-            }}
-          />
-        </View>
-        <View style={{flex: 1}}>
-          <Image
-            source={require('../images/pug.png')}
-            style={{
-              position: 'relative',
-              bottom: '10%',
-            }}
-          />
-        </View>
-
-        <View>
-          <Image
-            source={require('../images/Ellipse_24.png')}
-            style={{
-              position: 'relative',
-              marginLeft: '82%',
-              bottom: '10%',
-            }}
-          />
-        </View>
-        <View>
-          <Image
-            source={require('../images/Vector_11.png')}
-            style={{
-              position: 'relative',
-              marginTop: 70,
-            }}
-          />
-        </View>
-      </View>
-
+    <ImageBackground source={require('../images/clinicSettings.png')}>
+      <SafeAreaView>
       <ScrollView>
         <View
           style={{
@@ -380,14 +332,6 @@ const PawPalApp = () => {
           </View>
 
           <View>
-            <Image
-              source={require('../images/Vector_7.png')}
-              style={{
-                flex: 1,
-                position: 'absolute',
-                top: 830,
-              }}
-            />
           </View>
 
           <Text style={styles.clinic}>Clinic Details</Text>
@@ -629,6 +573,7 @@ const PawPalApp = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    </ImageBackground>
   );
 };
 

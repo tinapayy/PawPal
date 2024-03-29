@@ -14,6 +14,7 @@ import {
   TextStyle,
   FlatList,
   Button,
+  ImageBackground,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -285,37 +286,8 @@ const PawPalApp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeView}>
-      <View style={styles.safeView1}>
-        <View style={styles.safeView2}>
-          <Image
-            source={require('../images/Ellipse_25.png')}
-            style={styles.img} />
-        </View>
-
-        <View>
-          <Image
-            source={require('../images/Vector_12.png')}
-            style={styles.img1} />
-        </View>
-        <View style={styles.safeView2}>
-          <Image
-            source={require('../images/pug.png')}
-            style={styles.img2} />
-        </View>
-
-        <View>
-          <Image
-            source={require('../images/Ellipse_24.png')}
-            style={styles.img3} />
-        </View>
-        <View>
-          <Image
-            source={require('../images/Vector_11.png')}
-            style={styles.img4} />
-        </View>
-      </View>
-
+    <ImageBackground source={require('../images/clinicSettings.png')}>
+      <SafeAreaView>
       <ScrollView>
         <View
           style={styles.scrollView}>
@@ -325,14 +297,6 @@ const PawPalApp = () => {
               style={styles.img5}
             />
           </View>
-
-          <View>
-            <Image
-              source={require('../images/Vector_7.png')}
-              style={styles.img6}
-            />
-          </View>
-
           <Text style={styles.clinic}>Clinic Details</Text>
 
           <Text style={styles.addClinic}>Add Clinic Picture</Text>
@@ -539,50 +503,16 @@ const PawPalApp = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  safeView: {
-    backgroundColor: '#FFAC4E'
-  },
-  safeView1: {
-    padding: 0, 
-    flex: 1
-  },
-  safeView2:{
-    flex: 1
-  },
-  img:{
-    position: 'relative',
-  },
-  img1:{
-    flex: 1,
-    position: 'absolute',
-  },
-  img2: {
-    position: 'relative',
-    bottom: '10%',
-  },
-  img3: {
-    position: 'relative',
-    marginLeft: '82%',          
-    bottom: '10%',
-  },
-  img4: {
-    position: 'relative',
-    marginTop: 70,
-  },
   img5: {
     flex: 1,
     position: 'absolute',
     top: 200,
     left: '85%',
-  },
-  img6:{
-    flex: 1,
-    position: 'absolute',
-    top: 830,
   },
   scrollView:{
     backgroundColor: 'white',

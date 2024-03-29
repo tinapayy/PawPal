@@ -4,7 +4,7 @@ export const useNavigateTo = routeName => {
   const navigation = useNavigation();
 
   const navigateToRoute = () => {
-    navigation.navigate("AddClinicDetails");
+    navigation.navigate(routeName);
   };
 
   return navigateToRoute;

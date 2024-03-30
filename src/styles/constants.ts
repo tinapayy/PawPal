@@ -5,6 +5,8 @@ const constants = {
   $tertiaryColor: '#ffffff', // white
   $quaternaryColor: '#ffba69', // light orange
   $quinaryColor: '#f1d5c6',  // light grayish orange
+  $senaryColor: "#ff8d4d",  // dark orange
+
 
   $accentColor: '#ff6464', // pink
   $accentColor1: '#894848', // light brown

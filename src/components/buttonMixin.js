@@ -19,6 +19,5 @@ export const buttonMixin = {
     alignSelf: 'center',
     alignItems: 'center',
     alignContent: 'center',
-    //top: '8%',
   },
 };

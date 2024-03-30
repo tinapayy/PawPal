@@ -30,6 +30,7 @@ import {
     faLocationDot,
     faArrowRight,
     faMagnifyingGlass,
+    
 } from '@fortawesome/free-solid-svg-icons';
 
 import {

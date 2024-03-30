@@ -13,43 +13,12 @@ import {Image} from 'react-native-elements';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
+import '../components/homepage_data';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
-const data3 = [
-  {
-    id: 1,
-    img1: require('../images/Ellipse17.png'),
-    img2: require('../images/Vector_11.png'),
-    img3: require('../images/Ellipse18.png'),
-    imageSome: require('../images/defaultIcon.png'),
-    title: 'Are cats allowed to eat chocolates?',
-    description: 'Click Here',
-    imageSource: require('../images/kitty.png'),
-  },
-  {
-    id: 2,
-    img1: require('../images/Ellipse17.png'),
-    img2: require('../images/Vector_11.png'),
-    img3: require('../images/Ellipse18.png'),
-    imageSome: require('../images/defaultIcon.png'),
-    title: 'Are dogs allowed to eat grapes?',
-    description: 'Click Here',
-    imageSource: require('../images/doggy.png'),
-  },
-  {
-    id: 3,
-    img1: require('../images/Ellipse17.png'),
-    img2: require('../images/Vector_11.png'),
-    img3: require('../images/Ellipse18.png'),
-    imageSome: require('../images/defaultIcon.png'),
-    title: 'Are cats allowed to eat peanut butter?',
-    description: 'Click Here',
-    imageSource: require('../images/kitty.png'),
-  },
-];
 
 const renderItem = ({item, index, navigation}) => {
 
@@ -220,11 +189,11 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   if (profilePicture != null) {
     for (let i = 0; i < data3.length; i++) {
-      data3[i].imageSome = {uri: profilePicture};
+      homepage_data.data3[i].imageSome = {uri: profilePicture};
     }
   } else {
     for (let i = 0; i < data3.length; i++) {
-      data3[i].imageSome = require('../images/defaultIcon.png');
+      homepage_data.data3[i].imageSome = require('../images/defaultIcon.png');
     }
   }
 
@@ -546,7 +515,7 @@ const HomePage = () => {
             <View>
               <Carousel
                 ref={isCarousel}
-                data={data3}
+                data={homepage_data.data3}
                 renderItem={({item}) => (
                   <Data3Item
                     item={item}
@@ -562,7 +531,7 @@ const HomePage = () => {
                 onSnapToItem={index => setIndex(index)}
               />
               <Pagination
-                dotsLength={data3.length}
+                dotsLength={homepage_data.data3.length}
                 activeDotIndex={index}
                 carouselRef={isCarousel}
                 dotStyle={{

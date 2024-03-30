@@ -20,5 +20,9 @@ export const alignmentMixin = {
     fontSize: 25,
     color: constants.$secondaryColor,
     fontFamily: constants.$fontFamilyMedium,
+  },
+  align:{
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 };

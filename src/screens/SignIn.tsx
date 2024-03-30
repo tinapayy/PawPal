@@ -19,6 +19,9 @@ import {FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -152,30 +155,20 @@ const styles = StyleSheet.create({
   signupText: {
     alignSelf: 'center',
     fontSize: 14,
-    top: -70,
-    fontFamily: 'Poppins-Regular',
+    top: '-250%',
+    fontFamily: constants.$fontFamily,
   },
   signupLink: {
     fontSize: 14,
-    color: '#FFAC4E',
-    fontFamily: 'Poppins-SemiBold',
+    color: constants.$primaryColor,
+    fontFamily: constants.$fontFamilySemiBold,
   },
   container: {
     flex: 1,
     backgroundColor: 'orange',
   },
   container1: {
-    backgroundColor: 'orange',
-  },
-  container2: {
-    height: 1000,
-    bottom: 330,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 60,
-    borderTopRightRadius: 60,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-    elevation: 15,
+    backgroundColor: constants.$primaryColor,
   },
   signInForm: {
     height: 600,
@@ -188,75 +181,68 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   inputs: {
-    alignItems: 'center',
+    ...alignmentMixin.alignment,
+    justifyContent: undefined,
     height: 100,
-    top: -300,
+    top: '-55%',
     width: '80%',
-    alignSelf: 'center',
   },
   btnContainer: {
-    top: 60,
+    top: '10%',
     alignSelf: 'center',
   },
-  signInText: {
-    fontSize: 20,
-    marginBottom: 10,
-  },
   input: {
+    paddingLeft: 40,
     width: '100%',
     top: '-80%',
     height: 40,
     backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderRadius: 5,
-    marginBottom: 30,
+    borderWidth: 10,
+    marginBottom: 40,
     paddingHorizontal: 25,
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
   },
   iconInputRow: {
     width: '100%',
-    top: 200,
+    top: '200%',
     height: 40,
     backgroundColor: 'transparent',
     borderWidth: 2,
     borderRadius: 5,
-    marginBottom: 30,
-    paddingHorizontal: 10,
+    marginBottom: '13%',
+    paddingHorizontal: '5%',
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
     justifyContent: 'space-between',
   },
   icon: {
-    marginRight: 30,
-    color: 'orange',
+    left: '2%',
+    color: constants.$primaryColor,
   },
   text: {
     fontSize: 18,
     letterSpacing: 0.25,
-    color: 'white',
+    color: constants.$textColor2,
     alignSelf: 'center',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: constants.$fontFamilySemiBold,
   },
   button: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    borderRadius: 25,
-    elevation: 3,
-    backgroundColor: '#FFAC4E',
+    ...alignmentMixin.alignment,
+    ...buttonMixin.button,
+    paddingVertical: '2%',
     width: 340,
-    top: -140,
+    top: '-290%',
   },
   header: {
     position: 'absolute',
     alignContent: 'flex-end',
     zIndex: 1,
     fontSize: 50,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#5A2828',
-    top: -323,
-    left: 40,
+    fontFamily: constants.$fontFamilySemiBold,
+    color: constants.$secondaryColor,
+    top:'-55%',
+    left: '7%',
   },
 });
 

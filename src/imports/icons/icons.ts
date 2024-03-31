@@ -30,7 +30,7 @@ import {
     faLocationDot,
     faArrowRight,
     faMagnifyingGlass,
-    
+    faCaretSquareDown,   
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -100,5 +100,6 @@ export {
     PlusCircleSolid,
     UserSolid,
     faMagnifyingGlass,
+    faCaretSquareDown,
 
 };

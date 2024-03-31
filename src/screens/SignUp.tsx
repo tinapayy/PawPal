@@ -18,8 +18,12 @@ import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
 
 const SignIn = () => {
+  
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -96,10 +100,10 @@ const SignIn = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
-            backgroundColor: 'white',
+            backgroundColor: constants.$backgroundColor,
             borderTopStartRadius: 50,
             borderTopEndRadius: 50,
-            top: 285,
+            top: '29%',
             height: 1000,
             elevation: 20,
           }}>
@@ -183,29 +187,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 14,
     top: -200,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
   },
   loginLink: {
     fontSize: 14,
-    color: '#FFAC4E',
-    fontFamily: 'Poppins-SemiBold',
+    color: constants.$primaryColor,
+    fontFamily: constants.$fontFamilySemiBold,
   },
   container: {
     flex: 1,
-    backgroundColor: 'orange',
+    backgroundColor: constants.$primaryColor,
   },
   container1: {
-    backgroundColor: 'orange',
-  },
-  container2: {
-    height: 1000,
-    bottom: 330,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 60,
-    borderTopRightRadius: 60,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-    elevation: 15,
+    backgroundColor: constants.$primaryColor,
   },
   signInForm: {
     height: 600,
@@ -218,30 +212,29 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   inputs: {
+    ...alignmentMixin.alignment,
+    justifyContent: undefined,
     width: '80%',
     top: '-93%',
-    alignItems: 'center',
     height: 100,
-    alignSelf: 'center',
   },
   iconInputRow: {
     width: '100%',
-    top: 200,
-    height: 40,
+    top: '200%',
+    height: '40%',
     backgroundColor: 'transparent',
     borderWidth: 2,
     borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    marginBottom: '6%',
+    paddingHorizontal: '4%',
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
     justifyContent: 'space-between',
   },
   icon: {
     top: '630%',
-    marginRight: 10,
-    paddingHorizontal: 12,
-    color: 'orange',
+    paddingHorizontal: '5%',
+    color: constants.$primaryColor,
   },
   btnContainer: {
     bottom: '-24%',
@@ -253,42 +246,40 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    top: 200,
+    top: '560%',
     height: 40,
     backgroundColor: 'transparent',
     borderWidth: 2,
     borderRadius: 5,
-    marginBottom: 30,
-    paddingHorizontal: 25,
+    paddingHorizontal: 30,
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
   },
   text: {
     fontSize: 18,
     letterSpacing: 0.25,
-    color: 'white',
+    color: constants.$textColor2,
     alignSelf: 'center',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: constants.$fontFamilySemiBold,
   },
   button: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
+    ...alignmentMixin.align,
+    paddingVertical: '2%',
     borderRadius: 25,
     elevation: 3,
-    backgroundColor: '#FFAC4E',
-    width: 340,
-    top: -140,
+    backgroundColor: constants.$primaryColor,
+    width: 300,
+    top: '-290%',
   },
   header: {
     position: 'absolute',
     alignContent: 'flex-end',
     zIndex: 1,
     fontSize: 50,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#5A2828',
-    top: -323,
-    left: 40,
+    fontFamily: constants.$fontFamilySemiBold,
+    color: constants.$secondaryColor,
+    top: '-55%',
+    left: '9%',
   },
 });
 

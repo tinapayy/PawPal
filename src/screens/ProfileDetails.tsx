@@ -18,6 +18,7 @@ import Carousel from 'react-native-snap-carousel';
 import { buttonMixin } from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
+import { profDetMixins } from '../styles/mixins/profDetMixins';
 
 // window dimensions
 const {width: screenWidth} = Dimensions.get('window');
@@ -179,9 +180,7 @@ const ProfileDetails = () => {
               <Surface style={styles.surface} elevation={2}>
                 <Text
                   style={{
-                    color: '#5A2828',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 13.1,
+                    ...profDetMixins.input,
                   }}>
                   {item.data.age}
                 </Text>
@@ -189,9 +188,7 @@ const ProfileDetails = () => {
               <Surface style={styles.surface} elevation={2}>
                 <Text
                   style={{
-                    color: '#5A2828',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 13.1,
+                    ...profDetMixins.input,
                   }}>
                   {item.data.color}
                 </Text>
@@ -199,9 +196,7 @@ const ProfileDetails = () => {
               <Surface style={styles.surface} elevation={2}>
                 <Text
                   style={{
-                    color: '#5A2828',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 13.1,
+                    ...profDetMixins.input,
                   }}>
                   {item.data.sex}
                 </Text>
@@ -209,9 +204,7 @@ const ProfileDetails = () => {
               <Surface style={styles.surface} elevation={2}>
                 <Text
                   style={{
-                    color: '#5A2828',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 13.1,
+                    ...profDetMixins.input,
                   }}>
                   {item.data.weight}
                 </Text>

@@ -131,7 +131,7 @@ export default function App() {
         <Stack.Screen name="Product" options={{ headerShown: false }} component={Homesamp} /> */}
         <Stack.Screen
           name="GettingStarted"
-          component={import_screens.GettingStarted}
+          component={import_screens.ProfileDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen

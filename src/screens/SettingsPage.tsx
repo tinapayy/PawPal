@@ -52,25 +52,25 @@ function SettingsPage() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('EditUserProfile')}>
-          <User size={30} color="#FF8700" strokeWidth={3} />
+          <icons.User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit User Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('ChoosePet')}>
-          <ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
+          <icons.ClinicIcon size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Pet Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => setDeleteAccountModal(true)}>
-          <Trash size={30} color="#FF8700" strokeWidth={3} />
+          <icons.Trash size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonlogout}
           onPress={() => setLogoutModal(true)}>
-          <ExitIcon size={30} color="#FFF" strokeWidth={3} />
+          <icons.ExitIcon size={30} color="#FFF" strokeWidth={3} />
           <Text style={styles.buttonlogoutText}>Log Out</Text>
         </TouchableOpacity>
       </View>

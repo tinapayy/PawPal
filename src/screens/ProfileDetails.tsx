@@ -7,6 +7,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TextStyle,
+  StyleProp,
 } from 'react-native';
 import {Card, Avatar, Surface, Divider} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -148,6 +150,7 @@ const ProfileDetails = () => {
   //handling pet data inside the carousel
   const renderItem = ({item}: {item: CarouselItem}) => {
     return (
+      // UI pet data
       <View style={styles.item}>
         {/* Render pet data */}
         {item.type === 'pet' && (
@@ -177,6 +180,7 @@ const ProfileDetails = () => {
               </View>
             </View>
             <View style={styles.bottomTexts}>
+              {/* for the inputs of age, color, sex and weight */}
               <Surface style={styles.surface} elevation={2}>
                 <Text
                   style={{
@@ -212,12 +216,9 @@ const ProfileDetails = () => {
               <Image
                 source={require('../images/gradient_logo.png')}
                 style={{
+                  // logo
                   ...StyleSheet.absoluteFillObject,
-                  resizeMode: 'contain',
-                  width: '20%',
-                  height: 40,
-                  top: -90,
-                  left: 300,
+                  ...profDetMixins.pawLogo,
                 }}
               />
             </View>
@@ -238,27 +239,31 @@ const ProfileDetails = () => {
           <View style={styles.descriptionContainer}>
             <Text style={styles.userName}>{name}</Text>
             <Text style={styles.ownerTitle}>Pet Owner</Text>
-            <TouchableOpacity onPress={handleDescriptionPress}>
-              <View style={styles.contentScroll}>
-                <Text style={styles.contentProfile}>
-                  {showFullBio ? bio : truncatedBio}
-                </Text>
-                <Text style={styles.seeMore}>
-                  {showFullBio ? 'See Less' : 'See More'}
-                </Text>
-              </View>
-            </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            style={styles.settingsIcon}
-            onPress={() => navigation.navigate('SettingsPage')}>
-            <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={handleDescriptionPress}>
+          <View style={styles.contentScroll}>
+            <Text style={styles.contentProfile}>
+              {showFullBio ? bio : truncatedBio}
+            </Text>
+            <Text style={styles.seeMore}>
+              {showFullBio ? 'See Less' : 'See More'}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </Card.Content>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.settingsIcon}
+          onPress={() => navigation.navigate('SettingsPage')}>
+          <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.settingsIcon}
+          onPress={() => navigation.navigate('Chat')}>
+          <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
+        </TouchableOpacity>
+      </View>
     </Card>
   );
 
@@ -268,40 +273,40 @@ const ProfileDetails = () => {
       <TouchableOpacity onPress={goForward}></TouchableOpacity>
       <Image
         source={require('../images/header.png')}
+        //background image
         style={{
-          position: 'absolute',
-          width: screenWidth,
-          height: 160,
-          zIndex: -10,
+          ...profDetMixins.backgroundImage,
+          width: screenWidth
         }}
       />
-      <Text
-        style={{
-          fontSize: 24,
-          fontFamily: 'Poppins-Bold',
-          color: '#ffffff',
-          left: 50,
-          top: 20,
-        }}>
-        Profile Details
-      </Text>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
-        style={{top: -15, left: 15}}>
-        <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color="#FFF" />
-      </TouchableOpacity>
-      <View style={styles.horizontalLine} />
+      < View style={styles.headerContainer}>
+        <Text
+          // Profile Details 
+          style={{
+            ...profDetMixins.profDetText,
+          }}>
+          Profile Details
+        </Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Home')}
+          //backbutton
+          style={profDetMixins.backButton }>
+          <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color={constants.$tertiaryColor} />
+        </TouchableOpacity>
+      </View>
+      
+      <View style={profDetMixins.horizontalLine} width= {screenWidth}/>
 
-      <View style={styles.carouselContainer}>
+      <View style={{bottom: 150}}>
         <Carousel
           ref={carouselRef}
-          sliderWidth={screenWidth - 10}
-          sliderHeight={screenWidth - 20}
+          sliderWidth={screenWidth - 5}
+          sliderHeight={screenWidth - 60}
           itemWidth={screenWidth - 30}
           data={pet}
           renderItem={renderItem}
           hasParallaxImages={true}
-          style={{zIndex: 0}} // Adjust this value
+          style={{zIndex: 0}} 
         />
         <View>{ownerCard}</View>
       </View>
@@ -323,6 +328,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
   },
+  headerContainer:{
+    flexDirection: 'row',
+    top:'-40%',
+    left:'9%',
+    position:'relative',
+    zIndex: 15,
+  },
   image: {
     resizeMode: 'cover',
     height: '100%',
@@ -333,26 +345,14 @@ const styles = StyleSheet.create({
     right: '3%',
   },
   title: {
-    fontFamily: constants.$fontFamily,
-    color: constants.$secondaryColor,
-    fontSize: 32,
+   ...profDetMixins.titlePet,
     fontWeight: constants.$fontWeightBold,
-    position: 'relative',
-    top: '1%',
-    padding: 10,
-    backgroundColor: 'rgba(255, 100, 100, 0)',
-    textAlign: 'left',
-    borderRadius: 30,
   },
   title1: {
-    fontFamily: constants.$fontFamily,
-    color: constants.$secondaryColor,
-    position: 'relative',
+    ...profDetMixins.titlePet,
     top: '-2.5%',
-    backgroundColor: 'rgba(255, 100, 100, 0)',
-    padding: 10,
-    textAlign: 'left',
     fontSize: 18,
+    fontWeight:constants.$fontFamilyExtraLight
   },
   petDetail: {
     fontFamily: constants.$fontFamily,
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     top: '9%',
     marginHorizontal: '6%',
-    left: 15,
+    left: '10%',
   },
   bottomTexts: {
     flexDirection: 'row',
@@ -368,20 +368,13 @@ const styles = StyleSheet.create({
     top: '-15%',
     paddingVertical: 15,
   },
-  horizontalLine: {
-    alignSelf: 'center',
-    width: screenWidth,
-    height: 3,
-    backgroundColor: constants.$senaryColor,
-    top: '65%',
-  },
   surface: {
     ...alignmentMixin.alignment1,
     backgroundColor: constants.$quinaryColor,
     padding: 8,
-    height: 50,
-    width: 75,
-    top: '-5%',
+    height: '95%',
+    width: '19%',
+    top: '15%',
     marginHorizontal: 5,
     borderRadius: 20,
     left: '4%',
@@ -392,8 +385,8 @@ const styles = StyleSheet.create({
   card: {
     width: '130%',
     alignSelf: 'center',
-    height: 190,
-    top: -155,
+    height: '42%',
+    top: '-20%',
     zIndex: 1,
     backgroundColor: constants.$backgroundColor,
   },
@@ -404,27 +397,30 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   userInfo: {
-    ...alignmentMixin.alignment1,
+    ...alignmentMixin.alignment,
+    top: '-5%',
+    // left:'-20%',
   },
   avatarContainer: {
-    left: '14%',
-    top: '-8%',
-    position: 'absolute',
+    left: '70%',
+    position: 'relative',
   },
+
   userName: {
     fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
     top: '-7%',
-    fontSize: 18,
-    left: '24%',
+    left:'-24%',
     fontWeight: constants.$fontWeightBold,
   },
   ownerTitle: {
     fontFamily: constants.$fontFamily,
     color: '#5A2819',
-    top: '-10%',
-    fontSize: 18,
-    left: '24%',
+    left: '-50%',
+  },
+  descriptionContainer: {
+    flex: 1,
+    marginLeft: 10,
   },
   description: {
     fontSize: 18,
@@ -446,8 +442,6 @@ const styles = StyleSheet.create({
     height: 35,
     width: 100,
     top: -5,
-   // alignItems: 'center',
-   // justifyContent: 'center',
     marginHorizontal: 5,
     borderRadius: 30,
     left: 15,
@@ -480,10 +474,6 @@ const styles = StyleSheet.create({
     top: -9,
     left: 9,
     textDecorationLine: 'underline',
-  },
-  descriptionContainer: {
-    flex: 1,
-    marginLeft: 10, 
   },
   descriptionScrollView: {
     overflow: 'hidden',
@@ -522,7 +512,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamily,
     fontSize: 14,
     textDecorationStyle: 'solid',
-    color: '#ff8700',
+    color: constants.$octonaryColor,
     top: -25,
     left: 130,
     textAlign: 'center',

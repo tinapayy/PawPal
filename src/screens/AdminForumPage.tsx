@@ -14,6 +14,7 @@ import {Card, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
+import constants from '../styles/constants';
 
 interface Post {
   id: number;
@@ -206,21 +207,22 @@ const styles = StyleSheet.create({
   },
   userInfoText: {
     marginLeft: 12,
-    fontFamily: 'Poppins',
+    fontFamily: constants.$fontFamily,
   },
   message: {
     marginLeft: 'auto',
     position: 'absolute',
   },
   messageIcon: {
-    color: '#F87000',
+    //color: '#F87000',
+    color: constants.$senaryColor,
     top: 2,
     left: 50,
   },
   userName: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: constants.$fontWeightBold,
+    color: constants.$textColor1,
   },
   postTime: {
     fontSize: 12,
@@ -229,8 +231,8 @@ const styles = StyleSheet.create({
   postText: {
     fontSize: 14,
     textAlign: 'justify',
-    fontFamily: 'Poppins',
-    color: '#000',
+    fontFamily: constants.fontFamily,
+    color: constants.$textColor1,
     top: 8,
     bottom: 8,
   },

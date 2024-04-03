@@ -228,7 +228,7 @@ const PetProfile = () => {
               value="Male"
               status={checked === 'Male' ? 'checked' : 'unchecked'}
               onPress={() => setChecked('Male')}
-              color="#FF8D4D"
+              color={constants.$senaryColor}
               uncheckedColor="#FF8D4D"
             />
             <Text style={styles.maleinput}>Male</Text>

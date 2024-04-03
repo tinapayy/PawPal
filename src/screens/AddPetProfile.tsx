@@ -34,6 +34,10 @@ import {
 } from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
+import { profDetMixins } from '../styles/mixins/profDetMixins';
 
 const PetProfile = () => {
   const navigation = useNavigation();
@@ -225,8 +229,8 @@ const PetProfile = () => {
               value="Male"
               status={checked === 'Male' ? 'checked' : 'unchecked'}
               onPress={() => setChecked('Male')}
-              color="#FF8D4D"
-              uncheckedColor="#FF8D4D"
+              color={constants.$senaryColor}
+              uncheckedColor={constants.$quaternaryColor}
             />
             <Text style={styles.maleinput}>Male</Text>
             <View style={{marginLeft: -20}} />
@@ -234,8 +238,8 @@ const PetProfile = () => {
               value="Female"
               status={checked === 'Female' ? 'checked' : 'unchecked'}
               onPress={() => setChecked('Female')}
-              color="#FF8D4D"
-              uncheckedColor="#FF8D4D"
+              color={constants.$senaryColor}
+              uncheckedColor={constants.$quaternaryColor}
             />
             <Text style={styles.maleinput}>Female</Text>
           </View>
@@ -254,7 +258,7 @@ const PetProfile = () => {
                   accessible={true}
                   accessibilityRole="button">
                   <LinearGradient
-                    colors={['#FFAC4E', '#FF6464']}
+                    colors={[constants.$backgroundColor1, constants.$accentColor]}
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}
                     style={styles.gradientBackground}>
@@ -310,7 +314,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     left: 40,
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     top: 10,
     flexDirection: 'row',
     marginBottom: 20,
@@ -326,7 +330,7 @@ const styles = StyleSheet.create({
     top: 45,
   },
   backIcon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     flexDirection: 'row',
     position: 'absolute',
     top: -92,
@@ -336,7 +340,7 @@ const styles = StyleSheet.create({
   backText: {
     fontSize: 20,
     fontFamily: 'Poppins-Regular',
-    color: '#5A2828',
+    color: constants.$secondaryColor,
     fontWeight: 'bold',
     marginLeft: 30,
     top: -95,
@@ -351,7 +355,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   arrowAdd: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
     top: 37,
     bottom: 0,
@@ -373,7 +377,7 @@ const styles = StyleSheet.create({
     width: 340,
   },
   icon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
     top: 10,
     marginLeft: 30,
@@ -386,7 +390,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 48,
     borderBottomWidth: 2,
-    borderBottomColor: '#FF8D4D',
+    borderBottomColor: constants.$senaryColor,
     marginLeft: 20,
     paddingHorizontal: 40,
     paddingVertical: 10,
@@ -395,7 +399,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   radioButton: {
-    borderColor: '#FF8D4D',
+    borderColor: constants.$senaryColor,
     justifyContent: 'space-between',
     right: 30,
   },
@@ -413,7 +417,7 @@ const styles = StyleSheet.create({
     top: 8,
     left: -20,
     elevation: 3,
-    shadowColor: '#000000',
+    shadowColor: constants.$textColor1,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
@@ -426,7 +430,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 75,
   },
   buttonSave: {
-    color: '#ffffff',
+    color: constants.$textColor2,
     fontSize: 19,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
@@ -434,7 +438,7 @@ const styles = StyleSheet.create({
     top: 10,
   },
   cancelButton: {
-    backgroundColor: '#ffffff',
+    backgroundColor: constants.$textColor2,
     top: 5,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -443,20 +447,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 40,
     elevation: 3,
-    shadowColor: '#000000',
+    shadowColor: constants.$textColor1,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
   },
   buttonText: {
-    color: '#ffffff',
+    color: constants.$textColor2,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
   },
   buttonTextCancel: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     fontSize: 18,
     fontFamily: 'Poppins-Regular',
     alignContent: 'center',

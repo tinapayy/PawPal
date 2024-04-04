@@ -21,6 +21,9 @@ import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+
 
 const SignIn = () => {
   type Nav = {
@@ -163,6 +166,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
   },
   catBgContainer: {
+
     backgroundColor: constants.$primaryColor,
   },
   signInForm: {
@@ -175,6 +179,7 @@ const styles = StyleSheet.create({
     bottom: 130,
     zIndex: -1,
   },
+
   switchButtonContainer: {
     backgroundColor: constants.$backgroundColor,
     borderTopStartRadius: 50,
@@ -199,6 +204,7 @@ const styles = StyleSheet.create({
     bottom: '40%',
   },
   input: {
+    paddingLeft: 40,
     width: '100%',
     height: 40,
     borderRadius: 5,
@@ -214,11 +220,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginBottom: 20,
     paddingHorizontal: 10,
+
     borderColor: 'transparent',
     borderBottomColor: constants.$primaryColor,
     justifyContent: 'space-between',
   },
   icon: {
+
     top: '65%',
     marginRight: 10,
     paddingHorizontal: 12,
@@ -232,6 +240,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
   },
   button: {
+
     alignSelf: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
@@ -248,6 +257,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
     color: constants.$secondaryColor,
     left: 40,
+
   },
 });
 

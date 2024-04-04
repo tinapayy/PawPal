@@ -12,16 +12,12 @@ import {Card, Avatar, Surface, Divider} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
-import {
-  faArrowLeft,
-  faMessage,
-  faCog,
-  faAddressCard,
-  faComments,
-} from '@fortawesome/free-solid-svg-icons';
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
 
 // window dimensions
 const {width: screenWidth} = Dimensions.get('window');
@@ -297,7 +293,7 @@ const ProfileDetails = () => {
         Profile Details
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate('home')}
+        onPress={() => navigation.navigate('Home')}
         style={{top: -15, left: 15}}>
         <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color="#FFF" />
       </TouchableOpacity>
@@ -341,74 +337,72 @@ const styles = StyleSheet.create({
     zIndex: 999,
     width: '90%',
     alignSelf: 'center',
-    right: 10,
+    right: '3%',
   },
   title: {
-    fontFamily: 'Poppins-Regular',
-    color: '#5A2828',
+    fontFamily: constants.$fontFamily,
+    color: constants.$secondaryColor,
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: constants.$fontWeightBold,
     position: 'relative',
-    top: 5,
+    top: '1%',
     padding: 10,
     backgroundColor: 'rgba(255, 100, 100, 0)',
     textAlign: 'left',
     borderRadius: 30,
   },
   title1: {
-    fontFamily: 'Poppins-Regular',
-    color: '#5A2828',
+    fontFamily: constants.$fontFamily,
+    color: constants.$secondaryColor,
     position: 'relative',
-    top: -20,
+    top: '-2.5%',
     backgroundColor: 'rgba(255, 100, 100, 0)',
     padding: 10,
     textAlign: 'left',
     fontSize: 18,
   },
   petDetail: {
-    fontFamily: 'Poppins-Regular',
-    color: 'gray',
+    fontFamily: constants.$fontFamily,
+    color: constants.$senaryColor,
     fontSize: 15,
-    top: 35,
-    marginHorizontal: 25,
+    top: '9%',
+    marginHorizontal: '6%',
     left: 15,
   },
   bottomTexts: {
     flexDirection: 'row',
     alignItems: 'center',
-    top: -70,
+    top: '-15%',
     paddingVertical: 15,
   },
   horizontalLine: {
     alignSelf: 'center',
     width: screenWidth,
     height: 3,
-    backgroundColor: '#FF8D4D',
-    top: 553,
+    backgroundColor: constants.$senaryColor,
+    top: '65%',
   },
   surface: {
-    flexDirection: 'row',
-    backgroundColor: '#F1D5C6',
+    ...alignmentMixin.alignment1,
+    backgroundColor: constants.$quinaryColor,
     padding: 8,
     height: 50,
     width: 75,
-    top: -5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    top: '-5%',
     marginHorizontal: 5,
     borderRadius: 20,
-    left: 15,
+    left: '4%',
   },
   bottomContainer: {
-    top: -10,
+    top: '-1.5%',
   },
   card: {
-    width: 500,
+    width: '130%',
     alignSelf: 'center',
     height: 190,
     top: -155,
     zIndex: 1,
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
   },
   cardContent: {
     flexDirection: 'row',
@@ -417,62 +411,61 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.alignment1,
   },
   avatarContainer: {
-    left: 70,
-    top: -5,
+    left: '14%',
+    top: '-8%',
     position: 'absolute',
   },
   userName: {
-    fontFamily: 'Poppins-Bold',
-    color: '#5A2828',
-    top: -7,
+    fontFamily: constants.$fontFamilyBold,
+    color: constants.$secondaryColor,
+    top: '-7%',
     fontSize: 18,
-    left: 120,
-    fontWeight: 'bold',
+    left: '24%',
+    fontWeight: constants.$fontWeightBold,
   },
   ownerTitle: {
-    fontFamily: 'Poppins',
+    fontFamily: constants.$fontFamily,
     color: '#5A2819',
-    top: -10,
+    top: '-10%',
     fontSize: 18,
-    left: 120,
+    left: '24%',
   },
   description: {
     fontSize: 18,
     top: 400,
-    color: '#000000',
-    fontFamily: 'Poppins',
+    color: constants.$textColor1,
+    fontFamily: constants.$fontFamily,
     textAlign: 'justify',
   },
   iconContainer: {
     position: 'absolute',
-    right: -25,
-    top: 55,
+    right: '-5%',
+    top: '55%',
   },
   surfaceMessage: {
-    flexDirection: 'row',
-    backgroundColor: '#F87000',
+    ...alignmentMixin.alignment1,
+   // flexDirection: 'row',
+    backgroundColor: '#F8700bl0',
     padding: 5,
     height: 35,
     width: 100,
     top: -5,
-    alignItems: 'center',
-    justifyContent: 'center',
+   // alignItems: 'center',
+   // justifyContent: 'center',
     marginHorizontal: 5,
     borderRadius: 30,
     left: 15,
   },
   settingsIcon: {
-    right: 110,
+    right: 120,
     top: -35,
   },
 
   icon: {
-    color: '#F87000',
+    color: constants.$senaryColor,
     top: -5,
     paddingHorizontal: 20,
     left: 10,
@@ -484,19 +477,17 @@ const styles = StyleSheet.create({
     top: 45,
     left: -575,
     alignContent: 'flex-start',
-    fontFamily: 'Poppins',
+    fontFamily: constants.$fontFamily,
   },
   bio: {
-    fontFamily: 'Poppins',
+    fontFamily: constants.$fontFamily,
     fontSize: 18,
     justifyContent: 'flex-start',
-    color: '#5A2828',
+    color: constants.$secondaryColor,
     top: -9,
     left: 9,
     textDecorationLine: 'underline',
   },
-  carouselContainer: {},
-  cardContainer: {},
   descriptionContainer: {
     flex: 1,
     marginLeft: 10, 
@@ -510,8 +501,8 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 18,
     left: 15,
-    color: '#000000',
-    fontFamily: 'Poppins',
+    color: constants.$textColor1,
+    fontFamily: constants.$fontFamily,
     textAlign: 'justify',
     padding: 10,
   },
@@ -519,15 +510,15 @@ const styles = StyleSheet.create({
   },
   contentScroll: {
     marginTop: 0,
-    color: 'white',
+    color: constants.$textColor2,
     textAlign: 'justify',
     paddingHorizontal: 20,
     top: 10,
   },
   contentProfile: {
     fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    color: 'black',
+    fontFamily: constants.$fontFamily,
+    color: constants.$textColor1,
     textAlign: 'left',
     lineHeight: 24,
     right: -50,
@@ -535,7 +526,7 @@ const styles = StyleSheet.create({
     maxHeight: 300,
   },
   seeMore: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
     fontSize: 14,
     textDecorationStyle: 'solid',
     color: '#ff8700',

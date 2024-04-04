@@ -8,6 +8,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import constants from '../styles/constants';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 
 const GettingStarted: React.FC = () => {
@@ -46,15 +48,13 @@ const GettingStarted: React.FC = () => {
 
 const styles = StyleSheet.create({
   bigContainer: {
+    ...alignmentMixin.align,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   corgiCatContainer: {
+    ...alignmentMixin.align,
     flex: 1,
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   petImage: {
     backgroundColor: constants.$backgroundColor,
@@ -78,8 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 90,
   },
   button: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.align,
     paddingVertical: 12, // Adjust as needed
     paddingHorizontal: 24, // Adjust as needed
     borderRadius: 30,

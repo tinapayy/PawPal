@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
@@ -58,7 +61,7 @@ function SettingsPage_Clinic() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => setDeleteAccountModal(true)}>
-          <Trash size={30} color="#FF8700" strokeWidth={3} />
+          <icons.Trash size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -84,78 +87,59 @@ function SettingsPage_Clinic() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
   },
   header: {
+    ...alignmentMixin.alignment1,
     height: 150,
-    backgroundColor: '#FF8D4D',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    backgroundColor: constants.$senaryColor,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
   },
   headertextandicon: {
-    marginLeft: 30,
-    paddingRight: 30,
-    marginRight: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...alignmentMixin.alignment1,
+    marginLeft: '10%',
+    paddingRight: '10%',
+    marginRight: '15%',
   },
   headerText: {
-    paddingLeft: 10,
+    paddingLeft: '3%',
     fontSize: 35,
-    fontWeight: 'bold',
-    color: '#5A2828',
+    fontWeight: constants.$fontWeightBold,
+    color: constants.$secondaryColor,
   },
   headerimg: {
-    marginTop: 35,
-    marginRight: 30,
+    marginTop: '8%',
+    marginRight: '6%',
     width: 100,
-    height: 150,
+    height: '100%',
   },
 
   buttonContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 50,
+    padding: '10%',
   },
   button: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    width: 350,
-    margin: 15,
-    padding: 15,
-    borderRadius: 15,
-    alignItems: 'center',
-    position: 'relative',
-    elevation: 5,
+    ...alignmentMixin.alignment1,
+    ...buttonMixin.settingsButton,
+    justifyContent: undefined,
+    backgroundColor: constants.$backgroundColor,
   },
   buttonlogout: {
-    flexDirection: 'row',
-    backgroundColor: '#FFAC4E',
-    width: 350,
-    margin: 15,
-    padding: 15,
-    borderRadius: 15,
-    alignItems: 'center',
-    position: 'relative',
-    elevation: 10,
+    ...alignmentMixin.alignment1,
+    ...buttonMixin.settingsButton,
+    justifyContent: undefined,
+    backgroundColor: constants.$primaryColor,
   },
   buttonText: {
-    marginLeft: 10,
-    fontSize: 20,
-    fontWeight: '300',
-    paddingVertical: 10,
-    color: '#FF8700',
+    ...buttonMixin.buttonText,
+    ...buttonMixin.settingsButtonText,
+    color: constants.$senaryColor,
   },
   buttonlogoutText: {
-    marginLeft: 10,
-    fontSize: 20,
-    paddingVertical: 10,
-    fontWeight: '300',
-    color: '#FFF',
+    ...buttonMixin.buttonText,
+    ...buttonMixin.settingsButtonText,
   },
 });
 

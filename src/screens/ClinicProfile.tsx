@@ -16,6 +16,9 @@ import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 const ClinicProfile = () => {
   const navigation = useNavigation();
@@ -105,94 +108,43 @@ const ClinicProfile = () => {
                 : require('../images/placeholder.png')
             }
             resizeMode="stretch"
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 410,
-              height: 410,
-              left: '0.3%',
-              position: 'relative',
-              padding: 20,
-              bottom: 90,
-            }}></ImageBackground>
+            style={styles.profile}></ImageBackground>
         </View>
       </View>
       <ScrollView>
         <View
-          style={{
-            backgroundColor: 'white',
-            borderTopStartRadius: 50,
-            borderTopEndRadius: 50,
-            flex: 1,
-            shadowColor: 'black',
-            shadowOffset: {
-              width: -2,
-              height: 10,
-            },
-            shadowOpacity: 1,
-            shadowRadius: 3,
-            elevation: 1000,
-            top: 150,
-          }}>
+          style={styles.scrollBar}>
           <Text
-            style={{
-              color: 'black',
-              fontSize: 30,
-              fontFamily: 'Poppins-Bold',
-              marginTop: 30,
-              marginLeft: 20,
-            }}>
+            style={styles.clinicTitle}>
             {clinicName}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View
-              style={{
-                flexDirection: 'row',
-                margin: 10,
-                justifyContent: 'flex-start',
-              }}>
+              style={styles.iconStyles}>
               <FontAwesomeIcon
-                icon={icons.faPhone}
-                size={23}
+                icon={icons.faPhone} size={23}
                 style={{
-                  color: '#FF8D4D',
+                  color: constants.$senaryColor,
                   left: 9,
                 }}
               />
               <Text
-                style={{
-                  color: '#ff8d4d',
-                  fontSize: 18,
-                  fontFamily: 'Poppins-Medium',
-                  marginLeft: 7,
-                }}>
+                style={styles.phoneText}>
                 {contactInfo}
               </Text>
             </View>
 
             <View
-              style={{
-                flexDirection: 'row',
-                margin: 10,
-                justifyContent: 'flex-start',
-              }}>
+              style={styles.iconStyles}>
               <FontAwesomeIcon
                 icon={icons.faClock}
                 size={23}
                 style={{
-                  color: '#FF8D4D',
+                  color: constants.$senaryColor,
                 }}
               />
               <Text
-                style={{
-                  color: '#ff8d4d',
-                  fontSize: 18,
-                  fontFamily: 'Poppins-Medium',
-                  textDecorationLine: 'underline',
-                  marginLeft: 6,
-                  marginRight: 6,
-                }}>
+                style={styles.storeText}>
                 Store Hours
               </Text>
 
@@ -202,7 +154,7 @@ const ClinicProfile = () => {
                     icon={icons.faCircleArrowDown}
                     size={23}
                     style={{
-                      color: '#FF8D4D',
+                      color: constants.$senaryColor,
                     }}
                   />
                 </TouchableOpacity>
@@ -223,12 +175,7 @@ const ClinicProfile = () => {
             </View>
           </View>
           <Text
-            style={{
-              color: 'grey',
-              fontSize: 24,
-              marginLeft: 10,
-              marginTop: 10,
-            }}>
+            style={styles.servicesText}>
             Services
           </Text>
           {Array.isArray(services) && services.length > 0 && (
@@ -242,21 +189,9 @@ const ClinicProfile = () => {
               {services.map((service, index) => (
                 <View
                   key={index}
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                    margin: 5,
-                  }}>
+                  style={styles.servicesForm}>
                   <Text
-                    style={{
-                      color: 'black',
-                      textAlign: 'center',
-                      backgroundColor: '#f1d5c5',
-                      padding: 10,
-                      borderRadius: 20,
-                      fontFamily: 'Poppins-Medium',
-                    }}>
+                    style={styles.servicesView}>
                     {service}
                   </Text>
                 </View>
@@ -268,42 +203,21 @@ const ClinicProfile = () => {
             <Image
               source={require('../images/Line_23.png')}
               resizeMode="stretch"
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 10,
-                width: 1000,
-              }}
+              style={styles.lineStyle}
             />
           </View>
           <Text
-            style={{
-              color: 'black',
-              marginLeft: 10,
-              fontSize: 16,
-              fontFamily: 'Poppins-Semi',
-              left: 10,
-            }}>
+            style={styles.aboutText}>
             {about}
           </Text>
           <Text
-            style={{
-              color: '#ff8d4d',
-              marginLeft: 10,
-              fontFamily: 'Poppins-Medium',
-              fontSize: 28,
-              padding: 10,
-            }}>
+            style={styles.locText}>
             Location
           </Text>
           {mapRegion && (
             <View>
               <Text
-                style={{
-                  marginLeft: 20,
-                  fontSize: 14,
-                  fontFamily: 'Poppins-Medium',
-                }}>
+                style={styles.addressText}>
                 {address}
               </Text>
               <MapView
@@ -338,6 +252,102 @@ const ClinicProfile = () => {
 };
 
 const styles = StyleSheet.create({
+  profile: {
+    ...alignmentMixin.align,
+    flex: 1,
+    width: 410,
+    height: 410,
+    left: '0.3%',
+    position: 'relative',
+    padding: '5%',
+    bottom: '230%',
+  },
+  scrollBar: {
+    backgroundColor: constants.$textColor2,
+    borderTopStartRadius: 50,
+    borderTopEndRadius: 50,
+    flex: 1,
+    shadowColor: constants.$textColor1,
+    shadowOffset: {
+      width: -2,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3,
+    elevation: 1000,
+    top: '20%',
+  },
+  clinicTitle: {
+    color: constants.$textColor1,
+    fontSize: 30,
+    fontFamily: constants.$fontFamilyBold,
+    marginTop: '6%',
+    marginLeft: '7%',
+  },
+  iconStyles: {
+    flexDirection: 'row',
+    margin: '3%',
+    justifyContent: 'flex-start',
+  },
+  phoneText: {
+    color: constants.$senaryColor,
+    fontSize: 18,
+    fontFamily: constants.$fontFamilyMedium,
+    marginLeft: 7,
+  },
+  storeText: {
+    color: constants.$senaryColor,
+    fontSize: 18,
+    fontFamily: constants.$fontFamilyMedium,
+    textDecorationLine: 'underline',
+    marginLeft: 6,
+    marginRight: 6,
+  },
+  servicesText: {
+    color: constants.$secondaryColor,
+    fontFamily: constants.$fontFamilyMedium,
+    fontSize: 24,
+    marginLeft: 10,
+    marginTop: 10,
+  },
+  servicesForm: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    margin: 5,
+  },
+  servicesView: {
+    color: constants.$textColor1,
+    textAlign: 'center',
+    backgroundColor: '#f1d5c5',
+    padding: 10,
+    borderRadius: 20,
+    fontFamily: constants.$fontFamilyMedium,
+  },
+  lineStyle: {
+    ...alignmentMixin.align,
+    margin: 10,
+    width: 1000,
+  },
+  aboutText: {
+    color: constants.$textColor1,
+    marginLeft: 10,
+    fontSize: 16,
+    fontFamily: constants.$fontFamilySemiBold,
+    left: 10,
+  },
+  locText: {
+    color: constants.$senaryColor,
+    marginLeft: 10,
+    fontFamily: constants.$fontFamilyMedium,
+    fontSize: 28,
+    padding: 10,
+  },
+  addressText: {
+    marginLeft: 20,
+    fontSize: 14,
+    fontFamily: constants.$fontFamilyMedium,
+  },
   icon: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -346,23 +356,22 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   container: {
+    ...alignmentMixin.align,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     opacity: 0.9,
   },
   content: {
-    backgroundColor: '#ff8d4d',
+    backgroundColor: constants.$senaryColor,
     padding: 20,
     borderRadius: 30,
     margin: 50,
-    color: 'white',
+    color: constants.$textColor2,
   },
   drop: {
   },
   dropdown: {
     marginTop: 10,
-    backgroundColor: 'white',
+    backgroundColor: constants.$textColor2,
     borderWidth: 2,
     padding: 10,
     borderRadius: 5,
@@ -372,7 +381,7 @@ const styles = StyleSheet.create({
     zIndex: 5,
     top: 14,
     elevation: 20,
-    borderColor: 'orange',
+    borderColor: constants.$senaryColor,
   },
 });
 

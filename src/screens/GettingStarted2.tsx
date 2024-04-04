@@ -2,6 +2,8 @@ import React from 'react';
 import {View, StyleSheet, Pressable, Text, ImageBackground} from 'react-native';
 import {useNavigateTo} from '../components/navigation';
 import constants from '../styles/constants';
+import { alignmentMixin } from '../components/alignmentMixin';
+import { buttonMixin } from '../components/buttonMixin';
 
 const GettingStarted2 = () => {
   const NavSignIn = useNavigateTo('SignIn');
@@ -9,7 +11,7 @@ const GettingStarted2 = () => {
 
   return (
     <View style={styles.bigContainer}>
-      <View style={styles.bgContainer}>
+      <View style={styles.bigContainer}>
         <ImageBackground
           source={require('../images/onboarding_bg1.png')}
           style={styles.bgImage}></ImageBackground>
@@ -53,9 +55,6 @@ const styles = StyleSheet.create({
   bigContainer: {
     flex: 1,
   },
-  bgContainer: {
-    flex: 1,
-  },
   bgImage: {
     flex: 1,
     resizeMode: 'cover',
@@ -63,21 +62,18 @@ const styles = StyleSheet.create({
     height: 500,
   },
   signInView: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.align,
     borderRadius: 20,
     paddingHorizontal: '50%',
     bottom: '28%',
   },
   signUpView: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.align,
     borderRadius: 20,
     bottom: '25%',
   },
   signInButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.align,
     paddingVertical: 8,
     borderColor: constants.$primaryColor,
     borderRadius: 25,
@@ -86,8 +82,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   signUpButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.align,
     paddingVertical: 8,
     borderRadius: 25,
     backgroundColor: constants.$primaryColor,
@@ -114,8 +109,7 @@ const styles = StyleSheet.create({
     color: constants.$accentColor1,
   },
   taglineView: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...alignmentMixin.align,
     bottom: '15%',
   },
 });

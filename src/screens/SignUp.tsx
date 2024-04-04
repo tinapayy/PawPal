@@ -18,6 +18,10 @@ import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+
+
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 
@@ -27,6 +31,7 @@ const SignIn = () => {
   };
   const {reset} = useNavigation<Nav>();
   const NavSignIn = useNavigateTo('SignIn');
+
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -112,6 +117,7 @@ const SignIn = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.whiteContainer}>
+
           <SwitchButton
             selectedUserType={selectedUserType}
             setSelectedUserType={setSelectedUserType}
@@ -203,12 +209,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: constants.$fontSizeSmall,
     bottom: 200,
+
     fontFamily: constants.$fontFamily,
   },
   loginLink: {
     fontSize: 14,
     color: constants.$primaryColor,
     fontFamily: constants.$fontFamilySemiBold,
+
   },
   signInForm: {
     height: 600,
@@ -233,6 +241,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginBottom: 20,
     paddingHorizontal: 10,
+
     borderColor: 'transparent',
     borderBottomColor: constants.$primaryColor,
     justifyContent: 'space-between',
@@ -241,6 +250,7 @@ const styles = StyleSheet.create({
     top: '63%',
     marginRight: 10,
     paddingHorizontal: 12,
+
     color: constants.$primaryColor,
   },
   btnContainer: {
@@ -249,6 +259,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+
     height: 40,
     borderRadius: 5,
     marginBottom: 30,
@@ -274,6 +285,7 @@ const styles = StyleSheet.create({
     width: 340,
     top: 1550,
     zIndex: 5,
+
   },
   header: {
     bottom: '53%',
@@ -282,6 +294,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
     color: constants.$secondaryColor,
     left: 40,
+
   },
 });
 

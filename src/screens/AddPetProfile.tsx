@@ -12,16 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faUser,
-  faPaw,
-  faCalendar,
-  faWeight,
-  faPalette,
-  faVenusMars,
-  faCirclePlus,
-} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
@@ -160,7 +151,7 @@ const PetProfile = () => {
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
@@ -177,12 +168,12 @@ const PetProfile = () => {
             style={styles.profileImage}
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={faCirclePlus} style={styles.arrowAdd} />
+            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} />
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Pet Name"
@@ -191,7 +182,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faPaw} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faPaw} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Breed"
@@ -200,7 +191,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faCalendar} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faCalendar} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Age"
@@ -209,7 +200,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faWeight} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faWeight} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Weight"
@@ -218,7 +209,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faPalette} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faPalette} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Color"
@@ -227,7 +218,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faVenusMars} style={styles.malInput} />
+            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} />
             <Text style={styles.malefeminput}>Sex</Text>
             <View style={styles.radioButton} />
             <RadioButton

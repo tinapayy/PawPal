@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView, SafeAreaView, TextInput} from 'react-native';
 import {
   View,
   Text,
@@ -12,41 +12,12 @@ import {Avatar} from 'react-native-paper';
 import {Image} from 'react-native-elements';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faLocationDot} from '@fortawesome/free-solid-svg-icons';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
-
-const data1 = [
-  {
-    id: 1,
-    imageSource: require('../images/rebadulla.jpg'),
-    title: 'Rebadulla Animal Hospital',
-    description: '88 Commission Civil St, Jaro, Iloilo City',
-    info1: 'Open Now',
-    info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-  {
-    id: 2,
-    imageSource: require('../images/cornerstone.jpg'),
-    title: 'Cornerstone Veterinary Clinic',
-    description: 'Faith Bldg, Jalandoni St., Jaro, Iloilo City',
-    info1: 'Open Now',
-    info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-  {
-    id: 3,
-    imageSource: require('../images/rebadulla.jpg'),
-    title: 'Rebadulla Animal Hospital',
-    description: '88 Commission Civil St, Jaro, Iloilo City',
-    info1: 'Open Now',
-    info2: 'Wednesday 9:00 AM - 5:00 PM',
-  },
-];
-
 const data3 = [
   {
     id: 1,
@@ -131,7 +102,7 @@ const renderItem = ({item, index, navigation}) => {
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <FontAwesomeIcon
-            icon={faLocationDot}
+            icon={icons.faLocationDot}
             style={{color: '#ff8700', marginTop: 5}}
           />
           <Text
@@ -162,7 +133,7 @@ const renderItem = ({item, index, navigation}) => {
           </Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
-              icon={faArrowRight}
+              icon={icons.faArrowRight}
               size={20}
               style={{color: '#ff8700', top: -15, left: -5}}
             />
@@ -216,7 +187,7 @@ const itemNumber2 = ({item}) => {
     </SafeAreaView>
   );
 };
-
+//data 3
 const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -271,6 +242,10 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
+  function handleSearchSubmit(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void {
+    throw new Error('Function not implemented.');
+  }
+
   // first carousel
   return (
     <SafeAreaView>
@@ -301,7 +276,22 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       backgroundColor: 'white',
                       borderRadius: 20,
                       width: 200,
-                    }}></View>
+                    }}>
+                    <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
+                      style={{ color: "#ff8700", marginRight: 10 }} />
+                    <TextInput style={{
+                      flex: 1,
+                      color: 'black',
+                      fontSize: 13,
+                      height: 35,
+                      marginLeft: 10,
+                    }}
+                    //search not implemented
+                      placeholder="Search"
+                      placeholderTextColor={'#ff8d4d'}
+                      onSubmitEditing={handleSearchSubmit}
+                    />
+                    </View>
                 </View>
 
                 {/* profile click */}

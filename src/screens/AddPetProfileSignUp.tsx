@@ -12,16 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faUser,
-  faPaw,
-  faCalendar,
-  faWeight,
-  faPalette,
-  faVenusMars,
-  faCirclePlus,
-} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
@@ -43,6 +34,9 @@ import {
 } from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import constants from '../styles/constants';
+import { alignmentMixin } from '../components/alignmentMixin';
+import { buttonMixin } from '../components/buttonMixin';
 
 const PetProfile = () => {
   const navigation = useNavigation();
@@ -160,7 +154,7 @@ const PetProfile = () => {
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
@@ -177,12 +171,12 @@ const PetProfile = () => {
             style={styles.profileImage}
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={faCirclePlus} style={styles.arrowAdd} />
+            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} />
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Pet Name"
@@ -191,7 +185,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faPaw} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faPaw} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Breed"
@@ -200,7 +194,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faCalendar} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faCalendar} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Age"
@@ -209,7 +203,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faWeight} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faWeight} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Weight"
@@ -218,7 +212,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faPalette} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faPalette} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Color"
@@ -227,7 +221,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faVenusMars} style={styles.malInput} />
+            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} />
             <Text style={styles.malefeminput}>Sex</Text>
             <View style={styles.radioButton} />
             <RadioButton
@@ -293,35 +287,32 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   maleinput: {
+    ...alignmentMixin.alignment1,
     flex: 1,
-    alignItems: 'center',
     right: 15,
     paddingVertical: 10,
-    color: 'gray',
+    color: constants.$textColor1,
     top: 2,
     paddingLeft: 15,
-    flexDirection: 'row',
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
   },
   malefeminput: {
+    ...alignmentMixin.alignment1,
     flex: 1,
     fontSize: 18,
-    alignItems: 'center',
     left: 50,
-    color: 'gray',
+    color: constants.$textColor1,
     top: -1,
     marginRight: 30,
-    flexDirection: 'row',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
   },
   malInput: {
+    ...alignmentMixin.alignment1,
     flex: 1,
-    alignItems: 'center',
     left: 40,
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     top: 10,
-    flexDirection: 'row',
     marginBottom: 20,
   },
   container: {
@@ -335,7 +326,7 @@ const styles = StyleSheet.create({
     top: 45,
   },
   backIcon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     flexDirection: 'row',
     position: 'absolute',
     top: -92,
@@ -344,8 +335,8 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 20,
-    fontFamily: 'Poppins-Regular',
-    color: '#5A2828',
+    fontFamily: constants.$fontFamily,
+    color: constants.$secondaryColor,
     fontWeight: 'bold',
     marginLeft: 30,
     top: -95,
@@ -360,7 +351,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   arrowAdd: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
     top: 37,
     bottom: 0,
@@ -373,16 +364,15 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   iconInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
+    ...alignmentMixin.alignment1,
+    justifyContent: undefined,
     marginBottom: 10,
     right: 5,
     left: 7,
     width: 340,
   },
   icon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
     top: 10,
     marginLeft: 30,
@@ -395,7 +385,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 48,
     borderBottomWidth: 2,
-    borderBottomColor: '#FF8D4D',
+    borderBottomColor: constants.$senaryColor,
     marginLeft: 20,
     paddingHorizontal: 40,
     paddingVertical: 10,
@@ -404,7 +394,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   radioButton: {
-    borderColor: '#FF8D4D',
+    borderColor: constants.$senaryColor,
     justifyContent: 'space-between',
     right: 30,
   },
@@ -415,64 +405,35 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   gradientBackground: {
-    borderRadius: 20,
-    width: 160,
-    height: 50,
+    ...buttonMixin.button,
     position: 'absolute',
     top: 8,
     left: -20,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
   },
   saveButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...alignmentMixin.align,
     right: 10,
     paddingTop: 50,
     paddingHorizontal: 75,
     top: -20,
   },
   buttonSave: {
-    color: '#ffffff',
-    fontSize: 19,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
+    ...buttonMixin.buttonText,
     top: 10,
   },
   cancelButton: {
-    backgroundColor: '#ffffff',
+    ...buttonMixin.button,
+    ...alignmentMixin.alignment1,
+    backgroundColor: constants.$backgroundColor,
     top: -12,
     right: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: undefined,
     paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 30,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 20,
   },
   buttonTextCancel: {
-    color: '#FF8D4D',
-    fontSize: 18,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
+    ...buttonMixin.buttonText,
+    color: constants.$senaryColor,
   },
 });
 

@@ -8,59 +8,13 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {faMessage} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Card, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
-
-let userPosts = [
-  {
-    id: 1,
-    name: 'Kristina V. Celis',
-    profilePicture: require('../images/userIcon.png'),
-    postText:
-      "When your puppy's growth slows, you should start switching to adult food. first user post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    postTime: 'Just Now',
-    postPicture: require('../images/forum_dog.jpg'),
-  },
-  {
-    id: 2,
-    name: 'Lee Ji Eun',
-    postTime: '1 hour ago',
-    profilePicture: require('../images/userIcon3.png'),
-    postText:
-      "The more you know about your pet's health and nutrition needs, the better you'll be able to take care of them.",
-    postPicture: require('../images/forum_cat.jpg'),
-  },
-  {
-    id: 3,
-    name: 'Katniss Everdeen',
-    postTime: '30 minutes ago',
-    profilePicture: require('../images/userIcon2.png'),
-    postText:
-      'Show your love to your pets by giving them the best food and best bath.',
-    postPicture: require('../images/forum_dog1.jpg'),
-  },
-  {
-    id: 4,
-    name: 'Olivia Rodrigo',
-    postTime: '1 day ago',
-    profilePicture: require('../images/userIcon5.png'),
-    postText: 'Spent wonderful time with my cats today. They are so cute!',
-    postPicture: require('../images/forum_cat1.jpg'),
-  },
-  {
-    id: 5,
-    name: 'Louis Partridge',
-    postTime: 'October 1, 2023',
-    profilePicture: require('../images/userIcon4.png'),
-    postText:
-      'Tonight, on October 1, 2023, we are saddened to inform that our dearly beloved campus dog — ISKA, was involved in a fatal road accident along the highway and was declared dead on arrival at the veterinary clinic.',
-    postPicture: require('../images/forum_iska.jpg'),
-  },
-];
+import constants from '../styles/constants';
 
 interface Post {
   id: number;
@@ -253,21 +207,22 @@ const styles = StyleSheet.create({
   },
   userInfoText: {
     marginLeft: 12,
-    fontFamily: 'Poppins',
+    fontFamily: constants.$fontFamily,
   },
   message: {
     marginLeft: 'auto',
     position: 'absolute',
   },
   messageIcon: {
-    color: '#F87000',
+    //color: '#F87000',
+    color: constants.$senaryColor,
     top: 2,
     left: 50,
   },
   userName: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: constants.$fontWeightBold,
+    color: constants.$textColor1,
   },
   postTime: {
     fontSize: 12,
@@ -276,8 +231,8 @@ const styles = StyleSheet.create({
   postText: {
     fontSize: 14,
     textAlign: 'justify',
-    fontFamily: 'Poppins',
-    color: '#000',
+    fontFamily: constants.fontFamily,
+    color: constants.$textColor1,
     top: 8,
     bottom: 8,
   },

@@ -14,16 +14,14 @@ import {
   TextStyle,
   FlatList,
   Button,
+  ImageBackground,
+  Dimensions
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faCirclePlus,
-  faImage,
-  faTimesCircle,
-  faCaretDown,
-} from '@fortawesome/free-solid-svg-icons';
+
+import * as icons from '../imports/icons/icons';
 import {
   FIREBASE_DB,
   FIREBASE_AUTH,
@@ -35,8 +33,12 @@ import {useNavigation} from '@react-navigation/native';
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from '@react-native-community/datetimepicker';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 const PawPalApp = () => {
+  const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
   const navigation = useNavigation();
 
   const db = FIREBASE_DB;
@@ -290,122 +292,31 @@ const PawPalApp = () => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: '#FFAC4E'}}>
-      <View style={{padding: 0, flex: 1}}>
-        <View style={{flex: 1}}>
-          <Image
-            source={require('../images/Ellipse_25.png')}
-            style={{
-              position: 'relative',
-            }}
-          />
-        </View>
-
-        <View>
-          <Image
-            source={require('../images/Vector_12.png')}
-            style={{
-              flex: 1,
-              position: 'absolute',
-            }}
-          />
-        </View>
-        <View style={{flex: 1}}>
-          <Image
-            source={require('../images/pug.png')}
-            style={{
-              position: 'relative',
-              bottom: '10%',
-            }}
-          />
-        </View>
-
-        <View>
-          <Image
-            source={require('../images/Ellipse_24.png')}
-            style={{
-              position: 'relative',
-              marginLeft: '82%',
-              bottom: '10%',
-            }}
-          />
-        </View>
-        <View>
-          <Image
-            source={require('../images/Vector_11.png')}
-            style={{
-              position: 'relative',
-              marginTop: 70,
-            }}
-          />
-        </View>
-      </View>
-
+    <SafeAreaView>
+      <ImageBackground source={require('../images/clinicSettings.png')}
+      style={{width: Dimensions.get('window').width}}>
       <ScrollView>
         <View
-          style={{
-            backgroundColor: 'white',
-            borderTopStartRadius: 50,
-            borderTopEndRadius: 50,
-            flex: 1,
-            top: 170,
-            shadowColor: 'black',
-            shadowOffset: {
-              width: -2,
-              height: 10,
-            },
-            shadowOpacity: 1,
-            shadowRadius: 3,
-            elevation: 20,
-          }}>
+          style={styles.scrollView}>
           <View>
             <Image
               source={require('../images/Vector_8.png')}
-              style={{
-                flex: 1,
-                position: 'absolute',
-                top: 200,
-                left: '85%',
-              }}
-            />
-          </View>
-
-          <View>
-            <Image
-              source={require('../images/Vector_7.png')}
-              style={{
-                flex: 1,
-                position: 'absolute',
-                top: 830,
-              }}
+              style={styles.vecImg}
             />
           </View>
 
           <Text style={styles.clinic}>Clinic Details</Text>
 
-          <Text style={styles.addClinic}>Add Clinic Picture</Text>
+          <Text style={styles.clinicDets}>Add Clinic Picture</Text>
           <TouchableOpacity onPress={openImagePicker}>
             {selectedImage ? (
               <Image
                 source={{uri: selectedImage}}
-                style={{
-                  borderRadius: 30,
-                  margin: 30,
-                  height: 150,
-                }}
-              />
-            ) : (
+                style={styles.adClinic}/> ) : (
               <View
-                style={{
-                  backgroundColor: '#ffb78f80',
-                  borderRadius: 30,
-                  margin: 30,
-                  height: 150,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+                style={styles.style1}>
                 <FontAwesomeIcon
-                  icon={faImage}
+                  icon={icons.faImage}
                   size={30}
                   style={{
                     color: '#ff8700',
@@ -415,31 +326,21 @@ const PawPalApp = () => {
             )}
           </TouchableOpacity>
 
-          <View style={{flexDirection: 'column', flexWrap: 'wrap'}}>
+          <View style={styles.style2}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'flex-end',
-                flexWrap: 'wrap',
-              }}>
+              style={styles.style3}>
               <Text style={styles.services}>Services</Text>
               <TouchableOpacity onPress={handleToggleInput}>
                 <FontAwesomeIcon
-                  icon={faCaretDown}
+                  icon={icons.faCaretDown}
                   size={25}
-                  style={{color: '#ff8700', marginLeft: 10}}
+                  style={{color: '#ff8700', marginLeft: 10, bottom: '20%'}}
                 />
               </TouchableOpacity>
             </View>
 
             <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-                marginLeft: 40,
-                flexWrap: 'wrap',
-                width: 350,
-              }}>
+              style={styles.style4}>
               {isInputVisible && (
                 <View>
                   <View style={styles.tagsContainer}>
@@ -451,7 +352,7 @@ const PawPalApp = () => {
                           <Text>{item}</Text>
                           <TouchableOpacity onPress={() => removeTag(index)}>
                             <FontAwesomeIcon
-                              icon={faTimesCircle}
+                              icon={icons.faTimesCircle}
                               size={25}
                               style={{color: '#ff8700', marginLeft: 5}}
                             />
@@ -473,7 +374,7 @@ const PawPalApp = () => {
                       />
                       <TouchableOpacity onPress={addTag}>
                         <FontAwesomeIcon
-                          icon={faCirclePlus}
+                          icon={icons.faCirclePlus}
                           size={25}
                           style={{color: '#ff8700', marginLeft: 10}}
                         />
@@ -482,14 +383,7 @@ const PawPalApp = () => {
 
                     <TouchableOpacity onPress={handleSaveTagInput}>
                       <Text
-                        style={{
-                          marginLeft: 10,
-                          color: 'white',
-                          fontSize: 13,
-                          backgroundColor: '#ff8700',
-                          borderRadius: 10,
-                          padding: 10,
-                        }}>
+                        style={styles.saveService}>
                         Save
                       </Text>
                     </TouchableOpacity>
@@ -499,7 +393,7 @@ const PawPalApp = () => {
             </View>
           </View>
 
-          <Text style={styles.phoneInfo}>Phone Information</Text>
+          <Text style={styles.clinicDets}>Phone Information</Text>
           <TextInput
             style={styles.input}
             onChangeText={text => setNumber(text)}
@@ -507,14 +401,14 @@ const PawPalApp = () => {
             keyboardType="numeric"
           />
 
-          <Text style={styles.about}>About</Text>
+          <Text style={styles.clinicDets}>About</Text>
           <TextInput
             style={styles.input}
             onChangeText={text => setDescription(text)}
             value={description}
           />
 
-          <Text style={styles.storeHours}>Store Hours</Text>
+          <Text style={styles.clinicDets}>Store Hours</Text>
           <View style={styles.radio}>
             {daysOfWeek.map(({day, open, close}, index) => (
               <TouchableOpacity
@@ -540,12 +434,7 @@ const PawPalApp = () => {
                     </View>
                   )}
                   <Text
-                    style={{
-                      fontSize: 15,
-                      color: '#5A2828',
-                      fontWeight: 'bold',
-                      marginRight: 5,
-                    }}>
+                    style={styles.dashText}>
                     {' '}
                     -
                   </Text>
@@ -587,7 +476,7 @@ const PawPalApp = () => {
             />
           )}
 
-          <Text style={styles.loc}>Location</Text>
+          <Text style={styles.clinicDets}>Location</Text>
           <View style={{flex: 1}}>
             <MapView
               style={{flex: 1, margin: 40, height: 300}}
@@ -619,135 +508,132 @@ const PawPalApp = () => {
           </View>
         </View>
       </ScrollView>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: constants.$textColor2,
+    borderTopStartRadius: 50,
+    borderTopEndRadius: 50,
+    flex: 1,
+    top: 170,
+    shadowColor: constants.$textColor1,
+    shadowOffset: {
+      width: -2,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3,
+    elevation: 20,
+  },
+  vecImg: {
+    flex: 1,
+    position: 'absolute',
+    top: 200,
+    left: '85%',
+  },
+  adClinic: {
+    borderRadius: 30,
+    margin: 30,
+    height: 150,
+  },
+  style1: {
+    backgroundColor: '#ffb78f80',
+    borderRadius: 30,
+    margin: 30,
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  style2: {
+    flexDirection: 'column', 
+    flexWrap: 'wrap'
+  },
+  style3: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    flexWrap: 'wrap',
+  },
+  style4: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    marginLeft: 40,
+    flexWrap: 'wrap',
+    width: 350,
+  },
+  saveService: {
+    marginLeft: 10,
+    color: constants.$textColor2,
+    fontSize: constants.$fontSizeSmall,
+    backgroundColor: constants.$primaryColor,
+    borderRadius: 10,
+    padding: 10,
+  },
+  dashText: {
+    fontSize: constants.$fontSizeMedium,
+    color: constants.$secondaryColor,
+    fontWeight: 'bold',
+    marginRight: 5, 
+  },
   clinic: {
     paddingTop: 10,
     paddingLeft: 40,
     fontSize: 40,
-    fontWeight: '600',
-    color: '#5A2828',
-    fontFamily: 'Poppins-SemiBold',
+    color: constants.$secondaryColor,
+    fontFamily: constants.$fontFamilySemiBold,
   },
-  addClinic: {
-    paddingTop: 10,
-    paddingLeft: 40,
-    fontSize: 25,
-    fontWeight: '400',
-    color: '#5A2828',
-    fontFamily: 'Poppins',
+  clinicDets: {
+    ...alignmentMixin.alignClinic,
   },
   services: {
-    paddingTop: 0,
-    paddingLeft: 40,
-    fontSize: 25,
-    fontWeight: '400',
-    color: '#5A2828',
-    fontFamily: 'Poppins',
-  },
-  phoneInfo: {
-    paddingTop: 20,
-    paddingLeft: 40,
-    fontSize: 25,
-    fontWeight: '400',
-    color: '#5A2828',
-    fontFamily: 'Poppins',
-  },
-  about: {
-    flex: 1,
-    paddingTop: 20,
-    paddingLeft: 40,
-    fontSize: 25,
-    fontWeight: '400',
-    color: '#5A2828',
-    fontFamily: 'Poppins',
-  },
-  storeHours: {
-    paddingTop: 20,
-    paddingLeft: 40,
-    fontSize: 25,
-    fontWeight: '400',
-    color: '#5A2828',
-    fontFamily: 'Poppins',
-  },
-  loc: {
-    paddingTop: 20,
-    paddingLeft: 40,
-    fontSize: 25,
-    fontWeight: '400',
-    color: '#5A2828',
-    fontFamily: 'Poppins',
+    ...alignmentMixin.alignClinic,
+    paddingTop: '1%',
   },
   input: {
+    ...alignmentMixin.alignment,
     padding: 0,
     fontSize: 25,
     width: 350,
-    color: 'black',
+    color: constants.$textColor1,
     borderBottomWidth: 1.5,
-    borderColor: '#FFBA69',
+    borderColor: constants.$quaternaryColor,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginLeft: '7%',
   },
   btn1: {
+    ...buttonMixin.button,
+    ...alignmentMixin.alignment,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginLeft: '20%',
-    margin: 70,
-    padding: 4,
+    margin: '19%',
     borderRadius: 50,
-    backgroundColor: '#FFAC4E',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: -2,
-      height: 4,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 15,
     marginRight: '45%',
     height: '3%',
     bottom: '20%',
   },
   bt1: {
-    color: 'white',
-    fontSize: 25,
-    fontWeight: '500',
-    fontFamily: 'Poppins',
-    textAlign: 'center',
+    ...buttonMixin.buttonText,
+    fontFamily: constants.$fontFamilyMedium,
+    fontSize: constants.$fontSizeLarge,
   },
   skip: {
+    ...buttonMixin.button,
+    ...alignmentMixin.alignment,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginLeft: '60%',
-    margin: 10,
-    padding: 4,
     borderRadius: 50,
     backgroundColor: 'white',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: -2,
-      height: 4,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 15,
     marginRight: '10%',
-    height: '4%',
+    height: '3%',
     bottom: '70%',
   },
   skipText: {
-    color: '#FF8D4D',
-    fontSize: 20,
-    fontWeight: '400',
-    fontFamily: 'Poppins',
-    textAlign: 'center',
+    ...buttonMixin.buttonText,
+    color: constants.$primaryColor,
+    fontFamily: constants.$fontFamilyMedium,
   },
   radio: {
     alignItems: 'baseline',
@@ -756,10 +642,10 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 15,
-    fontSize: 20,
+    fontSize: constants.$fontSizeLarge,
     padding: 3,
     color: '#878787',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
     width: 130,
   },
   btn: {
@@ -767,36 +653,27 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 20,
-    borderColor: '#FFAC4E',
+    borderColor: constants.$primaryColor,
     borderWidth: 3,
   },
   wrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...alignmentMixin.alignment1
   },
   bg: {
-    backgroundColor: '#FFAC4E',
+    backgroundColor: constants.$primaryColor,
     height: 15,
     width: 15,
     borderRadius: 20,
     margin: 2,
   },
-  con: {
-    flex: 1,
-  },
-  pug: {
-    position: 'relative',
-    bottom: '10%',
-  },
-
   tagsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 10,
-    borderColor: '#FFAC4E',
+    borderColor: constants.$primaryColor,
     borderWidth: 2,
     borderRadius: 15,
-    backgroundColor: 'white',
+    backgroundColor: constants.$textColor2,
     paddingHorizontal: 5,
     paddingVertical: 2,
     marginHorizontal: 5,
@@ -804,24 +681,20 @@ const styles = StyleSheet.create({
     width: 335,
   },
   tagitems: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...alignmentMixin.alignment1,
     padding: 5,
     margin: 6,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#FFAC4E',
-    color: '#5A2828',
-    backgroundColor: '#F1D5C6',
+    borderColor: constants.$primaryColor,
+    color: constants.$secondaryColor,
+    backgroundColor: constants.$quinaryColor,
     borderRadius: 15,
   },
   taginputcontainer: {
-    textAlign: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#5A2828',
-    fontSize: 15,
+    ...alignmentMixin.alignment1,
+    color: constants.$secondaryColor,
+    fontSize: constants.$fontSizeMedium,
     marginLeft: 5,
     marginRight: 0,
     borderRadius: 15,
@@ -829,22 +702,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontWeight: 'bold',
     paddingHorizontal: 5,
-    backgroundColor: '#F1D5C6',
+    backgroundColor: constants.$quinaryColor,
   },
 
   taginput: {
-    textAlign: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    color: '#5A2828',
-    fontSize: 15,
+    ...alignmentMixin.alignment1,
+    color: constants.$secondaryColor,
+    backgroundColor: constants.$quinaryColor,
+    fontSize: constants.$fontSizeMedium,
     marginLeft: 5,
-    backgroundColor: '#F1D5C6',
     borderRadius: 10,
   },
   tagupdatecontainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...alignmentMixin.alignment1
   },
 });
 

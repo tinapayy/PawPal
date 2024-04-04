@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import { ScrollView, SafeAreaView, Alert, StyleProp, ViewStyle, TextStyle, Switch } from 'react-native';
 import { View, Text, Dimensions, ImageBackground, TouchableOpacity, StyleSheet, TextInput, Image } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import { useNavigation } from '@react-navigation/native';
 
 const NewMessage = () => {
@@ -17,7 +17,7 @@ const NewMessage = () => {
                 <View style = {{flexDirection: 'row', margin: 30}}>
                     <TouchableOpacity
                     onPress={() => navigation.navigate("MessagePage")}>
-                    <FontAwesomeIcon icon={faArrowLeft} size = {30}
+                    <FontAwesomeIcon icon={icons.faArrowLeft} size = {30}
                     style = {{
                         color: '#5a2828',
                         left: 10,

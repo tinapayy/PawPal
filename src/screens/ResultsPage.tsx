@@ -8,16 +8,17 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  ScrollView,
 } from 'react-native';
 
-import {
-  ArrowLeftIcon as BackIcon,
-  UserCircleIcon as User,
-} from 'react-native-heroicons/solid';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import {Avatar} from 'react-native-paper';
+import * as icons from '../imports/icons/icons';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -224,19 +225,13 @@ const ResultsPage = () => {
       <View style={styles.headercontainer}>
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
-            <TouchableOpacity onPress={() => navigation.navigate('home')}>
-              <BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
             <Text style={styles.headerText}>Explore Clinics</Text>
             <Image
               source={require('../images/doggy.png')}
-              style={{
-                height: 130,
-                width: 130,
-                left: '100%',
-                position: 'absolute',
-                top: '5%',
-              }}
+              style={styles.doggo}
             />
             <TextInput
               style={styles.input}
@@ -262,7 +257,6 @@ const ResultsPage = () => {
           </View>
         </View>
       </View>
-
       <View style={styles.scrollcontainer}>
         <FlatList
           data={filteredClinics ? filteredClinics : clinics}
@@ -279,77 +273,80 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headercontainer: {
-    height: 150,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    ...alignmentMixin.alignment1,
+    height: '18%',
+    backgroundColor: constants.$backgroundColor,
     borderBottomRightRadius: 40,
   },
   headercontent: {
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
   },
   userheadercontent: {
-    backgroundColor: 'white',
-    marginRight: 30,
+    backgroundColor: constants.$backgroundColor,
+    marginRight: '6%',
+    zIndex: 1,
+    height: '15%',
+  },
+  doggo: {
+    height: '130%',
+    width: '70%',
+    left: '100%',
+    position: 'absolute',
+    top: '5%',
+    zIndex: -1,
   },
   headertextandicon: {
-    marginLeft: 30,
-    paddingRight: 30,
-    marginRight: 50,
+    marginLeft: '6%',
+    paddingRight: '7%',
+    marginRight: '13%',
     flexDirection: 'column',
   },
   headerText: {
-    paddingLeft: 10,
+    paddingLeft: '5%',
     fontSize: 30,
-    fontWeight: 'bold',
-    color: '#FF8D4D',
+    fontWeight: constants.$fontWeightBold,
+    color: constants.$senaryColor,
   },
 
   input: {
-    height: 40,
-    width: 250,
-    backgroundColor: '#FFAC4E',
-    borderColor: '#FF8D4D',
-    color: 'white',
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingLeft: 10,
-    elevation: -5,
+    height: '31%',
+    width: '100%',
+    backgroundColor: constants.$primaryColor,
+    borderColor: constants.$senaryColor,
+    color: constants.$backgroundColor,
+    borderRadius: 15,
+    paddingLeft: '4%',
   },
-
   scrollcontainer: {
     borderTopRightRadius: 40,
-    backgroundColor: '#FFBA69',
-    paddingTop: 20,
+    backgroundColor: constants.$quaternaryColor,
+    paddingTop: '5%',
   },
   card: {
-    width: screenWidth - 32,
+    ...buttonMixin.button,
+    height: undefined,
+    width: Dimensions.get('window').width*0.93,
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
     margin: 10,
     borderRadius: 15,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
     flexDirection: 'row',
   },
   image: {
-    marginLeft: 15,
-    width: 90,
-    height: 90,
+    marginLeft: '2%',
+    width: '25%',
+    height: '90%',
     borderRadius: 15,
   },
   infoContainer: {
-    padding: 15,
+    padding: '5%',
     flex: 1,
   },
   name: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#5A2828',
+    fontWeight: constants.$fontWeightBold,
+    color: constants.$secondaryColor,
   },
   address: {
     fontSize: 12,

@@ -17,10 +17,7 @@ import {
   Image,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faCommentDots,
-  faCircleXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
@@ -149,7 +146,7 @@ const CreatePost = () => {
                 justifyContent: 'flex-start',
               }}>
               <FontAwesomeIcon
-                icon={faCommentDots}
+                icon={icons.faCommentDots}
                 size={25}
                 style={{color: '#5a2828', top: 5}}
               />
@@ -165,7 +162,7 @@ const CreatePost = () => {
             </View>
             <TouchableOpacity onPress={() => navigation.navigate('home')}>
               <FontAwesomeIcon
-                icon={faCircleXmark}
+                icon={icons.faCircleXmark}
                 size={25}
                 style={{color: '#cbcbcb', top: 20}}
               />
@@ -270,7 +267,7 @@ const CreatePost = () => {
 
             <View>
               <FontAwesomeIcon
-                icon={faCircleXmark}
+                icon={icons.faCircleXmark}
                 size={23}
                 style={{color: 'grey', bottom: '1710%', left: '66%'}}
 

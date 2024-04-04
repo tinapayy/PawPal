@@ -12,13 +12,13 @@ const constants = {
 
   $accentColor: '#ff6464', // pink
   $accentColor1: '#894848', // light brown
-  
+  $accentColor2: '#5A2819',
 
   $textColor1: '#000000', // black
   $textColor2: '#ffffff', // white
   $backgroundColor: '#ffffff', // white
   $backgroundColor1: '#ffac4e', // light orange
-
+  $backgroundColor2: '#F1D5C6',
   // SPACING
   $spacingLetter: 0.25,
   $spacingSmall: 5,

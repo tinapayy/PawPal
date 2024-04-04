@@ -9,6 +9,8 @@ import {
   ScrollView,
   TextStyle,
   StyleProp,
+  ImageStyle,
+  ViewStyle,
 } from 'react-native';
 import {Card, Avatar, Surface, Divider} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -21,7 +23,7 @@ import { buttonMixin } from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import { profDetMixins } from '../styles/mixins/profDetMixins';
-
+import {PD_typeStyles} from '../components/PD_typeStyles';
 // window dimensions
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -232,13 +234,15 @@ const ProfileDetails = () => {
   const ownerCard = (
     <Card style={styles.card}>
       <Card.Content style={styles.cardContent}>
-        <View style={styles.userInfo}>
-          <View style={styles.avatarContainer}>
-            <Avatar.Image size={50} source={profilePicture} />
-          </View>
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.userName}>{name}</Text>
-            <Text style={styles.ownerTitle}>Pet Owner</Text>
+          <View>
+          <View style={styles.userInfo}>
+            <View style={styles.avatarContainer}>
+              <Avatar.Image size={50} source={profilePicture} />
+            </View>
+            <View style={styles.descriptionContainer}>
+              <Text style={styles.userName}>{name}</Text>
+              <Text style={styles.ownerTitle}>Pet Owner</Text>
+            </View>
           </View>
         </View>
         <TouchableOpacity onPress={handleDescriptionPress}>
@@ -255,13 +259,13 @@ const ProfileDetails = () => {
       <View style={styles.iconContainer}>
         <TouchableOpacity
           style={styles.settingsIcon}
-          onPress={() => navigation.navigate('SettingsPage')}>
-          <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
+          onPress={() => navigation.navigate('Chat')}>
+          <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.settingsIcon}
-          onPress={() => navigation.navigate('Chat')}>
-          <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
+          onPress={() => navigation.navigate('SettingsPage')}>
+          <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
         </TouchableOpacity>
       </View>
     </Card>
@@ -318,207 +322,85 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  imageContainer: {
+   ...profDetMixins.imageContainer,
+  } as ImageStyle,
   item: {
     width: screenWidth + 1,
-    height: '88%',
-    zIndex: 1,
-    resizeMode: 'contain',
-  },
-  imageContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
+    ...profDetMixins.item,
+  } as ImageStyle,
   headerContainer:{
-    flexDirection: 'row',
-    top:'-40%',
-    left:'9%',
-    position:'relative',
-    zIndex: 15,
-  },
+    ...profDetMixins.headerContainer,
+  } as ImageStyle,
   image: {
-    resizeMode: 'cover',
-    height: '100%',
-    borderRadius: 10,
-    zIndex: 999,
-    width: '90%',
-    alignSelf: 'center',
-    right: '3%',
-  },
+    ...profDetMixins.image,
+  } as ImageStyle,
   title: {
    ...profDetMixins.titlePet,
     fontWeight: constants.$fontWeightBold,
-  },
+  } as ImageStyle,
   title1: {
     ...profDetMixins.titlePet,
     top: '-2.5%',
     fontSize: 18,
     fontWeight:constants.$fontFamilyExtraLight
-  },
+  } as ImageStyle,
   petDetail: {
-    fontFamily: constants.$fontFamily,
-    color: constants.$senaryColor,
-    fontSize: 15,
-    top: '9%',
-    marginHorizontal: '6%',
-    left: '10%',
-  },
+    ...profDetMixins.petDetail,
+  } as ImageStyle,
   bottomTexts: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...profDetMixins.align,
     top: '-15%',
-    paddingVertical: 15,
-  },
+    paddingVertical: '4%',
+  } as ImageStyle,
   surface: {
     ...alignmentMixin.alignment1,
-    backgroundColor: constants.$quinaryColor,
-    padding: 8,
-    height: '95%',
-    width: '19%',
-    top: '15%',
-    marginHorizontal: 5,
-    borderRadius: 20,
-    left: '4%',
-  },
+    ...profDetMixins.surface,
+  } as ImageStyle,
   bottomContainer: {
     top: '-1.5%',
-  },
+  } as ImageStyle,
   card: {
-    width: '130%',
-    alignSelf: 'center',
-    height: '42%',
-    top: '-20%',
-    zIndex: 1,
-    backgroundColor: constants.$backgroundColor,
-  },
+   ...profDetMixins.card,
+  } as ImageStyle,
   cardContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-  },
+   ...profDetMixins.cardContent,
+  } as ImageStyle,
   userInfo: {
     ...alignmentMixin.alignment,
-    top: '-5%',
-    // left:'-20%',
-  },
+    ...profDetMixins.userInfo,
+  } as TextStyle,
   avatarContainer: {
-    left: '70%',
-    position: 'relative',
-  },
-
+   ...profDetMixins.avatarContainer,
+  } as ImageStyle,
   userName: {
-    fontFamily: constants.$fontFamilyBold,
-    color: constants.$secondaryColor,
-    top: '-7%',
-    left:'-24%',
-    fontWeight: constants.$fontWeightBold,
-  },
+    ...profDetMixins.userName,
+  } as TextStyle,
   ownerTitle: {
-    fontFamily: constants.$fontFamily,
-    color: '#5A2819',
-    left: '-50%',
+    ...profDetMixins.ownerTitle,
   },
   descriptionContainer: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  description: {
-    fontSize: 18,
-    top: 400,
-    color: constants.$textColor1,
-    fontFamily: constants.$fontFamily,
-    textAlign: 'justify',
-  },
+    ...profDetMixins.descriptionContainer,
+  } as TextStyle,
   iconContainer: {
-    position: 'absolute',
-    right: '-5%',
-    top: '55%',
-  },
-  surfaceMessage: {
-    ...alignmentMixin.alignment1,
-   // flexDirection: 'row',
-    backgroundColor: '#F8700bl0',
-    padding: 5,
-    height: 35,
-    width: 100,
-    top: -5,
-    marginHorizontal: 5,
-    borderRadius: 30,
-    left: 15,
-  },
-  settingsIcon: {
-    right: 120,
-    top: -35,
-  },
+  ...profDetMixins.iconContainer,
+  } as ViewStyle,
 
   icon: {
-    color: constants.$senaryColor,
-    top: -5,
-    paddingHorizontal: 20,
-    left: 10,
-    zIndex: 999,
-    position: 'relative',
-  },
-  content: {
-    flexDirection: 'row',
-    top: 45,
-    left: -575,
-    alignContent: 'flex-start',
-    fontFamily: constants.$fontFamily,
-  },
-  bio: {
-    fontFamily: constants.$fontFamily,
-    fontSize: 18,
-    justifyContent: 'flex-start',
-    color: constants.$secondaryColor,
-    top: -9,
-    left: 9,
-    textDecorationLine: 'underline',
-  },
-  descriptionScrollView: {
-    overflow: 'hidden',
-    maxHeight: 100,
-    top: 140,
-    zIndex: 1,
-  },
-  descriptionText: {
-    fontSize: 18,
-    left: 15,
-    color: constants.$textColor1,
-    fontFamily: constants.$fontFamily,
-    textAlign: 'justify',
-    padding: 10,
-  },
-  ownerCardContainer: {
-  },
+   ...profDetMixins.icon,
+  } as ViewStyle,
   contentScroll: {
-    marginTop: 0,
-    color: constants.$textColor2,
-    textAlign: 'justify',
-    paddingHorizontal: 20,
-    top: 10,
-  },
+    ...alignmentMixin.alignment,
+    ...profDetMixins.contentScroll,
+  } as TextStyle,
   contentProfile: {
-    fontSize: 16,
-    fontFamily: constants.$fontFamily,
-    color: constants.$textColor1,
-    textAlign: 'left',
-    lineHeight: 24,
-    right: -50,
-    maxWidth: 300,
-    maxHeight: 300,
-  },
+    ...profDetMixins.contentProfile,
+  } as TextStyle,
   seeMore: {
-    fontFamily: constants.$fontFamily,
-    fontSize: 14,
-    textDecorationStyle: 'solid',
-    color: constants.$octonaryColor,
-    top: -25,
-    left: 130,
-    textAlign: 'center',
-    textDecorationLine: 'underline',
-    position: 'relative',
-  },
+   ...profDetMixins.seeMore,
+  } as TextStyle,
+
+
 });
 
 export default ProfileDetails;

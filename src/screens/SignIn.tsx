@@ -19,9 +19,15 @@ import {FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
+import constants from '../styles/constants';
+import {useNavigateTo} from '../components/navigation';
 
 const SignIn = () => {
-  const navigation = useNavigation();
+  type Nav = {
+    reset: (value: any) => void;
+  };
+  const {reset} = useNavigation<Nav>();
+  const NavSignUp = useNavigateTo('SignUp');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -34,7 +40,7 @@ const SignIn = () => {
     if (email === 'admin@pawpal.com' && password === 'pawpal') {
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          navigation.reset({
+          reset({
             index: 0,
             routes: [{name: 'ApprovalPage'}],
           });
@@ -56,7 +62,7 @@ const SignIn = () => {
             userFound = true;
             signInWithEmailAndPassword(auth, email, password)
               .then(() => {
-                navigation.reset({
+                reset({
                   index: 0,
                   routes: [{name: 'HomePage'}],
                 });
@@ -78,29 +84,21 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.bigContainer}>
       <View style={{padding: 0, flex: 1}}>
-        <View style={styles.container1}>
+        <View style={styles.catBgContainer}>
           <Image source={require('../images/catBg.png')} style={styles.image} />
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            borderTopStartRadius: 50,
-            borderTopEndRadius: 50,
-            top: 285,
-            height: 1000,
-            elevation: 20,
-          }}>
+        <View style={styles.switchButtonContainer}>
           <SwitchButton
             selectedUserType={selectedUserType}
             setSelectedUserType={setSelectedUserType}
           />
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign In</Text>
-            <View style={styles.inputs}>
+            <View style={styles.inputsGroup}>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
                 <TextInput
@@ -128,14 +126,14 @@ const SignIn = () => {
                 style={({pressed}) => [
                   styles.button,
                   {
-                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E', 
+                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E',
                   },
                 ]}
                 onPress={signIn}>
                 <Text style={styles.text}>Login</Text>
               </Pressable>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <TouchableOpacity onPress={NavSignUp}>
               <Text style={styles.signupText}>
                 Do not have an account yet?
                 <Text style={styles.signupLink}> Sign Up</Text>
@@ -149,33 +147,23 @@ const SignIn = () => {
 };
 
 const styles = StyleSheet.create({
+  bigContainer: {
+    flex: 1,
+    backgroundColor: constants.$primaryColor,
+  },
   signupText: {
     alignSelf: 'center',
-    fontSize: 14,
-    top: -70,
-    fontFamily: 'Poppins-Regular',
+    fontSize: constants.$fontSizeSmall,
+    bottom: 530,
+    fontFamily: constants.$fontFamily,
   },
   signupLink: {
-    fontSize: 14,
-    color: '#FFAC4E',
-    fontFamily: 'Poppins-SemiBold',
+    fontSize: constants.$fontSizeSmall,
+    color: constants.$primaryColor,
+    fontFamily: constants.$fontFamilySemiBold,
   },
-  container: {
-    flex: 1,
-    backgroundColor: 'orange',
-  },
-  container1: {
-    backgroundColor: 'orange',
-  },
-  container2: {
-    height: 1000,
-    bottom: 330,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 60,
-    borderTopRightRadius: 60,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-    elevation: 15,
+  catBgContainer: {
+    backgroundColor: constants.$primaryColor,
   },
   signInForm: {
     height: 600,
@@ -187,56 +175,61 @@ const styles = StyleSheet.create({
     bottom: 130,
     zIndex: -1,
   },
-  inputs: {
-    alignItems: 'center',
-    height: 100,
-    top: -300,
-    width: '80%',
-    alignSelf: 'center',
+  switchButtonContainer: {
+    backgroundColor: constants.$backgroundColor,
+    borderTopStartRadius: 50,
+    borderTopEndRadius: 50,
+    top: 285,
+    height: 1000,
+    elevation: 20,
   },
   btnContainer: {
-    top: 60,
+    button: -60,
     alignSelf: 'center',
   },
   signInText: {
-    fontSize: 20,
+    fontSize: constants.$fontSizeLarge,
     marginBottom: 10,
+  },
+  inputsGroup: {
+    flex: 1,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '80%',
+    bottom: '40%',
   },
   input: {
     width: '100%',
-    top: '-80%',
     height: 40,
-    backgroundColor: 'transparent',
-    borderWidth: 2,
     borderRadius: 5,
     marginBottom: 30,
     paddingHorizontal: 25,
+    paddingBottom: 15,
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
   },
   iconInputRow: {
     width: '100%',
-    top: 200,
     height: 40,
-    backgroundColor: 'transparent',
     borderWidth: 2,
-    borderRadius: 5,
-    marginBottom: 30,
+    marginBottom: 20,
     paddingHorizontal: 10,
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
     justifyContent: 'space-between',
   },
   icon: {
-    marginRight: 30,
-    color: 'orange',
+    top: '65%',
+    marginRight: 10,
+    paddingHorizontal: 12,
+    color: constants.$primaryColor,
   },
   text: {
-    fontSize: 18,
-    letterSpacing: 0.25,
-    color: 'white',
+    fontSize: constants.$fontSizeRegular,
+    letterSpacing: constants.$spacingLetter,
+    color: constants.$textColor2,
     alignSelf: 'center',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: constants.$fontFamilySemiBold,
   },
   button: {
     alignSelf: 'center',
@@ -244,18 +237,16 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 25,
     elevation: 3,
-    backgroundColor: '#FFAC4E',
+    backgroundColor: constants.$primaryColor,
     width: 340,
-    top: -140,
+    bottom: 550,
   },
   header: {
-    position: 'absolute',
-    alignContent: 'flex-end',
+    bottom: '53%',
     zIndex: 1,
     fontSize: 50,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#5A2828',
-    top: -323,
+    fontFamily: constants.$fontFamilySemiBold,
+    color: constants.$secondaryColor,
     left: 40,
   },
 });

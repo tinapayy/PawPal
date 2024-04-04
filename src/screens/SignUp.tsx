@@ -18,9 +18,15 @@ import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
+import constants from '../styles/constants';
+import {useNavigateTo} from '../components/navigation';
 
 const SignIn = () => {
-  const navigation = useNavigation();
+  type Nav = {
+    reset: (value: any) => void;
+  };
+  const {reset} = useNavigation<Nav>();
+  const NavSignIn = useNavigateTo('SignIn');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -43,7 +49,20 @@ const SignIn = () => {
         password,
       );
       console.log(response);
-      const userDoc = {
+      const userDoc: {
+        userId: string;
+        name: string;
+        email: string;
+        password: string;
+        userType: string;
+        bio?: string;
+        pet?: any[];
+        clinicPicture?: any;
+        services?: string;
+        contactInfo?: string;
+        about?: string;
+        storeHours?: string;
+      } = {
         userId: response.user.uid,
         name: name,
         email: email,
@@ -69,12 +88,12 @@ const SignIn = () => {
       console.log('Document written with ID: ', docRef.id);
       if (response) {
         if (selectedUserType === 'petOwner') {
-          navigation.reset({
+          reset({
             index: 0,
             routes: [{name: 'AddUserProfile'}],
           });
         } else if (selectedUserType === 'clinic') {
-          navigation.reset({
+          reset({
             index: 0,
             routes: [{name: 'AddClinicDetails'}],
           });
@@ -87,29 +106,19 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.bigContainer}>
       <View style={{padding: 0, flex: 1}}>
-        <View style={styles.container1}>
-          <Image source={require('../images/catBg.png')} style={styles.image} />
-        </View>
+        <Image source={require('../images/catBg.png')} style={styles.image} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            borderTopStartRadius: 50,
-            borderTopEndRadius: 50,
-            top: 285,
-            height: 1000,
-            elevation: 20,
-          }}>
+        <View style={styles.whiteContainer}>
           <SwitchButton
             selectedUserType={selectedUserType}
             setSelectedUserType={setSelectedUserType}
           />
           <View style={styles.signInForm}>
             <Text style={styles.header}>Sign Up</Text>
-            <View style={styles.inputs}>
+            <View style={styles.inputsGroup}>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
                 <TextInput
@@ -156,7 +165,7 @@ const SignIn = () => {
             <View style={styles.btnContainer}>
               <Pressable
                 style={({pressed}) => [
-                  styles.button,
+                  styles.signUpButton,
                   {
                     backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
                   },
@@ -167,7 +176,7 @@ const SignIn = () => {
             </View>
           </View>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <TouchableOpacity onPress={NavSignIn}>
           <Text style={styles.loginText}>
             Already have an account?{' '}
             <Text style={styles.loginLink}>Log In</Text>
@@ -179,33 +188,27 @@ const SignIn = () => {
 };
 
 const styles = StyleSheet.create({
+  bigContainer: {
+    flex: 1,
+    backgroundColor: constants.$primaryColor,
+  },
+  whiteContainer: {
+    backgroundColor: constants.$tertiaryColor,
+    borderTopStartRadius: 50,
+    borderTopEndRadius: 50,
+    top: '28%',
+    height: 1000,
+  },
   loginText: {
     alignSelf: 'center',
-    fontSize: 14,
-    top: -200,
-    fontFamily: 'Poppins-Regular',
+    fontSize: constants.$fontSizeSmall,
+    bottom: 200,
+    fontFamily: constants.$fontFamily,
   },
   loginLink: {
     fontSize: 14,
-    color: '#FFAC4E',
-    fontFamily: 'Poppins-SemiBold',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'orange',
-  },
-  container1: {
-    backgroundColor: 'orange',
-  },
-  container2: {
-    height: 1000,
-    bottom: 330,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 60,
-    borderTopRightRadius: 60,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-    elevation: 15,
+    color: constants.$primaryColor,
+    fontFamily: constants.$fontFamilySemiBold,
   },
   signInForm: {
     height: 600,
@@ -217,77 +220,67 @@ const styles = StyleSheet.create({
     bottom: 130,
     zIndex: -1,
   },
-  inputs: {
-    width: '80%',
-    top: '-93%',
+  inputsGroup: {
+    flex: 1,
     alignItems: 'center',
-    height: 100,
     alignSelf: 'center',
+    width: '80%',
+    bottom: '40%',
   },
   iconInputRow: {
     width: '100%',
-    top: 200,
     height: 40,
-    backgroundColor: 'transparent',
     borderWidth: 2,
-    borderRadius: 5,
     marginBottom: 20,
     paddingHorizontal: 10,
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
     justifyContent: 'space-between',
   },
   icon: {
-    top: '630%',
+    top: '63%',
     marginRight: 10,
     paddingHorizontal: 12,
-    color: 'orange',
+    color: constants.$primaryColor,
   },
   btnContainer: {
-    bottom: '-24%',
+    bottom: '333%',
     alignSelf: 'center',
-  },
-  signInText: {
-    fontSize: 20,
-    marginBottom: 10,
   },
   input: {
     width: '100%',
-    top: 200,
     height: 40,
-    backgroundColor: 'transparent',
-    borderWidth: 2,
     borderRadius: 5,
     marginBottom: 30,
     paddingHorizontal: 25,
+    paddingBottom: 15,
     borderColor: 'transparent',
-    borderBottomColor: 'orange',
+    borderBottomColor: constants.$primaryColor,
   },
   text: {
-    fontSize: 18,
+    fontSize: constants.$fontSizeRegular,
     letterSpacing: 0.25,
-    color: 'white',
+    color: constants.$textColor2,
     alignSelf: 'center',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: constants.$fontFamilySemiBold,
   },
-  button: {
+  signUpButton: {
     alignSelf: 'center',
     justifyContent: 'center',
     paddingVertical: 8,
     borderRadius: 25,
     elevation: 3,
-    backgroundColor: '#FFAC4E',
+    backgroundColor: constants.$primaryColor,
     width: 340,
-    top: -140,
+    top: 1550,
+    zIndex: 5,
   },
   header: {
-    position: 'absolute',
-    alignContent: 'flex-end',
+    bottom: '53%',
     zIndex: 1,
     fontSize: 50,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#5A2828',
-    top: -323,
+    fontFamily: constants.$fontFamilySemiBold,
+    color: constants.$secondaryColor,
     left: 40,
   },
 });

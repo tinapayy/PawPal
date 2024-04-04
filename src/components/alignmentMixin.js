@@ -1,9 +1,16 @@
 export const alignmentMixin = {
-  alingnment: {
+  alignnment: {
     alignItems: 'center',
     alignContent: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+  },
+};
+
+export const alignmentCenter = {
+  centerAlign: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 };

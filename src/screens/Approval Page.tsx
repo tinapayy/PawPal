@@ -22,38 +22,23 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 const ForumCard = ({userPost, onCheck, onX}) => {
   return (
     <View
-      style={{
-        paddingTop: 16,
-        backgroundColor: 'white',
-        margin: 8,
-        marginBottom: 25,
-        position: 'relative',
-        borderRadius: 30,
-        elevation: 10,
-      }}>
+      style={styles.cardBg}>
       <View
-        style={{
-          backgroundColor: 'white',
-          margin: 10,
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}>
+        style={styles.userBg}>
         <View>
           <Avatar.Image size={60} source={userPost.profilePicture} />
         </View>
         <View
-          style={{
-            flexDirection: 'column',
-            backgroundColor: 'ff8d4d',
-            marginLeft: 5,
-          }}>
+          style={styles.detailsBg}>
           <View>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+            <Text style={{fontSize: 20, fontWeight: constants.$fontWeightBold}}>
               {userPost.name}
             </Text>
           </View>
@@ -63,11 +48,7 @@ const ForumCard = ({userPost, onCheck, onX}) => {
         </View>
       </View>
       <View
-        style={{
-          backgroundColor: 'white',
-          paddingBottom: 10,
-          flexDirection: 'row',
-        }}>
+        style={styles.contentBg}>
         <Text style={{fontSize: 20, paddingHorizontal: 10}}>
           {userPost.postText}
         </Text>
@@ -84,20 +65,11 @@ const ForumCard = ({userPost, onCheck, onX}) => {
         />
       )}
       <View
-        style={{
-          backgroundColor: '#FFAC4E',
-          flexDirection: 'row',
-          borderBottomLeftRadius: 30,
-          borderBottomRightRadius: 30,
-        }}>
+        style={styles.approvedBg}>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            left: '30%',
-          }}>
+          style={styles.approvedBtn}>
           <TouchableOpacity onPress={onCheck}>
-            <CheckIcon
+            <icons.CheckIcon
               size="40"
               color="white"
               stroke={'#4BD37B'}
@@ -105,12 +77,12 @@ const ForumCard = ({userPost, onCheck, onX}) => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={onX}>
-            <XIcon
+            <icons.XIcon
               size="40"
               color="white"
               stroke={'#FF6464'}
               strokeWidth={2}
-              style={{left: 70}}
+              style={{left: '200%'}}
             />
           </TouchableOpacity>
         </View>
@@ -230,17 +202,13 @@ const ApprovalPage = () => {
         height: Dimensions.get('window').height,
       }}>
       <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          margin: 20,
-        }}>
+        style={styles.header}>
         <View style={{flexDirection: 'row', right: '3%'}}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('AdminForumPage');
             }}>
-            <Bubble
+            <icons.Bubble
               size="33"
               color="brown"
               strokeWidth={0}
@@ -249,12 +217,7 @@ const ApprovalPage = () => {
             />
           </TouchableOpacity>
           <Text
-            style={{
-              color: '#ff8d4d',
-              fontSize: 28,
-              fontFamily: 'Poppins-SemiBold',
-              left: '110%',
-            }}>
+            style={styles.approvalText}>
             Approval Page
           </Text>
         </View>
@@ -303,86 +266,128 @@ const ApprovalPage = () => {
 export default ApprovalPage;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 16,
-    backgroundColor: 'white',
-    margin: 8,
-    marginBottom: 25,
+  cardBg: {
+    paddingTop: '2%',
+    backgroundColor: constants.$backgroundColor,
+    margin: '2%',
+    marginBottom: '8%',
     position: 'relative',
     borderRadius: 30,
     elevation: 10,
   },
-  box: {
-    backgroundColor: 'white',
-    paddingBottom: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  forumcontent: {
-    fontSize: 20,
-    justifyContent: 'center',
-  },
-
-  usercontainer: {
-    backgroundColor: 'white',
-    padding: 5,
-    margin: 3,
+  userBg: {
+    backgroundColor: constants.$backgroundColor,
+    margin: '3%',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  user: {
+  detailsBg: {
     flexDirection: 'column',
-    backgroundColor: 'ff8d4d',
-    marginLeft: 5,
+    backgroundColor: constants.$backgroundColor,
+    marginLeft: '2%',
   },
-  username: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  contentBg: {
+    backgroundColor: constants.$backgroundColor,
+    paddingBottom: '3%',
+    flexDirection: 'row',
   },
-
-  choosebuttons: {
-    backgroundColor: '#FFAC4E',
+  approvedBg: {
+    backgroundColor: constants.$primaryColor,
     flexDirection: 'row',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
-  buttons: {
+  approvedBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     left: '30%',
   },
-  button: {
-    minWidth: 80,
-    marginHorizontal: 4,
-    borderRadius: 40,
-  },
-
-  radioButtonContainer: {
+  header: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 45,
-    marginLeft: 25,
+    justifyContent: 'space-between',
+    margin: '5%',
   },
-  radioButton: {
-    height: 20,
-    width: 20,
-    backgroundColor: '#F8F8F8',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#E6E6E6',
-    alignItems: 'center',
-    justifyContent: 'center',
+  approvalText: {
+    color: constants.$senaryColor,
+    fontSize: 28,
+    fontFamily: constants.$fontFamilySemiBold,
+    left: '110%',
   },
-  radioButtonIcon: {
-    height: 16,
-    width: 16,
-    borderRadius: 7,
-    backgroundColor: '#FF8700',
-  },
-  radioButtonText: {
-    fontSize: 16,
-    marginLeft: 16,
-  },
+  // container: {
+  //   paddingTop: 16,
+  //   backgroundColor: constants.$backgroundColor,
+  //   margin: 8,
+  //   marginBottom: 25,
+  //   position: 'relative',
+  //   borderRadius: 30,
+  //   elevation: 10,
+  // },
+  // box: {
+  //   ...alignmentMixin.alignment1,
+  //   backgroundColor: constants.$backgroundColor,
+  //   paddingBottom: 25,
+  // },
+  // forumcontent: {
+  //   fontSize: 20,
+  //   justifyContent: 'center',
+  // },
+  // usercontainer: {
+  //   backgroundColor: constants.$backgroundColor,
+  //   padding: 5,
+  //   margin: 3,
+  //   flexDirection: 'row',
+  //   justifyContent: 'flex-start',
+  //   alignItems: 'center',
+  // },
+  // user: {
+  //   flexDirection: 'column',
+  //   backgroundColor: constants.$senaryColor,
+  //   marginLeft: 5,
+  // },
+  // username: {
+  //   fontSize: 20,
+  //   fontWeight: constants.$fontWeightBold,
+  // },
+  // choosebuttons: {
+  //   backgroundColor: constants.$primaryColor,
+  //   flexDirection: 'row',
+  //   borderBottomLeftRadius: 30,
+  //   borderBottomRightRadius: 30,
+  // },
+  // buttons: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   left: '30%',
+  // },
+  // button: {
+  //   minWidth: 80,
+  //   marginHorizontal: 4,
+  //   borderRadius: 40,
+  // },
+  // radioButtonContainer: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   marginRight: 45,
+  //   marginLeft: 25,
+  // },
+  // radioButton: {
+  //   ...alignmentMixin.alignment,
+  //   height: 20,
+  //   width: 20,
+  //   backgroundColor: '#F8F8F8',
+  //   borderRadius: 10,
+  //   borderWidth: 1,
+  //   borderColor: '#E6E6E6',
+  // },
+  // radioButtonIcon: {
+  //   height: 16,
+  //   width: 16,
+  //   borderRadius: 7,
+  //   backgroundColor: '#FF8700',
+  // },
+  // radioButtonText: {
+  //   fontSize: 16,
+  //   marginLeft: 16,
+  // },
 });

@@ -10,6 +10,7 @@ import {
   Image,
   ImageBackground,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -146,7 +147,9 @@ const PetProfile = () => {
       Alert.alert('Error updating profile picture. Please try again.');
     }
   };
-
+  const imageSizePercentage = 40;
+  const imageSize = Dimensions.get('window').width*(imageSizePercentage/100);
+  const borderRadius = imageSize/2;
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
@@ -169,10 +172,16 @@ const PetProfile = () => {
                 ? {uri: petPicture}
                 : require('../images/UserIcon1.png')
             }
-            style={styles.profileImage}
+            style={{
+              ...styles.profileImage,
+              width: `${imageSizePercentage}%`,
+              height: `${imageSizePercentage}%`,
+              borderRadius: Number(borderRadius),
+            }}
+            resizeMode='cover'
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} />
+            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} size={30}/>
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>
@@ -233,7 +242,7 @@ const PetProfile = () => {
               uncheckedColor={constants.$quaternaryColor}
             />
             <Text style={styles.maleinput}>Male</Text>
-            <View style={{marginLeft: -20}} />
+            <View style={{marginLeft: '2%'}} />
             <RadioButton
               value="Female"
               status={checked === 'Female' ? 'checked' : 'unchecked'}
@@ -247,8 +256,8 @@ const PetProfile = () => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              paddingHorizontal: 70,
-              left: 40,
+              paddingHorizontal: '10%',
+              left: '5%',
             }}>
             <View style={styles.buttonContainerSaveCancel}>
               <View>
@@ -290,79 +299,65 @@ const styles = StyleSheet.create({
   maleinput: {
     flex: 1,
     alignItems: 'center',
-    right: 15,
-    paddingVertical: 10,
-    color: 'gray',
-    top: 2,
-    paddingLeft: 15,
+    right: '-3%',
+    top: '4%',
     flexDirection: 'row',
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
   },
   malefeminput: {
     flex: 1,
     fontSize: 18,
     alignItems: 'center',
-    left: 50,
-    color: 'gray',
-    top: -1,
-    marginRight: 30,
+    left: '15%',
+    top: '-1%',
     flexDirection: 'row',
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamily,
   },
   malInput: {
     flex: 1,
     alignItems: 'center',
-    left: 40,
+    left: '11%',
     color: constants.$senaryColor,
-    top: 10,
+    bottom: '-25%',
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: '5%',
   },
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    padding: '2.7%',
   },
   back: {
     flexDirection: 'row',
-    marginBottom: 40,
-    top: 45,
+    marginBottom:'2%',
+    top: '10%',
   },
   backIcon: {
     color: constants.$senaryColor,
-    flexDirection: 'row',
-    position: 'absolute',
-    top: -92,
-    left: 10,
-    paddingRight: 30,
+    left: '20%',
   },
   backText: {
     fontSize: 20,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
-    fontWeight: 'bold',
-    marginLeft: 30,
-    top: -95,
-    left: 25,
+    marginLeft: '5%',
   },
   profileImage: {
-    top: -20,
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    top: '20%',
+    width: '40%',
+    aspectRatio:1,
     alignSelf: 'center',
     marginBottom: 20,
   },
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: 37,
-    bottom: 0,
-    right: 62,
-    paddingRight: 30,
-    marginBottom: 90,
-    paddingVertical: 40,
+    top: '54%',
+    right: '102%',
+    // paddingRight: '60%',
+    // marginBottom: 90,
+    // paddingVertical: 40,
   },
   formContainer: {
     marginTop: 30,

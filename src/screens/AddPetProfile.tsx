@@ -11,6 +11,7 @@ import {
   ImageBackground,
   Alert,
   Dimensions,
+  TextStyle,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -38,7 +39,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import { buttonMixin } from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { profDetMixins } from '../styles/mixins/profDetMixins';
+import { addPetMixins } from '../styles/mixins/addPetMixins';
 
 const PetProfile = () => {
   const navigation = useNavigation();
@@ -181,7 +182,8 @@ const PetProfile = () => {
             resizeMode='cover'
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} size={30}/>
+            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} size={30}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>
@@ -231,7 +233,7 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} />
+            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} size={25} />
             <Text style={styles.malefeminput}>Sex</Text>
             <View style={styles.radioButton} />
             <RadioButton
@@ -297,32 +299,24 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   maleinput: {
-    flex: 1,
-    alignItems: 'center',
+    ...addPetMixins.input,
     right: '-3%',
     top: '4%',
-    flexDirection: 'row',
-    fontSize: 18,
-    fontFamily: constants.$fontFamily,
-  },
+    
+  } as TextStyle,
+
   malefeminput: {
-    flex: 1,
-    fontSize: 18,
-    alignItems: 'center',
-    left: '15%',
+    ...addPetMixins.input,
+    left: '9%',
     top: '-1%',
-    flexDirection: 'row',
-    fontFamily: constants.$fontFamily,
-  },
+  } as TextStyle,
   malInput: {
-    flex: 1,
-    alignItems: 'center',
-    left: '11%',
+    ...addPetMixins.align,
+    left: '7%',
     color: constants.$senaryColor,
     bottom: '-25%',
-    flexDirection: 'row',
     marginBottom: '5%',
-  },
+  } as TextStyle,
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -331,7 +325,7 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: 'row',
     marginBottom:'2%',
-    top: '10%',
+    top: '-15%',
   },
   backIcon: {
     color: constants.$senaryColor,
@@ -344,41 +338,33 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   profileImage: {
-    top: '20%',
+    top: '10%',
     width: '40%',
     aspectRatio:1,
     alignSelf: 'center',
-    marginBottom: 20,
   },
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: '54%',
-    right: '102%',
-    // paddingRight: '60%',
-    // marginBottom: 90,
-    // paddingVertical: 40,
+    top: '40%',
+    left: '59%',
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: '-25%',
   },
   iconInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...addPetMixins.align3,
     alignContent: 'center',
-    marginBottom: 10,
-    right: 5,
-    left: 7,
-    width: 340,
-  },
+    marginBottom: '2%',
+    left: '3%',
+    width: '89%',
+  } as TextStyle,
   icon: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: 10,
-    marginLeft: 30,
-    paddingRight: 30,
-    flexDirection: 'row',
-    paddingVertical: 11,
+    top: '25%',
+    marginLeft: '5%',
+    paddingVertical: '30%',
   },
   input: {
     flex: 1,
@@ -386,31 +372,28 @@ const styles = StyleSheet.create({
     height: 48,
     borderBottomWidth: 2,
     borderBottomColor: constants.$senaryColor,
-    marginLeft: 20,
-    paddingHorizontal: 40,
-    paddingVertical: 10,
-    width: 50,
-    padding: 20,
-    alignContent: 'center',
+    marginLeft: '5%',
+    paddingHorizontal: '10%',
+    paddingVertical: '2%',
   },
   radioButton: {
     borderColor: constants.$senaryColor,
     justifyContent: 'space-between',
-    right: 30,
+    paddingHorizontal:'4%',
   },
   buttonContainerSaveCancel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    top: '30%',
     borderRadius: 40,
+    left:'20%',
+
   },
   gradientBackground: {
     borderRadius: 20,
     width: 160,
     height: 50,
     position: 'absolute',
-    top: 8,
-    left: -20,
     elevation: 3,
     shadowColor: constants.$textColor1,
     shadowOffset: {width: 0, height: 1},
@@ -418,50 +401,42 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   saveButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    right: 10,
-    paddingTop: 50,
-    paddingHorizontal: 75,
-  },
+    ...addPetMixins.align1,
+    right: '20%',
+    top:'15%',
+    paddingTop: '25%',
+    paddingHorizontal: '25%',
+  } as TextStyle,
   buttonSave: {
+    ...addPetMixins.align4,
     color: constants.$textColor2,
     fontSize: 19,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    top: 10,
+    fontFamily: constants.$fontFamilyRegular,
+    top: '20%',
   },
   cancelButton: {
     backgroundColor: constants.$textColor2,
-    top: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    top: '9%',
+    ...addPetMixins.align1,
+    paddingVertical: '10%',
+    paddingHorizontal: '5%',
     borderRadius: 40,
     elevation: 3,
     shadowColor: constants.$textColor1,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 3,
-  },
+  } as TextStyle,
   buttonText: {
+    ...addPetMixins.align5,
     color: constants.$textColor2,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
+   
+  } as TextStyle,
   buttonTextCancel: {
+    ...addPetMixins.align5,
     color: constants.$senaryColor,
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
+  } as TextStyle,
 });
 
 export default PetProfile;

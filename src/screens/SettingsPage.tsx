@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   headerText: {
     paddingLeft: '3%',
     fontSize: 35,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$secondaryColor,
   },
   headerimg: {

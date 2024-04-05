@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -210,6 +211,9 @@ const UserProfile = () => {
       Alert.alert('Error updating profile. Please try again.');
     }
   };
+  const imageSizePercentage = 40;
+  const imageSize = Dimensions.get('window').width * (imageSizePercentage / 100);
+  const borderRadius = imageSize / 2;
 
   return (
     <ImageBackground
@@ -230,10 +234,16 @@ const UserProfile = () => {
           <Image
             source={
               profilePicture
-                ? {uri: profilePicture}
+                ? { uri: profilePicture }
                 : require('../images/userIcon.png')
             }
-            style={styles.profilePicture}
+            style={{
+              ...styles.profilePicture,
+              width: `${imageSizePercentage}%`,
+              height: `${imageSizePercentage}%`,
+              borderRadius: Number(borderRadius)
+            }}
+            resizeMode='cover'
           />
           <TouchableOpacity
             style={styles.arrowAdd}
@@ -241,7 +251,7 @@ const UserProfile = () => {
             <FontAwesomeIcon
               icon={icons.faCirclePlus}
               style={styles.arrowAdd}
-              size={25}
+              size={30}
             />
           </TouchableOpacity>
         </View>
@@ -310,37 +320,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
   },
   back: {
     flexDirection: 'row',
-    marginBottom: '10%',
-    top: '8%',
+    left:'2.6%',
+    top: '-10%',
+    color: constants.$senaryColor,
   },
   backIcon: {
     color: constants.$senaryColor,
     flexDirection: 'row',
     position: 'absolute',
-    bottom: '630%',
-    left: 10,
-    paddingRight: 30,
   },
   backText: {
     fontSize: 20,
-    fontFamily: constants.$fontFamily,
+    fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
-    fontWeight: constants.$fontWeightBold,
     marginLeft: '8%',
-    bottom: '45%',
-    left: 25,
+    left: '25%',
   },
   profileContainer: {
+    top:'10%',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: '10%',
   },
   profilePicture: {
-    width: 150,
-    height: 150,
+    width: '70%',
+    aspectRatio:1,
+    // height: 150,
     borderRadius: 75,
     alignSelf: 'center',
     marginBottom: 20,
@@ -348,18 +355,18 @@ const styles = StyleSheet.create({
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: '72%',
-    right: '33%',
+    top: '30%',
+    right: '34%',
   },
   formContainer: {
-    marginTop: '2%',
-    marginLeft: '-10%',
+    top:'-10%',
+    left: '-8%',
   },
   iconInputRow: {
     ...alignmentMixin.alignment1,
     justifyContent: undefined,
-    marginBottom: '3%',
-    width: 350,
+    marginBottom: '5%',
+    width: '99%',
   },
   icon: {
     color: constants.$senaryColor,
@@ -388,24 +395,23 @@ const styles = StyleSheet.create({
     top: '3%',
     borderBottomColor: constants.$senaryColor,
     marginLeft: '17%',
-    paddingHorizontal: 30,
+    paddingHorizontal: '8%',
     color: constants.$secondaryColor,
   },
   saveButton: {
     ...alignmentMixin.alignment1,
-    marginTop: 20,
-    paddingVertical: 20,
+    marginTop: '5%',
+    paddingVertical: '5%',
     borderRadius: 40,
   },
   buttonTextCancel: {
     ...buttonMixin.button,
     ...buttonMixin.buttonText,
     width: undefined,
-    color: '#FF8D4D',
-    top: 8,
-    backgroundColor: '#ffffff',
-    padding: 10,
-    paddingHorizontal: 20,
+    color: constants.$senaryColor,
+    backgroundColor: constants.$tertiaryColor,
+    padding: '2%',
+    paddingHorizontal: '7%',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -414,12 +420,12 @@ const styles = StyleSheet.create({
   gradientBackground: {
     ...buttonMixin.button,
     position: 'absolute',
-    top: 0,
-    left: 100,
+    // top: '90%',
+    left: '-90%',
   },
   buttonSave: {
     ...buttonMixin.buttonText,
-    top: 8,
+    top: '15%',
   },
   cancelButton: {
     ...alignmentMixin.align,

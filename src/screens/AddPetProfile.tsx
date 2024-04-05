@@ -83,7 +83,7 @@ const PetProfile = () => {
       }
 
       const metadata = {
-        contentType: 'image/jpeg', 
+        contentType: 'image/jpeg', // Adjust the content type based on your image type
       };
 
       const storage = FIREBASE_STORAGE;

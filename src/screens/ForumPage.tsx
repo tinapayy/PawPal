@@ -17,7 +17,8 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 interface Post {
   id: number;
@@ -29,7 +30,7 @@ interface Post {
 }
 
 const ForumPage = () => {
-  const navigation = useNavigation();
+  const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
 
   const db = FIREBASE_DB;
 
@@ -72,7 +73,33 @@ const ForumPage = () => {
     fetchData();
   }, []);
 
-  function getTimeDifference(postTime) {
+  function getTimeDifference(postTime: {
+    toDate: () => {
+      (): any;
+      new (): any;
+      getTime: {(): any; new (): any};
+      toLocaleDateString: {
+        (
+          arg0: string,
+          arg1: {
+            timeZone: string;
+            weekday: string;
+            year: string;
+            month: string;
+            day: string;
+          },
+        ): string;
+        new (): any;
+      };
+      toLocaleTimeString: {
+        (
+          arg0: string,
+          arg1: {timeZone: string; hour: string; minute: string},
+        ): string;
+        new (): any;
+      };
+    };
+  }) {
     const currentTime = new Date().getTime();
     const postTimestamp = postTime.toDate().getTime();
     const timeDifference = currentTime - postTimestamp;
@@ -127,11 +154,7 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Food icon pressed');
-            navigation.navigate('FoodAdvisable');
-          }}>
+        <TouchableOpacity onPress={NavFoodSuggestions}>
           <View>
             <Image
               source={require('../images/dog_food.png')}
@@ -205,7 +228,8 @@ const styles = StyleSheet.create({
     left: '-48%',
   },
   card: {
-    margin: '5%',
+    marginTop: '5%',
+    marginHorizontal: '5%',
   },
   cardContent: {
     flexDirection: 'column',
@@ -234,7 +258,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 16,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$textColor1,
   },
   postTime: {
@@ -254,8 +278,8 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   image: {
-    width: 300,
-    height: 150,
+    width: 340,
+    height: 200,
     resizeMode: 'cover',
     borderRadius: 20,
     top: '3%',

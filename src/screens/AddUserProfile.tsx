@@ -420,7 +420,6 @@ const styles = StyleSheet.create({
   gradientBackground: {
     ...buttonMixin.button,
     position: 'absolute',
-    // top: '90%',
     left: '-90%',
   },
   buttonSave: {

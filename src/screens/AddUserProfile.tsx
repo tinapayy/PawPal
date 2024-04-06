@@ -11,14 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faUser,
-  faLock,
-  faArrowLeft,
-  faCirclePlus,
-  faEnvelope,
-  faAddressCard,
-} from '@fortawesome/free-solid-svg-icons';
+import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
@@ -33,6 +26,9 @@ import {
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import constants from '../styles/constants';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 const UserProfile = () => {
   const navigation = useNavigation();
@@ -223,7 +219,7 @@ const UserProfile = () => {
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
@@ -243,7 +239,7 @@ const UserProfile = () => {
             style={styles.arrowAdd}
             onPress={() => openImagePicker()}>
             <FontAwesomeIcon
-              icon={faCirclePlus}
+              icon={icons.faCirclePlus}
               style={styles.arrowAdd}
               size={25}
             />
@@ -251,13 +247,13 @@ const UserProfile = () => {
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faEnvelope} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
             <View style={styles.iconInputRow}>
               <Text style={styles.inputName}>{auth.currentUser?.email}</Text>
             </View>
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faUser} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder={currentName ? currentName : 'Name'}
@@ -266,7 +262,7 @@ const UserProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={faAddressCard} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faAddressCard} style={styles.icon} />
             <TextInput
               style={[styles.input, {fontSize: 16}, {top: 2}]}
               placeholder={currentBio ? currentBio : 'Tell more about yourself'}
@@ -318,24 +314,24 @@ const styles = StyleSheet.create({
   },
   back: {
     flexDirection: 'row',
-    marginBottom: 40,
-    top: 60,
+    marginBottom: '10%',
+    top: '8%',
   },
   backIcon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 170,
+    bottom: '630%',
     left: 10,
     paddingRight: 30,
   },
   backText: {
     fontSize: 20,
-    fontFamily: 'Poppins-Regular',
-    color: '#5A2828',
-    fontWeight: 'bold',
-    marginLeft: 30,
-    bottom: 170,
+    fontFamily: constants.$fontFamily,
+    color: constants.$secondaryColor,
+    fontWeight: constants.$fontWeightBold,
+    marginLeft: '8%',
+    bottom: '45%',
     left: 25,
   },
   profileContainer: {
@@ -350,119 +346,83 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   arrowAdd: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
-    top: 62,
-    right: 60,
-    paddingRight: 40,
+    top: '72%',
+    right: '33%',
   },
   formContainer: {
-    marginTop: 5,
-    marginLeft: -20,
+    marginTop: '2%',
+    marginLeft: '-10%',
   },
   iconInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
-    marginBottom: 10,
-    left: 0,
+    ...alignmentMixin.alignment1,
+    justifyContent: undefined,
+    marginBottom: '3%',
     width: 350,
   },
   icon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
-    top: 15,
-    marginLeft: 65, 
-    paddingRight: 10,
+    top: '30%',
+    marginLeft: '13%', 
     flexDirection: 'row',
     alignContent: 'center',
   },
-  inputLabel: {
-    color: '#FF8D4D',
-    marginBottom: 8,
-  },
   input: {
-    fontFamily: 'Poppins',
+    fontFamily: constants.$fontFamily,
     flex: 1,
-    fontSize: 20,
-    height: 45,
+    fontSize: 18,
+    height: 50,
     borderBottomWidth: 2,
-    borderBottomColor: '#FF8D4D',
-    marginLeft: 60,
+    borderBottomColor: constants.$senaryColor,
+    marginLeft: '17%',
     paddingHorizontal: 30,
-    color: '#5A2828',
+    color: constants.$secondaryColor,
   },
   inputName: {
     flex: 1,
-    fontSize: 20,
+    fontSize: 18,
     height: 40,
     borderBottomWidth: 2,
-    top: 10,
-    borderBottomColor: '#FF8D4D',
-    marginLeft: 60,
+    top: '3%',
+    borderBottomColor: constants.$senaryColor,
+    marginLeft: '17%',
     paddingHorizontal: 30,
-    color: '#5A2828',
-  },
-  changePassword: {
-    fontSize: 25,
-    fontFamily: 'Poppins-Regular',
-    left: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#FF8D4D',
-    paddingHorizontal: 8,
+    color: constants.$secondaryColor,
   },
   saveButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...alignmentMixin.alignment1,
     marginTop: 20,
     paddingVertical: 20,
     borderRadius: 40,
   },
   buttonTextCancel: {
+    ...buttonMixin.button,
+    ...buttonMixin.buttonText,
+    width: undefined,
     color: '#FF8D4D',
-    fontSize: 17,
-    fontFamily: 'Poppins-Regular',
-    alignSelf: 'center',
     top: 8,
-    elevation: 3,
     backgroundColor: '#ffffff',
     padding: 10,
     paddingHorizontal: 20,
-    borderRadius: 30,
-    left: 20,
-    top: 7,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   gradientBackground: {
-    borderRadius: 20,
-    width: 150,
-    height: 45,
+    ...buttonMixin.button,
     position: 'absolute',
     top: 0,
     left: 100,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
   },
   buttonSave: {
-    color: '#ffffff',
-    fontSize: 17,
-    fontFamily: 'Poppins-Regular',
-    alignSelf: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
+    ...buttonMixin.buttonText,
     top: 8,
   },
   cancelButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...alignmentMixin.align,
     left: -40,
     paddingHorizontal: 20,
     borderRadius: 40,

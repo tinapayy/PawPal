@@ -1,112 +1,54 @@
 import React, {useState, useEffect} from 'react';
 import {NavigationContainer, ParamListBase} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Dimensions, LogBox, Platform, Text, View} from 'react-native';
-
+import {LogBox, Platform, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {RouteProp} from '@react-navigation/native';
-
-import {
-  HomeIcon as HomeSolid,
-  ChatBubbleOvalLeftEllipsisIcon as ChatBubbleLeftSolid,
-  PlusCircleIcon as PlusCircleSolid,
-  ChatBubbleLeftRightIcon as ForumSolid,
-  UserIcon as UserSolid,
-  MagnifyingGlassIcon as MagnifyingGlass,
-  ChatBubbleBottomCenterTextIcon as Bubble,
-} from 'react-native-heroicons/solid';
-
-import Homesamp from './screens/Homesamp';
-import Detailsamp from './screens/Detailsamp';
-import ClinicProfile from './src/screens/ClinicProfile';
-import ClinicProfileforCards from './src/screens/ClinicProfileforCards';
-import ForumPage from './src/screens/ForumPage';
-import AddPetProfile from './src/screens/AddPetProfile';
-import AddPetProfileSignUp from './src/screens/AddPetProfileSignUp';
-import EditPetProfile from './src/screens/EditPetProfile';
-import ProfileDetails from './src/screens/ProfileDetails';
-import ChatHome from './src/screens/ChatHome';
-import Chat from './src/screens/Chat';
-import HomePage from './src/screens/HomePage';
-
-import SignIn from './src/screens/SignIn';
-import GettingStarted from './src/screens/GettingStarted';
-import GettingStarted2 from './src/screens/GettingStarted2';
-import SignUp from './src/screens/SignUp';
-import AddClinicDetails from './src/screens/AddClinicDetails';
-import EditClinicDetails from './src/screens/EditClinicDetails';
-import AddUserProfile from './src/screens/AddUserProfile';
-import EditUserProfile from './src/screens/EditUserProfile';
-
-import PopularClinics from './src/screens/PopularClinics';
-import SettingsPage from './src/screens/SettingsPage';
-import ResultsPage from './src/screens/ResultsPage';
-import Onboarding from './src/screens/Onboarding';
-import FoodAdvisable from './src/screens/FoodAdvisable';
-import FoodRestricted from './src/screens/FoodRestricted';
-import ChoosePet from './src/screens/ChoosePet';
-import NewMessage from './src/screens/NewMessage';
-import CreatePost from './src/screens/CreatePost';
-import SettingsPage_Clinic from './src/screens/SettingsPage_Clinic';
-import Approval_page from './src/screens/Approval Page';
-import AdminForumPage from './src/screens/AdminForumPage';
-
+import * as icons from '../Pawpal/src/imports/icons/icons';
+import * as import_screens from '../PawPal/src/imports/import_screens/import_screens';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
-
-// import Slider from './src/components/slider';
-// import slidePet from './src/components/slider';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const android = Platform.OS === 'android';
 
 const menuIcons = (
-  route: RouteProp<ParamListBase, string>,
+  route: RouteProp<ParamListBase, keyof ParamListBase>,
   focused: boolean,
 ) => {
   let icon;
 
-  if (route.name === 'home') {
+  //navigation routes and corresponding icons
+  if (route.name === 'Home') {
     icon = focused ? (
-      <HomeSolid size="30" color={'#FF8D4D'} />
+      <icons.HomeSolid size="30" color={'#FF8D4D'} />
     ) : (
-      <HomeSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.HomeSolid size="30" strokeWidth={2} color="#5A2828" />
     );
-  } else if (route.name === 'favourite') {
+  } else if (route.name === 'Chat') {
     icon = focused ? (
-      <MagnifyingGlass
-        size="29"
-        stroke="#FF8D4D"
-        strokeWidth={2}
-        color={'#FF8D4D'}
-      />
+      <icons.ChatBubbleLeftSolid size="30" color={'#FF8D4D'} />
     ) : (
-      <MagnifyingGlass
-        size="29"
-        stroke="#5A2828"
-        strokeWidth={2}
-        color="#5A2828"
-      />
+      <icons.ChatBubbleLeftSolid size="30" strokeWidth={2} color="#5A2828" />
     );
-  } else if (route.name === 'cart') {
+  } else if (route.name === 'Create Post') {
     icon = focused ? (
-      <PlusCircleSolid size="30" color={'#FF8D4D'} />
+      <icons.PlusCircleSolid size="30" color={'#FF8D4D'} />
     ) : (
-      <PlusCircleSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.PlusCircleSolid size="30" strokeWidth={2} color="#5A2828" />
     );
-  } else if (route.name === 'ca') {
+  } else if (route.name === 'Forum') {
     icon = focused ? (
-      <ForumSolid size="30" color={'#FF8D4D'} />
+      <icons.ForumSolid size="30" color={'#FF8D4D'} />
     ) : (
-      <ForumSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.ForumSolid size="30" strokeWidth={2} color="#5A2828" />
     );
-  } else if (route.name === 'car') {
+  } else if (route.name === 'Profile Details') {
     icon = focused ? (
-      <UserSolid size="30" color={'#FF8D4D'} />
+      <icons.UserSolid size="30" color={'#FF8D4D'} />
     ) : (
-      <UserSolid size="30" strokeWidth={3} color="#5A2828" />
+      <icons.UserSolid size="30" strokeWidth={3} color="#5A2828" />
     );
   }
 
@@ -158,17 +100,24 @@ function HomeTabs() {
           marginTop: android ? 10 : 0,
         },
       })}>
-      <Tab.Screen name="home" component={HomePage} />
-      <Tab.Screen name="favourite" component={ResultsPage} />
-      <Tab.Screen name="cart" component={CreatePost} />
-      <Tab.Screen name="ca" component={ForumPage} />
+      {/* bottom navigation bars and corresponding screens*/}
+      <Tab.Screen name="Home" component={import_screens.HomePage} />
+      <Tab.Screen name="Chat" component={import_screens.MessagePage} />
+      <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
+      <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen
-        name="car"
-        component={userType === 'petOwner' ? ProfileDetails : ClinicProfile}
+        name="Profile Details"
+        component={
+          userType === 'petOwner'
+            ? import_screens.ProfileDetails
+            : import_screens.ClinicProfile
+        }
       />
     </Tab.Navigator>
   );
 }
+
+//navigation stack
 
 export default function App() {
   return (
@@ -177,46 +126,44 @@ export default function App() {
         screenOptions={{
           contentStyle: {backgroundColor: 'white'},
         }}>
-        {/* <Stack.Screen name="Home" options={{ headerShown: false }} component={HomeTabs} />
-        <Stack.Screen name="Product" options={{ headerShown: false }} component={Homesamp} /> */}
         <Stack.Screen
           name="GettingStarted"
-          component={GettingStarted}
+          component={import_screens.GettingStarted}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="GettingStarted2"
-          component={GettingStarted2}
+          component={import_screens.GettingStarted2}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="SignUp"
-          component={SignUp}
+          component={import_screens.SignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="AddUserProfile"
-          component={AddUserProfile}
+          component={import_screens.AddUserProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Add New Pet Profile"
-          component={AddPetProfileSignUp}
+          component={import_screens.AddPetProfileSignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="AddClinicDetails"
-          component={AddClinicDetails}
+          component={import_screens.AddClinicDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="EditClinicDetails"
-          component={EditClinicDetails}
+          component={import_screens.EditClinicDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="SignIn"
-          component={SignIn}
+          component={import_screens.SignIn}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -226,97 +173,97 @@ export default function App() {
         />
         <Stack.Screen
           name="ProfileDetails"
-          component={ProfileDetails}
+          component={import_screens.ProfileDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="SettingsPage"
-          component={SettingsPage}
+          component={import_screens.SettingsPage}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="EditUserProfile"
-          component={EditUserProfile}
+          component={import_screens.EditUserProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Add Pet Profile"
-          component={AddPetProfile}
+          component={import_screens.AddPetProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Edit Pet Profile"
-          component={EditPetProfile}
+          component={import_screens.EditPetProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ChoosePet"
-          component={ChoosePet}
+          component={import_screens.ChoosePet}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ForumPage"
-          component={ForumPage}
+          component={import_screens.ForumPage}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="PopularClinics"
-          component={PopularClinics}
+          component={import_screens.PopularClinics}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ChatHome"
-          component={ChatHome}
+          component={import_screens.ChatHome}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Chat"
-          component={Chat}
+          component={import_screens.Chat}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="NewMessage"
-          component={NewMessage}
+          component={import_screens.NewMessage}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="FoodAdvisable"
-          component={FoodAdvisable}
+          component={import_screens.FoodAdvisable}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="FoodRestricted"
-          component={FoodRestricted}
+          component={import_screens.FoodRestricted}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ResultsPage"
-          component={ResultsPage}
+          component={import_screens.ResultsPage}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ClinicProfile"
-          component={ClinicProfile}
+          component={import_screens.ClinicProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ClinicProfileforCards"
-          component={ClinicProfileforCards}
+          component={import_screens.ClinicProfileforCards}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="SettingsPage_Clinic"
-          component={SettingsPage_Clinic}
+          component={import_screens.SettingsPage_Clinic}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="ApprovalPage"
-          component={Approval_page}
+          component={import_screens.Approval_page}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="AdminForumPage"
-          component={AdminForumPage}
+          component={import_screens.AdminForumPage}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

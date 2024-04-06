@@ -1,20 +1,36 @@
 import React from 'react';
-import {View, Image, StyleSheet, Pressable, Text} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+  Text,
+  useWindowDimensions,
+} from 'react-native';
+import constants from '../styles/constants';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 const GettingStarted: React.FC = () => {
-  const navigation = useNavigation();
+  const NavGettingStarted2 = useNavigateTo('GettingStarted2');
+
   return (
-    <View>
-      <View style={styles.container1}>
+    <View style={styles.bigContainer}>
+      <View style={styles.corgiCatContainer}>
         <Image
           source={require('../images/corgiCat.png')}
-          style={styles.welcomeImage}
+          style={styles.petImage}
           resizeMode="contain"
         />
       </View>
 
       <View style={styles.buttonView}>
+        <View style={styles.taglineView}>
+          <Text style={styles.tagline}>
+            Your pet’s health is our priority because you care and we care.
+          </Text>
+        </View>
         <Pressable
           style={({pressed}) => [
             styles.button,
@@ -22,71 +38,60 @@ const GettingStarted: React.FC = () => {
               backgroundColor: pressed ? '#FF6464' : '#FFAC4E',
             },
           ]}
-          onPress={() => {
-            navigation.navigate('GettingStarted2');
-          }}>
-          <Text style={styles.text}>Getting Started</Text>
+          onPress={NavGettingStarted2}>
+          <Text style={styles.buttonText}>Getting Started</Text>
         </Pressable>
-        <Text style={styles.tagline}>
-          Your pet’s health is our priority because you care and we care.
-        </Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container1: {
+  bigContainer: {
+    ...alignmentMixin.align,
     flex: 1,
-    top: '600%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  welcomeImage: {
-    width: '90%',
-  },
-  container2: {
+  corgiCatContainer: {
+    ...alignmentMixin.align,
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingTop: '80%',
+    width: '100%',
   },
   petImage: {
-    width: 1000,
+    backgroundColor: constants.$backgroundColor,
+    height: '90%',
+    width: '100%',
+  },
+  taglineView: {
+    marginBottom: 30,
+  },
+  tagline: {
+    paddingHorizontal: 70,
+    marginVertical: 0,
+    textAlign: 'center',
+    backgroundColor: constants.$backgroundColor,
+    fontSize: constants.$fontSizeSmall,
+    fontFamily: constants.$fontFamilyMedium,
+    color: constants.$accentColor1,
   },
   buttonView: {
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    paddingHorizontal: 90,
-    top: 700,
+    marginBottom: 90,
   },
   button: {
-    top: '-190%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    borderRadius: 25,
-    elevation: 3,
-    backgroundColor: '#FFAC4E',
-    width: 200,
+    ...alignmentMixin.align,
+    paddingVertical: 12, // Adjust as needed
+    paddingHorizontal: 24, // Adjust as needed
+    borderRadius: 30,
+    elevation: 2,
+    backgroundColor: constants.$primaryColor,
+    width: '80%', // Adjust as needed
+    maxWidth: 200, // Limit maximum width
   },
-  text: {
-    fontSize: 18,
+  buttonText: {
+    fontSize: constants.$fontSizeRegular,
     letterSpacing: 0.25,
-    color: 'white',
-    fontFamily: 'Poppins-SemiBold',
-  },
-  tagline: {
-    fontFamily: 'Poppins-Medium',
-    textAlign: 'center',
-    position: 'absolute',
-    color: '#894848',
-    bottom: '350%',
-  },
-  taglineView: {
-    flex: 1,
-    width: 300,
+    color: constants.$textColor2,
+    fontFamily: constants.$fontFamilySemiBold,
   },
 });
 

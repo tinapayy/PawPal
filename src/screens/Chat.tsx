@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import * as icons from '../imports/icons/icons';
 import ImagePicker, {
   ImagePickerResponse,
   launchImageLibrary,
@@ -135,7 +135,7 @@ const Chat = ({route}) => {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={30} color="#FFF" />
+          <icons.MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
           <Image
@@ -184,7 +184,7 @@ const Chat = ({route}) => {
         <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
-          <MaterialIcons name="attachment" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="attachment" size={30} color="#FFBA69" />
         </TouchableOpacity>
 
         <TextInput
@@ -195,7 +195,7 @@ const Chat = ({route}) => {
           multiline={true}
         />
         <Pressable style={styles.sendButton} onPress={sendMessage}>
-          <MaterialIcons name="send" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="send" size={30} color="#FFBA69" />
         </Pressable>
       </View>
     </View>

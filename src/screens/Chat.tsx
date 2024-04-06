@@ -57,10 +57,10 @@ const Chat = ({route}) => {
           const userSnapshot = await getDocs(collection(db, 'user'));
           for (const userDoc of userSnapshot.docs) {
             if (
-              (userDoc.data().userId === senderId &&
+              (userDoc.data().userId === chatDoc.data().senderId &&
                 auth.currentUser?.uid === chatDoc.data().receiverId) ||
               (userDoc.data().userId === chatDoc.data().receiverId &&
-                auth.currentUser?.uid === senderId)
+                auth.currentUser?.uid === chatDoc.data().senderId)
             ) {
               chat.push({
                 id: chat.length + 1,
@@ -71,7 +71,7 @@ const Chat = ({route}) => {
                   ? {uri: userDoc.data().profilePicture}
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
-                time: chatDoc.data().time.toDate().toDateString(),
+                time: chatDoc.data().time.toDate().toLocaleTimeString(),
               });
             }
           }
@@ -179,38 +179,6 @@ const Chat = ({route}) => {
         )}
         keyExtractor={item => item.id}
       />
-
-      {/* <ScrollView style={styles.messageContainer}>
-        <View style={[styles.messageWrapper, styles.outgoingMessageWrapper]}>
-          <Text style={styles.timestamp}>{messages[1]?.time}</Text>
-          <View style={[styles.messageBubble, styles.outgoingMessageBubble]}>
-            <Text style={styles.messageText}>{messages[1]?.message}</Text>
-          </View>
-        </View>
-
-        <View style={[styles.messageWrapper, styles.incomingMessageWrapper]}>
-          <Text style={styles.timestamp}>10:47 AM</Text>
-          <View style={[styles.incomingMessageAvatarWrapper]}>
-            <Image
-              style={styles.incomingMessageAvatar}
-              source={require('../images/chat_icon.jpg')}
-            />
-            <View style={[styles.messageBubble, styles.incomingMessageBubble]}>
-              <Text style={styles.messageText}>
-                Please visit the clinic based on your time schedule. Keep safe!
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.messageWrapper}>
-          <Text style={styles.timestamp}>10:47 AM</Text>
-          <Image
-            style={styles.messageImage}
-            source={require('../images/chat_dog.png')}
-          />
-        </View>
-      </ScrollView> */}
 
       <View style={styles.inputContainer}>
         <TouchableOpacity

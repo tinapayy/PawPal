@@ -26,72 +26,13 @@ import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
-const Messages = [
-  {
-    id: '1',
-    userName: 'Cornerstone Animal Hospital',
-    userImage: require('../images/user1.jpg'),
-    messageTime: '10:00 AM',
-    messageText:
-      'Hello, Good morning! I would like to set an appointment for my dog today.',
-  },
-  {
-    id: '2',
-    userName: 'Labrod Veterinary Clinic',
-    userImage: require('../images/user2.jpg'),
-    messageTime: '2 hr',
-    messageText: 'Please visit the clinic based on your time scheduled.',
-  },
-  {
-    id: '3',
-    userName: 'Lala land Veterinary Clinic',
-    userImage: require('../images/user3.jpg'),
-    messageTime: 'Nov 3',
-    messageText: 'Thank you for visiting our clinic today.',
-  },
-  {
-    id: '4',
-    userName: 'Pet Express',
-    userImage: require('../images/user4.jpg'),
-    messageTime: 'Nov 1',
-    messageText: 'Thank you for visiting our store today.',
-  },
-  {
-    id: '5',
-    userName: 'Pet Expresso',
-    userImage: require('../images/user5.jpg'),
-    messageTime: 'Sep 30',
-    messageText: 'Thank you for visiting our store today.',
-  },
-  {
-    id: '6',
-    userName: 'Pet ExpressPadala',
-    userImage: require('../images/user5.jpg'),
-    messageTime: 'Sep 30',
-    messageText: 'Thank you for visiting our store today.',
-  },
-  {
-    id: '7',
-    userName: 'Pet ExpressoCoffee',
-    userImage: require('../images/user5.jpg'),
-    messageTime: 'Sep 30',
-    messageText: 'Thank you for visiting our store today.',
-  },
-  {
-    id: '8',
-    userName: 'Pet ExpressoSOSO',
-    userImage: require('../images/user5.jpg'),
-    messageTime: 'Sep 30',
-    messageText: 'Thank you for visiting our store today.',
-  },
-];
-
 interface Chat {
   id: number;
   senderId: string;
   senderName: number;
   senderPicture: any;
   message: string;
+  date: string;
   time: string;
 }
 
@@ -118,21 +59,36 @@ const MessagePage = () => {
           ) {
             chat.push({
               id: chat.length + 1,
-              senderId: chatDoc.data().senderId,
+              senderId:
+                chatDoc.data().senderId === auth.currentUser?.uid
+                  ? chatDoc.data().receiverId
+                  : chatDoc.data().senderId,
               senderName: userDoc.data().name,
               senderPicture: {
                 uri: userDoc.data().profilePicture,
               },
-              message: chatDoc.data().message,
+              message:
+                chatDoc.data().senderId === auth.currentUser?.uid
+                  ? 'You: ' + chatDoc.data().message
+                  : chatDoc.data().message,
+              date: chatDoc.data().time.toDate().toLocaleDateString('en-US', {
+                timeZone: 'Asia/Manila',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+              }),
               time: getTimeDifference(chatDoc.data().time),
             });
           }
         }
       }
-      const unique = chat.filter(
-        (v, i, a) => a.findIndex(t => t.senderName === v.senderName) === i,
+      // Sort chat by date of message
+      chat.sort((a, b) => b.date.localeCompare(a.date));
+      // Remove duplicate senderId
+      const uniqueChat = chat.filter(
+        (v, i, a) => a.findIndex(t => t.senderId === v.senderId) === i,
       );
-      setMessages(unique.reverse());
+      setMessages(uniqueChat);
     } catch (error) {
       console.error(error);
     }

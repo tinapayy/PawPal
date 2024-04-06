@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView, TextInput} from 'react-native';
+import {ScrollView, SafeAreaView, TextInput, Pressable} from 'react-native';
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
+import {text} from '@fortawesome/fontawesome-svg-core';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
@@ -52,7 +53,6 @@ const data3 = [
 ];
 
 const renderItem = ({item, index, navigation}) => {
-
   const handleSeeMoreClick = () => {
     navigation.navigate('ClinicProfileforCards', {
       clinicId: item.clinicId,
@@ -129,8 +129,8 @@ const renderItem = ({item, index, navigation}) => {
           )}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}>
-          </Text>
+          <Text
+            style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}></Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
               icon={icons.faArrowRight}
@@ -242,9 +242,17 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
-  function handleSearchSubmit(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void {
-    throw new Error('Function not implemented.');
-  }
+  // function handleSearchSubmit(
+  //   e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  // ): void {
+  //   throw new Error('Function not implemented.');
+  // }
+
+  const [searchboxQuery, setSearchBoxQuery] = useState('');
+
+  const handleSearchIconClick = () => {
+    navigation.navigate('ResultsPage', {searchboxQuery: searchboxQuery});
+  };
 
   // first carousel
   return (
@@ -277,21 +285,27 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       borderRadius: 20,
                       width: 200,
                     }}>
-                    <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
-                      style={{ color: "#ff8700", marginRight: 10 }} />
-                    <TextInput style={{
-                      flex: 1,
-                      color: 'black',
-                      fontSize: 13,
-                      height: 35,
-                      marginLeft: 10,
-                    }}
-                    //search not implemented
+                    <Pressable onPress={handleSearchIconClick}>
+                      <FontAwesomeIcon
+                        icon={icons.faMagnifyingGlass}
+                        size={20}
+                        style={{color: '#ff8700', marginRight: 10}}
+                      />
+                    </Pressable>
+                    <TextInput
+                      style={{
+                        flex: 1,
+                        color: 'black',
+                        fontSize: 13,
+                        height: 35,
+                        marginLeft: 10,
+                      }}
+                      //search not implemented
                       placeholder="Search"
                       placeholderTextColor={'#ff8d4d'}
-                      onSubmitEditing={handleSearchSubmit}
+                      onChangeText={text => setSearchBoxQuery(text)}
                     />
-                    </View>
+                  </View>
                 </View>
 
                 {/* profile click */}
@@ -533,9 +547,6 @@ const HomePage = () => {
     console.log('Search query:', searchQuery);
 
     navigation.navigate('ResultsPage', {searchQuery});
-  };
-  const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage');
   };
 
   return (

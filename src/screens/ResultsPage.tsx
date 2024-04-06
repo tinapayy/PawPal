@@ -18,7 +18,7 @@ import {Avatar} from 'react-native-paper';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -79,7 +79,7 @@ type Clinic = {
   clinicPicture: any;
 };
 
-const ResultsPage = () => {
+const ResultsPage = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -198,14 +198,15 @@ const ResultsPage = () => {
     return `${hours}:${minutes}`;
   };
 
-  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
+  const initialsearchstate = route.params ? route.params.searchboxQuery : '';
+  const [searchQuery, setSearchQuery] = useState(initialsearchstate); // Replace with actual search query from the search bar
   const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
 
   const handleSearch = text => {
     setSearchQuery(text);
 
-    const filtered = clinics.filter(
-      clinic => clinic.name.toLowerCase().includes(text.toLowerCase()),
+    const filtered = clinics.filter(clinic =>
+      clinic.name.toLowerCase().includes(text.toLowerCase()),
     );
 
     fetchData();
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
   card: {
     ...buttonMixin.button,
     height: undefined,
-    width: Dimensions.get('window').width*0.93,
+    width: Dimensions.get('window').width * 0.93,
     alignItems: 'center',
     backgroundColor: constants.$backgroundColor,
     margin: 10,

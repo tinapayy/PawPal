@@ -203,15 +203,27 @@ const ResultsPage = ({route}) => {
   const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
 
   const handleSearch = text => {
+    console.log(text);
     setSearchQuery(text);
+    console.log(searchQuery);
+    console.log('++++++');
 
     const filtered = clinics.filter(clinic =>
       clinic.name.toLowerCase().includes(text.toLowerCase()),
     );
 
+    console.log(filtered);
+    console.log('------');
+
     fetchData();
     setFilteredClinics(filtered);
   };
+
+  if (route.params) {
+    useEffect(() => {
+      handleSearch(route.params.searchboxQuery);
+    }, []);
+  }
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {

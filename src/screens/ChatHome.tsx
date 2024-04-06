@@ -129,7 +129,7 @@ const MessagePage = () => {
         source={require('../images/messagePage_bg.png')}
         style={{width: '100%', height: '100%'}}>
         <View style={styles.back}>
-          <TouchableOpacity onPress={() => navigation.navigate('home')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               style={styles.backIcon}

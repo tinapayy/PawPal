@@ -19,7 +19,7 @@ import {
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 interface User {
   id: number;
@@ -97,7 +97,7 @@ const ChoosePet = () => {
     if (userId !== 0) {
       navigation.navigate('Edit Pet Profile', {petId: petId});
     } else {
-      navigation.navigate('Add New Pet Profile');
+      navigation.navigate('Add Pet Profile');
     }
   };
 

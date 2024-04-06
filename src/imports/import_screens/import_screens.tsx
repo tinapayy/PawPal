@@ -41,7 +41,7 @@ export {
   AddPetProfileSignUp,
   EditPetProfile,
   ProfileDetails,
-  MessagePage,
+  ChatHome,
   HomePage,
   SignIn,
   GettingStarted,

@@ -19,7 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
-interface Chat {
+interface ChatMessage {
   id: number;
   senderId: string;
   receiverId: string;
@@ -43,12 +43,12 @@ const Chat = ({route}) => {
     navigation.navigate('ClinicProfile');
   };
 
-  const [messages, setMessages] = useState<Chat[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const fetchData = async () => {
     try {
       const chatSnapshot = await getDocs(collection(db, 'chat'));
-      const chat: Chat[] = [];
+      const chat: ChatMessage[] = [];
       for (const chatDoc of chatSnapshot.docs) {
         if (
           chatDoc.data().senderId === senderId ||

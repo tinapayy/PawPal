@@ -149,7 +149,8 @@ const Chat = ({route}) => {
       </View>
 
       <FlatList
-        data={messages}
+        inverted
+        data={[...messages].reverse()}
         renderItem={({item}) => (
           <View
             style={

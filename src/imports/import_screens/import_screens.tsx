@@ -1,4 +1,3 @@
-
 //contains all the the screens
 
 import ClinicProfile from '../../screens/ClinicProfile';
@@ -8,7 +7,7 @@ import AddPetProfile from '../../screens/AddPetProfile';
 import AddPetProfileSignUp from '../../screens/AddPetProfileSignUp';
 import EditPetProfile from '../../screens/EditPetProfile';
 import ProfileDetails from '../../screens/ProfileDetails';
-import MessagePage from '../../screens/MessagePage';
+import ChatHome from '../../screens/ChatHome';
 import HomePage from '../../screens/HomePage';
 
 import SignIn from '../../screens/SignIn';
@@ -35,34 +34,34 @@ import Approval_page from '../../screens/Approval Page';
 import AdminForumPage from '../../screens/AdminForumPage';
 
 export {
-    ClinicProfile,
-    ClinicProfileforCards,
-    ForumPage,
-    AddPetProfile,
-    AddPetProfileSignUp,
-    EditPetProfile,
-    ProfileDetails,
-    MessagePage,
-    HomePage,
-    SignIn,
-    GettingStarted,
-    GettingStarted2,
-    SignUp,
-    AddClinicDetails,
-    EditClinicDetails,
-    AddUserProfile,
-    EditUserProfile,
-    PopularClinics,
-    Chat,
-    SettingsPage,
-    ResultsPage,
-    Onboarding,
-    FoodAdvisable,
-    FoodRestricted,
-    ChoosePet,
-    NewMessage,
-    CreatePost,
-    SettingsPage_Clinic,
-    Approval_page,
-    AdminForumPage
+  ClinicProfile,
+  ClinicProfileforCards,
+  ForumPage,
+  AddPetProfile,
+  AddPetProfileSignUp,
+  EditPetProfile,
+  ProfileDetails,
+  ChatHome,
+  HomePage,
+  SignIn,
+  GettingStarted,
+  GettingStarted2,
+  SignUp,
+  AddClinicDetails,
+  EditClinicDetails,
+  AddUserProfile,
+  EditUserProfile,
+  PopularClinics,
+  Chat,
+  SettingsPage,
+  ResultsPage,
+  Onboarding,
+  FoodAdvisable,
+  FoodRestricted,
+  ChoosePet,
+  NewMessage,
+  CreatePost,
+  SettingsPage_Clinic,
+  Approval_page,
+  AdminForumPage,
 };

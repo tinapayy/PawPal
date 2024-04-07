@@ -698,7 +698,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 0,
     borderRadius: 15,
-    margintop: 10,
+    marginTop: 10,
     marginBottom: 5,
     fontWeight: 'bold',
     paddingHorizontal: 5,

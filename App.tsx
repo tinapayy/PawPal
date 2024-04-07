@@ -26,7 +26,7 @@ const menuIcons = (
     ) : (
       <icons.HomeSolid size="30" strokeWidth={2} color="#5A2828" />
     );
-  } else if (route.name === 'Chat') {
+  } else if (route.name === 'ChatHome') {
     icon = focused ? (
       <icons.ChatBubbleLeftSolid size="30" color={'#FF8D4D'} />
     ) : (
@@ -102,7 +102,7 @@ function HomeTabs() {
       })}>
       {/* bottom navigation bars and corresponding screens*/}
       <Tab.Screen name="Home" component={import_screens.HomePage} />
-      <Tab.Screen name="Chat" component={import_screens.ChatHome} />
+      <Tab.Screen name="ChatHome" component={import_screens.ChatHome} />
       <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
       <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen

@@ -231,20 +231,22 @@ const UserProfile = () => {
           <Text style={styles.backText}>Add User Profile</Text>
         </View>
         <View style={styles.profileContainer}>
-          <Image
-            source={
-              profilePicture
-                ? { uri: profilePicture }
-                : require('../images/userIcon.png')
-            }
-            style={{
-              ...styles.profilePicture,
-              width: `${imageSizePercentage}%`,
-              height: `${imageSizePercentage}%`,
-              borderRadius: Number(borderRadius)
-            }}
-            resizeMode='cover'
-          />
+          <View>
+            <Image
+              source={
+                profilePicture
+                  ? { uri: profilePicture }
+                  : require('../images/userIcon.png')
+              }
+              style={{
+                ...styles.profilePicture,
+                width: `${imageSizePercentage}%`,
+                height: `${imageSizePercentage}%`,
+                borderRadius: Number(borderRadius)
+              }}
+              resizeMode='cover'
+            />
+          </View>
           <TouchableOpacity
             style={styles.arrowAdd}
             onPress={() => openImagePicker()}>
@@ -320,6 +322,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    // padding: '2.7%',
   },
   back: {
     flexDirection: 'row',

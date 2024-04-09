@@ -71,19 +71,16 @@ const MessagePage = () => {
                 chatDoc.data().senderId === auth.currentUser?.uid
                   ? 'You: ' + chatDoc.data().message
                   : chatDoc.data().message,
-              date: chatDoc.data().time.toDate().toLocaleDateString('en-US', {
-                timeZone: 'Asia/Manila',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-              }),
+              date: chatDoc.data().time.toDate(),
               time: getTimeDifference(chatDoc.data().time),
             });
           }
         }
       }
       // Sort chat by date of message
-      chat.sort((a, b) => b.date.localeCompare(a.date));
+      chat.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
       // Remove duplicate senderId
       const uniqueChat = chat.filter(
         (v, i, a) => a.findIndex(t => t.senderId === v.senderId) === i,

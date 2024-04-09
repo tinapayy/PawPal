@@ -26,6 +26,7 @@ interface ChatMessage {
   senderName: string;
   senderPicture: any;
   message: string;
+  date: string;
   time: string;
 }
 
@@ -71,13 +72,29 @@ const Chat = ({route}) => {
                   ? {uri: userDoc.data().profilePicture}
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
-                time: chatDoc.data().time.toDate().toLocaleTimeString(),
+                date: chatDoc.data().time.toDate(),
+                time:
+                  // chatDoc.data().time.toDate().toLocaleTimeString('en-US', {
+                  //   hour: 'numeric',
+                  //   minute: 'numeric',
+                  //   second: 'numeric',
+                  // }),
+                  chatDoc.data().time.toDate().toLocaleDateString('en-US', {
+                    timeZone: 'Asia/Manila',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                  }),
               });
             }
           }
         }
       }
-      setMessages(chat.sort((a, b) => a.time.localeCompare(b.time)));
+      // Sort chat by date of message
+      chat.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      );
+      setMessages(chat);
     } catch (error) {
       console.error(error);
     }

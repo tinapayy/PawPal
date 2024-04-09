@@ -415,12 +415,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
   
   } as TextStyle,
-  buttonText: {
-    ...buttonMixin.buttonText,
-    ...addPetMixins.align5,
-    // color: constants.$textColor2,
-   
-  } as TextStyle,
   buttonTextCancel: {
     ...addPetMixins.align5,
     color: constants.$senaryColor,

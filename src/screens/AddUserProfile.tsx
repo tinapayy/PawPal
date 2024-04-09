@@ -10,6 +10,8 @@ import {
   ImageBackground,
   Alert,
   Dimensions,
+  TextStyle,
+  ViewStyle,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -370,14 +372,14 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     marginBottom: '2.5%',
     width: '99%',
-  },
+  } as TextStyle,
   icon: {
     color: constants.$senaryColor,
     position: 'absolute',
     top: '30%',
     marginLeft: '13%', 
     ...addPetMixins.align3,
-  },
+  } as TextStyle,
   //texts input field
   input: {
     fontFamily: constants.$fontFamily,
@@ -404,7 +406,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     top:'-5%',
     left:'54%',
-  },
+  } as ViewStyle,
   //skip texts
   buttonTextCancel: {
     ...buttonMixin.button,
@@ -414,7 +416,7 @@ const styles = StyleSheet.create({
     backgroundColor: constants.$tertiaryColor,
     padding: '2%',
     paddingHorizontal: '7%',
-  },
+  } as ViewStyle,
 
   gradientBackground: {
     ...buttonMixin.button,
@@ -424,12 +426,12 @@ const styles = StyleSheet.create({
   buttonSave: {
     ...buttonMixin.buttonText,
     top: '19%',
-  },
+  } as ViewStyle,
   //skip container
   cancelButton: {
     ...alignmentMixin.align,
     borderRadius: 40,
-  },
+  } as ViewStyle,
 });
 
 export default UserProfile;

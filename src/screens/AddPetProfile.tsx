@@ -12,6 +12,7 @@ import {
   Alert,
   Dimensions,
   TextStyle,
+  ViewStyle,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -148,7 +149,7 @@ const PetProfile = () => {
       Alert.alert('Error updating profile picture. Please try again.');
     }
   };
-  const imageSizePercentage = 40;
+  const imageSizePercentage = 30;
   const imageSize = Dimensions.get('window').width*(imageSizePercentage/100);
   const borderRadius = imageSize/2;
   return (
@@ -175,9 +176,9 @@ const PetProfile = () => {
             }
             style={{
               ...styles.profileImage,
-              width: `${imageSizePercentage}%`,
-              height: `${imageSizePercentage}%`,
-              borderRadius: Number(borderRadius),
+              width: imageSize,
+              height: imageSize,
+              borderRadius: borderRadius,
             }}
             resizeMode='cover'
           />
@@ -261,7 +262,7 @@ const PetProfile = () => {
               paddingHorizontal: '10%',
               left: '5%',
             }}>
-            <View style={styles.buttonContainerSaveCancel}>
+            <View style={styles.buttonContainer}>
               <View>
                 <TouchableOpacity
                   style={styles.saveButton}
@@ -325,11 +326,10 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: 'row',
     marginBottom:'2%',
-    top: '-15%',
+    top: '-39%',
   },
   backIcon: {
     color: constants.$senaryColor,
-    left: '20%',
   },
   backText: {
     fontSize: 20,
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   profileImage: {
-    top: '10%',
+    bottom: '60%',
     width: '40%',
     aspectRatio:1,
     alignSelf: 'center',
@@ -346,16 +346,17 @@ const styles = StyleSheet.create({
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: '40%',
+    top: '10%',
     left: '59%',
   },
   formContainer: {
-    marginTop: '-25%',
+    marginTop: '-20%',
+    top:'10%',
   },
   iconInputRow: {
     ...addPetMixins.align3,
     alignContent: 'center',
-    marginBottom: '2%',
+    marginBottom: '2.5%',
     left: '3%',
     width: '89%',
   } as TextStyle,
@@ -381,61 +382,50 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal:'4%',
   },
-  buttonContainerSaveCancel: {
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    top: '30%',
-    borderRadius: 40,
-    left:'20%',
+    top: '40%',
+    left:'10%',
 
   },
   gradientBackground: {
-    borderRadius: 20,
-    width: 160,
-    height: 50,
+    ...buttonMixin.button,
     position: 'absolute',
-    elevation: 3,
-    shadowColor: constants.$textColor1,
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
   },
   saveButton: {
     ...addPetMixins.align1,
-    right: '20%',
-    top:'15%',
+    top:'5%',
     paddingTop: '25%',
     paddingHorizontal: '25%',
   } as TextStyle,
   buttonSave: {
     ...addPetMixins.align4,
-    color: constants.$textColor2,
-    fontSize: 19,
-    fontFamily: constants.$fontFamilyRegular,
-    top: '20%',
-  },
+    ...buttonMixin.buttonText,
+    top:'19%',
+  } as ViewStyle,
   cancelButton: {
-    backgroundColor: constants.$textColor2,
-    top: '9%',
+    ...buttonMixin.button,
+    ...buttonMixin.buttonText,
+    width: undefined,
+    color: constants.$senaryColor,
+    backgroundColor: constants.$tertiaryColor,
     ...addPetMixins.align1,
     paddingVertical: '10%',
     paddingHorizontal: '5%',
-    borderRadius: 40,
-    elevation: 3,
-    shadowColor: constants.$textColor1,
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
+  
   } as TextStyle,
   buttonText: {
+    ...buttonMixin.buttonText,
     ...addPetMixins.align5,
-    color: constants.$textColor2,
+    // color: constants.$textColor2,
    
   } as TextStyle,
   buttonTextCancel: {
     ...addPetMixins.align5,
     color: constants.$senaryColor,
     fontSize: 18,
+    paddingHorizontal:'5%',
   } as TextStyle,
 });
 

@@ -30,7 +30,8 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import constants from '../styles/constants';
 import { buttonMixin } from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
-
+import { addPetMixins } from '../styles/mixins/addPetMixins';
+import { KeyboardAvoidingView } from 'react-native';
 const UserProfile = () => {
   const navigation = useNavigation();
 
@@ -211,15 +212,18 @@ const UserProfile = () => {
       Alert.alert('Error updating profile. Please try again.');
     }
   };
-  const imageSizePercentage = 40;
+  const imageSizePercentage = 30;
   const imageSize = Dimensions.get('window').width * (imageSizePercentage / 100);
   const borderRadius = imageSize / 2;
 
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
+      //background image styling
       style={styles.backgroundImage1}>
+      {/* container */}
       <View style={styles.container}>
+        {/* back icon and text */}
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -230,7 +234,8 @@ const UserProfile = () => {
           </TouchableOpacity>
           <Text style={styles.backText}>Add User Profile</Text>
         </View>
-        <View style={styles.profileContainer}>
+        {/* profile photo and arrow */}
+        <View style={styles.profileContainer} >
           <View>
             <Image
               source={
@@ -240,28 +245,29 @@ const UserProfile = () => {
               }
               style={{
                 ...styles.profilePicture,
-                width: `${imageSizePercentage}%`,
-                height: `${imageSizePercentage}%`,
-                borderRadius: Number(borderRadius)
+                width: imageSize,
+                height: imageSize,
+                borderRadius: borderRadius,
               }}
               resizeMode='cover'
             />
-          </View>
-          <TouchableOpacity
-            style={styles.arrowAdd}
-            onPress={() => openImagePicker()}>
-            <FontAwesomeIcon
-              icon={icons.faCirclePlus}
+            <TouchableOpacity
               style={styles.arrowAdd}
-              size={30}
-            />
-          </TouchableOpacity>
+              onPress={() => openImagePicker()}>
+              <FontAwesomeIcon
+                icon={icons.faCirclePlus}
+                style={styles.arrowAdd}
+                size={30}
+              />
+            </TouchableOpacity>
+          </View>
+          
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
             <View style={styles.iconInputRow}>
-              <Text style={styles.inputName}>{auth.currentUser?.email}</Text>
+              <Text style={styles.input}>{auth.currentUser?.email}</Text>
             </View>
           </View>
           <View style={styles.iconInputRow}>
@@ -293,7 +299,7 @@ const UserProfile = () => {
               accessible={true}
               accessibilityRole="button">
               <LinearGradient
-                colors={['#FFAC4E', '#FF6464']}
+                colors={[constants.$backgroundColor1, constants.$accentColor]}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
                 style={styles.gradientBackground}>
@@ -322,53 +328,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // padding: '2.7%',
   },
   back: {
     flexDirection: 'row',
     left:'2.6%',
-    top: '-10%',
+    top: '-29%',
     color: constants.$senaryColor,
   },
   backIcon: {
     color: constants.$senaryColor,
     flexDirection: 'row',
-    position: 'absolute',
   },
   backText: {
     fontSize: 20,
     fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
-    marginLeft: '8%',
-    left: '25%',
+    marginLeft: '5%',
   },
   profileContainer: {
-    top:'10%',
-    alignItems: 'center',
-    marginBottom: '10%',
   },
   profilePicture: {
-    width: '70%',
+    width: '40%',
+    top: '-20%',
     aspectRatio:1,
-    // height: 150,
     borderRadius: 75,
     alignSelf: 'center',
-    marginBottom: 20,
+    marginBottom: '10%',
+    overflow: 'hidden',
   },
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: '30%',
-    right: '34%',
+    top: '39%',
+    left: '58%',
   },
   formContainer: {
-    top:'-10%',
     left: '-8%',
   },
   iconInputRow: {
-    ...alignmentMixin.alignment1,
-    justifyContent: undefined,
-    marginBottom: '5%',
+    ...addPetMixins.align3,
+    alignContent: 'center',
+    marginBottom: '2.5%',
     width: '99%',
   },
   icon: {
@@ -376,37 +376,36 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '30%',
     marginLeft: '13%', 
-    flexDirection: 'row',
-    alignContent: 'center',
+    ...addPetMixins.align3,
   },
+  //texts input field
   input: {
     fontFamily: constants.$fontFamily,
     flex: 1,
     fontSize: 18,
-    height: 50,
+    height: 48,
     borderBottomWidth: 2,
     borderBottomColor: constants.$senaryColor,
     marginLeft: '17%',
-    paddingHorizontal: 30,
-    color: constants.$secondaryColor,
+    paddingHorizontal: '10%',
+    paddingVertical:'2%',
   },
-  inputName: {
-    flex: 1,
-    fontSize: 18,
-    height: 40,
-    borderBottomWidth: 2,
-    top: '3%',
-    borderBottomColor: constants.$senaryColor,
-    marginLeft: '17%',
-    paddingHorizontal: '8%',
-    color: constants.$secondaryColor,
+  //button container for save and skip
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    top: '-5%',
   },
+  //save changes container
   saveButton: {
     ...alignmentMixin.alignment1,
     marginTop: '5%',
-    paddingVertical: '5%',
+    paddingVertical: '15%',
     borderRadius: 40,
+    top:'-5%',
+    left:'54%',
   },
+  //skip texts
   buttonTextCancel: {
     ...buttonMixin.button,
     ...buttonMixin.buttonText,
@@ -416,25 +415,20 @@ const styles = StyleSheet.create({
     padding: '2%',
     paddingHorizontal: '7%',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+
   gradientBackground: {
     ...buttonMixin.button,
     position: 'absolute',
-    left: '-90%',
   },
+  //text save changes
   buttonSave: {
     ...buttonMixin.buttonText,
-    top: '15%',
+    top: '19%',
   },
+  //skip container
   cancelButton: {
     ...alignmentMixin.align,
-    left: -40,
-    paddingHorizontal: 20,
     borderRadius: 40,
-    top: 7,
   },
 });
 

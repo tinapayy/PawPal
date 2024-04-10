@@ -11,10 +11,11 @@ const SwitchButton = ({selectedUserType, setSelectedUserType}) => {
           justifyContent: 'center',
           width: '80%',
           height: 55,
-          borderWidth: 0.5,
+          borderWidth: 0.7,
           borderRadius: 25,
           flexDirection: 'row',
           alignItems: 'center',
+          borderBlockColor: '#5a2828',
           top: -50,
         }}>
         <TouchableOpacity
@@ -24,14 +25,14 @@ const SwitchButton = ({selectedUserType, setSelectedUserType}) => {
             elevation: selectedUserType === 'petOwner' ? 3 : 0,
             backgroundColor:
               selectedUserType === 'petOwner' ? 'orange' : 'white',
-            borderRadius: 25,
+            borderRadius: 23,
             justifyContent: 'center',
             alignItems: 'center',
           }}
           onPress={() => setSelectedUserType('petOwner')}>
           <Text
             style={{
-              color: selectedUserType === 'petOwner' ? '#fff' : '#000',
+              color: selectedUserType === 'petOwner' ? '#fff' : '#5a2828',
               fontSize: 18,
               fontWeight: '700',
             }}>
@@ -44,14 +45,14 @@ const SwitchButton = ({selectedUserType, setSelectedUserType}) => {
             height: 49,
             elevation: selectedUserType === 'clinic' ? 3 : 0,
             backgroundColor: selectedUserType === 'clinic' ? 'orange' : 'white',
-            borderRadius: 25,
+            borderRadius: 23,
             justifyContent: 'center',
             alignItems: 'center',
           }}
           onPress={() => setSelectedUserType('clinic')}>
           <Text
             style={{
-              color: selectedUserType === 'clinic' ? '#fff' : '#000',
+              color: selectedUserType === 'clinic' ? '#fff' : '#5a2828',
               fontSize: 18,
               fontWeight: '700',
             }}>

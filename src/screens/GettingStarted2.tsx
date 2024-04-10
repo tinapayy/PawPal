@@ -2,8 +2,8 @@ import React from 'react';
 import {View, StyleSheet, Pressable, Text, ImageBackground} from 'react-native';
 import {useNavigateTo} from '../components/navigation';
 import constants from '../styles/constants';
-import { alignmentMixin } from '../components/alignmentMixin';
-import { buttonMixin } from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {buttonMixin} from '../components/buttonMixin';
 
 const GettingStarted2 = () => {
   const NavSignIn = useNavigateTo('SignIn');
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   taglineView: {
     ...alignmentMixin.align,
-    bottom: '15%',
+    bottom: '17%',
   },
 });
 

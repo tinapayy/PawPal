@@ -1,17 +1,91 @@
-import React, {useState} from 'react';
-import { View, StyleSheet, Pressable, Text, ScrollView, TextInput, Image, TouchableOpacity,
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Text,
+  ScrollView,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import * as icons from '../imports/icons/icons';
-import { useNavigation } from "@react-navigation/native";
-import ImagePicker, {ImagePickerResponse, launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker, {
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 
-const Chat = () => {
-  const [text, onChangeText] = useState('');
+interface ChatMessage {
+  id: number;
+  senderId: string;
+  receiverId: string;
+  senderName: string;
+  senderPicture: any;
+  message: string;
+  time: string;
+}
+
+const Chat = ({route}) => {
   const navigation = useNavigation();
-  
+
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  const senderId = route.params?.senderId;
+  const senderName = route.params?.senderName;
+  const senderPicture = route.params?.senderPicture;
+
   const handleImagePress = () => {
     navigation.navigate('ClinicProfile');
   };
+
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const chatSnapshot = await getDocs(collection(db, 'chat'));
+      const chat: ChatMessage[] = [];
+      for (const chatDoc of chatSnapshot.docs) {
+        if (
+          chatDoc.data().senderId === senderId ||
+          chatDoc.data().receiverId === senderId
+        ) {
+          const userSnapshot = await getDocs(collection(db, 'user'));
+          for (const userDoc of userSnapshot.docs) {
+            if (
+              (userDoc.data().userId === chatDoc.data().senderId &&
+                auth.currentUser?.uid === chatDoc.data().receiverId) ||
+              (userDoc.data().userId === chatDoc.data().receiverId &&
+                auth.currentUser?.uid === chatDoc.data().senderId)
+            ) {
+              chat.push({
+                id: chat.length + 1,
+                senderId: chatDoc.data().senderId,
+                receiverId: chatDoc.data().receiverId,
+                senderName: userDoc.data().name,
+                senderPicture: userDoc.data().profilePicture
+                  ? {uri: userDoc.data().profilePicture}
+                  : require('../images/chat_icon.jpg'),
+                message: chatDoc.data().message,
+                time: chatDoc.data().time.toDate().toLocaleTimeString(),
+              });
+            }
+          }
+        }
+      }
+      setMessages(chat.sort((a, b) => a.time.localeCompare(b.time)));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const openImagePicker = () => {
@@ -22,7 +96,7 @@ const Chat = () => {
       maxWidth: 2000,
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.errorMessage) {
@@ -33,59 +107,84 @@ const Chat = () => {
       }
     });
   };
-    
-  
+
+  const [text, onChangeText] = useState('');
+
+  const sendMessage = async () => {
+    if (!text && !selectedImage) {
+      return;
+    }
+
+    const chatDoc = {
+      senderId: auth.currentUser?.uid,
+      receiverId: senderId,
+      message: text,
+      time: serverTimestamp(),
+    };
+    const chatRef = await addDoc(collection(db, 'chat'), chatDoc);
+    console.log('Document written with ID: ', chatRef.id);
+
+    onChangeText('');
+    setSelectedImage(null);
+    fetchData();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}>
           <icons.MaterialIcons name="arrow-back" size={30} color="#FFF" />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
-        <Image
-          style={styles.avatar}
-          source={require('../images/chat_icon.jpg')}
-        />
+          <Image
+            style={styles.avatar}
+            source={
+              senderPicture ? senderPicture : require('../images/chat_icon.jpg')
+            }
+          />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Labrod Veterinary Clinic</Text>
+        <Text style={styles.headerText}>{senderName}</Text>
       </View>
 
-      <ScrollView style={styles.messageContainer}>
-        <View style={[styles.messageWrapper, styles.outgoingMessageWrapper]}>
-          <Text style={styles.timestamp}>10:45 AM</Text>
-          <View style={[styles.messageBubble, styles.outgoingMessageBubble]}>
-            <Text style={styles.messageText}>
-              Hi Doc, I would like to schedule an urgent appointment
-            </Text>
+      <FlatList
+        inverted
+        data={[...messages].reverse()}
+        renderItem={({item}) => (
+          <View
+            style={
+              item.senderId === auth.currentUser?.uid
+                ? [styles.messageWrapper, styles.outgoingMessageWrapper]
+                : styles.messageWrapper
+            }>
+            <Text style={styles.timestamp}>{item.time}</Text>
+            {item.senderId === auth.currentUser?.uid ? (
+              <View
+                style={[styles.messageBubble, styles.outgoingMessageBubble]}>
+                <Text style={styles.messageText}>{item.message}</Text>
+              </View>
+            ) : (
+              <View style={[styles.incomingMessageAvatarWrapper]}>
+                <Image
+                  style={styles.incomingMessageAvatar}
+                  source={item.senderPicture}
+                />
+                <View
+                  style={[styles.messageBubble, styles.incomingMessageBubble]}>
+                  <Text style={styles.messageText}>{item.message}</Text>
+                </View>
+              </View>
+            )}
           </View>
-        </View>
-
-        <View style={[styles.messageWrapper, styles.incomingMessageWrapper]}>
-          <Text style={styles.timestamp}>10:47 AM</Text>
-          <View style={[styles.incomingMessageAvatarWrapper]}>
-            <Image
-              style={styles.incomingMessageAvatar}
-              source={require('../images/chat_icon.jpg')}
-            />
-            <View style={[styles.messageBubble, styles.incomingMessageBubble]}>
-              <Text style={styles.messageText}>
-                Please visit the clinic based on your time schedule. Keep safe!
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.messageWrapper}>
-          <Text style={styles.timestamp}>10:47 AM</Text>
-          <Image
-            style={styles.messageImage}
-            source={require('../images/chat_dog.png')}
-          />
-        </View>
-      </ScrollView>
+        )}
+        keyExtractor={item => item.id}
+      />
 
       <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={openImagePicker} style={styles.attachmentButton}>
+        <TouchableOpacity
+          onPress={openImagePicker}
+          style={styles.attachmentButton}>
           <icons.MaterialIcons name="attachment" size={30} color="#FFBA69" />
         </TouchableOpacity>
 
@@ -96,7 +195,7 @@ const Chat = () => {
           value={text}
           multiline={true}
         />
-        <Pressable style={styles.sendButton}>
+        <Pressable style={styles.sendButton} onPress={sendMessage}>
           <icons.MaterialIcons name="send" size={30} color="#FFBA69" />
         </Pressable>
       </View>

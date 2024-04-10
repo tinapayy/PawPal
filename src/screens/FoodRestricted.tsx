@@ -14,6 +14,9 @@ import {
 import {SegmentedButtons} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 interface FoodItemDetails {
   restriction: string;
@@ -187,7 +190,6 @@ const FoodRestricted = () => {
         <FlatList
           data={foodData}
           numColumns={2}
-          contentContainerStyle={styles.container3}
           renderItem={({item}) => (
             <TouchableOpacity
               style={styles.card}
@@ -247,100 +249,83 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   modalContainer: {
+    ...alignmentMixin.align,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 20,
+    margin: '5%',
   },
   modalTitle: {
     fontSize: 30,
-    color: '#5a2828',
-    fontFamily: 'Poppins-Regular',
-    marginBottom: 20,
+    color: constants.$secondaryColor,
+    fontFamily: constants.$fontFamily,
+    marginBottom: '5%',
   },
   modalText: {
     fontSize: 18,
-    color: '#5a2828',
-    fontFamily: 'Poppins-Regular',
-    marginBottom: 10,
-    textAlign: 'center',
+    color: constants.$secondaryColor,
+    fontFamily: constants.$fontFamily,
+    marginBottom: '3%',
   },
   title: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: constants.$fontFamilyBold,
     fontSize: 30,
-    color: '#5a2828',
-    top: 50,
-    marginTop: 0,
+    color: constants.$secondaryColor,
+    top: '7%',
     alignSelf: 'center',
   },
   foodImage: {
-    width: 200,
-    height: 200,
+    width: '70%',
+    height: '30%',
     resizeMode: 'cover',
     borderRadius: 20,
   },
   segmentedBtn: {
-    width: 330,
+    width: '80%',
     alignSelf: 'center',
   },
   closeButton: {
-    backgroundColor: '#ff8700',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 3,
-    width: 80,
-    marginTop: 20,
+    ...buttonMixin.button,
+    backgroundColor: constants.$senaryColor,
+    padding: '3%',
+    marginTop: '6%',
   },
   closeButtonText: {
-    color: 'white',
-    fontSize: 15,
-    fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
+    ...buttonMixin.buttonText,
   },
   container: {
-    alignItems: 'center',
-    top: -720,
-    width: 380,
-    alignSelf: 'center',
-  },
-  container2: {
-    alignItems: 'center',
-    top: -700,
-    width: 400,
-    alignSelf: 'center',
+    ...alignmentMixin.alignment,
+    top: '-84%',
+    width: '100%',
   },
   headerImage: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     resizeMode: 'contain',
-    top: -275,
+    top: '-35%',
     zIndex: -1,
   },
   backButton: {
-    top: -9,
-    left: 10,
+    top: '-0.7%',
+    left: '3%',
   },
   text: {
     fontSize: 24,
-    fontFamily: 'Poppins-SemiBold',
-    top: -730,
+    fontFamily: constants.$fontFamilySemiBold,
+    top: '-85%',
     letterSpacing: 0.25,
-    color: '#5A2828',
+    color: constants.$secondaryColor,
     alignSelf: 'center',
   },
   scrollContainer: {
-    top: 180,
+    ...alignmentMixin.alignment,
+    width: Dimensions.get('window').width*0.95,
+    top: '22%',
     position: 'absolute',
-    height: 600,
-  },
-  container3: {
-    padding: 16,
+    height: '63%',
   },
   card: {
     width: '50%',
     position: 'relative',
-    padding: 5,
-    height: 160,
+    padding: '1%',
   },
   infoContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -354,36 +339,34 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textOverlay: {
-    color: 'white',
+    color: constants.$textColor2,
     position: 'relative',
-    top: 10,
+    top: '14%',
     height: 33,
-    marginLeft: 10,
-    marginTop: -5,
+    marginLeft: '5%',
+    marginTop: '-2%',
   },
   textbox: {
     backgroundColor: 'rgba(0,0,0,0.5)',
-    height: 80,
+    height: '53%',
     position: 'relative',
     overflow: 'hidden',
-    top: 70,
-    bottom: 0,
+    top: '47%',
   },
   label: {
-    color: '#fff',
+    color: constants.$textColor2,
     fontSize: 20,
-    elevation: 1,
-    fontFamily: 'Poppins-SemiBold',
+    elevation: 3,
+    fontFamily: constants.$fontFamilySemiBold,
   },
   description: {
-    color: '#fff',
+    color: constants.$textColor2,
     fontSize: 14,
     elevation: 3,
   },
   bigcontainer: {
-    top: 20,
+    top: '2.5%',
   },
-  header: {},
 });
 
 export default FoodRestricted;

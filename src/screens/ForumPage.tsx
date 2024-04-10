@@ -15,6 +15,10 @@ import {Card, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 interface Post {
   id: number;
@@ -26,7 +30,7 @@ interface Post {
 }
 
 const ForumPage = () => {
-  const navigation = useNavigation();
+  const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
 
   const db = FIREBASE_DB;
 
@@ -69,7 +73,33 @@ const ForumPage = () => {
     fetchData();
   }, []);
 
-  function getTimeDifference(postTime) {
+  function getTimeDifference(postTime: {
+    toDate: () => {
+      (): any;
+      new (): any;
+      getTime: {(): any; new (): any};
+      toLocaleDateString: {
+        (
+          arg0: string,
+          arg1: {
+            timeZone: string;
+            weekday: string;
+            year: string;
+            month: string;
+            day: string;
+          },
+        ): string;
+        new (): any;
+      };
+      toLocaleTimeString: {
+        (
+          arg0: string,
+          arg1: {timeZone: string; hour: string; minute: string},
+        ): string;
+        new (): any;
+      };
+    };
+  }) {
     const currentTime = new Date().getTime();
     const postTimestamp = postTime.toDate().getTime();
     const timeDifference = currentTime - postTimestamp;
@@ -124,11 +154,7 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Food icon pressed');
-            navigation.navigate('FoodAdvisable');
-          }}>
+        <TouchableOpacity onPress={NavFoodSuggestions}>
           <View>
             <Image
               source={require('../images/dog_food.png')}
@@ -172,39 +198,38 @@ const ForumPage = () => {
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: constants.$backgroundColor,
   },
   video: {
     width: '100%',
     height: 200,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...alignmentMixin.alignment1,
+    alignSelf: undefined,
     justifyContent: 'space-between',
-    bottom: 5,
-    left: 30,
+    bottom: '2%',
+    left: '1.5%',
   },
   imageHeader: {
     width: 150,
-    height: 70,
-    bottom: 5,
+    height: 80,
+    bottom: '7%',
     objectFit: 'contain',
-    paddingHorizontal: 10,
     position: 'relative',
   },
   imageHeader1: {
     position: 'relative',
-    bottom: 5,
-    top: 20,
-    left: -90,
+    top: '50%',
+    left: '-73%',
   },
   headerText: {
-    fontSize: 14,
-    left: -57,
+    fontSize: 15,
+    left: '-48%',
   },
   card: {
-    margin: 19,
+    marginTop: '5%',
+    marginHorizontal: '5%',
   },
   cardContent: {
     flexDirection: 'column',
@@ -219,11 +244,11 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   userInfoText: {
-    marginLeft: 12,
-    fontFamily: 'Poppins',
+    marginLeft: '3%',
+    fontFamily: constants.$fontFamily,
   },
   message: {
-    marginLeft: 'auto',
+    marginLeft: 3,
     position: 'absolute',
   },
   messageIcon: {
@@ -234,7 +259,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
+    color: constants.$textColor1,
   },
   postTime: {
     fontSize: 12,
@@ -243,22 +268,21 @@ const styles = StyleSheet.create({
   postText: {
     fontSize: 14,
     textAlign: 'justify',
-    fontFamily: 'Poppins',
-    color: '#000',
-    top: 8,
-    bottom: 8,
+    fontFamily: constants.$fontFamily,
+    color: constants.$textColor1,
+    top: '3%',
   },
   postImageContainer: {
-    marginTop: 8,
+    marginTop: '2%',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: '2%',
   },
   image: {
-    width: 300,
-    height: 150,
+    width: 340,
+    height: 200,
     resizeMode: 'cover',
     borderRadius: 20,
-    top: 8,
+    top: '3%',
   },
 });
 

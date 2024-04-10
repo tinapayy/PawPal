@@ -9,28 +9,27 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
-
+import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import {Avatar} from 'react-native-paper';
 import * as icons from '../imports/icons/icons';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
-const screenWidth = Dimensions.get('window').width;
+type ClinicInfo = {
+  clinicId: string;
+  clinicPicture: string;
+  name: string;
+  address: string;
+  isOpen: boolean;
+};
 
-const clinics = [
-  {
-    id: '1',
-    name: 'Rebadulla Animal Care',
-    address: 'Commission, Civil St., Jaro, Iloilo City',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-];
-
-const ClinicCard = ({clinicInfo}) => {
-  const navigation = useNavigation();
+const ClinicCard = ({clinicInfo}: {clinicInfo: ClinicInfo}) => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const handleClinicPress = () => {
     navigation.navigate('ClinicProfileforCards', {
       clinicId: clinicInfo.clinicId,
@@ -76,6 +75,9 @@ type Clinic = {
 };
 
 const ResultsPage = () => {
+  const NavHome = useNavigateTo('Home');
+  const NavClinicProfile = useNavigateTo('ClinicProfile');
+  const NavProfileDetails = useNavigateTo('ProfileDetails');
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -89,7 +91,10 @@ const ResultsPage = () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
       for (const userDoc of querySnapshot.docs) {
-        if (userDoc.data().userId === auth.currentUser.uid) {
+        if (
+          auth.currentUser &&
+          userDoc.data().userId === auth.currentUser.uid
+        ) {
           setUserType(userDoc.data().userType);
           if (userDoc.data().userType === 'petOwner') {
             setProfilePicture(userDoc.data().profilePicture);
@@ -133,7 +138,7 @@ const ResultsPage = () => {
     fetchData();
   }, []);
 
-  const isClinicOpen = storeHours => {
+  const isClinicOpen = (storeHours: string | any[]) => {
     const currentDay = Date.now();
 
     // Add 8 hours to current day
@@ -177,7 +182,9 @@ const ResultsPage = () => {
     return false;
   };
 
-  const convertTo24HourFormat = timeString => {
+  const convertTo24HourFormat = (timeString: {
+    split: (arg0: string) => [any, any];
+  }) => {
     let [time, period] = timeString.split(' ');
     let [hours, minutes] = time.split(':');
 
@@ -195,13 +202,13 @@ const ResultsPage = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
+  const [filteredClinics, setFilteredClinics] = useState<Clinic[]>([]); // Replace with actual filtered clinics from the search bar]
 
-  const handleSearch = text => {
+  const handleSearch = (text: string) => {
     setSearchQuery(text);
 
-    const filtered = clinics.filter(
-      clinic => clinic.name.toLowerCase().includes(text.toLowerCase()),
+    const filtered = clinics.filter(clinic =>
+      clinic.name.toLowerCase().includes(text.toLowerCase()),
     );
 
     fetchData();
@@ -210,9 +217,9 @@ const ResultsPage = () => {
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      navigation.navigate('ProfileDetails');
+      NavProfileDetails;
     } else {
-      navigation.navigate('ClinicProfile');
+      NavClinicProfile;
     }
   };
 
@@ -220,20 +227,16 @@ const ResultsPage = () => {
     <View style={styles.container}>
       <View style={styles.headercontainer}>
         <View style={styles.headercontent}>
-          <View style={styles.headertextandicon}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+          <View style={styles.headericon}>
+            <TouchableOpacity onPress={NavHome}>
+              <icons.BackIcon size="25" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
+          </View>
+          <View style={styles.header}>
             <Text style={styles.headerText}>Explore Clinics</Text>
             <Image
               source={require('../images/doggy.png')}
-              style={{
-                height: 130,
-                width: 130,
-                left: '100%',
-                position: 'absolute',
-                top: '5%',
-              }}
+              style={styles.doggo}
             />
             <TextInput
               style={styles.input}
@@ -252,14 +255,13 @@ const ResultsPage = () => {
                       ? {uri: profilePicture}
                       : require('../images/defaultIcon.png')
                   }
-                  size={50}
+                  size={40}
                 />
               </TouchableOpacity>
             </TouchableOpacity>
           </View>
         </View>
       </View>
-
       <View style={styles.scrollcontainer}>
         <FlatList
           data={filteredClinics ? filteredClinics : clinics}
@@ -274,79 +276,87 @@ const ResultsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: constants.$backgroundColor,
   },
   headercontainer: {
-    height: 150,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderBottomRightRadius: 40,
+    ...alignmentMixin.alignment1,
+    height: '20%',
+    backgroundColor: constants.$backgroundColor,
   },
   headercontent: {
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
   },
   userheadercontent: {
-    backgroundColor: 'white',
-    marginRight: 30,
+    marginRight: '6%',
+    zIndex: 1,
+    bottom: '2%',
+    left: '15%',
   },
-  headertextandicon: {
-    marginLeft: 30,
-    paddingRight: 30,
-    marginRight: 50,
-    flexDirection: 'column',
+  doggo: {
+    height: '150%',
+    width: '70%',
+    left: '70%',
+    position: 'absolute',
+    top: '20%',
+    zIndex: -1,
+  },
+  headericon: {
+    marginRight: '15%',
+    bottom: '2%',
   },
   headerText: {
-    paddingLeft: 10,
+    paddingLeft: '5%',
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#FF8D4D',
+    right: '30%',
+    top: '5%',
+    color: constants.$senaryColor,
   },
 
   input: {
-    height: 40,
-    width: 250,
-    backgroundColor: '#FFAC4E',
-    borderColor: '#FF8D4D',
-    color: 'white',
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingLeft: 10,
-    elevation: -5,
+    width: Dimensions.get('window').width * 0.53,
+    height: Dimensions.get('window').height * 0.05,
+    top: '10%',
+    right: '25%',
+    backgroundColor: constants.$primaryColor,
+    color: constants.$backgroundColor,
+    borderRadius: 25,
+    paddingLeft: '4%',
   },
-
   scrollcontainer: {
     borderTopRightRadius: 40,
-    backgroundColor: '#FFBA69',
-    paddingTop: 20,
+    backgroundColor: constants.$quaternaryColor,
+    paddingTop: '5%',
+    marginTop: '5%',
+    paddingBottom: '15%',
+    height: '100%',
   },
   card: {
-    width: screenWidth - 32,
+    ...buttonMixin.button,
+    height: undefined,
+    width: Dimensions.get('window').width * 0.93,
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
     margin: 10,
+    marginTop: 7,
     borderRadius: 15,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
     flexDirection: 'row',
   },
   image: {
-    marginLeft: 15,
-    width: 90,
-    height: 90,
+    marginLeft: '2%',
+    width: '25%',
+    height: '90%',
     borderRadius: 15,
   },
   infoContainer: {
-    padding: 15,
+    padding: '5%',
     flex: 1,
   },
   name: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#5A2828',
+    fontSize: constants.$fontSizeSmall,
+    fontWeight: 'bold', // replace with one of the valid values: "200", "400", "500", "700", "normal", "bold", "100", "300", "600", "800", "900"
+    color: constants.$secondaryColor,
   },
   address: {
     fontSize: 12,
@@ -357,11 +367,11 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   open: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'green',
   },
   closed: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'red',
   },
 });

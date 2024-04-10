@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {NavigationContainer, ParamListBase} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Dimensions, LogBox, Platform, Text, View} from 'react-native';
-
+import {LogBox, Platform, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {RouteProp} from '@react-navigation/native';
 import * as icons from '../Pawpal/src/imports/icons/icons';
 import * as import_screens from '../PawPal/src/imports/import_screens/import_screens';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
 import constants from '../PawPal/src/styles/constants';
+
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
 
@@ -105,14 +104,18 @@ function HomeTabs() {
           marginTop: android ? 10 : 0,
         },
       })}>
-        {/* bottom navigation bars and corresponding screens*/}
+      {/* bottom navigation bars and corresponding screens*/}
       <Tab.Screen name="Home" component={import_screens.HomePage} />
-      <Tab.Screen name="Chat" component={import_screens.MessagePage} />
+      <Tab.Screen name="Chat" component={import_screens.ChatHome} />
       <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
       <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen
         name="Profile Details"
-        component={userType === 'petOwner' ? import_screens.ProfileDetails : import_screens.ClinicProfile}
+        component={
+          userType === 'petOwner'
+            ? import_screens.ProfileDetails
+            : import_screens.ClinicProfile
+        }
       />
     </Tab.Navigator>
   );
@@ -127,8 +130,6 @@ export default function App() {
         screenOptions={{
           contentStyle: {backgroundColor: 'white'},
         }}>
-        {/* <Stack.Screen name="Home" options={{ headerShown: false }} component={HomeTabs} />
-        <Stack.Screen name="Product" options={{ headerShown: false }} component={Homesamp} /> */}
         <Stack.Screen
           name="GettingStarted"
           component={import_screens.GettingStarted}
@@ -215,8 +216,8 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="MessagePage"
-          component={import_screens.MessagePage}
+          name="ChatHome"
+          component={import_screens.ChatHome}
           options={{headerShown: false}}
         />
         <Stack.Screen

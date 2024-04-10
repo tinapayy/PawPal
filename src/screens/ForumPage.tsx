@@ -19,6 +19,7 @@ import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
+import ProfileDetails from './ProfileDetails';
 
 interface Post {
   id: number;
@@ -31,7 +32,8 @@ interface Post {
 
 const ForumPage = () => {
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
-
+  const ProfileDetails = useNavigateTo('ProfileDetails');
+  const navigation = useNavigation();
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
@@ -168,13 +170,20 @@ const ForumPage = () => {
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
-              <Avatar.Image
-                size={50}
-                source={post.profilePicture}
-                style={styles.userIcon}
-              />
+              {/* click profile and navigate Profile Details */}
+              <TouchableOpacity onPress={ProfileDetails}>
+                <Avatar.Image
+                  size={50}
+                  source={post.profilePicture}
+                  style={styles.userIcon}
+                />
+              </TouchableOpacity>
+              
               <View style={styles.userInfoText}>
+                {/* click profile and navigate Profile Details */}
+                <TouchableOpacity onPress={ProfileDetails}>
                 <Text style={styles.userName}>{post.name}</Text>
+                </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
             </View>

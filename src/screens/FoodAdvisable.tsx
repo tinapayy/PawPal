@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
   },
   container: {
     ...alignmentMixin.alignment,
-    top: '-84%',
+    top: '-81%',
     width: '100%',
   },
   headerImage: {
@@ -332,17 +332,17 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontFamily: constants.$fontFamilySemiBold,
-    top: '-85%',
+    top: '-83%',
     letterSpacing: 0.25,
     color: constants.$secondaryColor,
     alignSelf: 'center',
   },
   scrollContainer: {
-    ...alignmentMixin.alignment,
-    height: Dimensions.get('window').height,
+     ...alignmentMixin.alignment,
     width: Dimensions.get('window').width*0.95,
-    top: '18%',
+    top: '22%',
     position: 'absolute',
+    height: '63%',
   },
   card: {
     width: '50%',

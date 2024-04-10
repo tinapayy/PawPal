@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -20,11 +20,15 @@ import {
   PostTime,
   MessageText,
 } from '../components/MessageStyle';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import * as icons from '../imports/icons/icons';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
+import { chatMixins } from '../components/chatMixins';
 
 interface Chat {
   id: number;
@@ -127,22 +131,23 @@ const MessagePage = () => {
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{width: '100%', height: '100%'}}>
+        style={{ width: '100%', height: '100%' }}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
           </TouchableOpacity>
         </View>
+
         <Text style={styles.textHeader}>Messages</Text>
         <Container style={styles.container}>
           <FlatList
             data={messages}
             keyExtractor={item => item.id}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
                   onPress={() =>
@@ -171,7 +176,7 @@ const MessagePage = () => {
         </Container>
         <View style={styles.addIcon}>
           <TouchableHighlight>
-            <FontAwesomeIcon icon={faCirclePlus} size={50} color="#F87000" />
+            <FontAwesomeIcon icon={icons.faCirclePlus} size={50} color={constants.$senaryColor} />
           </TouchableHighlight>
         </View>
       </ImageBackground>
@@ -181,43 +186,41 @@ const MessagePage = () => {
 
 const styles = StyleSheet.create({
   container: {
+    ...chatMixins.align1,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 150,
+    top: '12%',
+    position: 'relative',
   },
   containerHeader: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...chatMixins.align1,
+
   },
   back: {
     flexDirection: 'row',
+    top: '5%',
+    right: '-1%'
   },
   backIcon: {
-    color: '#ffffff',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 30,
-    left: 15,
-    paddingRight: 30,
+    color: constants.$tertiaryColor,
+    position: 'relative',
   },
   textHeader: {
-    fontFamily: 'Poppins-Bold',
-    color: '#F87000',
+    fontFamily: constants.$fontFamilyBold,
+    color: constants.$octonaryColor,
     fontSize: 30,
-    fontWeight: 'bold',
-    top: 170,
-    left: 30,
-    marginBottom: 40,
+    top: '16%',
+    left: '5%',
+    marginBottom: '10%',
   },
   cardContainer: {
     width: '90%',
   },
   addIcon: {
     position: 'absolute',
-    bottom: 90,
-    right: 40,
+    bottom: '10%',
+    right: '10%',
+    color: constants.$senaryColor,
   },
 });
 

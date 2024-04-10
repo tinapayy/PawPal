@@ -17,6 +17,9 @@ import {
   FIREBASE_STORAGE,
 } from '../../firebase.config';
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 interface User {
   id: number;
@@ -94,7 +97,7 @@ const ChoosePet = () => {
     if (userId !== 0) {
       navigation.navigate('Edit Pet Profile', {petId: petId});
     } else {
-      navigation.navigate('Add New Pet Profile');
+      navigation.navigate('Add Pet Profile');
     }
   };
 
@@ -114,23 +117,23 @@ const ChoosePet = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: '5%',
   },
   text: {
-    fontFamily: 'Poppins-regular',
+    fontFamily: constants.$fontFamily,
     fontSize: 30,
     textAlign: 'center',
     marginTop: '20%',
     letterSpacing: 0.25,
-    color: '#5A2828',
+    color: constants.$secondaryColor,
   },
   card: {
     marginTop: '20%',
     flex: 1,
-    margin: 8,
-    padding: 16,
+    margin: '3%',
+    padding: '4%',
     borderRadius: 8,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: constants.$quinaryColor,
     alignItems: 'center',
   },
   photo: {
@@ -141,10 +144,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: 'bold',
-  },
-  addPetText: {
-    marginBottom: 8,
+    fontWeight: constants.$fontWeightBold,
   },
 });
 

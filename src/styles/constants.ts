@@ -6,19 +6,19 @@ const constants = {
   $quaternaryColor: '#ffba69', // light orange
   $quinaryColor: '#f1d5c6',  // light grayish orange
   $senaryColor: "#ff8d4d",  // dark orange
-  $septenaryColor:"#aaaa", //gray
-  $octonaryColor: '#ff8700',
+  $septenaryColor: "#aaaa", //gray
+  $octonaryColor: '#ff8700', //dark orange
 
 
   $accentColor: '#ff6464', // pink
   $accentColor1: '#894848', // light brown
-  
+
 
   $textColor1: '#000000', // black
   $textColor2: '#ffffff', // white
   $backgroundColor: '#ffffff', // white
   $backgroundColor1: '#ffac4e', // light orange
-
+  
   // SPACING
   $spacingLetter: 0.25,
   $spacingSmall: 5,

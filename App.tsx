@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer, ParamListBase } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,6 +9,16 @@ import * as icons from '../Pawpal/src/imports/icons/icons';
 import * as import_screens from '../PawPal/src/imports/import_screens/import_screens';
 import { getDocs, collection } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIREBASE_DB } from './firebase.config';
+import React, {useState, useEffect} from 'react';
+import {NavigationContainer, ParamListBase} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {LogBox, Platform, View} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {RouteProp} from '@react-navigation/native';
+import * as icons from '../Pawpal/src/imports/icons/icons';
+import * as import_screens from '../PawPal/src/imports/import_screens/import_screens';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
 import constants from '../PawPal/src/styles/constants';
 
 // import Slider from './src/components/slider';
@@ -29,30 +40,37 @@ const menuIcons = (
       <icons.HomeSolid size="30" color={constants.$senaryColor} />
     ) : (
       <icons.HomeSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
+        <icons.HomeSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
     );
   } else if (route.name === 'Chat') {
     icon = focused ? (
       <icons.ChatBubbleLeftSolid size="30" color={constants.$senaryColor} />
     ) : (
+
       <icons.ChatBubbleLeftSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
+        <icons.ChatBubbleLeftSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
     );
   } else if (route.name === 'Create Post') {
     icon = focused ? (
       <icons.PlusCircleSolid size="30" color={constants.$senaryColor} />
     ) : (
       <icons.PlusCircleSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
+        <icons.PlusCircleSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
     );
   } else if (route.name === 'Forum') {
     icon = focused ? (
       <icons.ForumSolid size="30" color={constants.$senaryColor} />
     ) : (
       <icons.ForumSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
+        <icons.ForumSolid size="30" strokeWidth={2} color={constants.$secondaryColor} />
     );
   } else if (route.name === 'Profile Details') {
     icon = focused ? (
       <icons.UserSolid size="30" color={constants.$senaryColor} />
     ) : (
       <icons.UserSolid size="30" strokeWidth={3} color={constants.$secondaryColor} />
+        <icons.UserSolid size="30" strokeWidth={3} color={constants.$secondaryColor} />
+
     );
   }
 
@@ -134,6 +152,7 @@ export default function App() {
           name="GettingStarted"
           component={import_screens.GettingStarted}
           options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="GettingStarted2"

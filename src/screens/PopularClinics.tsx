@@ -14,6 +14,9 @@ import * as icons from '../imports/icons/icons';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import constants from '../styles/constants';
+import {buttonMixin} from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -223,19 +226,16 @@ const Apps = () => {
 
 const styles = StyleSheet.create({
   card: {
+    ...buttonMixin.button,
+    height: undefined,
     width: (screenWidth - 32) / 2, 
     aspectRatio: 1, 
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
     margin: 8,
     borderRadius: 8,
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
     flexDirection: 'column',
-    top: 50,
+    top: '15%',
   },
   image: {
     width: '100%',
@@ -244,21 +244,21 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
   },
   infoContainer: {
-    padding: 8,
+    padding: '5%',
     flex: 1,
   },
   name: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#5a2828',
+    fontWeight: constants.$fontWeightBold,
+    color: constants.$secondaryColor,
   },
   address: {
     fontSize: 12,
-    color: '#ff8700',
+    color: constants.$senaryColor,
   },
   hours: {
     fontSize: 12,
-    color: '#5a2828',
+    color: constants.$secondaryColor,
   },
   open: {
     fontSize: 14,

@@ -20,4 +20,17 @@ export const buttonMixin = {
     alignItems: 'center',
     alignContent: 'center',
   },
+  settingsButton:{
+    width: '105%',
+    margin: '5%',
+    padding: '4%',
+    borderRadius: 15,
+    position: 'relative',
+    elevation: 5,
+  },
+  settingsButtonText:{
+    marginLeft: '4%',
+    fontSize: 20,
+    paddingVertical: '2%',
+  },
 };

@@ -67,7 +67,7 @@ export const profDetMixins = {
         alignSelf: 'center',
         height: 3,
         backgroundColor: constants.$quinaryColor,
-        top: '43%',
+        top: '37%',
         zIndex: 5,
     },
     titlePet:{
@@ -95,7 +95,7 @@ export const profDetMixins = {
         padding: '2%',
         height: '95%',
         width: '19%',
-        top: '15%',
+        top: '25%',
         marginHorizontal: 5,
         borderRadius: 20,
         left: '4%',
@@ -103,8 +103,8 @@ export const profDetMixins = {
     card:{
         width: '130%',
         alignSelf: 'center',
-        height: '42%',
-        top: '-20%',
+        height: '47%',
+        top: '-18%',
         position: 'relative',
         zIndex: -1,
         backgroundColor: constants.$backgroundColor,
@@ -125,6 +125,7 @@ export const profDetMixins = {
         left: '60%',
         position: 'relative',
         marginRight: '-10%',
+        top:'15%',
     },
     userName: {
         fontFamily: constants.$fontFamilyBold,
@@ -136,7 +137,7 @@ export const profDetMixins = {
     },
     ownerTitle:{
         fontFamily: constants.$fontFamily,
-        color: constants.$accentColor2,
+        color: constants.$accentColor,
         fontSize: 16,
     },
     descriptionContainer:{
@@ -144,13 +145,13 @@ export const profDetMixins = {
         position: 'relative',
         marginLeft: '1%',
         zIndex: 99,
-        top: '-30%',
+        top: '-10%',
         left: '160%',
     },
     iconContainer:{
         flexDirection: 'row',
         position: 'relative',
-        left: '190%',
+        left: '170%',
         top: '-35%',
         zIndex: 5,
         marginRight: '2%',
@@ -165,7 +166,7 @@ export const profDetMixins = {
         color: constants.$textColor2,
         textAlign: 'justify',
         paddingHorizontal: '3.9%',
-        bottom: '5%',
+        top: '5%',
         right: '390%',
         zIndex: 99,
 

@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     ...profDetMixins.surface,
   } as ImageStyle,
   bottomContainer: {
-    top: '-1.5%',
+    top: '-1%',
   } as ImageStyle,
   card: {
    ...profDetMixins.card,

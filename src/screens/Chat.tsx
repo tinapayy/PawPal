@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -10,15 +10,18 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import * as icons from '../imports/icons/icons';
 import ImagePicker, {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
-
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection, serverTimestamp, addDoc } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import * as icons from '../imports/icons/icons';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
+import { chatMixins } from '../components/chatMixins';
 interface ChatMessage {
   id: number;
   senderId: string;
@@ -30,7 +33,7 @@ interface ChatMessage {
   time: string;
 }
 
-const Chat = ({route}) => {
+const Chat = ({ route }) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -69,7 +72,7 @@ const Chat = ({route}) => {
                 receiverId: chatDoc.data().receiverId,
                 senderName: userDoc.data().name,
                 senderPicture: userDoc.data().profilePicture
-                  ? {uri: userDoc.data().profilePicture}
+                  ? { uri: userDoc.data().profilePicture }
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
                 date: chatDoc.data().time.toDate(),
@@ -168,7 +171,7 @@ const Chat = ({route}) => {
       <FlatList
         inverted
         data={[...messages].reverse()}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <View
             style={
               item.senderId === auth.currentUser?.uid
@@ -225,11 +228,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backButton: {
-    margin: 10,
+    left: '10%',
+    marginLeft: '2%',
+    paddingRight: '5%',
   },
   header: {
-    backgroundColor: '#FF8D4D',
-    height: 100,
+    backgroundColor: constants.$octonaryColor,
+    height: '10%',
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -237,55 +242,58 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
+
   },
   headerText: {
     fontSize: 20,
     marginLeft: 10,
-    color: '#FFF',
+    color: constants.$tertiaryColor,
     fontWeight: 'bold',
   },
   messageContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: constants.$tertiaryColor,
   },
+  // to be adjusted
   messageWrapper: {
-    marginVertical: 10,
-    paddingHorizontal: 10,
+    marginVertical: '2%',
+    paddingHorizontal: '2%',
   },
   timestamp: {
     textAlign: 'center',
     fontSize: 12,
     width: '100%',
-    color: '#AAA',
-    marginBottom: 10,
+    color: constants.$septenaryColor,
+    marginBottom: '2%',
   },
   messageBubble: {
     flex: 1,
     borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: '2%',
+    paddingVertical: '1%',
     maxWidth: '80%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
   },
   outgoingMessageBubble: {
-    backgroundColor: '#ECECEC',
+    backgroundColor: constants.$tertiaryColor,
   },
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
+  // to be adjusted
   incomingMessageAvatar: {
-    width: 30,
-    height: 30,
+    width: '5%',
+    height: '10%',
     borderRadius: 50,
-    marginRight: 10,
+    marginRight: '2%',
   },
   incomingMessageWrapper: {
     alignItems: 'flex-start',
   },
   incomingMessageBubble: {
-    backgroundColor: 'rgba(255, 186, 105, 0.28)',
+    backgroundColor: constants.$backgroundColor2,
     maxWidth: '60%',
   },
   messageText: {
@@ -301,29 +309,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#FFF',
+    bottom: '3%',
+    backgroundColor: constants.$tertiaryColor,
   },
   attachmentButton: {
-    margin: 10,
+    margin: '2%',
   },
   attachmentIcon: {
-    width: 30,
-    height: 30,
+
   },
   input: {
     flex: 1,
-    backgroundColor: 'rgba(255, 186, 105, 0.28)',
-    padding: 10,
+    backgroundColor: constants.$backgroundColor2,
+    padding: '2%',
     borderRadius: 20,
     fontSize: 16,
     width: '100%',
   },
   sendButton: {
-    margin: 10,
+    margin: '2%',
   },
   sendIcon: {
-    width: 30,
-    height: 30,
+    // width: 30,
+    // height: 30,
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -14,14 +14,14 @@ import ImagePicker, {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import { useNavigation } from '@react-navigation/native';
-import { getDocs, collection, serverTimestamp, addDoc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import * as icons from '../imports/icons/icons';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { chatMixins } from '../components/chatMixins';
+import {chatMixins} from '../components/chatMixins';
 interface ChatMessage {
   id: number;
   senderId: string;
@@ -33,7 +33,7 @@ interface ChatMessage {
   time: string;
 }
 
-const Chat = ({ route }) => {
+const Chat = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -72,7 +72,7 @@ const Chat = ({ route }) => {
                 receiverId: chatDoc.data().receiverId,
                 senderName: userDoc.data().name,
                 senderPicture: userDoc.data().profilePicture
-                  ? { uri: userDoc.data().profilePicture }
+                  ? {uri: userDoc.data().profilePicture}
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
                 date: chatDoc.data().time.toDate(),
@@ -171,14 +171,20 @@ const Chat = ({ route }) => {
       <FlatList
         inverted
         data={[...messages].reverse()}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <View
             style={
               item.senderId === auth.currentUser?.uid
                 ? [styles.messageWrapper, styles.outgoingMessageWrapper]
                 : styles.messageWrapper
             }>
-            <Text style={styles.timestamp}>{item.time}</Text>
+            {/* Display timestamp if it is the first message or if the time difference is more than 5 minutes */}
+            {messages.indexOf(item) === 0 ||
+            new Date(item.date).getTime() -
+              new Date(messages[messages.indexOf(item) - 1].date).getTime() >
+              5 * 60 * 1000 ? (
+              <Text style={styles.timestamp}>{item.time}</Text>
+            ) : null}
             {item.senderId === auth.currentUser?.uid ? (
               <View
                 style={[styles.messageBubble, styles.outgoingMessageBubble]}>
@@ -242,7 +248,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
-
   },
   headerText: {
     fontSize: 20,
@@ -315,9 +320,7 @@ const styles = StyleSheet.create({
   attachmentButton: {
     margin: '2%',
   },
-  attachmentIcon: {
-
-  },
+  attachmentIcon: {},
   input: {
     flex: 1,
     backgroundColor: constants.$backgroundColor2,

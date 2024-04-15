@@ -17,7 +17,9 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
+import ProfileDetails from './ProfileDetails';
 
 interface Post {
   id: number;
@@ -29,8 +31,9 @@ interface Post {
 }
 
 const ForumPage = () => {
+  const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
+  const ProfileDetails = useNavigateTo('ProfileDetails');
   const navigation = useNavigation();
-
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
@@ -72,7 +75,33 @@ const ForumPage = () => {
     fetchData();
   }, []);
 
-  function getTimeDifference(postTime) {
+  function getTimeDifference(postTime: {
+    toDate: () => {
+      (): any;
+      new (): any;
+      getTime: {(): any; new (): any};
+      toLocaleDateString: {
+        (
+          arg0: string,
+          arg1: {
+            timeZone: string;
+            weekday: string;
+            year: string;
+            month: string;
+            day: string;
+          },
+        ): string;
+        new (): any;
+      };
+      toLocaleTimeString: {
+        (
+          arg0: string,
+          arg1: {timeZone: string; hour: string; minute: string},
+        ): string;
+        new (): any;
+      };
+    };
+  }) {
     const currentTime = new Date().getTime();
     const postTimestamp = postTime.toDate().getTime();
     const timeDifference = currentTime - postTimestamp;
@@ -127,11 +156,7 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Food icon pressed');
-            navigation.navigate('FoodAdvisable');
-          }}>
+        <TouchableOpacity onPress={NavFoodSuggestions}>
           <View>
             <Image
               source={require('../images/dog_food.png')}
@@ -145,13 +170,20 @@ const ForumPage = () => {
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
-              <Avatar.Image
-                size={50}
-                source={post.profilePicture}
-                style={styles.userIcon}
-              />
+              {/* click profile and navigate Profile Details */}
+              <TouchableOpacity onPress={ProfileDetails}>
+                <Avatar.Image
+                  size={50}
+                  source={post.profilePicture}
+                  style={styles.userIcon}
+                />
+              </TouchableOpacity>
+              
               <View style={styles.userInfoText}>
+                {/* click profile and navigate Profile Details */}
+                <TouchableOpacity onPress={ProfileDetails}>
                 <Text style={styles.userName}>{post.name}</Text>
+                </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
             </View>
@@ -205,7 +237,8 @@ const styles = StyleSheet.create({
     left: '-48%',
   },
   card: {
-    margin: '5%',
+    marginTop: '5%',
+    marginHorizontal: '5%',
   },
   cardContent: {
     flexDirection: 'column',
@@ -234,7 +267,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 16,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$textColor1,
   },
   postTime: {
@@ -254,8 +287,8 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   image: {
-    width: 300,
-    height: 150,
+    width: 340,
+    height: 200,
     resizeMode: 'cover',
     borderRadius: 20,
     top: '3%',

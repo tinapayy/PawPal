@@ -24,5 +24,26 @@ export const alignmentMixin = {
   align:{
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  // chatpage customized
+  
+  alignRow:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+
+  },
+
+  measurements:{
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
+  measurements1:{
+    width: 30,
+    height: 30,
+
   }
+
 };

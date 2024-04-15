@@ -54,7 +54,6 @@ const data3 = [
 ];
 
 const renderItem = ({item, index, navigation}) => {
-
   const handleSeeMoreClick = () => {
     navigation.navigate('ClinicProfileforCards', {
       clinicId: item.clinicId,
@@ -500,7 +499,8 @@ const HomePage = () => {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate('ForumPage');
+                    // navigation.navigate('ForumPage');
+                    navigation.navigate('ChatHome');
                   }}>
                   <Text
                     style={styles.more}>

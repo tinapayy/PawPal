@@ -251,7 +251,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const [searchboxQuery, setSearchBoxQuery] = useState('');
 
   const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage', {searchboxQuery: searchboxQuery});
+    navigation.navigate('ResultsPageAll', {searchboxQuery: searchboxQuery});
   };
 
   // first carousel

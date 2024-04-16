@@ -22,46 +22,41 @@ import {alignmentMixin} from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
-const clinics = [
-  {
-    id: '1',
-    name: 'Rebadulla Animal Care',
-    address: 'Commission, Civil St., Jaro, Iloilo City',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-];
-
-const ClinicCard = ({clinicInfo}) => {
+const DataCard = ({dataInfo}) => {
   const navigation = useNavigation();
-  const handleClinicPress = () => {
-    navigation.navigate('ClinicProfileforCards', {
-      clinicId: clinicInfo.clinicId,
-    });
+  const handleDataPress = () => {
+    if (dataInfo.userType === 'clinic') {
+      navigation.navigate('ClinicProfileforCards', {
+        clinicId: dataInfo.clinicId,
+      });
+    } else if (dataInfo.userType === 'petOwner') {
+      navigation.navigate('ProfileDetailsforCards', {
+        petOwnerId: dataInfo.userId,
+      });
+    }
   };
 
   return (
-    <TouchableOpacity onPress={handleClinicPress}>
+    <TouchableOpacity onPress={handleDataPress}>
       <View style={styles.card}>
         <Image
           source={
-            clinicInfo.clinicPicture
-              ? {uri: clinicInfo.clinicPicture}
+            dataInfo.dataPicture
+              ? {uri: dataInfo.dataPicture}
               : require('../images/placeholder.png')
           }
           style={styles.image}
           resizeMode="cover"
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{clinicInfo.name}</Text>
-          <Text style={styles.address}>{clinicInfo.address}</Text>
+          <Text style={styles.name}>{dataInfo.name}</Text>
+          <Text style={styles.address}>{dataInfo.address}</Text>
           <Text style={styles.hours}>
-            {clinicInfo.isOpen ? (
+            {dataInfo.isOpen === true ? (
               <Text style={styles.open}>Open</Text>
-            ) : (
+            ) : dataInfo.isOpen === false ? (
               <Text style={styles.closed}>Closed</Text>
-            )}
+            ) : null}
           </Text>
         </View>
       </View>
@@ -69,17 +64,18 @@ const ClinicCard = ({clinicInfo}) => {
   );
 };
 
-type Clinic = {
+type SearchData = {
   id: number;
-  clinicId: string;
+  dataId: string;
   name: string;
-  address: string;
-  isOpen: boolean;
-  storeHours: any;
-  clinicPicture: any;
+  address?: string;
+  isOpen?: boolean;
+  storeHours?: any;
+  dataPicture: any;
+  userType: string;
 };
 
-const ResultsPage = ({route}) => {
+const ResultsPageAll = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -87,7 +83,7 @@ const ResultsPage = ({route}) => {
 
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
-  const [clinics, setClinics] = useState<Clinic[]>([]);
+  const [searchdata, setSearchData] = useState<SearchData[]>([]);
 
   const fetchUser = async () => {
     try {
@@ -110,23 +106,34 @@ const ResultsPage = ({route}) => {
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
-      const clinicsData: Clinic[] = [];
-      for (const clinicDoc of querySnapshot.docs) {
-        if (clinicDoc.data().userType === 'clinic') {
-          clinicsData.push({
-            id: clinicsData.length + 1,
-            clinicId: clinicDoc.data().userId,
-            name: clinicDoc.data().name,
-            address: clinicDoc.data().address,
-            isOpen: clinicDoc.data().storeHours
-              ? isClinicOpen(clinicDoc.data().storeHours)
+      const allData: SearchData[] = [];
+      for (const allDoc of querySnapshot.docs) {
+        if (allDoc.data().userType === 'clinic') {
+          allData.push({
+            id: allData.length + 1,
+            dataId: allDoc.data().userId,
+            name: allDoc.data().name,
+            address: allDoc.data().address,
+            isOpen: allDoc.data().storeHours
+              ? isClinicOpen(allDoc.data().storeHours)
               : false,
-            storeHours: clinicDoc.data().storeHours,
-            clinicPicture: clinicDoc.data().clinicPicture,
+            storeHours: allDoc.data().storeHours,
+            dataPicture: allDoc.data().clinicPicture,
+            userType: allDoc.data().userType,
+          });
+        }
+        if (allDoc.data().userType === 'petOwner') {
+          allData.push({
+            id: allData.length + 1,
+            dataId: allDoc.data().userId,
+            name: allDoc.data().name,
+            address: 'Pet Owner',
+            dataPicture: allDoc.data().profilePicture,
+            userType: allDoc.data().userType,
           });
         }
       }
-      setClinics(clinicsData);
+      setSearchData(allData);
     } catch (error) {
       console.log(error);
     }
@@ -201,7 +208,7 @@ const ResultsPage = ({route}) => {
   // SEARCH FUNCTIONALITY
   const initialsearchstate = route.params ? route.params.searchboxQuery : '';
   const [searchQuery, setSearchQuery] = useState(initialsearchstate); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
+  const [filtereddata, setfilteredData] = useState(''); // Replace with actual filtered searchdata from the search bar]
 
   const handleSearch = text => {
     console.log(text);
@@ -209,14 +216,17 @@ const ResultsPage = ({route}) => {
     console.log(searchQuery);
     console.log('++++++');
 
-    const filtered = clinics.filter(clinic =>
-      clinic.name.toLowerCase().includes(text.toLowerCase()),
-    );
+    const filtered = searchdata.filter(data => {
+      const includesText = data.name.toLowerCase().includes(text.toLowerCase());
+      console.log(`Checking ${data.name} - includesText: ${includesText}`);
+      return includesText;
+    });
     console.log(filtered);
+    console.log(text);
     console.log('------');
 
     fetchData();
-    setFilteredClinics(filtered);
+    setfilteredData(filtered);
   };
 
   useEffect(() => {
@@ -241,14 +251,14 @@ const ResultsPage = ({route}) => {
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
-            <Text style={styles.headerText}>Explore Clinics</Text>
+            <Text style={styles.headerText}>Explore Data</Text>
             <Image
               source={require('../images/doggy.png')}
               style={styles.doggo}
             />
             <TextInput
               style={styles.input}
-              placeholder="Search Clinics..."
+              placeholder="Search Users and Clinics..."
               onChangeText={handleSearch}
               value={searchQuery}
               placeholderTextColor="white"
@@ -272,8 +282,8 @@ const ResultsPage = ({route}) => {
       </View>
       <View style={styles.scrollcontainer}>
         <FlatList
-          data={filteredClinics ? filteredClinics : clinics}
-          renderItem={({item}) => <ClinicCard clinicInfo={item} />}
+          data={filtereddata ? filtereddata : searchdata}
+          renderItem={({item}) => <DataCard dataInfo={item} />}
           keyExtractor={item => item.id.toString()}
         />
       </View>
@@ -379,4 +389,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResultsPage;
+export default ResultsPageAll;

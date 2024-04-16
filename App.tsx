@@ -100,14 +100,18 @@ function HomeTabs() {
           marginTop: android ? 10 : 0,
         },
       })}>
-        {/* bottom navigation bars and corresponding screens*/}
+      {/* bottom navigation bars and corresponding screens*/}
       <Tab.Screen name="Home" component={import_screens.HomePage} />
       <Tab.Screen name="Chat" component={import_screens.MessagePage} />
       <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
       <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen
         name="Profile Details"
-        component={userType === 'petOwner' ? import_screens.ProfileDetails : import_screens.ClinicProfile}
+        component={
+          userType === 'petOwner'
+            ? import_screens.ProfileDetails
+            : import_screens.ClinicProfile
+        }
       />
     </Tab.Navigator>
   );
@@ -173,6 +177,11 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="ProfileDetailsforCards"
+          component={import_screens.ProfileDetailsforCards}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="SettingsPage"
           component={import_screens.SettingsPage}
           options={{headerShown: false}}
@@ -235,6 +244,11 @@ export default function App() {
         <Stack.Screen
           name="ResultsPage"
           component={import_screens.ResultsPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ResultsPageAll"
+          component={import_screens.ResultsPageAll}
           options={{headerShown: false}}
         />
         <Stack.Screen

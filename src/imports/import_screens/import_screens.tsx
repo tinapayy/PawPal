@@ -1,4 +1,3 @@
-
 //contains all the the screens
 
 import ClinicProfile from '../../screens/ClinicProfile';
@@ -24,6 +23,7 @@ import PopularClinics from '../../screens/PopularClinics';
 import Chat from '../../screens/Chat';
 import SettingsPage from '../../screens/SettingsPage';
 import ResultsPage from '../../screens/ResultsPage';
+import ResultsPageAll from '../../screens/ResultsPageAll';
 import Onboarding from '../../screens/Onboarding';
 import FoodAdvisable from '../../screens/FoodAdvisable';
 import FoodRestricted from '../../screens/FoodRestricted';
@@ -33,36 +33,39 @@ import CreatePost from '../../screens/CreatePost';
 import SettingsPage_Clinic from '../../screens/SettingsPage_Clinic';
 import Approval_page from '../../screens/Approval Page';
 import AdminForumPage from '../../screens/AdminForumPage';
+import ProfileDetailsforCards from '../../screens/ProfileDetailsforCards';
 
 export {
-    ClinicProfile,
-    ClinicProfileforCards,
-    ForumPage,
-    AddPetProfile,
-    AddPetProfileSignUp,
-    EditPetProfile,
-    ProfileDetails,
-    MessagePage,
-    HomePage,
-    SignIn,
-    GettingStarted,
-    GettingStarted2,
-    SignUp,
-    AddClinicDetails,
-    EditClinicDetails,
-    AddUserProfile,
-    EditUserProfile,
-    PopularClinics,
-    Chat,
-    SettingsPage,
-    ResultsPage,
-    Onboarding,
-    FoodAdvisable,
-    FoodRestricted,
-    ChoosePet,
-    NewMessage,
-    CreatePost,
-    SettingsPage_Clinic,
-    Approval_page,
-    AdminForumPage
+  ClinicProfile,
+  ClinicProfileforCards,
+  ForumPage,
+  AddPetProfile,
+  AddPetProfileSignUp,
+  EditPetProfile,
+  ProfileDetails,
+  ProfileDetailsforCards,
+  MessagePage,
+  HomePage,
+  SignIn,
+  GettingStarted,
+  GettingStarted2,
+  SignUp,
+  AddClinicDetails,
+  EditClinicDetails,
+  AddUserProfile,
+  EditUserProfile,
+  PopularClinics,
+  Chat,
+  SettingsPage,
+  ResultsPage,
+  ResultsPageAll,
+  Onboarding,
+  FoodAdvisable,
+  FoodRestricted,
+  ChoosePet,
+  NewMessage,
+  CreatePost,
+  SettingsPage_Clinic,
+  Approval_page,
+  AdminForumPage,
 };

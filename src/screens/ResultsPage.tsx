@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  ViewStyle,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.alignment1,
     height: '20%',
     backgroundColor: constants.$backgroundColor,
-  },
+  } as ViewStyle,
   headercontent: {
     backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',

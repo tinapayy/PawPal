@@ -172,9 +172,9 @@ const MessagePage = () => {
           />
         </Container>
         <View style={styles.addIcon}>
-          <TouchableHighlight>
+          <TouchableOpacity>
             <FontAwesomeIcon icon={icons.faCirclePlus} size={50} color={constants.$senaryColor} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>

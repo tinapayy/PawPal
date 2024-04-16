@@ -23,6 +23,7 @@ import ProfileDetails from './ProfileDetails';
 
 interface Post {
   id: number;
+  userId: string;
   name: string;
   profilePicture: any;
   postText: string;
@@ -49,6 +50,7 @@ const ForumPage = () => {
             if (forumDoc.data().isApproved) {
               posts.push({
                 id: posts.length + 1,
+                userId: forumDoc.data().userId,
                 name: userDoc.data().name,
                 profilePicture: {
                   uri:
@@ -170,19 +172,27 @@ const ForumPage = () => {
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
-              {/* click profile and navigate Profile Details */}
-              <TouchableOpacity onPress={ProfileDetails}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ProfileDetails', {
+                    userId: post.userId,
+                  })
+                }>
                 <Avatar.Image
                   size={50}
                   source={post.profilePicture}
                   style={styles.userIcon}
                 />
               </TouchableOpacity>
-              
               <View style={styles.userInfoText}>
                 {/* click profile and navigate Profile Details */}
-                <TouchableOpacity onPress={ProfileDetails}>
-                <Text style={styles.userName}>{post.name}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ProfileDetails', {
+                      userId: post.userId,
+                    })
+                  }>
+                  <Text style={styles.userName}>{post.name}</Text>
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>

@@ -155,7 +155,7 @@ const Chat = ({route}) => {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <icons.MaterialIcons name="arrow-back" size={30} color="#FFF" />
+          <icons.MaterialIcons name="arrow-back" size={30} color= {constants.$tertiaryColor} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
           <Image
@@ -211,7 +211,7 @@ const Chat = ({route}) => {
         <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
-          <icons.MaterialIcons name="attachment" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="attachment" size={30} color={constants.$quaternaryColor} />
         </TouchableOpacity>
 
         <TextInput
@@ -222,7 +222,7 @@ const Chat = ({route}) => {
           multiline={true}
         />
         <Pressable style={styles.sendButton} onPress={sendMessage}>
-          <icons.MaterialIcons name="send" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="send" size={30} color={constants.$quaternaryColor} />
         </Pressable>
       </View>
     </View>
@@ -275,13 +275,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: '2%',
     paddingVertical: '1%',
-    maxWidth: '80%',
+    maxWidth: '40%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
   },
   outgoingMessageBubble: {
-    backgroundColor: constants.$tertiaryColor,
+    backgroundColor: constants.$septenaryColor,
+    // padding:'15%',
   },
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
@@ -289,8 +290,8 @@ const styles = StyleSheet.create({
   },
   // to be adjusted
   incomingMessageAvatar: {
-    width: '5%',
-    height: '10%',
+    width: '10%',
+    height: '150%',
     borderRadius: 50,
     marginRight: '2%',
   },
@@ -299,6 +300,7 @@ const styles = StyleSheet.create({
   },
   incomingMessageBubble: {
     backgroundColor: constants.$backgroundColor2,
+    borderRadius:30,
     maxWidth: '60%',
   },
   messageText: {

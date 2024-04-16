@@ -28,12 +28,15 @@ import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
+import {useNavigation} from '@react-navigation/native';
 
 const CreatePost = () => {
+  const navigation = useNavigation();
   const NavHome = useNavigateTo('Home');
 
   const handleButton1Press = () => {
     uploadPost();
+    setPostText('');
   };
   interface AppButtonProps {
     onPress: () => void;
@@ -121,8 +124,10 @@ const CreatePost = () => {
       post.postPicture = imageUrl;
     }
     await setDoc(doc(db, 'forum', Date.now().toString()), post);
-    NavHome;
+    navigation.navigate('Home');
     Alert.alert('Posted successfully!');
+    setPostText('');
+    console.log('After clearing postText:', postText);
   };
 
   return (
@@ -244,7 +249,6 @@ const CreatePost = () => {
                   borderRadius: 30,
                   padding: 8,
                   margin: 150,
-                  //flex: 1,
                   bottom: 210,
                   left: 130,
                   elevation: 3,

@@ -298,12 +298,13 @@ const styles = StyleSheet.create({
     width: '70%',
     left: '70%',
     position: 'absolute',
-    top: '20%',
+    top: '30%',
     zIndex: -1,
   },
   headericon: {
     marginRight: '15%',
-    bottom: '2%',
+    bottom: '8%',
+    right: '5%',
   },
   headerText: {
     paddingLeft: '5%',

@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ViewStyle,
 } from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -178,11 +179,11 @@ const ForumPage = () => {
                   style={styles.userIcon}
                 />
               </TouchableOpacity>
-              
+
               <View style={styles.userInfoText}>
                 {/* click profile and navigate Profile Details */}
                 <TouchableOpacity onPress={ProfileDetails}>
-                <Text style={styles.userName}>{post.name}</Text>
+                  <Text style={styles.userName}>{post.name}</Text>
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
@@ -218,8 +219,8 @@ const styles = StyleSheet.create({
     alignSelf: undefined,
     justifyContent: 'space-between',
     bottom: '2%',
-    left: '1.5%',
-  },
+    left: '2.5%',
+  } as ViewStyle,
   imageHeader: {
     width: 150,
     height: 80,
@@ -230,11 +231,11 @@ const styles = StyleSheet.create({
   imageHeader1: {
     position: 'relative',
     top: '50%',
-    left: '-73%',
+    left: '-55%',
   },
   headerText: {
     fontSize: 15,
-    left: '-48%',
+    left: '-25%',
   },
   card: {
     marginTop: '5%',

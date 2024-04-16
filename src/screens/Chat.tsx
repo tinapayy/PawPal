@@ -274,8 +274,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
     paddingHorizontal: '2%',
-    paddingVertical: '1.5%',
-    maxWidth: '20%',
+    paddingVertical: '1%',
+    maxWidth: '40%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',

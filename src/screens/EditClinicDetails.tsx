@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,7 +15,7 @@ import {
   FlatList,
   Button,
   ImageBackground,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -49,7 +49,7 @@ const PawPalApp = () => {
   const auth = FIREBASE_AUTH;
   const storage = FIREBASE_STORAGE;
 
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
@@ -81,7 +81,7 @@ const PawPalApp = () => {
         if (currentDoc.data().userId === auth.currentUser?.uid) {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
-            clinicPicture: selectedImage,
+            clinicPicture: selectedImage || null,
             services: tagsInput,
             contactInfo: number,
             about: description,
@@ -91,7 +91,7 @@ const PawPalApp = () => {
           };
           if (selectedImage) {
             const metadata = {
-              contentType: 'image/jpeg', 
+              contentType: 'image/jpeg',
             };
 
             const storageRef = ref(
@@ -130,7 +130,7 @@ const PawPalApp = () => {
     }
   };
 
-  const skipAddClinic = () => {
+  const cancelAddClinic = () => {
     navigation.reset({
       index: 0,
       routes: [{name: 'HomePage'}],
@@ -280,7 +280,29 @@ const PawPalApp = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [address, setAddress] = useState('');
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setDescription(doc.data().about);
+            setSelectedImage(doc.data().clinicPicture);
+            setNumber(doc.data().contactInfo);
+            setSelectedDays(doc.data().storeHours || selectedDays);
+            setTags(doc.data().services);
+            setMapRegion(doc.data().location || mapRegion);
+            setAddress(doc.data().address || address);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
   const handleRegionChange = region => {
     setMapRegion(region);
   };
@@ -297,220 +319,216 @@ const PawPalApp = () => {
 
   return (
     <SafeAreaView>
-      <ImageBackground source={require('../images/clinicSettings.png')}
-      style={{width: Dimensions.get('window').width}}>
-      <ScrollView>
-        <View
-          style={styles.scrollView}>
-          <View>
-            <Image
-              source={require('../images/Vector_8.png')}
-              style={styles.vecImg}
-            />
-          </View>
-
-          <Text style={styles.clinic}>Clinic Details</Text>
-
-          <Text style={styles.clinicDets}>Add Clinic Picture</Text>
-          <TouchableOpacity onPress={openImagePicker}>
-            {selectedImage ? (
+      <ImageBackground
+        source={require('../images/clinicSettings.png')}
+        style={{width: Dimensions.get('window').width}}>
+        <ScrollView>
+          <View style={styles.scrollView}>
+            <View>
               <Image
-                source={{uri: selectedImage}}/> ) : (
-              <View
-                style={styles.style1}>
-                <FontAwesomeIcon
-                  icon={faImage}
-                  size={30}
-                  style={{
-                    color: '#ff8700',
-                  }}
-                />
-              </View>
-            )}
-          </TouchableOpacity>
-
-          <View style={styles.style2}>
-            <View
-              style={styles.style3}>
-              <Text style={styles.services}>Services</Text>
-              <TouchableOpacity onPress={handleToggleInput}>
-                <FontAwesomeIcon
-                  icon={faCaretDown}
-                  size={25}
-                  style={{color: '#ff8700', marginLeft: 10, bottom: '20%'}}
-                />
-              </TouchableOpacity>
+                source={require('../images/Vector_8.png')}
+                style={styles.vecImg}
+              />
             </View>
 
-            <View
-              style={styles.style4}>
-              {isInputVisible && (
-                <View>
-                  <View style={styles.tagsContainer}>
-                    <FlatList
-                      data={tags}
-                      horizontal
-                      renderItem={({item, index}) => (
-                        <View style={styles.tagitems}>
-                          <Text>{item}</Text>
-                          <TouchableOpacity onPress={() => removeTag(index)}>
-                            <FontAwesomeIcon
-                              icon={faTimesCircle}
-                              size={25}
-                              style={{color: '#ff8700', marginLeft: 5}}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                      keyExtractor={(item, index) => index.toString()}
-                    />
-                  </View>
+            <Text style={styles.clinic}>Clinic Details</Text>
 
-                  <View style={styles.tagupdatecontainer}>
-                    <View style={styles.taginputcontainer}>
-                      <TextInput
-                        value={tagVal}
-                        onChangeText={text => setTagVal(text)}
-                        placeholder="Enter service"
-                        onSubmitEditing={addTag}
-                        style={styles.taginput}
-                      />
-                      <TouchableOpacity onPress={addTag}>
-                        <FontAwesomeIcon
-                          icon={faCirclePlus}
-                          size={25}
-                          style={{color: '#ff8700', marginLeft: 10}}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    <TouchableOpacity onPress={handleSaveTagInput}>
-                      <Text
-                        style={styles.saveService}>
-                        Save
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+            <Text style={styles.clinicDets}>Add Clinic Picture</Text>
+            <TouchableOpacity onPress={openImagePicker}>
+              {selectedImage ? (
+                <Image source={{uri: selectedImage}} />
+              ) : (
+                <View style={styles.style1}>
+                  <FontAwesomeIcon
+                    icon={faImage}
+                    size={30}
+                    style={{
+                      color: '#ff8700',
+                    }}
+                  />
                 </View>
               )}
+            </TouchableOpacity>
+
+            <View style={styles.style2}>
+              <View style={styles.style3}>
+                <Text style={styles.services}>Services</Text>
+                <TouchableOpacity onPress={handleToggleInput}>
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    size={25}
+                    style={{color: '#ff8700', marginLeft: 10, bottom: '20%'}}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.style4}>
+                {isInputVisible && (
+                  <View>
+                    <View style={styles.tagsContainer}>
+                      <FlatList
+                        data={tags}
+                        horizontal
+                        renderItem={({item, index}) => (
+                          <View style={styles.tagitems}>
+                            <Text>{item}</Text>
+                            <TouchableOpacity onPress={() => removeTag(index)}>
+                              <FontAwesomeIcon
+                                icon={faTimesCircle}
+                                size={25}
+                                style={{color: '#ff8700', marginLeft: 5}}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
+                    </View>
+
+                    <View style={styles.tagupdatecontainer}>
+                      <View style={styles.taginputcontainer}>
+                        <TextInput
+                          value={tagVal}
+                          onChangeText={text => setTagVal(text)}
+                          placeholder="Enter service"
+                          onSubmitEditing={addTag}
+                          style={styles.taginput}
+                        />
+                        <TouchableOpacity onPress={addTag}>
+                          <FontAwesomeIcon
+                            icon={faCirclePlus}
+                            size={25}
+                            style={{color: '#ff8700', marginLeft: 10}}
+                          />
+                        </TouchableOpacity>
+                      </View>
+
+                      <TouchableOpacity onPress={handleSaveTagInput}>
+                        <Text style={styles.saveService}>Save</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              </View>
+            </View>
+
+            <Text style={styles.clinicDets}>Phone Information</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => setNumber(text)}
+              value={number}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.clinicDets}>About</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => setDescription(text)}
+              value={description}
+            />
+
+            <Text style={styles.clinicDets}>Store Hours</Text>
+            <View style={styles.radio}>
+              {daysOfWeek.map(({day, open, close}, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => toggleDaySelection(day)}>
+                  <View style={styles.wrap}>
+                    <View style={styles.btn}>
+                      {selectedDays.some(
+                        selectedDay => selectedDay.day === day,
+                      ) && <View style={styles.bg}></View>}
+                    </View>
+
+                    <Text style={styles.text}>{day}</Text>
+                    {daysOfWeek.some(
+                      selectedDay => selectedDay.day === day,
+                    ) && (
+                      <View style={{width: 85}}>
+                        <Button
+                          onPress={() => showOpenTimepicker(day)}
+                          title={
+                            selectedDays.find(d => d.day === day)?.open ||
+                            'Open'
+                          }
+                          color={'#FFAC4E'}
+                        />
+                      </View>
+                    )}
+                    <Text style={styles.dashText}> -</Text>
+
+                    {daysOfWeek.some(
+                      selectedDay => selectedDay.day === day,
+                    ) && (
+                      <View style={{width: 85}}>
+                        <Button
+                          onPress={() => showCloseTimepicker(day)}
+                          title={
+                            selectedDays.find(d => d.day === day)?.close ||
+                            'Close'
+                          }
+                          color={'#FFAC4E'}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+            {openshow && (
+              <DateTimePicker
+                testID="dateOpenTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChangeOpenTime}
+              />
+            )}
+            {closeshow && (
+              <DateTimePicker
+                testID="dateCloseTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChangeCloseTime}
+              />
+            )}
+
+            <Text style={styles.clinicDets}>Location</Text>
+            <View style={{flex: 1}}>
+              <MapView
+                style={{flex: 1, margin: 40, height: 300}}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={mapRegion}
+                region={mapRegion}
+                onRegionChangeComplete={handleRegionChange}>
+                <Marker
+                  coordinate={{
+                    latitude: mapRegion.latitude,
+                    longitude: mapRegion.longitude,
+                  }}
+                />
+              </MapView>
+            </View>
+
+            <View style={{height: 300}}>
+              <AppButton
+                title="Save"
+                onPress={saveClinicInfo}
+                buttonStyle={styles.btn1}
+                textStyle={styles.bt1}
+              />
+              <AppButton
+                title="Cancel"
+                onPress={cancelAddClinic}
+                buttonStyle={styles.skip}
+                textStyle={styles.skipText}
+              />
             </View>
           </View>
-
-          <Text style={styles.clinicDets}>Phone Information</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => setNumber(text)}
-            value={number}
-            keyboardType="numeric"
-          />
-
-          <Text style={styles.clinicDets}>About</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => setDescription(text)}
-            value={description}
-          />
-
-          <Text style={styles.clinicDets}>Store Hours</Text>
-          <View style={styles.radio}>
-            {daysOfWeek.map(({day, open, close}, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => toggleDaySelection(day)}>
-                <View style={styles.wrap}>
-                  <View style={styles.btn}>
-                    {selectedDays.some(
-                      selectedDay => selectedDay.day === day,
-                    ) && <View style={styles.bg}></View>}
-                  </View>
-
-                  <Text style={styles.text}>{day}</Text>
-                  {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <View style={{width: 85}}>
-                      <Button
-                        onPress={() => showOpenTimepicker(day)}
-                        title={
-                          selectedDays.find(d => d.day === day)?.open || 'Open'
-                        }
-                        color={'#FFAC4E'}
-                      />
-                    </View>
-                  )}
-                  <Text
-                    style={styles.dashText}>
-                    {' '}
-                    -
-                  </Text>
-
-                  {daysOfWeek.some(selectedDay => selectedDay.day === day) && (
-                    <View style={{width: 85}}>
-                      <Button
-                        onPress={() => showCloseTimepicker(day)}
-                        title={
-                          selectedDays.find(d => d.day === day)?.close ||
-                          'Close'
-                        }
-                        color={'#FFAC4E'}
-                      />
-                    </View>
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-          {openshow && (
-            <DateTimePicker
-              testID="dateOpenTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChangeOpenTime}
-            />
-          )}
-          {closeshow && (
-            <DateTimePicker
-              testID="dateCloseTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChangeCloseTime}
-            />
-          )}
-
-          <Text style={styles.clinicDets}>Location</Text>
-          <View style={{flex: 1}}>
-            <MapView
-              style={{flex: 1, margin: 40, height: 300}}
-              provider={PROVIDER_GOOGLE}
-              initialRegion={mapRegion}
-              onRegionChangeComplete={handleRegionChange}>
-              <Marker
-                coordinate={{
-                  latitude: mapRegion.latitude,
-                  longitude: mapRegion.longitude,
-                }}
-              />
-            </MapView>
-          </View>
-
-          <View style={{height: 300}}>
-            <AppButton
-              title="Save"
-              onPress={saveClinicInfo}
-              buttonStyle={styles.btn1}
-              textStyle={styles.bt1}
-            />
-            <AppButton
-              title="Skip"
-              onPress={skipAddClinic}
-              buttonStyle={styles.skip}
-              textStyle={styles.skipText}
-            />
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -547,8 +565,8 @@ const styles = StyleSheet.create({
     width: '82%',
   } as ViewStyle,
   style2: {
-    flexDirection: 'column', 
-    flexWrap: 'wrap'
+    flexDirection: 'column',
+    flexWrap: 'wrap',
   },
   style3: {
     flexDirection: 'row',
@@ -574,7 +592,7 @@ const styles = StyleSheet.create({
     fontSize: constants.$fontSizeMedium,
     color: constants.$secondaryColor,
     fontWeight: 'bold',
-    marginRight: 5, 
+    marginRight: 5,
   },
   clinic: {
     paddingTop: '3%',
@@ -610,7 +628,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginRight: '45%',
     bottom: '40%',
-    width: '30%'
+    width: '30%',
   } as ViewStyle,
   bt1: {
     ...buttonMixin.buttonText,
@@ -655,7 +673,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   wrap: {
-    ...alignmentMixin.alignment1
+    ...alignmentMixin.alignment1,
   } as ViewStyle,
   bg: {
     backgroundColor: constants.$primaryColor,
@@ -709,7 +727,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   } as ViewStyle,
   tagupdatecontainer: {
-    ...alignmentMixin.alignment1
+    ...alignmentMixin.alignment1,
   } as ViewStyle,
 });
 

@@ -9,6 +9,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  Dimensions,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -29,7 +32,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import constants from '../styles/constants';
 import { alignmentMixin } from '../components/alignmentMixin';
 import { buttonMixin } from '../components/buttonMixin';
-
+import { addPetMixins } from '../styles/mixins/addPetMixins';
 const UserProfile = () => {
   const navigation = useNavigation();
 
@@ -212,6 +215,10 @@ const UserProfile = () => {
     }
   };
 
+  const imageSizePercentage = 30;
+  const imageSize = Dimensions.get('window').width * (imageSizePercentage / 100);
+  const borderRadius = imageSize / 2;
+
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
@@ -234,7 +241,13 @@ const UserProfile = () => {
                 ? {uri: profilePicture}
                 : require('../images/defaultIcon.png')
             }
-            style={styles.profilePicture}
+            style={{
+              ...styles.profilePicture,
+              width: imageSize,
+              height: imageSize,
+              borderRadius: borderRadius,
+            }}
+            resizeMode='cover'
           />
           <TouchableOpacity
             style={styles.arrowAdd}
@@ -242,16 +255,14 @@ const UserProfile = () => {
             <FontAwesomeIcon
               icon={icons.faCirclePlus}
               style={styles.arrowAdd}
-              size={25}
+              size={30}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />
-            <View style={styles.iconInputRow}>
-              <Text style={styles.inputName}>{auth.currentUser?.email}</Text>
-            </View>
+            <FontAwesomeIcon icon={icons.faEnvelope} style={styles.icon} />    
+              <Text style={styles.input}>{auth.currentUser?.email}</Text>
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={icons.faUser} style={styles.icon} />
@@ -314,7 +325,7 @@ const UserProfile = () => {
               accessible={true}
               accessibilityRole="button">
               <LinearGradient
-                colors={['#FFAC4E', '#FF6464']}
+                colors={[constants.$backgroundColor1, constants.$accentColor]}
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
                 style={styles.gradientBackground}>
@@ -343,144 +354,120 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    // padding: 66,
   },
   back: {
     flexDirection: 'row',
-    marginBottom: 40,
-    top: 60,
+    marginBottom: '2%',
+    top: '-5%',
+    left: '2%',
   },
   backIcon: {
     color: constants.$senaryColor,
-    flexDirection: 'row',
-    position: 'absolute',
-    top: -70,
-    left: 10,
-    paddingRight: 30,
   },
   backText: {
     fontSize: 20,
-    fontFamily: constants.$fontFamily,
+    fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
-    fontWeight: constants.$fontWeightBold,
-    marginLeft: 30,
-    top: -70,
-    left: 25,
+    marginLeft: '5%',
+
   },
   profileContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: '5%',
   },
   profilePicture: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    width: '60%',
+    height: '40%',
+    aspectRatio:1,
     alignSelf: 'center',
-    marginBottom: 20,
   },
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: 48,
-    right: 54,
-    paddingRight: 30,
-    marginBottom: 90,
-    paddingVertical: 40,
+    top: '75%',
+    left: '59%',
   },
   formContainer: {
-    marginTop: 5,
-    marginLeft: -20,
+    marginTop: '10%',
+    // left: '15%',
   },
   iconInputRow: {
     ...alignmentMixin.alignment1,
     justifyContent: undefined,
-    marginBottom: 10,
-    left: 0,
-    width: 350,
-  },
+    marginBottom: '2%',
+    left: '-5%',
+    width: '70%',
+  } as ViewStyle,
   icon: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: 15,
-    marginLeft: 65, 
-    paddingRight: 10,
-    flexDirection: 'row',
-    alignContent: 'center',
-  },
-  inputLabel: {
-    color: constants.$senaryColor,
-    marginBottom: 8,
+    top: '25%',
+    marginLeft: '8%', 
+    paddingVertical: '5%',
   },
   input: {
     fontFamily: constants.$fontFamilyLight,
     flex: 1,
     fontSize: 18,
-    height: 45,
+    height: 48,
     borderBottomWidth: 2,
     borderBottomColor: constants.$senaryColor,
-    marginLeft: 60,
-    paddingHorizontal: 30,
-  },
-  inputName: {
-    flex: 1,
-    fontSize: 20,
-    height: 40,
-    borderBottomWidth: 2,
-    top: 10,
-    borderBottomColor: constants.$senaryColor,
-    marginLeft: 60,
-    paddingHorizontal: 30,
-    color: constants.$secondaryColor,
+    right: '-55%',
+    paddingHorizontal: '10%',
+    paddingVertical:'2%',
   },
   changePassword: {
     fontSize: 25,
-    fontFamily: constants.$fontFamily,
-    left: 20,
-    fontWeight: constants.$fontWeightBold,
-    marginBottom: 20,
+    fontFamily: constants.$fontFamilyBold,
+    left: '8%',
+    marginBottom: '4%',
     color: constants.$senaryColor,
-    paddingHorizontal: 8,
-  },
-  saveButton: {
-    ...alignmentMixin.alignment1,
-    marginTop: 20,
-    paddingVertical: 20,
-    borderRadius: 40,
-    bottom: 30,
-  },
-  buttonTextCancel: {
-    color: constants.$senaryColor,
-    fontSize: 17,
-    fontFamily: constants.$fontFamily,
-    alignSelf: 'center',
-    top: 8,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    borderRadius: 40,
+    left: '-12%',
+    paddingTop:'7%',
   },
+  //save changes button container
+  saveButton: {
+    ...alignmentMixin.alignment1,
+    paddingHorizontal: '25%',
+    left: '25%',
+  }as ViewStyle,
+  // cancel button
+  buttonTextCancel: {
+    ...addPetMixins.align5,
+    textAlign:'center',
+    color: constants.$senaryColor,
+    backgroundColor: constants.$tertiaryColor,
+    fontSize: 18,
+    paddingVertical: '2%',
+  }as TextStyle,
+
   gradientBackground: {
     ...buttonMixin.button,
     position: 'absolute',
-    top: 0,
-    left: 100,
   },
+  //text inside button
   buttonSave: {
+    ...addPetMixins.align4,
     ...buttonMixin.buttonText,
-    top: 8,
-  },
+    top: '19%',
+
+  } as ViewStyle,
   cancelButton: {
-    ...alignmentMixin.alignment1,
-    backgroundColor: constants.$textColor2,
-    left: -40,
-    paddingHorizontal: 20,
-    height: 50,
-    borderRadius: 40,
-    elevation: 3,
-    top: -19,
-  },
+    ...buttonMixin.button,
+    ...buttonMixin.buttonText,
+    width: undefined,
+    color: constants.$senaryColor,
+    backgroundColor: constants.$tertiaryColor,
+    ...addPetMixins.align1,
+    paddingVertical: '-10%',
+    paddingHorizontal: '5%',
+    top:'-5%',
+  } as ViewStyle,
 });
 
 export default UserProfile;

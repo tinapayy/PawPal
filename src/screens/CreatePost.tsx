@@ -18,7 +18,6 @@ import {
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
   FIREBASE_DB,
@@ -27,9 +26,11 @@ import {
 import {doc, setDoc, serverTimestamp} from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import constants from '../styles/constants';
+import {useNavigateTo} from '../components/navigation';
 
 const CreatePost = () => {
-  const navigation = useNavigation();
+  const NavHome = useNavigateTo('Home');
 
   const handleButton1Press = () => {
     uploadPost();
@@ -120,7 +121,7 @@ const CreatePost = () => {
       post.postPicture = imageUrl;
     }
     await setDoc(doc(db, 'forum', Date.now().toString()), post);
-    navigation.navigate('home');
+    NavHome;
     Alert.alert('Posted successfully!');
   };
 
@@ -129,7 +130,7 @@ const CreatePost = () => {
       <ScrollView>
         <View
           style={{
-            backgroundColor: 'white',
+            backgroundColor: constants.$backgroundColor,
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
           }}>
@@ -148,19 +149,19 @@ const CreatePost = () => {
               <FontAwesomeIcon
                 icon={icons.faCommentDots}
                 size={25}
-                style={{color: '#5a2828', top: 5}}
+                style={{color: constants.$secondaryColor, top: 5}}
               />
               <Text
                 style={{
-                  color: '#5a2828',
+                  color: constants.$secondaryColor,
                   fontSize: 25,
-                  fontFamily: 'Poppins-Bold',
+                  fontFamily: constants.$fontFamilyBold,
                   left: 10,
                 }}>
                 Create Post
               </Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('home')}>
+            <TouchableOpacity onPress={NavHome}>
               <FontAwesomeIcon
                 icon={icons.faCircleXmark}
                 size={25}
@@ -178,14 +179,14 @@ const CreatePost = () => {
             style={{
               width: 350,
               height: 2,
-              backgroundColor: '#5a2828',
+              backgroundColor: constants.$secondaryColor,
               alignSelf: 'center',
               bottom: 25,
             }}
           />
           <Text
             style={{
-              color: '#ff8700',
+              color: constants.$senaryColor,
               fontSize: 20,
               fontFamily: 'Poppins-Medium',
               left: 20,
@@ -195,9 +196,9 @@ const CreatePost = () => {
 
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: constants.$textColor2,
               borderRadius: 20,
-              borderColor: '#ff8d4d',
+              borderColor: constants.$senaryColor,
               padding: 10,
               borderWidth: 2,
               margin: 20,
@@ -209,16 +210,16 @@ const CreatePost = () => {
               placeholder="Write something here..."
               textAlignVertical="top"
               style={{
-                color: '#5a2828',
+                color: constants.$secondaryColor,
                 fontSize: 15,
-                fontFamily: 'Poppins-Regular',
+                fontFamily: constants.$fontFamily,
               }}></TextInput>
           </View>
           <Text
             style={{
-              color: '#ff8700',
+              color: constants.$senaryColor,
               fontSize: 20,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: constants.$fontFamilyMedium,
               left: 20,
             }}>
             Upload Media
@@ -232,7 +233,7 @@ const CreatePost = () => {
                 borderRadius: 30,
                 margin: 20,
               }}>
-              <Text style={{color: '#5a2828', fontSize: 13}}>
+              <Text style={{color: constants.$secondaryColor, fontSize: 13}}>
                 {selectedImage?.split('/').pop() || 'No photo selected'}
               </Text>
             </View>
@@ -247,13 +248,13 @@ const CreatePost = () => {
                   bottom: 210,
                   left: 130,
                   elevation: 3,
-                  borderColor: '#ff8d4d',
+                  borderColor: constants.$senaryColor,
                   borderWidth: 1,
                 }}>
                 <Text
                   style={{
-                    color: '#ff8d4d',
-                    fontFamily: 'Poppins-Regular',
+                    color: constants.$senaryColor,
+                    fontFamily: constants.$fontFamily,
                     fontSize: 15,
                     textAlign: 'center',
                     fontWeight: '100',
@@ -264,13 +265,11 @@ const CreatePost = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => setSelectedImage('')}>
-
             <View>
               <FontAwesomeIcon
                 icon={icons.faCircleXmark}
                 size={23}
-                style={{color: 'grey', bottom: '1710%', left: '66%'}}
-
+                style={{color: 'grey', bottom: '1710%', left: '62%'}}
               />
             </View>
           </TouchableOpacity>
@@ -280,12 +279,11 @@ const CreatePost = () => {
               fontFamily: 'Poppins-Italic',
               fontSize: 13,
               left: 30,
-              bottom: '49%',
+              bottom: '45%',
             }}>
             Maximum upload file size : 100 MB
           </Text>
-          <View style={{bottom: '57%'}}>
-
+          <View style={{bottom: '53%'}}>
             <AppButton
               title="Post"
               onPress={handleButton1Press}

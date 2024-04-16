@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 interface SegmentedButtonsProps {
   value: string;
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     ...alignmentMixin.alignment,
     height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width*0.95,
+    width: Dimensions.get('window').width * 0.95,
     top: '18%',
     position: 'absolute',
   },

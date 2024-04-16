@@ -11,12 +11,12 @@ import {getStorage, ref} from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyAE_w2PYZUdG6RcOmCMxuJgw-5MOtfj0uE',
-  authDomain: 'pawpal-bf0d3.firebaseapp.com',
-  projectId: 'pawpal-bf0d3',
-  storageBucket: 'pawpal-bf0d3.appspot.com',
-  messagingSenderId: '747495959390',
-  appId: '1:747495959390:web:91528f916887411ff33dcf',
+  apiKey: 'AIzaSyA2vj7393wFSD_4lT4LrQOBhgRZ-cf-OEk',
+  authDomain: 'pawpal-c87ba.firebaseapp.com',
+  projectId: 'pawpal-c87ba',
+  storageBucket: 'pawpal-c87ba.appspot.com',
+  messagingSenderId: '1092218500010',
+  appId: '1:1092218500010:web:79a99a70d29db347eb31d3',
 };
 
 // Initialize Firebase

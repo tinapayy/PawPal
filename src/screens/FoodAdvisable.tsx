@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 interface SegmentedButtonsProps {
   value: string;

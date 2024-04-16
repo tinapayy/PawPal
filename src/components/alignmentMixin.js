@@ -15,9 +15,9 @@ export const alignmentMixin = {
     flexDirection: 'row',
   },
   alignClinic: {
-    paddingTop: '5%',
-    paddingLeft: '10%',
-    fontSize: 25,
+    paddingTop: '3%',
+    paddingLeft: '11%',
+    fontSize: 23,
     color: constants.$secondaryColor,
     fontFamily: constants.$fontFamilyMedium,
   },

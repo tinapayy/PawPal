@@ -18,7 +18,6 @@ import {
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import {useNavigation} from '@react-navigation/native';
 import {
   FIREBASE_AUTH,
   FIREBASE_DB,

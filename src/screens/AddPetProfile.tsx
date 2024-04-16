@@ -10,6 +10,9 @@ import {
   Image,
   ImageBackground,
   Alert,
+  Dimensions,
+  TextStyle,
+  ViewStyle,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -34,6 +37,10 @@ import {
 } from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import constants from '../styles/constants';
+import { addPetMixins } from '../styles/mixins/addPetMixins';
 
 const PetProfile = () => {
   const navigation = useNavigation();
@@ -77,7 +84,7 @@ const PetProfile = () => {
       }
 
       const metadata = {
-        contentType: 'image/jpeg', 
+        contentType: 'image/jpeg', // Adjust the content type based on your image type
       };
 
       const storage = FIREBASE_STORAGE;
@@ -142,7 +149,9 @@ const PetProfile = () => {
       Alert.alert('Error updating profile picture. Please try again.');
     }
   };
-
+  const imageSizePercentage = 30;
+  const imageSize = Dimensions.get('window').width*(imageSizePercentage/100);
+  const borderRadius = imageSize/2;
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
@@ -165,10 +174,17 @@ const PetProfile = () => {
                 ? {uri: petPicture}
                 : require('../images/UserIcon1.png')
             }
-            style={styles.profileImage}
+            style={{
+              ...styles.profileImage,
+              width: imageSize,
+              height: imageSize,
+              borderRadius: borderRadius,
+            }}
+            resizeMode='cover'
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} />
+            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} size={30}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>
@@ -218,24 +234,24 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} />
+            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} size={25} />
             <Text style={styles.malefeminput}>Sex</Text>
             <View style={styles.radioButton} />
             <RadioButton
               value="Male"
               status={checked === 'Male' ? 'checked' : 'unchecked'}
               onPress={() => setChecked('Male')}
-              color="#FF8D4D"
-              uncheckedColor="#FF8D4D"
+              color={constants.$senaryColor}
+              uncheckedColor={constants.$quaternaryColor}
             />
             <Text style={styles.maleinput}>Male</Text>
-            <View style={{marginLeft: -20}} />
+            <View style={{marginLeft: '2%'}} />
             <RadioButton
               value="Female"
               status={checked === 'Female' ? 'checked' : 'unchecked'}
               onPress={() => setChecked('Female')}
-              color="#FF8D4D"
-              uncheckedColor="#FF8D4D"
+              color={constants.$senaryColor}
+              uncheckedColor={constants.$quaternaryColor}
             />
             <Text style={styles.maleinput}>Female</Text>
           </View>
@@ -243,10 +259,10 @@ const PetProfile = () => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              paddingHorizontal: 70,
-              left: 40,
+              paddingHorizontal: '10%',
+              left: '5%',
             }}>
-            <View style={styles.buttonContainerSaveCancel}>
+            <View style={styles.buttonContainer}>
               <View>
                 <TouchableOpacity
                   style={styles.saveButton}
@@ -254,7 +270,7 @@ const PetProfile = () => {
                   accessible={true}
                   accessibilityRole="button">
                   <LinearGradient
-                    colors={['#FFAC4E', '#FF6464']}
+                    colors={[constants.$backgroundColor1, constants.$accentColor]}
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}
                     style={styles.gradientBackground}>
@@ -284,185 +300,127 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   maleinput: {
-    flex: 1,
-    alignItems: 'center',
-    right: 15,
-    paddingVertical: 10,
-    color: 'gray',
-    top: 2,
-    paddingLeft: 15,
-    flexDirection: 'row',
-    fontSize: 18,
-    fontFamily: 'Poppins-Regular',
-  },
+    ...addPetMixins.input,
+    right: '-3%',
+    top: '4%',
+    
+  } as TextStyle,
+
   malefeminput: {
-    flex: 1,
-    fontSize: 18,
-    alignItems: 'center',
-    left: 50,
-    color: 'gray',
-    top: -1,
-    marginRight: 30,
-    flexDirection: 'row',
-    fontFamily: 'Poppins-Regular',
-  },
+    ...addPetMixins.input,
+    left: '9%',
+    top: '-1%',
+  } as TextStyle,
   malInput: {
-    flex: 1,
-    alignItems: 'center',
-    left: 40,
-    color: '#FF8D4D',
-    top: 10,
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
+    ...addPetMixins.align,
+    left: '7%',
+    color: constants.$senaryColor,
+    bottom: '-25%',
+    marginBottom: '5%',
+  } as TextStyle,
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    padding: '2.7%',
   },
   back: {
     flexDirection: 'row',
-    marginBottom: 40,
-    top: 45,
+    marginBottom:'2%',
+    top: '-39%',
   },
   backIcon: {
-    color: '#FF8D4D',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: -92,
-    left: 10,
-    paddingRight: 30,
+    color: constants.$senaryColor,
   },
   backText: {
     fontSize: 20,
-    fontFamily: 'Poppins-Regular',
-    color: '#5A2828',
-    fontWeight: 'bold',
-    marginLeft: 30,
-    top: -95,
-    left: 25,
+    fontFamily: constants.$fontFamilyBold,
+    color: constants.$secondaryColor,
+    marginLeft: '5%',
   },
   profileImage: {
-    top: -20,
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    bottom: '60%',
+    width: '40%',
+    aspectRatio:1,
     alignSelf: 'center',
-    marginBottom: 20,
   },
   arrowAdd: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
-    top: 37,
-    bottom: 0,
-    right: 62,
-    paddingRight: 30,
-    marginBottom: 90,
-    paddingVertical: 40,
+    top: '10%',
+    left: '59%',
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: '-20%',
+    top:'10%',
   },
   iconInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...addPetMixins.align3,
     alignContent: 'center',
-    marginBottom: 10,
-    right: 5,
-    left: 7,
-    width: 340,
-  },
+    marginBottom: '2.5%',
+    left: '3%',
+    width: '89%',
+  } as TextStyle,
   icon: {
-    color: '#FF8D4D',
+    color: constants.$senaryColor,
     position: 'absolute',
-    top: 10,
-    marginLeft: 30,
-    paddingRight: 30,
-    flexDirection: 'row',
-    paddingVertical: 11,
+    top: '25%',
+    marginLeft: '5%',
+    paddingVertical: '30%',
   },
   input: {
     flex: 1,
     fontSize: 18,
     height: 48,
     borderBottomWidth: 2,
-    borderBottomColor: '#FF8D4D',
-    marginLeft: 20,
-    paddingHorizontal: 40,
-    paddingVertical: 10,
-    width: 50,
-    padding: 20,
-    alignContent: 'center',
+    borderBottomColor: constants.$senaryColor,
+    marginLeft: '5%',
+    paddingHorizontal: '10%',
+    paddingVertical: '2%',
   },
   radioButton: {
-    borderColor: '#FF8D4D',
+    borderColor: constants.$senaryColor,
     justifyContent: 'space-between',
-    right: 30,
+    paddingHorizontal:'4%',
   },
-  buttonContainerSaveCancel: {
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
-    borderRadius: 40,
+    top: '40%',
+    left:'10%',
+
   },
   gradientBackground: {
-    borderRadius: 20,
-    width: 160,
-    height: 50,
+    ...buttonMixin.button,
     position: 'absolute',
-    top: 8,
-    left: -20,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
   },
   saveButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    right: 10,
-    paddingTop: 50,
-    paddingHorizontal: 75,
-  },
+    ...addPetMixins.align1,
+    top:'5%',
+    paddingTop: '25%',
+    paddingHorizontal: '25%',
+  } as TextStyle,
   buttonSave: {
-    color: '#ffffff',
-    fontSize: 19,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    top: 10,
-  },
+    ...addPetMixins.align4,
+    ...buttonMixin.buttonText,
+    top:'19%',
+  } as ViewStyle,
   cancelButton: {
-    backgroundColor: '#ffffff',
-    top: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 40,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
+    ...buttonMixin.button,
+    ...buttonMixin.buttonText,
+    width: undefined,
+    color: constants.$senaryColor,
+    backgroundColor: constants.$tertiaryColor,
+    ...addPetMixins.align1,
+    paddingVertical: '10%',
+    paddingHorizontal: '5%',
+  
+  } as TextStyle,
   buttonTextCancel: {
-    color: '#FF8D4D',
+    ...addPetMixins.align5,
+    color: constants.$senaryColor,
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
-    alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
+    paddingHorizontal:'5%',
+  } as TextStyle,
 });
 
 export default PetProfile;

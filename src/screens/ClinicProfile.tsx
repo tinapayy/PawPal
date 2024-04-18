@@ -10,6 +10,7 @@ import {
   Image,
   ImageBackground,
   ViewStyle,
+  ImageStyle,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -20,9 +21,11 @@ import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 const ClinicProfile = () => {
   const navigation = useNavigation();
+  const SettingsClinic = useNavigateTo('SettingsPage_Clinic');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -82,7 +85,7 @@ const ClinicProfile = () => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: 'orange',
+        backgroundColor: 'white',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
       }}>
@@ -92,12 +95,12 @@ const ClinicProfile = () => {
             <FontAwesomeIcon
               icon={icons.faArrowLeft}
               size={30}
-              style={{color: 'brown'}}
+              style={{color: constants.$secondaryColor}}
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('SettingsPage_Clinic')}>
-            <FontAwesomeIcon icon={icons.faGear} size={30} style={{color: 'brown'}} />
+            onPress={SettingsClinic}>
+            <FontAwesomeIcon icon={icons.faGear} size={30} style={{color: constants.$secondaryColor, right: '60%'}} />
           </TouchableOpacity>
         </View>
 
@@ -123,10 +126,10 @@ const ClinicProfile = () => {
             <View
               style={styles.iconStyles}>
               <FontAwesomeIcon
-                icon={icons.faPhone} size={23}
+                icon={icons.faPhone} size={19}
                 style={{
                   color: constants.$senaryColor,
-                  left: 9,
+                  left: '75%',
                 }}
               />
               <Text
@@ -139,9 +142,9 @@ const ClinicProfile = () => {
               style={styles.iconStyles}>
               <FontAwesomeIcon
                 icon={icons.faClock}
-                size={18}
+                size={16}
                 style={{
-                  color: constants.$senaryColor,
+                  color: constants.$senaryColor, top: '3%', right: '20%'
                 }}
               />
               <Text
@@ -152,7 +155,7 @@ const ClinicProfile = () => {
               <View>
                 <TouchableOpacity onPress={toggleDropdown}>
                   <FontAwesomeIcon
-                    icon={icons.faCircleArrowDown}
+                    icon={icons.faCaretDown}
                     size={18}
                     style={{
                       color: constants.$senaryColor,
@@ -203,8 +206,8 @@ const ClinicProfile = () => {
           <View>
             <Image
               source={require('../images/Line_23.png')}
-              resizeMode="stretch"
               style={styles.lineStyle}
+              resizeMode="stretch"
             />
           </View>
           <Text
@@ -257,11 +260,12 @@ const ClinicProfile = () => {
 
 const styles = StyleSheet.create({
   profile: {
-    ...alignmentMixin.align,
+    ...alignmentMixin.alignment,
     flex: 1,
-    width: 410,
+    width: Dimensions.get('window').width,
+    //width: 410,
     height: 410,
-    left: '0.3%',
+    //left: '0.3%',
     position: 'relative',
     padding: '5%',
     bottom: '230%',
@@ -289,15 +293,17 @@ const styles = StyleSheet.create({
     marginLeft: '7%',
   },
   iconStyles: {
+    padding: '2%',
     flexDirection: 'row',
     margin: '3%',
     justifyContent: 'flex-start',
+    right: '3%'
   },
   phoneText: {
     color: constants.$senaryColor,
     fontSize: 16,
     fontFamily: constants.$fontFamilyMedium,
-    marginLeft: 7,
+    marginLeft: '15%',
   },
   storeText: {
     color: constants.$senaryColor,
@@ -310,7 +316,7 @@ const styles = StyleSheet.create({
   servicesText: {
     color: constants.$secondaryColor,
     fontFamily: constants.$fontFamilyMedium,
-    fontSize: 23,
+    fontSize: 21,
     marginLeft: '7%',
     marginTop: 10,
   },
@@ -318,45 +324,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    margin: 5,
+    margin: '1%',
   },
   servicesView: {
+    left: '35%',
     color: constants.$textColor1,
     textAlign: 'center',
     backgroundColor: '#f1d5c5',
-    padding: 10,
+    padding: '2.5%',
     borderRadius: 20,
     fontFamily: constants.$fontFamilyMedium,
   },
   lineStyle: {
-    ...alignmentMixin.align,
-    margin: 10,
-    width: 1000,
-  } as ViewStyle,
+    ...alignmentMixin.alignment,
+    margin: '3%',
+    width: '90%',
+  } as ImageStyle,
   aboutText: {
     color: constants.$textColor1,
-    marginLeft: 10,
+    marginLeft: '9%',
     fontSize: 16,
     fontFamily: constants.$fontFamilySemiBold,
-    left: 10,
   },
   locText: {
     color: constants.$senaryColor,
-    marginLeft: '7%',
+    marginLeft: '9%',
     fontFamily: constants.$fontFamilyMedium,
-    fontSize: 23,
-    padding: 10,
+    fontSize: 21,
+    padding: '3%',
   },
   addressText: {
-    marginLeft: '9%',
+    marginLeft: '12%',
     fontSize: 14,
     fontFamily: constants.$fontFamilyMedium,
   },
   icon: {
+    top: '8%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 30,
+    paddingLeft: '3%',
     zIndex: 1,
   },
   container: {
@@ -364,24 +371,24 @@ const styles = StyleSheet.create({
     flex: 1,
     opacity: 0.9,
   } as ViewStyle,
-  content: {
-    backgroundColor: constants.$senaryColor,
-    padding: 20,
-    borderRadius: 30,
-    margin: 50,
-    color: constants.$textColor2
-  },
+  // content: {
+  //   backgroundColor: constants.$senaryColor,
+  //   padding: '8%',
+  //   borderRadius: 30,
+  //   margin: 50,
+  //   color: constants.$textColor2
+  // },
   dropdown: {
-    marginTop: 10,
+    //marginTop: 10,
     backgroundColor: constants.$textColor2,
     borderWidth: 2,
-    padding: 10,
+    padding: '4%',
     borderRadius: 5,
     position: 'absolute',
-    width: 250,
-    right: 5,
+    width: '1200%',
+    right: '5%',
     zIndex: 5,
-    top: 14,
+    top: '90%',
     elevation: 20,
     borderColor: constants.$senaryColor,
   },

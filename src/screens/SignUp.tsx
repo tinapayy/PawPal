@@ -18,10 +18,6 @@ import {collection, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
-
-
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 

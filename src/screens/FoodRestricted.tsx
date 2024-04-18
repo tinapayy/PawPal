@@ -10,6 +10,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import {SegmentedButtons} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -17,6 +19,7 @@ import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 interface FoodItemDetails {
   restriction: string;
@@ -141,19 +144,21 @@ const FoodRestricted = () => {
   const handleSegmentChange = (value: string) => {
     setValue(value);
     if (value === 'Advisable') {
-      navigation.navigate('FoodAdvisable');
+      FoodAdvisable;
     }
   };
+  const FoodAdvisable = useNavigateTo('FoodAdvisable');
+  const HomePage = useNavigateTo('HomePage');
 
   return (
     <SafeAreaView style={styles.bigcontainer}>
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => navigation.navigate('HomePage')}>
+        onPress={HomePage}>
         <icons.BackIcon size="24" color="white" strokeWidth={3} />
       </TouchableOpacity>
 
-      <View style={styles.header}>
+      <View>
         <Image
           source={require('../images/PawpalHeader.png')}
           style={styles.headerImage}
@@ -252,7 +257,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.align,
     flex: 1,
     margin: '5%',
-  },
+  } as ViewStyle,
   modalTitle: {
     fontSize: 30,
     color: constants.$secondaryColor,
@@ -290,12 +295,12 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     ...buttonMixin.buttonText,
-  },
+  } as TextStyle,
   container: {
     ...alignmentMixin.alignment,
     top: '-84%',
     width: '100%',
-  },
+  } as ViewStyle,
   headerImage: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
@@ -321,7 +326,7 @@ const styles = StyleSheet.create({
     top: '22%',
     position: 'absolute',
     height: '63%',
-  },
+  } as ViewStyle,
   card: {
     width: '50%',
     position: 'relative',

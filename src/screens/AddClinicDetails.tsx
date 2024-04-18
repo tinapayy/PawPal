@@ -36,6 +36,7 @@ import DateTimePicker, {
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 const PawPalApp = () => {
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
@@ -112,7 +113,7 @@ const PawPalApp = () => {
             Alert.alert('Profile updated successfully');
             navigation.reset({
               index: 0,
-              routes: [{name: 'HomePage'}],
+              routes: [{name: 'HomePage'}] as any,
             });
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
@@ -129,7 +130,7 @@ const PawPalApp = () => {
   const skipAddClinic = () => {
     navigation.reset({
       index: 0,
-      routes: [{name: 'HomePage'}],
+      routes: [{name: 'HomePage'}] as any,
     });
   };
 
@@ -283,7 +284,7 @@ const PawPalApp = () => {
 
   const getAddress = async () => {
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBKZoguQ4iBcqCuDqOSkj6OpPskqaY7epg`,
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBEfiinUCUa7yJzKNYfR_MRBYLfSj9e9VA`,
     );
     const data = await response.json();
     const address = data.results[0].formatted_address.split(',');

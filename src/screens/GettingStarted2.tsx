@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, Pressable, Text, ImageBackground} from 'react-native';
+import {View, StyleSheet, Pressable, Text, ImageBackground, ViewStyle} from 'react-native';
 import {useNavigateTo} from '../components/navigation';
 import constants from '../styles/constants';
 import {alignmentMixin} from '../components/alignmentMixin';
-import {buttonMixin} from '../components/buttonMixin';
 
 const GettingStarted2 = () => {
   const NavSignIn = useNavigateTo('SignIn');
@@ -66,12 +65,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: '50%',
     bottom: '28%',
-  },
+  } as ViewStyle,
   signUpView: {
     ...alignmentMixin.align,
     borderRadius: 20,
     bottom: '25%',
-  },
+  } as ViewStyle,
   signInButton: {
     ...alignmentMixin.align,
     paddingVertical: 8,
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: constants.$tertiaryColor,
     width: 200,
     elevation: 2,
-  },
+  } as ViewStyle,
   signUpButton: {
     ...alignmentMixin.align,
     paddingVertical: 8,
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: constants.$primaryColor,
     width: 200,
     elevation: 2,
-  },
+  } as ViewStyle,
 
   // APPLY DRY to repetitive text styles
   signInText: {
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   taglineView: {
     ...alignmentMixin.align,
     bottom: '17%',
-  },
+  } as ViewStyle,
 });
 
 export default GettingStarted2;

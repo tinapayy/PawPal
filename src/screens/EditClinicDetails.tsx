@@ -116,7 +116,7 @@ const PawPalApp = () => {
             Alert.alert('Profile updated successfully');
             navigation.reset({
               index: 0,
-              routes: [{name: 'HomePage'}],
+              routes: [{name: 'HomePage'}] as any,
             });
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
@@ -133,7 +133,7 @@ const PawPalApp = () => {
   const skipAddClinic = () => {
     navigation.reset({
       index: 0,
-      routes: [{name: 'HomePage'}],
+      routes: [{name: 'HomePage'}] as any,
     });
   };
 
@@ -287,7 +287,7 @@ const PawPalApp = () => {
 
   const getAddress = async () => {
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBKZoguQ4iBcqCuDqOSkj6OpPskqaY7epg`,
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBEfiinUCUa7yJzKNYfR_MRBYLfSj9e9VA`,
     );
     const data = await response.json();
     const address = data.results[0].formatted_address.split(',');
@@ -322,7 +322,7 @@ const PawPalApp = () => {
                   icon={faImage}
                   size={30}
                   style={{
-                    color: '#ff8700',
+                    color: constants.$octonaryColor,
                   }}
                 />
               </View>
@@ -337,7 +337,7 @@ const PawPalApp = () => {
                 <FontAwesomeIcon
                   icon={faCaretDown}
                   size={25}
-                  style={{color: '#ff8700', marginLeft: 10, bottom: '20%'}}
+                  style={{color: constants.$octonaryColor, marginLeft: 10, bottom: '20%'}}
                 />
               </TouchableOpacity>
             </View>
@@ -357,7 +357,7 @@ const PawPalApp = () => {
                             <FontAwesomeIcon
                               icon={faTimesCircle}
                               size={25}
-                              style={{color: '#ff8700', marginLeft: 5}}
+                              style={{color: constants.$octonaryColor, marginLeft: 5}}
                             />
                           </TouchableOpacity>
                         </View>
@@ -379,7 +379,7 @@ const PawPalApp = () => {
                         <FontAwesomeIcon
                           icon={faCirclePlus}
                           size={25}
-                          style={{color: '#ff8700', marginLeft: 10}}
+                          style={{color: constants.$octonaryColor, marginLeft: 10}}
                         />
                       </TouchableOpacity>
                     </View>

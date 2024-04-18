@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  ImageStyle,
+  ViewStyle,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -258,7 +260,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     padding: '5%',
     bottom: '230%',
-  },
+  } as ViewStyle,
   scrollBar: {
     backgroundColor: constants.$textColor2,
     borderTopStartRadius: 50,
@@ -325,7 +327,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.align,
     margin: 10,
     width: 1000,
-  },
+  } as ImageStyle,
   aboutText: {
     color: constants.$textColor1,
     marginLeft: 10,
@@ -356,7 +358,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.align,
     flex: 1,
     opacity: 0.9,
-  },
+  } as ViewStyle,
   content: {
     backgroundColor: constants.$senaryColor,
     padding: 20,

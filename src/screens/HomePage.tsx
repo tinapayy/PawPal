@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView, TextInput, NativeSyntheticEvent, TextInputSubmitEditingEventData, ViewStyle} from 'react-native';
+import {ScrollView, SafeAreaView, TextInput, NativeSyntheticEvent, TextInputSubmitEditingEventData, ViewStyle, ImageStyle} from 'react-native';
 import {
   View,
   Text,
@@ -18,6 +18,8 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
 import { alignmentMixin } from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
+import FoodAdvisable from './FoodAdvisable';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
@@ -75,7 +77,7 @@ const renderItem = ({item, index, navigation}) => {
           style={styles.clinicName}>
           {item.name}
         </Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
           <FontAwesomeIcon
             icon={icons.faLocationDot}
             style={{color: constants.$senaryColor, marginTop: 5}}
@@ -121,12 +123,18 @@ const itemNumber2 = ({item}) => {
               style={{
                 ...alignmentMixin.align,
                 flex: 1,
-              }}>
+              } as ViewStyle}>
               <Text
                 style={styles.userName}>
                 {item.name}
               </Text>
-              <Text style={{color: constants.$secondaryColor, fontWeight: '300', fontSize: 15}}>
+              <Text style={{
+                color: constants.$secondaryColor, 
+                fontWeight: '300', 
+                fontSize: 15,
+                alignSelf: 'flex-start',
+                left: '7%',
+                width: '90%'}} numberOfLines={3} ellipsizeMode="tail">
                 {item.postText}
               </Text>
             </View>
@@ -178,16 +186,15 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   }
 
   const navigation = useNavigation();
-
-  const handleSeeMoreClick = () => {
-    navigation.navigate('FoodAdvisable');
-  };
+  const FoodAdvisable = useNavigateTo('FoodAdvisable');
+  const ProfileDetails = useNavigateTo('ProfileDetails');
+  const ClinicProfile = useNavigateTo('ClinicProfile');
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      navigation.navigate('ProfileDetails');
+      ProfileDetails;
     } else {
-      navigation.navigate('ClinicProfile');
+      ClinicProfile;
     }
   };
 
@@ -210,11 +217,11 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <View style={{flex: 1, top: 15, left: 20, margin: 10}}>
+                <View style={{flex: 1, top: '6%', left: '25%', margin: '3%'}}>
                   <View style={styles.searchBar}>
                     <TouchableOpacity onPress={handleSearchSubmit}>
                       <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
-                        style={{ color: "#ff8700", marginRight: 10 }} />
+                        style={{ color: "#ff8700", right: '70%' }} />
                     </TouchableOpacity>
                     <TextInput style={styles.serchText}
                     //search not implemented
@@ -244,14 +251,14 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                     flex: 1,
                     ...alignmentMixin.align,
                     margin: 10,
-                  }} as ViewStyle>
+                  }as ViewStyle}>
                   <Text
                     style={styles.firstDesc}>
                     {item.title}
                   </Text>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleSeeMoreClick}>
+                    onPress={FoodAdvisable}>
                     <Text
                       style={styles.clickHere}>
                       {item.description}
@@ -431,16 +438,19 @@ const HomePage = () => {
   const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    navigation.navigate('FoodAdvisable');
+    //navigation.navigate('FoodAdvisable');
+    FoodAdvisable;
   };
   const handleSearchSubmit = () => {
     console.log('Search query:', searchQuery);
 
     navigation.navigate('ResultsPage', {searchQuery});
   };
-  const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage');
-  };
+  // const handleSearchIconClick = () => {
+  //   navigation.navigate('ResultsPage');
+  // };
+  const ChatHome = useNavigateTo('ChatHome');
+  const ResultsPage = useNavigateTo('ResultsPage');
 
   return (
     <>
@@ -471,12 +481,12 @@ const HomePage = () => {
                 carouselRef={isCarousel}
                 dotStyle={{
                   flex: 1,
-                  width: 3,
-                  height: 2,
+                  //width: '2%',
+                  //height: '3%',
                   borderRadius: 10,
                   padding: 6,
                   backgroundColor: constants.$accentColor,
-                  bottom: 65,
+                  bottom: '630%',
                 }}
                 tappableDots={true}
                 inactiveDotStyle={{
@@ -490,7 +500,7 @@ const HomePage = () => {
               />
             </View>
 
-            <View style={{top: '-10%'}}>
+            <View style={{top: '-11%'}}>
               <View
                 style={styles.announceMore}>
                 <Text
@@ -498,10 +508,7 @@ const HomePage = () => {
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('ForumPage');
-                    navigation.navigate('ChatHome');
-                  }}>
+                  onPress={ChatHome}>
                   <Text
                     style={styles.more}>
                     More
@@ -518,7 +525,7 @@ const HomePage = () => {
               />
             </View>
 
-            <View style={{top: '-6%'}}>
+            <View style={{top: '-8%',}}>
               <View
                 style={styles.exploreMore}>
                 <Text
@@ -526,9 +533,7 @@ const HomePage = () => {
                   Explore Clinics
                 </Text>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ResultsPage');
-                  }}>
+                  onPress={ResultsPage}>
                   <Text
                     style={styles.seeAll}>
                     See all
@@ -565,6 +570,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 15,
     position: 'relative',
+    left: '-4%'
   },
   view1: {
     ...alignmentMixin.alignment,
@@ -585,6 +591,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilyBold,
   },
   clinicAddress: {
+    left: '40%',
     fontSize: 16,
     fontWeight: 'normal',
     color: constants.$senaryColor,
@@ -611,11 +618,12 @@ const styles = StyleSheet.create({
     color: constants.$secondaryColor,
     fontWeight: 'bold',
     fontSize: 20,
-    left: '-8%',
+    alignSelf: 'flex-start',
+    left: '4%',
     maxWidth: '80%',
   },
   imgBack: {
-    marginTop: '-3%',
+    marginTop: '-5%',
     flex: 1,
     justifyContent: 'center',
     borderRadius: 30,
@@ -640,17 +648,17 @@ const styles = StyleSheet.create({
   userImg: {
     width: 35,
     height: 35,
-    top: '40%',
+    top: '49%',
     paddingRight: '20%',
     position: 'relative',
     borderRadius: 50,
   },
   animalImg: {
-    flex: 1,
-    width: 130,
-    height: 130,
-    top: '15%',
-    left: '-4%',
+    flex: 3,
+    width: 160,
+    height: 165,
+    top: '10%',
+    left: '-5%',
   },
   firstDesc: {
     fontSize: 23,
@@ -687,14 +695,14 @@ const styles = StyleSheet.create({
     top: '10%',
     flex: 1,
     alignContent: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   exploreMore: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 30,
-    top: -30,
+    marginLeft: '6%',
+    marginRight: '6%',
+    top: '-8%',
   },
   exploreClinics: {
     color: constants.$accentColor,

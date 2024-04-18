@@ -210,24 +210,20 @@ const ResultsPageAll = ({route}) => {
   const [searchQuery, setSearchQuery] = useState(initialsearchstate); // Replace with actual search query from the search bar
   const [filtereddata, setfilteredData] = useState(''); // Replace with actual filtered searchdata from the search bar]
 
+  const filterData = text => {
+    const filtered = searchdata.filter(data =>
+      data.name.toLowerCase().includes(text.toLowerCase()),
+    );
+    return filtered;
+  };
+
   const handleSearch = text => {
-    console.log(text);
     setSearchQuery(text);
-    console.log(searchQuery);
-    console.log('++++++');
-
-    const filtered = searchdata.filter(data => {
-      const includesText = data.name.toLowerCase().includes(text.toLowerCase());
-      console.log(`Checking ${data.name} - includesText: ${includesText}`);
-      return includesText;
-    });
-    console.log(filtered);
-    console.log(text);
-    console.log('------');
-
-    fetchData();
+    const filtered = filterData(text);
     setfilteredData(filtered);
   };
+
+  fetchData();
 
   useEffect(() => {
     if (route.params && route.params.searchboxQuery) {

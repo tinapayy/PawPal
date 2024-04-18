@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+  Modal,
   View,
   Text,
   ScrollView,
@@ -7,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ViewStyle,
 } from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -27,16 +29,25 @@ interface Post {
   profilePicture: any;
   postText: string;
   postTime: string;
-  postPicture: any;
+  postPicture: any; // Assuming postPicture is an object with a uri property
 }
 
 const ForumPage = () => {
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
   const ProfileDetails = useNavigateTo('ProfileDetails');
-  const navigation = useNavigation();
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalImageUri, setModalImageUri] = useState('');
+
+  const openModal = imageUri => {
+    console.log('Modal Image URI:', imageUri); // Check URI in console
+
+    setModalImageUri(imageUri); // Set the URI of the clicked image
+    setModalVisible(true); // Set modal visibility to true
+  };
 
   const fetchData = async () => {
     try {
@@ -178,11 +189,11 @@ const ForumPage = () => {
                   style={styles.userIcon}
                 />
               </TouchableOpacity>
-              
+
               <View style={styles.userInfoText}>
                 {/* click profile and navigate Profile Details */}
                 <TouchableOpacity onPress={ProfileDetails}>
-                <Text style={styles.userName}>{post.name}</Text>
+                  <Text style={styles.userName}>{post.name}</Text>
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
@@ -191,15 +202,33 @@ const ForumPage = () => {
               <Text style={styles.postText}>{post.postText}</Text>
             )}
             <View style={styles.postImageContainer}>
-              <Image
-                source={post.postPicture}
-                // Add image style if post is not empty string
-                {...(post.postPicture && {style: styles.image})}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  post.postPicture && openModal(post.postPicture.uri);
+                }}>
+                <Image
+                  source={post.postPicture}
+                  // Add image style if post is not an empty string
+                  {...(post.postPicture && {style: styles.image})}
+                />
+              </TouchableOpacity>
             </View>
           </Card.Content>
         </Card>
       ))}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            {modalImageUri ? (
+              <Image source={{uri: modalImageUri}} style={styles.modalImage} />
+            ) : null}
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -209,6 +238,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: constants.$backgroundColor,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalImage: {
+    width: 350, // Adjust width as needed
+    height: 600, // Adjust height as needed
+    resizeMode: 'contain',
+  },
+
   video: {
     width: '100%',
     height: 200,
@@ -218,8 +259,8 @@ const styles = StyleSheet.create({
     alignSelf: undefined,
     justifyContent: 'space-between',
     bottom: '2%',
-    left: '1.5%',
-  },
+    left: '2.5%',
+  } as ViewStyle,
   imageHeader: {
     width: 150,
     height: 80,
@@ -230,11 +271,11 @@ const styles = StyleSheet.create({
   imageHeader1: {
     position: 'relative',
     top: '50%',
-    left: '-73%',
+    left: '-55%',
   },
   headerText: {
     fontSize: 15,
-    left: '-48%',
+    left: '-25%',
   },
   card: {
     marginTop: '5%',

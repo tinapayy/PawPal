@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -20,15 +20,15 @@ import {
   PostTime,
   MessageText,
 } from '../components/MessageStyle';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useNavigation } from '@react-navigation/native';
-import { getDocs, collection } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import * as icons from '../imports/icons/icons';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { chatMixins } from '../components/chatMixins';
+import {chatMixins} from '../components/chatMixins';
 
 interface Chat {
   id: number;
@@ -128,7 +128,7 @@ const MessagePage = () => {
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{ width: '100%', height: '100%' }}>
+        style={{width: '100%', height: '100%'}}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -144,7 +144,7 @@ const MessagePage = () => {
           <FlatList
             data={messages}
             keyExtractor={item => item.id}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
                   onPress={() =>
@@ -172,8 +172,12 @@ const MessagePage = () => {
           />
         </Container>
         <View style={styles.addIcon}>
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={icons.faCirclePlus} size={50} color={constants.$senaryColor} />
+          <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
+            <FontAwesomeIcon
+              icon={icons.faCirclePlus}
+              size={50}
+              color={constants.$senaryColor}
+            />
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -191,12 +195,11 @@ const styles = StyleSheet.create({
   containerHeader: {
     flex: 1,
     ...chatMixins.align1,
-
   },
   back: {
     flexDirection: 'row',
     top: '5%',
-    right: '-1%'
+    right: '-1%',
   },
   backIcon: {
     color: constants.$tertiaryColor,

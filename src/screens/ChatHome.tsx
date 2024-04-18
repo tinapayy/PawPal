@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ImageBackground,
+  RefreshControl,
   Text,
   TouchableHighlight,
   TouchableOpacity,
@@ -46,7 +47,14 @@ const MessagePage = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [messages, setMessages] = useState<Chat[]>([]);
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    fetchData();
+    setIsRefreshing(false);
+  };
 
   const fetchData = async () => {
     try {
@@ -143,7 +151,8 @@ const MessagePage = () => {
         <Container style={styles.container}>
           <FlatList
             data={messages}
-            keyExtractor={item => item.id}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
             renderItem={({item}) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
@@ -169,6 +178,7 @@ const MessagePage = () => {
                 </TouchableOpacity>
               </Card>
             )}
+            keyExtractor={item => item.id}
           />
         </Container>
         <View style={styles.addIcon}>

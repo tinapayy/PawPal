@@ -284,11 +284,13 @@ const ProfileDetails = ({route}) => {
           </TouchableOpacity>
         )}
         {/* Display settings icon */}
-        <TouchableOpacity
-          style={styles.settingsIcon}
-          onPress={() => navigation.navigate('SettingsPage')}>
-          <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
-        </TouchableOpacity>
+        {!userId && (
+          <TouchableOpacity
+            style={styles.settingsIcon}
+            onPress={() => navigation.navigate('SettingsPage')}>
+            <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
+          </TouchableOpacity>
+        )}
       </View>
     </Card>
   );

@@ -24,6 +24,7 @@ import ProfileDetails from './ProfileDetails';
 interface Post {
   id: number;
   userId: string;
+  userType: string;
   name: string;
   profilePicture: any;
   postText: string;
@@ -51,6 +52,7 @@ const ForumPage = () => {
               posts.push({
                 id: posts.length + 1,
                 userId: forumDoc.data().userId,
+                userType: userDoc.data().userType,
                 name: userDoc.data().name,
                 profilePicture: {
                   uri:
@@ -174,9 +176,14 @@ const ForumPage = () => {
             <View style={styles.userInfo}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('ProfileDetails', {
-                    userId: post.userId,
-                  })
+                  navigation.navigate(
+                    post.userType === 'petOwner'
+                      ? 'ProfileDetails'
+                      : 'ClinicProfile',
+                    {
+                      userId: post.userId,
+                    },
+                  )
                 }>
                 <Avatar.Image
                   size={50}
@@ -188,9 +195,14 @@ const ForumPage = () => {
                 {/* click profile and navigate Profile Details */}
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('ProfileDetails', {
-                      userId: post.userId,
-                    })
+                    navigation.navigate(
+                      post.userType === 'petOwner'
+                        ? 'ProfileDetails'
+                        : 'ClinicProfile',
+                      {
+                        userId: post.userId,
+                      },
+                    )
                   }>
                   <Text style={styles.userName}>{post.name}</Text>
                 </TouchableOpacity>

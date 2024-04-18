@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+  Modal,
   View,
   Text,
   ScrollView,
@@ -28,16 +29,25 @@ interface Post {
   profilePicture: any;
   postText: string;
   postTime: string;
-  postPicture: any;
+  postPicture: any; // Assuming postPicture is an object with a uri property
 }
 
 const ForumPage = () => {
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
   const ProfileDetails = useNavigateTo('ProfileDetails');
-  const navigation = useNavigation();
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalImageUri, setModalImageUri] = useState('');
+
+  const openModal = imageUri => {
+    console.log('Modal Image URI:', imageUri); // Check URI in console
+
+    setModalImageUri(imageUri); // Set the URI of the clicked image
+    setModalVisible(true); // Set modal visibility to true
+  };
 
   const fetchData = async () => {
     try {
@@ -192,15 +202,33 @@ const ForumPage = () => {
               <Text style={styles.postText}>{post.postText}</Text>
             )}
             <View style={styles.postImageContainer}>
-              <Image
-                source={post.postPicture}
-                // Add image style if post is not empty string
-                {...(post.postPicture && {style: styles.image})}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  post.postPicture && openModal(post.postPicture.uri);
+                }}>
+                <Image
+                  source={post.postPicture}
+                  // Add image style if post is not an empty string
+                  {...(post.postPicture && {style: styles.image})}
+                />
+              </TouchableOpacity>
             </View>
           </Card.Content>
         </Card>
       ))}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            {modalImageUri ? (
+              <Image source={{uri: modalImageUri}} style={styles.modalImage} />
+            ) : null}
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -210,6 +238,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: constants.$backgroundColor,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalImage: {
+    width: 350, // Adjust width as needed
+    height: 600, // Adjust height as needed
+    resizeMode: 'contain',
+  },
+
   video: {
     width: '100%',
     height: 200,

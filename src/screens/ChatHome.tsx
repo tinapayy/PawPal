@@ -172,7 +172,12 @@ const MessagePage = () => {
                         <UserName>{item.senderName}</UserName>
                         <PostTime>{item.time}</PostTime>
                       </UserInfoText>
-                      <MessageText>{item.message}</MessageText>
+                      <MessageText>
+                        {/* Limit message length */}
+                        {item.message.length > 42
+                          ? item.message.substring(0, 42) + '...'
+                          : item.message}
+                      </MessageText>
                     </TextSection>
                   </UserInfo>
                 </TouchableOpacity>

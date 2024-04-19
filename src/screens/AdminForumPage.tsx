@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 import constants from '../styles/constants';
+import LoadingScreen from '../components/loading';
 
 interface Post {
   id: number;
@@ -31,6 +32,7 @@ const ForumPage = () => {
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -60,8 +62,10 @@ const ForumPage = () => {
         }
       }
       setUserPosts(posts.reverse());
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
   // Fetch data on first render
@@ -103,6 +107,10 @@ const ForumPage = () => {
 
   function calculateMargin(length: number): number {
     return length * 2;
+  }
+
+  if (loading) {
+    return <LoadingScreen />;
   }
 
   return (
@@ -153,11 +161,9 @@ const ForumPage = () => {
               <Text style={styles.postText}>{post.postText}</Text>
             )}
             <View style={styles.postImageContainer}>
-              <Image
-                source={post.postPicture}
-                // Add image style if post is not empty string
-                {...(post.postPicture !== '' && {style: styles.image})}
-              />
+              {post.postPicture && typeof post.postPicture === 'object' && (
+                <Image source={post.postPicture} style={styles.image} />
+              )}
             </View>
           </Card.Content>
         </Card>

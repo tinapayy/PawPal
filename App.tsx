@@ -9,6 +9,7 @@ import * as import_screens from '../PawPal/src/imports/import_screens/import_scr
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
 import constants from '../PawPal/src/styles/constants';
+import LoadingScreen from './src/components/loading';
 
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
@@ -91,6 +92,7 @@ function HomeTabs() {
   const db = FIREBASE_DB;
 
   const [userType, setUserType] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,12 +103,19 @@ function HomeTabs() {
             setUserType(doc.data().userType);
           }
         });
+        setLoading(false); // Set loading to false after data fetch is complete
       } catch (error) {
         console.log(error);
+        setLoading(false); // Set loading to false even if there's an error
       }
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    // Show loading screen if data is being fetched
+    return <LoadingScreen />;
+  }
 
   return (
     <Tab.Navigator

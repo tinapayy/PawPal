@@ -378,6 +378,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: constants.$secondaryColor,
     fontFamily: constants.$fontFamily,
+    textAlign: 'justify',
   },
   title: {
     fontFamily: constants.$fontFamilyBold,

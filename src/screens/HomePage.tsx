@@ -190,12 +190,12 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
       navigation.navigate('ClinicProfile');
     }
   };
+  
+  const [searchboxQuery, setSearchBoxQuery] = useState('');
 
-  function handleSearchSubmit(
-    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
-  ): void {
-    throw new Error('Function not implemented.');
-  }
+  const handleSearchIconClick = () => {
+    navigation.navigate('ResultsPageAll', {searchboxQuery: searchboxQuery});
+  };
 
   // first carousel
   return (
@@ -214,24 +214,22 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 }}>
                 <View style={{flex: 1, top: 15, left: 20, margin: 10}}>
                   <View style={styles.searchBar}>
-                    <TouchableOpacity onPress={handleSearchSubmit}>
+                    <Pressable onPress={handleSearchIconClick}>
                       <FontAwesomeIcon
                         icon={icons.faMagnifyingGlass}
                         size={20}
                         style={{color: '#ff8700', marginRight: 10}}
                       />
-                    </TouchableOpacity>
+                    </Pressable>
                     <TextInput
                       style={styles.serchText}
-                      //search not implemented
                       placeholder="Search"
                       placeholderTextColor={constants.$senaryColor}
-                      onSubmitEditing={handleSearchSubmit}
+                      onChangeText={text => setSearchBoxQuery(text)}
                     />
                   </View>
                 </View>
 
-                {/* profile click */}
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
@@ -434,9 +432,6 @@ const HomePage = () => {
     console.log('Search query:', searchQuery);
 
     navigation.navigate('ResultsPage', {searchQuery});
-  };
-  const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage');
   };
 
   return (

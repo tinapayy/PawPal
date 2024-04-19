@@ -201,6 +201,11 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="ProfileDetailsforCards"
+          component={import_screens.ProfileDetailsforCards}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="SettingsPage"
           component={import_screens.SettingsPage}
           options={{headerShown: false}}
@@ -263,6 +268,11 @@ export default function App() {
         <Stack.Screen
           name="ResultsPage"
           component={import_screens.ResultsPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ResultsPageAll"
+          component={import_screens.ResultsPageAll}
           options={{headerShown: false}}
         />
         <Stack.Screen

@@ -502,7 +502,7 @@ const PawPalApp = () => {
                 style={{flex: 1, margin: 40, height: 300}}
                 provider={PROVIDER_GOOGLE}
                 initialRegion={mapRegion}
-                region={mapRegion}
+
                 onRegionChangeComplete={handleRegionChange}>
                 <Marker
                   coordinate={{
@@ -521,8 +521,8 @@ const PawPalApp = () => {
                 textStyle={styles.bt1}
               />
               <AppButton
-                title="Cancel"
-                onPress={cancelAddClinic}
+                title="Skip"
+                onPress={skipAddClinic}
                 buttonStyle={styles.skip}
                 textStyle={styles.skipText}
               />

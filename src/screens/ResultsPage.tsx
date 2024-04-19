@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  ScrollView,
+  ViewStyle,
 } from 'react-native';
-
+import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
@@ -81,6 +81,9 @@ type Clinic = {
 };
 
 const ResultsPage = () => {
+  const NavHome = useNavigateTo('Home');
+  const NavClinicProfile = useNavigateTo('ClinicProfile');
+  const NavProfileDetails = useNavigateTo('ProfileDetails');
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -94,7 +97,10 @@ const ResultsPage = () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
       for (const userDoc of querySnapshot.docs) {
-        if (userDoc.data().userId === auth.currentUser.uid) {
+        if (
+          auth.currentUser &&
+          userDoc.data().userId === auth.currentUser.uid
+        ) {
           setUserType(userDoc.data().userType);
           if (userDoc.data().userType === 'petOwner') {
             setProfilePicture(userDoc.data().profilePicture);
@@ -138,7 +144,7 @@ const ResultsPage = () => {
     fetchData();
   }, []);
 
-  const isClinicOpen = storeHours => {
+  const isClinicOpen = (storeHours: string | any[]) => {
     const currentDay = Date.now();
 
     // Add 8 hours to current day
@@ -182,7 +188,9 @@ const ResultsPage = () => {
     return false;
   };
 
-  const convertTo24HourFormat = timeString => {
+  const convertTo24HourFormat = (timeString: {
+    split: (arg0: string) => [any, any];
+  }) => {
     let [time, period] = timeString.split(' ');
     let [hours, minutes] = time.split(':');
 
@@ -200,9 +208,9 @@ const ResultsPage = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
+  const [filteredClinics, setFilteredClinics] = useState<Clinic[]>([]); // Replace with actual filtered clinics from the search bar]
 
-  const handleSearch = text => {
+  const handleSearch = (text: string) => {
     setSearchQuery(text);
     const filtered = clinics.filter(clinic =>
       clinic.name.toLowerCase().includes(text.toLowerCase()),
@@ -213,9 +221,9 @@ const ResultsPage = () => {
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      navigation.navigate('ProfileDetails');
+      NavProfileDetails;
     } else {
-      navigation.navigate('ClinicProfile');
+      NavClinicProfile;
     }
   };
 
@@ -223,10 +231,12 @@ const ResultsPage = () => {
     <View style={styles.container}>
       <View style={styles.headercontainer}>
         <View style={styles.headercontent}>
-          <View style={styles.headertextandicon}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+          <View style={styles.headericon}>
+            <TouchableOpacity onPress={NavHome}>
+              <icons.BackIcon size="25" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
+          </View>
+          <View style={styles.header}>
             <Text style={styles.headerText}>Explore Clinics</Text>
             <Image
               source={require('../images/doggy.png')}
@@ -249,7 +259,7 @@ const ResultsPage = () => {
                       ? {uri: profilePicture}
                       : require('../images/defaultIcon.png')
                   }
-                  size={50}
+                  size={40}
                 />
               </TouchableOpacity>
             </TouchableOpacity>
@@ -270,57 +280,62 @@ const ResultsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: constants.$backgroundColor,
   },
   headercontainer: {
     ...alignmentMixin.alignment1,
-    height: '18%',
+    height: '20%',
     backgroundColor: constants.$backgroundColor,
-    borderBottomRightRadius: 40,
-  },
+  } as ViewStyle,
   headercontent: {
     backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
   },
   userheadercontent: {
-    backgroundColor: constants.$backgroundColor,
     marginRight: '6%',
     zIndex: 1,
-    height: '15%',
+    bottom: '2%',
+    left: '15%',
   },
   doggo: {
-    height: '130%',
+    height: '150%',
     width: '70%',
-    left: '100%',
+    left: '70%',
     position: 'absolute',
-    top: '5%',
+    top: '30%',
     zIndex: -1,
   },
-  headertextandicon: {
-    marginLeft: '6%',
-    paddingRight: '7%',
-    marginRight: '13%',
-    flexDirection: 'column',
+  headericon: {
+    marginRight: '15%',
+    bottom: '8%',
+    right: '5%',
   },
   headerText: {
     paddingLeft: '5%',
     fontSize: 30,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
+    right: '30%',
+    top: '5%',
     color: constants.$senaryColor,
   },
 
   input: {
-    height: '31%',
-    width: '100%',
+    width: Dimensions.get('window').width * 0.53,
+    height: Dimensions.get('window').height * 0.05,
+    top: '10%',
+    right: '25%',
     backgroundColor: constants.$primaryColor,
-    borderColor: constants.$senaryColor,
     color: constants.$backgroundColor,
-    borderRadius: 15,
+    borderRadius: 25,
     paddingLeft: '4%',
   },
   scrollcontainer: {
     borderTopRightRadius: 40,
     backgroundColor: constants.$quaternaryColor,
     paddingTop: '5%',
+    marginTop: '5%',
+    paddingBottom: '15%',
+    height: '100%',
   },
   card: {
     ...buttonMixin.button,
@@ -329,6 +344,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: constants.$backgroundColor,
     margin: 10,
+    marginTop: 7,
     borderRadius: 15,
     flexDirection: 'row',
   },
@@ -343,8 +359,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: 14,
-    fontWeight: constants.$fontWeightBold,
+    fontSize: constants.$fontSizeSmall,
+    fontWeight: 'bold', // replace with one of the valid values: "200", "400", "500", "700", "normal", "bold", "100", "300", "600", "800", "900"
     color: constants.$secondaryColor,
   },
   address: {
@@ -356,11 +372,11 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   open: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'green',
   },
   closed: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'red',
   },
 });

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+  Modal,
   View,
   Text,
   ScrollView,
@@ -7,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ViewStyle,
 } from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -17,7 +19,9 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
+import ProfileDetails from './ProfileDetails';
 
 interface Post {
   id: number;
@@ -25,15 +29,25 @@ interface Post {
   profilePicture: any;
   postText: string;
   postTime: string;
-  postPicture: any;
+  postPicture: any; // Assuming postPicture is an object with a uri property
 }
 
 const ForumPage = () => {
-  const navigation = useNavigation();
-
+  const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
+  const ProfileDetails = useNavigateTo('ProfileDetails');
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalImageUri, setModalImageUri] = useState('');
+
+  const openModal = imageUri => {
+    console.log('Modal Image URI:', imageUri); // Check URI in console
+
+    setModalImageUri(imageUri); // Set the URI of the clicked image
+    setModalVisible(true); // Set modal visibility to true
+  };
 
   const fetchData = async () => {
     try {
@@ -72,7 +86,33 @@ const ForumPage = () => {
     fetchData();
   }, []);
 
-  function getTimeDifference(postTime) {
+  function getTimeDifference(postTime: {
+    toDate: () => {
+      (): any;
+      new (): any;
+      getTime: {(): any; new (): any};
+      toLocaleDateString: {
+        (
+          arg0: string,
+          arg1: {
+            timeZone: string;
+            weekday: string;
+            year: string;
+            month: string;
+            day: string;
+          },
+        ): string;
+        new (): any;
+      };
+      toLocaleTimeString: {
+        (
+          arg0: string,
+          arg1: {timeZone: string; hour: string; minute: string},
+        ): string;
+        new (): any;
+      };
+    };
+  }) {
     const currentTime = new Date().getTime();
     const postTimestamp = postTime.toDate().getTime();
     const timeDifference = currentTime - postTimestamp;
@@ -127,11 +167,7 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Food icon pressed');
-            navigation.navigate('FoodAdvisable');
-          }}>
+        <TouchableOpacity onPress={NavFoodSuggestions}>
           <View>
             <Image
               source={require('../images/dog_food.png')}
@@ -145,13 +181,20 @@ const ForumPage = () => {
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
-              <Avatar.Image
-                size={50}
-                source={post.profilePicture}
-                style={styles.userIcon}
-              />
+              {/* click profile and navigate Profile Details */}
+              <TouchableOpacity onPress={ProfileDetails}>
+                <Avatar.Image
+                  size={50}
+                  source={post.profilePicture}
+                  style={styles.userIcon}
+                />
+              </TouchableOpacity>
+
               <View style={styles.userInfoText}>
-                <Text style={styles.userName}>{post.name}</Text>
+                {/* click profile and navigate Profile Details */}
+                <TouchableOpacity onPress={ProfileDetails}>
+                  <Text style={styles.userName}>{post.name}</Text>
+                </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
             </View>
@@ -159,15 +202,33 @@ const ForumPage = () => {
               <Text style={styles.postText}>{post.postText}</Text>
             )}
             <View style={styles.postImageContainer}>
-              <Image
-                source={post.postPicture}
-                // Add image style if post is not empty string
-                {...(post.postPicture && {style: styles.image})}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  post.postPicture && openModal(post.postPicture.uri);
+                }}>
+                <Image
+                  source={post.postPicture}
+                  // Add image style if post is not an empty string
+                  {...(post.postPicture && {style: styles.image})}
+                />
+              </TouchableOpacity>
             </View>
           </Card.Content>
         </Card>
       ))}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            {modalImageUri ? (
+              <Image source={{uri: modalImageUri}} style={styles.modalImage} />
+            ) : null}
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -177,6 +238,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: constants.$backgroundColor,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalImage: {
+    width: 350, // Adjust width as needed
+    height: 600, // Adjust height as needed
+    resizeMode: 'contain',
+  },
+
   video: {
     width: '100%',
     height: 200,
@@ -186,8 +259,8 @@ const styles = StyleSheet.create({
     alignSelf: undefined,
     justifyContent: 'space-between',
     bottom: '2%',
-    left: '1.5%',
-  },
+    left: '2.5%',
+  } as ViewStyle,
   imageHeader: {
     width: 150,
     height: 80,
@@ -198,14 +271,15 @@ const styles = StyleSheet.create({
   imageHeader1: {
     position: 'relative',
     top: '50%',
-    left: '-73%',
+    left: '-55%',
   },
   headerText: {
     fontSize: 15,
-    left: '-48%',
+    left: '-25%',
   },
   card: {
-    margin: '5%',
+    marginTop: '5%',
+    marginHorizontal: '5%',
   },
   cardContent: {
     flexDirection: 'column',
@@ -234,7 +308,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 16,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$textColor1,
   },
   postTime: {
@@ -254,8 +328,8 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   image: {
-    width: 300,
-    height: 150,
+    width: 340,
+    height: 200,
     resizeMode: 'cover',
     borderRadius: 20,
     top: '3%',

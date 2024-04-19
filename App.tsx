@@ -8,6 +8,10 @@ import * as icons from '../Pawpal/src/imports/icons/icons';
 import * as import_screens from '../PawPal/src/imports/import_screens/import_screens';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
+import constants from '../PawPal/src/styles/constants';
+
+// import Slider from './src/components/slider';
+// import slidePet from './src/components/slider';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,33 +26,53 @@ const menuIcons = (
   //navigation routes and corresponding icons
   if (route.name === 'Home') {
     icon = focused ? (
-      <icons.HomeSolid size="30" color={'#FF8D4D'} />
+      <icons.HomeSolid size="30" color={constants.$senaryColor} />
     ) : (
-      <icons.HomeSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.HomeSolid
+        size="30"
+        strokeWidth={2}
+        color={constants.$secondaryColor}
+      />
     );
   } else if (route.name === 'Chat') {
     icon = focused ? (
-      <icons.ChatBubbleLeftSolid size="30" color={'#FF8D4D'} />
+      <icons.ChatBubbleLeftSolid size="30" color={constants.$senaryColor} />
     ) : (
-      <icons.ChatBubbleLeftSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.ChatBubbleLeftSolid
+        size="30"
+        strokeWidth={2}
+        color={constants.$secondaryColor}
+      />
     );
   } else if (route.name === 'Create Post') {
     icon = focused ? (
-      <icons.PlusCircleSolid size="30" color={'#FF8D4D'} />
+      <icons.PlusCircleSolid size="30" color={constants.$senaryColor} />
     ) : (
-      <icons.PlusCircleSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.PlusCircleSolid
+        size="30"
+        strokeWidth={2}
+        color={constants.$secondaryColor}
+      />
     );
   } else if (route.name === 'Forum') {
     icon = focused ? (
-      <icons.ForumSolid size="30" color={'#FF8D4D'} />
+      <icons.ForumSolid size="30" color={constants.$senaryColor} />
     ) : (
-      <icons.ForumSolid size="30" strokeWidth={2} color="#5A2828" />
+      <icons.ForumSolid
+        size="30"
+        strokeWidth={2}
+        color={constants.$secondaryColor}
+      />
     );
   } else if (route.name === 'Profile Details') {
     icon = focused ? (
-      <icons.UserSolid size="30" color={'#FF8D4D'} />
+      <icons.UserSolid size="30" color={constants.$senaryColor} />
     ) : (
-      <icons.UserSolid size="30" strokeWidth={3} color="#5A2828" />
+      <icons.UserSolid
+        size="30"
+        strokeWidth={3}
+        color={constants.$secondaryColor}
+      />
     );
   }
 
@@ -102,7 +126,7 @@ function HomeTabs() {
       })}>
       {/* bottom navigation bars and corresponding screens*/}
       <Tab.Screen name="Home" component={import_screens.HomePage} />
-      <Tab.Screen name="Chat" component={import_screens.MessagePage} />
+      <Tab.Screen name="Chat" component={import_screens.ChatHome} />
       <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
       <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen
@@ -217,8 +241,8 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="MessagePage"
-          component={import_screens.MessagePage}
+          name="ChatHome"
+          component={import_screens.ChatHome}
           options={{headerShown: false}}
         />
         <Stack.Screen

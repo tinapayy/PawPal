@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  ViewStyle,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -138,7 +139,7 @@ const ClinicProfile = () => {
               style={styles.iconStyles}>
               <FontAwesomeIcon
                 icon={icons.faClock}
-                size={23}
+                size={18}
                 style={{
                   color: constants.$senaryColor,
                 }}
@@ -148,11 +149,11 @@ const ClinicProfile = () => {
                 Store Hours
               </Text>
 
-              <View style={styles.drop}>
+              <View>
                 <TouchableOpacity onPress={toggleDropdown}>
                   <FontAwesomeIcon
                     icon={icons.faCircleArrowDown}
-                    size={23}
+                    size={18}
                     style={{
                       color: constants.$senaryColor,
                     }}
@@ -220,6 +221,7 @@ const ClinicProfile = () => {
                 style={styles.addressText}>
                 {address}
               </Text>
+              <View>
               <MapView
                 style={{margin: 20, height: 500}}
                 provider={PROVIDER_GOOGLE}
@@ -232,6 +234,7 @@ const ClinicProfile = () => {
                   }}
                 />
               </MapView>
+              </View>
             </View>
           )}
           {!mapRegion && (
@@ -243,7 +246,8 @@ const ClinicProfile = () => {
                 longitude: 122.5621,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-              }}></MapView>
+              }}>
+            </MapView>
           )}
         </View>
       </ScrollView>
@@ -261,7 +265,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     padding: '5%',
     bottom: '230%',
-  },
+  } as ViewStyle,
   scrollBar: {
     backgroundColor: constants.$textColor2,
     borderTopStartRadius: 50,
@@ -279,8 +283,8 @@ const styles = StyleSheet.create({
   },
   clinicTitle: {
     color: constants.$textColor1,
-    fontSize: 30,
-    fontFamily: constants.$fontFamilyBold,
+    fontSize: 28,
+    fontFamily: constants.$fontFamilySemiBold,
     marginTop: '6%',
     marginLeft: '7%',
   },
@@ -291,13 +295,13 @@ const styles = StyleSheet.create({
   },
   phoneText: {
     color: constants.$senaryColor,
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: constants.$fontFamilyMedium,
     marginLeft: 7,
   },
   storeText: {
     color: constants.$senaryColor,
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: constants.$fontFamilyMedium,
     textDecorationLine: 'underline',
     marginLeft: 6,
@@ -306,8 +310,8 @@ const styles = StyleSheet.create({
   servicesText: {
     color: constants.$secondaryColor,
     fontFamily: constants.$fontFamilyMedium,
-    fontSize: 24,
-    marginLeft: 10,
+    fontSize: 23,
+    marginLeft: '7%',
     marginTop: 10,
   },
   servicesForm: {
@@ -328,7 +332,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.align,
     margin: 10,
     width: 1000,
-  },
+  } as ViewStyle,
   aboutText: {
     color: constants.$textColor1,
     marginLeft: 10,
@@ -338,13 +342,13 @@ const styles = StyleSheet.create({
   },
   locText: {
     color: constants.$senaryColor,
-    marginLeft: 10,
+    marginLeft: '7%',
     fontFamily: constants.$fontFamilyMedium,
-    fontSize: 28,
+    fontSize: 23,
     padding: 10,
   },
   addressText: {
-    marginLeft: 20,
+    marginLeft: '9%',
     fontSize: 14,
     fontFamily: constants.$fontFamilyMedium,
   },
@@ -359,15 +363,13 @@ const styles = StyleSheet.create({
     ...alignmentMixin.align,
     flex: 1,
     opacity: 0.9,
-  },
+  } as ViewStyle,
   content: {
     backgroundColor: constants.$senaryColor,
     padding: 20,
     borderRadius: 30,
     margin: 50,
-    color: constants.$textColor2,
-  },
-  drop: {
+    color: constants.$textColor2
   },
   dropdown: {
     marginTop: 10,

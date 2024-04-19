@@ -317,10 +317,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     ...alignmentMixin.alignment,
-    height: Dimensions.get('window').height,
     width: Dimensions.get('window').width*0.95,
-    top: '18%',
+    top: '22%',
     position: 'absolute',
+    height: '63%',
   },
   card: {
     width: '50%',

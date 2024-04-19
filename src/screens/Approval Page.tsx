@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import * as icons from '../imports/icons/icons';
@@ -24,19 +25,17 @@ import {
 } from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import CustomAlert from '../components/CustomAlert';
 
 const ForumCard = ({userPost, onCheck, onX}) => {
   return (
-    <View
-      style={styles.cardBg}>
-      <View
-        style={styles.userBg}>
+    <View style={styles.cardBg}>
+      <View style={styles.userBg}>
         <View>
           <Avatar.Image size={60} source={userPost.profilePicture} />
         </View>
-        <View
-          style={styles.detailsBg}>
+        <View style={styles.detailsBg}>
           <View>
             <Text style={{fontSize: 20, fontWeight: constants.$fontWeightBold}}>
               {userPost.name}
@@ -47,8 +46,7 @@ const ForumCard = ({userPost, onCheck, onX}) => {
           </View>
         </View>
       </View>
-      <View
-        style={styles.contentBg}>
+      <View style={styles.contentBg}>
         <Text style={{fontSize: 20, paddingHorizontal: 10}}>
           {userPost.postText}
         </Text>
@@ -64,10 +62,8 @@ const ForumCard = ({userPost, onCheck, onX}) => {
           }}
         />
       )}
-      <View
-        style={styles.approvedBg}>
-        <View
-          style={styles.approvedBtn}>
+      <View style={styles.approvedBg}>
+        <View style={styles.approvedBtn}>
           <TouchableOpacity onPress={onCheck}>
             <icons.CheckIcon
               size="40"
@@ -108,6 +104,11 @@ const ApprovalPage = () => {
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const fetchData = async () => {
     try {
@@ -180,7 +181,15 @@ const ApprovalPage = () => {
       await updateDoc(doc(db, 'forum', postId), {
         isApproved: true,
       });
-      fetchData();
+      // Remove the approved post from userPosts
+      setUserPosts(prevPosts =>
+        prevPosts.filter(post => post.postId !== postId),
+      );
+      setShowAlert({
+        visible: true,
+        title: 'Action Completed',
+        message: 'The post has been approved.',
+      });
     } catch (error) {
       console.error(error);
     }
@@ -189,7 +198,16 @@ const ApprovalPage = () => {
   const handleX = async postId => {
     try {
       await deleteDoc(doc(db, 'forum', postId));
-      fetchData();
+      // Remove the deleted post from userPosts
+      setUserPosts(prevPosts =>
+        prevPosts.filter(post => post.postId !== postId),
+      );
+      // Show success alert message
+      setShowAlert({
+        visible: true,
+        title: 'Action Completed',
+        message: 'The post has been deleted.',
+      });
     } catch (error) {
       console.error(error);
     }
@@ -201,8 +219,7 @@ const ApprovalPage = () => {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
       }}>
-      <View
-        style={styles.header}>
+      <View style={styles.header}>
         <View style={{flexDirection: 'row', right: '3%'}}>
           <TouchableOpacity
             onPress={() => {
@@ -210,16 +227,13 @@ const ApprovalPage = () => {
             }}>
             <icons.Bubble
               size="33"
-              color="brown"
+              color="#5a2828"
               strokeWidth={0}
               stroke={'white'}
-              style={{right: '-5%', top: '15%'}}
+              style={{left: '25%', top: '15%'}}
             />
           </TouchableOpacity>
-          <Text
-            style={styles.approvalText}>
-            Approval Page
-          </Text>
+          <Text style={styles.approvalText}>Approval Page</Text>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -233,7 +247,7 @@ const ApprovalPage = () => {
           <FontAwesomeIcon
             icon={icons.faRightFromBracket}
             size={30}
-            style={{color: 'brown', right: '-15%', top: '15%'}}
+            style={{color: '#5a2828', right: '15%', top: '15%'}}
           />
         </TouchableOpacity>
       </View>
@@ -259,6 +273,12 @@ const ApprovalPage = () => {
           />
         ))}
       </ScrollView>
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+      />
     </View>
   );
 };
@@ -312,7 +332,7 @@ const styles = StyleSheet.create({
     color: constants.$senaryColor,
     fontSize: 28,
     fontFamily: constants.$fontFamilySemiBold,
-    left: '110%',
+    left: '115%',
   },
   // container: {
   //   paddingTop: 16,

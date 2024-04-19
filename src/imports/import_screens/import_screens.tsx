@@ -6,7 +6,7 @@ import AddPetProfile from '../../screens/AddPetProfile';
 import AddPetProfileSignUp from '../../screens/AddPetProfileSignUp';
 import EditPetProfile from '../../screens/EditPetProfile';
 import ProfileDetails from '../../screens/ProfileDetails';
-import MessagePage from '../../screens/MessagePage';
+import ChatHome from '../../screens/ChatHome';
 import HomePage from '../../screens/HomePage';
 
 import SignIn from '../../screens/SignIn';
@@ -40,7 +40,7 @@ export {
   AddPetProfileSignUp,
   EditPetProfile,
   ProfileDetails,
-  MessagePage,
+  ChatHome,
   HomePage,
   SignIn,
   GettingStarted,

@@ -300,9 +300,31 @@ const PawPalApp = () => {
           <View style={styles.scrollView}>
             <View>
               <Image
-                source={require('../images/Vector_8.png')}
-                style={styles.vecImg}
-              />
+                source={{uri: selectedImage}}/> ) : (
+              <View
+                style={styles.style1}>
+                <FontAwesomeIcon
+                  icon={icons.faImage}
+                  size={30}
+                  style={{
+                    color: '#ff8700',
+                  }}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+
+          <View style={styles.style2}>
+            <View
+              style={styles.style3}>
+              <Text style={styles.services}>Services</Text>
+              <TouchableOpacity onPress={handleToggleInput}>
+                <FontAwesomeIcon
+                  icon={icons.faCaretDown}
+                  size={25}
+                  style={{color: '#ff8700', marginLeft: 10, bottom: '20%'}}
+                />
+              </TouchableOpacity>
             </View>
 
             <Text style={styles.clinic}>Clinic Details</Text>
@@ -521,7 +543,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 3,
-    elevation: 20,
+    elevation: 50,
   },
   vecImg: {
     flex: 1,
@@ -529,19 +551,14 @@ const styles = StyleSheet.create({
     top: 200,
     left: '85%',
   },
-  adClinic: {
-    borderRadius: 30,
-    margin: 30,
-    height: 150,
-  },
   style1: {
+    ...alignmentMixin.alignment,
     backgroundColor: '#ffb78f80',
-    borderRadius: 30,
-    margin: 30,
+    borderRadius: 40,
+    margin: '1%',
     height: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    width: '82%',
+  } as ViewStyle,
   style2: {
     flexDirection: 'column',
     flexWrap: 'wrap',
@@ -573,46 +590,46 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   clinic: {
-    paddingTop: 10,
-    paddingLeft: 40,
-    fontSize: 40,
+    paddingTop: '3%',
+    paddingLeft: '8%',
+    fontSize: 35,
     color: constants.$secondaryColor,
     fontFamily: constants.$fontFamilySemiBold,
   },
   clinicDets: {
     ...alignmentMixin.alignClinic,
-  },
+  } as ViewStyle,
   services: {
     ...alignmentMixin.alignClinic,
     paddingTop: '1%',
-  },
+  } as ViewStyle,
   input: {
     ...alignmentMixin.alignment,
     padding: 0,
-    fontSize: 25,
-    width: 350,
+    fontSize: 18,
+    width: '75%',
     color: constants.$textColor1,
     borderBottomWidth: 1.5,
     borderColor: constants.$quaternaryColor,
     flex: 1,
-    marginLeft: '7%',
-  },
+    marginLeft: '-4%',
+  } as TextStyle,
   btn1: {
     ...buttonMixin.button,
     ...alignmentMixin.alignment,
     flex: 1,
     marginLeft: '20%',
-    margin: '19%',
-    borderRadius: 50,
+    margin: '23%',
+    borderRadius: 40,
     marginRight: '45%',
-    height: '3%',
-    bottom: '20%',
-  },
+    bottom: '40%',
+    width: '30%'
+  } as ViewStyle,
   bt1: {
     ...buttonMixin.buttonText,
     fontFamily: constants.$fontFamilyMedium,
     fontSize: constants.$fontSizeLarge,
-  },
+  } as ViewStyle,
   skip: {
     ...buttonMixin.button,
     ...alignmentMixin.alignment,
@@ -621,95 +638,92 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: 'white',
     marginRight: '10%',
-    height: '3%',
-    bottom: '70%',
-  },
+    bottom: '90%',
+    width: '30%',
+  } as ViewStyle,
   skipText: {
     ...buttonMixin.buttonText,
     color: constants.$primaryColor,
     fontFamily: constants.$fontFamilyMedium,
-  },
+  } as ViewStyle,
   radio: {
     alignItems: 'baseline',
     justifyContent: 'space-between',
-    padding: 2,
+    padding: '-2%',
   },
   text: {
-    marginLeft: 15,
+    marginLeft: '2%',
     fontSize: constants.$fontSizeLarge,
-    padding: 3,
+    padding: '1%',
     color: '#878787',
     fontFamily: constants.$fontFamily,
-    width: 130,
+    width: '33%',
   },
   btn: {
-    marginLeft: 45,
-    width: 25,
-    height: 25,
+    marginLeft: '10%',
+    width: '5%',
+    height: '50%',
     borderRadius: 20,
     borderColor: constants.$primaryColor,
     borderWidth: 3,
   },
   wrap: {
-    ...alignmentMixin.alignment1,
-  },
+    ...alignmentMixin.alignment1
+  } as ViewStyle,
   bg: {
     backgroundColor: constants.$primaryColor,
     height: 15,
     width: 15,
     borderRadius: 20,
-    margin: 2,
   },
   tagsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 10,
+    marginBottom: '3%',
     borderColor: constants.$primaryColor,
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: constants.$textColor2,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    marginHorizontal: 5,
-    height: 58,
-    width: 335,
+    paddingHorizontal: '-1%',
+    paddingVertical: '1%',
+    marginHorizontal: '1%',
+    height: 60,
+    width: '95%',
   },
   tagitems: {
+    flex: 1,
     ...alignmentMixin.alignment1,
-    padding: 5,
+    padding: '4%',
     margin: 6,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: constants.$primaryColor,
     color: constants.$secondaryColor,
     backgroundColor: constants.$quinaryColor,
-    borderRadius: 15,
-  },
+  } as ViewStyle,
   taginputcontainer: {
     ...alignmentMixin.alignment1,
     color: constants.$secondaryColor,
     fontSize: constants.$fontSizeMedium,
-    marginLeft: 5,
-    marginRight: 0,
+    marginLeft: '8%',
     borderRadius: 15,
-    marginTop: 10,
-    marginBottom: 5,
+    marginTop: '2%',
+    marginBottom: '2%',
     fontWeight: 'bold',
-    paddingHorizontal: 5,
+    paddingHorizontal: '3%',
     backgroundColor: constants.$quinaryColor,
-  },
-
+  } as ViewStyle,
   taginput: {
     ...alignmentMixin.alignment1,
     color: constants.$secondaryColor,
     backgroundColor: constants.$quinaryColor,
     fontSize: constants.$fontSizeMedium,
-    marginLeft: 5,
+    marginLeft: '1%',
     borderRadius: 10,
-  },
+  } as ViewStyle,
   tagupdatecontainer: {
-    ...alignmentMixin.alignment1,
-  },
+    ...alignmentMixin.alignment1
+  } as ViewStyle,
 });
 
 export default PawPalApp;

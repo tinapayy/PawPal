@@ -309,7 +309,7 @@ const PawPalApp = () => {
 
   const getAddress = async () => {
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBKZoguQ4iBcqCuDqOSkj6OpPskqaY7epg`,
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapRegion.latitude},${mapRegion.longitude}&key=AIzaSyBEfiinUCUa7yJzKNYfR_MRBYLfSj9e9VA`,
     );
     const data = await response.json();
     const address = data.results[0].formatted_address.split(',');
@@ -336,7 +336,7 @@ const PawPalApp = () => {
             <Text style={styles.clinicDets}>Add Clinic Picture</Text>
             <TouchableOpacity onPress={openImagePicker}>
               {selectedImage ? (
-                <Image source={{uri: selectedImage}} />
+                <Image source={{uri: selectedImage}} style={styles.adClinic} />
               ) : (
                 <View style={styles.style1}>
                   <FontAwesomeIcon

@@ -25,6 +25,8 @@ import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import constants from '../styles/constants';
+import {useNavigateTo} from '../components/navigation';
 
 interface Chat {
   id: number;
@@ -38,6 +40,7 @@ interface Chat {
 
 const MessagePage = () => {
   const navigation = useNavigation();
+  const NewMessage = useNavigateTo('NewMessage');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -170,9 +173,9 @@ const MessagePage = () => {
           />
         </Container>
         <View style={styles.addIcon}>
-          <TouchableHighlight>
+          <TouchableOpacity onPress={NewMessage}>
             <FontAwesomeIcon icon={faCirclePlus} size={50} color="#F87000" />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
@@ -216,8 +219,9 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     position: 'absolute',
-    bottom: 90,
+    bottom: 70,
     right: 40,
+    color: constants.$quaternaryColor,
   },
 });
 

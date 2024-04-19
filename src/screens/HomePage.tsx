@@ -602,7 +602,7 @@ const styles = StyleSheet.create({
     marginTop: '1.5%',
   },
   data2View: {
-    top: '30%',
+    top: '25%',
     borderWidth: 1,
     padding:'4%',
     borderRadius: 20,

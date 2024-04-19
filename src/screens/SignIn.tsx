@@ -21,9 +21,6 @@ import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
-
 
 const SignIn = () => {
   type Nav = {

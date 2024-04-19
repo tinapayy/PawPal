@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ImageBackground,
+  RefreshControl,
   Text,
   TouchableHighlight,
   TouchableOpacity,
@@ -21,12 +22,17 @@ import {
   MessageText,
 } from '../components/MessageStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCirclePlus, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
+import * as icons from '../imports/icons/icons';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import constants from '../styles/constants';
+import {chatMixins} from '../components/chatMixins';
+
 
 interface Chat {
   id: number;
@@ -45,7 +51,14 @@ const MessagePage = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [messages, setMessages] = useState<Chat[]>([]);
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    fetchData();
+    setIsRefreshing(false);
+  };
 
   const fetchData = async () => {
     try {
@@ -74,19 +87,16 @@ const MessagePage = () => {
                 chatDoc.data().senderId === auth.currentUser?.uid
                   ? 'You: ' + chatDoc.data().message
                   : chatDoc.data().message,
-              date: chatDoc.data().time.toDate().toLocaleDateString('en-US', {
-                timeZone: 'Asia/Manila',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-              }),
+              date: chatDoc.data().time.toDate(),
               time: getTimeDifference(chatDoc.data().time),
             });
           }
         }
       }
       // Sort chat by date of message
-      chat.sort((a, b) => b.date.localeCompare(a.date));
+      chat.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
       // Remove duplicate senderId
       const uniqueChat = chat.filter(
         (v, i, a) => a.findIndex(t => t.senderId === v.senderId) === i,
@@ -134,17 +144,19 @@ const MessagePage = () => {
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
-              icon={faArrowLeft}
+              icon={icons.faArrowLeft}
               style={styles.backIcon}
               size={25}
             />
           </TouchableOpacity>
         </View>
+
         <Text style={styles.textHeader}>Messages</Text>
         <Container style={styles.container}>
           <FlatList
             data={messages}
-            keyExtractor={item => item.id}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
             renderItem={({item}) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
@@ -164,17 +176,27 @@ const MessagePage = () => {
                         <UserName>{item.senderName}</UserName>
                         <PostTime>{item.time}</PostTime>
                       </UserInfoText>
-                      <MessageText>{item.message}</MessageText>
+                      <MessageText>
+                        {/* Limit message length */}
+                        {item.message.length > 42
+                          ? item.message.substring(0, 42) + '...'
+                          : item.message}
+                      </MessageText>
                     </TextSection>
                   </UserInfo>
                 </TouchableOpacity>
               </Card>
             )}
+            keyExtractor={item => item.id}
           />
         </Container>
         <View style={styles.addIcon}>
-          <TouchableOpacity onPress={NewMessage}>
-            <FontAwesomeIcon icon={faCirclePlus} size={50} color="#F87000" />
+           <TouchableOpacity onPress={NewMessage}>
+            <FontAwesomeIcon
+              icon={icons.faCirclePlus}
+              size={50}
+              color={constants.$senaryColor}
+            />
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -184,44 +206,39 @@ const MessagePage = () => {
 
 const styles = StyleSheet.create({
   container: {
+    ...chatMixins.align1,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 150,
+    top: '12%',
+    position: 'relative',
   },
   containerHeader: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...chatMixins.align1,
   },
   back: {
     flexDirection: 'row',
+    top: '5%',
+    right: '-1%',
   },
   backIcon: {
-    color: '#ffffff',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 30,
-    left: 15,
-    paddingRight: 30,
+    color: constants.$tertiaryColor,
+    position: 'relative',
   },
   textHeader: {
-    fontFamily: 'Poppins-Bold',
-    color: '#F87000',
+    fontFamily: constants.$fontFamilyBold,
+    color: constants.$octonaryColor,
     fontSize: 30,
-    fontWeight: 'bold',
-    top: 170,
-    left: 30,
-    marginBottom: 40,
+    top: '16%',
+    left: '5%',
+    marginBottom: '10%',
   },
   cardContainer: {
     width: '90%',
   },
   addIcon: {
-    position: 'absolute',
-    bottom: 70,
-    right: 40,
     color: constants.$quaternaryColor,
+    bottom: '10%',
+    right: '10%',
   },
 });
 

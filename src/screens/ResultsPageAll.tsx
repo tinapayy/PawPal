@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  ViewStyle,
+  ScrollView,
 } from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
+
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
@@ -22,47 +22,38 @@ import {alignmentMixin} from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
-const clinics = [
-  {
-    id: '1',
-    name: 'Rebadulla Animal Care',
-    address: 'Commission, Civil St., Jaro, Iloilo City',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-];
-
-const ClinicCard = ({clinicInfo}) => {
+const UserCard = ({userInfo}) => {
   const navigation = useNavigation();
 
-  const handleClinicPress = () => {
-    navigation.navigate('ClinicProfile', {
-      userId: clinicInfo.clinicId,
-    });
+  const handleDataPress = () => {
+    if (userInfo.userType === 'petOwner') {
+      navigation.navigate('ProfileDetails', {
+        userId: userInfo.userId,
+      });
+    } else if (userInfo.userType === 'clinic') {
+      navigation.navigate('ClinicProfile', {
+        userId: userInfo.userId,
+      });
+    }
   };
 
   return (
-    <TouchableOpacity onPress={handleClinicPress}>
+    <TouchableOpacity onPress={handleDataPress}>
       <View style={styles.card}>
         <Image
-          source={
-            clinicInfo.clinicPicture
-              ? {uri: clinicInfo.clinicPicture}
-              : require('../images/placeholder.png')
-          }
+          source={userInfo.userPicture}
           style={styles.image}
           resizeMode="cover"
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{clinicInfo.name}</Text>
-          <Text style={styles.address}>{clinicInfo.address}</Text>
+          <Text style={styles.name}>{userInfo.name}</Text>
+          <Text style={styles.address}>{userInfo.address}</Text>
           <Text style={styles.hours}>
-            {clinicInfo.isOpen ? (
+            {userInfo.isOpen === true ? (
               <Text style={styles.open}>Open</Text>
-            ) : (
+            ) : userInfo.isOpen === false ? (
               <Text style={styles.closed}>Closed</Text>
-            )}
+            ) : null}
           </Text>
         </View>
       </View>
@@ -70,37 +61,35 @@ const ClinicCard = ({clinicInfo}) => {
   );
 };
 
-type Clinic = {
+type SearchData = {
   id: number;
-  clinicId: string;
+  userId: string;
+  userType: string;
   name: string;
-  address: string;
-  isOpen: boolean;
-  storeHours: any;
-  clinicPicture: any;
+  address?: string;
+  isOpen?: boolean;
+  storeHours?: any;
+  userPicture: any;
 };
 
-const ResultsPage = () => {
-  const NavHome = useNavigateTo('Home');
-  const NavClinicProfile = useNavigateTo('ClinicProfile');
-  const NavProfileDetails = useNavigateTo('ProfileDetails');
+const ResultsPageAll = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
-  const [clinics, setClinics] = useState<Clinic[]>([]);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const initialSearchQuery = route.params ? route.params.searchboxQuery : '';
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+  const [searchdata, setSearchData] = useState<SearchData[]>([]);
+  const [filtereddata, setfilteredData] = useState<SearchData[]>(searchdata);
 
   const fetchUser = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
       for (const userDoc of querySnapshot.docs) {
-        if (
-          auth.currentUser &&
-          userDoc.data().userId === auth.currentUser.uid
-        ) {
+        if (userDoc.data().userId === auth.currentUser.uid) {
           setUserType(userDoc.data().userType);
           if (userDoc.data().userType === 'petOwner') {
             setProfilePicture(userDoc.data().profilePicture);
@@ -117,23 +106,38 @@ const ResultsPage = () => {
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
-      const clinicsData: Clinic[] = [];
-      for (const clinicDoc of querySnapshot.docs) {
-        if (clinicDoc.data().userType === 'clinic') {
-          clinicsData.push({
-            id: clinicsData.length + 1,
-            clinicId: clinicDoc.data().userId,
-            name: clinicDoc.data().name,
-            address: clinicDoc.data().address,
-            isOpen: clinicDoc.data().storeHours
-              ? isClinicOpen(clinicDoc.data().storeHours)
+      const userData: SearchData[] = [];
+      for (const userDoc of querySnapshot.docs) {
+        if (userDoc.data().userType === 'clinic') {
+          userData.push({
+            id: userData.length + 1,
+            userId: userDoc.data().userId,
+            name: userDoc.data().name,
+            address: userDoc.data().address,
+            isOpen: userDoc.data().storeHours
+              ? isClinicOpen(userDoc.data().storeHours)
               : false,
-            storeHours: clinicDoc.data().storeHours,
-            clinicPicture: clinicDoc.data().clinicPicture,
+            storeHours: userDoc.data().storeHours,
+            userPicture: userDoc.data().clinicPicture
+              ? {uri: userDoc.data().clinicPicture}
+              : require('../images/placeholder.png'),
+            userType: userDoc.data().userType,
+          });
+        }
+        if (userDoc.data().userType === 'petOwner') {
+          userData.push({
+            id: userData.length + 1,
+            userId: userDoc.data().userId,
+            name: userDoc.data().name,
+            address: 'Pet Owner',
+            userPicture: userDoc.data().profilePicture
+              ? {uri: userDoc.data().profilePicture}
+              : require('../images/defaultIcon.png'),
+            userType: userDoc.data().userType,
           });
         }
       }
-      setClinics(clinicsData);
+      setSearchData(userData);
     } catch (error) {
       console.log(error);
     }
@@ -144,7 +148,13 @@ const ResultsPage = () => {
     fetchData();
   }, []);
 
-  const isClinicOpen = (storeHours: string | any[]) => {
+  useEffect(() => {
+    if (searchdata.length > 0) {
+      handleSearch(searchQuery);
+    }
+  }, [searchdata]);
+
+  const isClinicOpen = storeHours => {
     const currentDay = Date.now();
 
     // Add 8 hours to current day
@@ -188,9 +198,7 @@ const ResultsPage = () => {
     return false;
   };
 
-  const convertTo24HourFormat = (timeString: {
-    split: (arg0: string) => [any, any];
-  }) => {
+  const convertTo24HourFormat = timeString => {
     let [time, period] = timeString.split(' ');
     let [hours, minutes] = time.split(':');
 
@@ -207,23 +215,19 @@ const ResultsPage = () => {
     return `${hours}:${minutes}`;
   };
 
-  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState<Clinic[]>([]); // Replace with actual filtered clinics from the search bar]
-
-  const handleSearch = (text: string) => {
+  const handleSearch = text => {
     setSearchQuery(text);
-    const filtered = clinics.filter(clinic =>
-      clinic.name.toLowerCase().includes(text.toLowerCase()),
-    );
-    fetchData();
-    setFilteredClinics(filtered);
+    const filtered = searchdata.filter(item => {
+      return item.name.toLowerCase().includes(text.toLowerCase());
+    });
+    setfilteredData(filtered);
   };
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      NavProfileDetails;
+      navigation.navigate('ProfileDetails');
     } else {
-      NavClinicProfile;
+      navigation.navigate('ClinicProfile');
     }
   };
 
@@ -231,20 +235,18 @@ const ResultsPage = () => {
     <View style={styles.container}>
       <View style={styles.headercontainer}>
         <View style={styles.headercontent}>
-          <View style={styles.headericon}>
-            <TouchableOpacity onPress={NavHome}>
-              <icons.BackIcon size="25" color="#ff8d4d" strokeWidth={10} />
+          <View style={styles.headertextandicon}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
             </TouchableOpacity>
-          </View>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Explore Clinics</Text>
+            <Text style={styles.headerText}>Explore Data</Text>
             <Image
               source={require('../images/doggy.png')}
               style={styles.doggo}
             />
             <TextInput
               style={styles.input}
-              placeholder="Search Clinics"
+              placeholder="Search Users and Clinics"
               onChangeText={handleSearch}
               value={searchQuery}
               placeholderTextColor="white"
@@ -259,7 +261,7 @@ const ResultsPage = () => {
                       ? {uri: profilePicture}
                       : require('../images/defaultIcon.png')
                   }
-                  size={40}
+                  size={50}
                 />
               </TouchableOpacity>
             </TouchableOpacity>
@@ -268,8 +270,8 @@ const ResultsPage = () => {
       </View>
       <View style={styles.scrollcontainer}>
         <FlatList
-          data={filteredClinics ? filteredClinics : clinics}
-          renderItem={({item}) => <ClinicCard clinicInfo={item} />}
+          data={filtereddata ? filtereddata : searchdata}
+          renderItem={({item}) => <UserCard userInfo={item} />}
           keyExtractor={item => item.id}
         />
       </View>
@@ -280,62 +282,57 @@ const ResultsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: constants.$backgroundColor,
   },
   headercontainer: {
     ...alignmentMixin.alignment1,
-    height: '20%',
+    height: '18%',
     backgroundColor: constants.$backgroundColor,
-  } as ViewStyle,
+    borderBottomRightRadius: 40,
+  },
   headercontent: {
     backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
   },
   userheadercontent: {
+    backgroundColor: constants.$backgroundColor,
     marginRight: '6%',
     zIndex: 1,
-    bottom: '2%',
-    left: '15%',
+    height: '15%',
   },
   doggo: {
-    height: '150%',
+    height: '130%',
     width: '70%',
-    left: '70%',
+    left: '100%',
     position: 'absolute',
-    top: '30%',
+    top: '5%',
     zIndex: -1,
   },
-  headericon: {
-    marginRight: '15%',
-    bottom: '8%',
-    right: '5%',
+  headertextandicon: {
+    marginLeft: '6%',
+    paddingRight: '7%',
+    marginRight: '13%',
+    flexDirection: 'column',
   },
   headerText: {
     paddingLeft: '5%',
     fontSize: 30,
-    fontWeight: 'bold',
-    right: '30%',
-    top: '5%',
+    fontWeight: constants.$fontWeightBold,
     color: constants.$senaryColor,
   },
 
   input: {
-    width: Dimensions.get('window').width * 0.53,
-    height: Dimensions.get('window').height * 0.05,
-    top: '10%',
-    right: '25%',
+    height: '31%',
+    width: '100%',
     backgroundColor: constants.$primaryColor,
+    borderColor: constants.$senaryColor,
     color: constants.$backgroundColor,
-    borderRadius: 25,
+    borderRadius: 15,
     paddingLeft: '4%',
   },
   scrollcontainer: {
     borderTopRightRadius: 40,
     backgroundColor: constants.$quaternaryColor,
     paddingTop: '5%',
-    marginTop: '5%',
-    paddingBottom: '15%',
-    height: '100%',
   },
   card: {
     ...buttonMixin.button,
@@ -344,7 +341,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: constants.$backgroundColor,
     margin: 10,
-    marginTop: 7,
     borderRadius: 15,
     flexDirection: 'row',
   },
@@ -359,8 +355,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: constants.$fontSizeSmall,
-    fontWeight: 'bold', // replace with one of the valid values: "200", "400", "500", "700", "normal", "bold", "100", "300", "600", "800", "900"
+    fontSize: 14,
+    fontWeight: constants.$fontWeightBold,
     color: constants.$secondaryColor,
   },
   address: {
@@ -372,13 +368,13 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   open: {
-    fontSize: 13,
+    fontSize: 14,
     color: 'green',
   },
   closed: {
-    fontSize: 13,
+    fontSize: 14,
     color: 'red',
   },
 });
 
-export default ResultsPage;
+export default ResultsPageAll;

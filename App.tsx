@@ -209,11 +209,11 @@ export default function App() {
           component={import_screens.ProfileDetails}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ProfileDetailsforCards"
           component={import_screens.ProfileDetailsforCards}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
           name="SettingsPage"
           component={import_screens.SettingsPage}
@@ -289,11 +289,11 @@ export default function App() {
           component={import_screens.ClinicProfile}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ClinicProfileforCards"
           component={import_screens.ClinicProfileforCards}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
           name="SettingsPage_Clinic"
           component={import_screens.SettingsPage_Clinic}

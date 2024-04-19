@@ -23,7 +23,7 @@ function SettingsPage_Clinic() {
     if (!user) {
       navigation.reset({
         index: 0,
-        routes: [{name: 'GettingStarted2'} as any],
+        routes: [{name: 'GettingStarted2'}] as any,
       });
     }
   });

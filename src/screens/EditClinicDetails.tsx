@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -281,6 +281,30 @@ const PawPalApp = () => {
     longitudeDelta: 0.0421,
   });
 
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setDescription(doc.data().about);
+            setSelectedImage(doc.data().clinicPicture);
+            setNumber(doc.data().contactInfo);
+            setSelectedDays(doc.data().storeHours || selectedDays);
+            setTags(doc.data().services);
+            setMapRegion(doc.data().location || mapRegion);
+            setAddress(doc.data().address || address);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+  
   const handleRegionChange = region => {
     setMapRegion(region);
   };

@@ -26,6 +26,7 @@ import {useNavigateTo} from '../components/navigation';
 const ClinicProfile = () => {
   const navigation = useNavigation();
   const SettingsClinic = useNavigateTo('SettingsPage_Clinic');
+  const ChatHome = useNavigateTo ('ChatHome');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -178,6 +179,24 @@ const ClinicProfile = () => {
               </View>
             </View>
           </View>
+
+          <TouchableOpacity onPress={ChatHome}>
+          <View
+              style={styles.messageDets}>
+              <FontAwesomeIcon
+                icon={icons.faComment} size={19}
+                style={{
+                  color: constants.$senaryColor,
+                  left: '120%',
+                }}
+              />
+              <Text
+                style={styles.messageText}>
+                Message
+              </Text>
+            </View>
+          </TouchableOpacity>
+
           <Text
             style={styles.servicesText}>
             Services
@@ -371,15 +390,7 @@ const styles = StyleSheet.create({
     flex: 1,
     opacity: 0.9,
   } as ViewStyle,
-  // content: {
-  //   backgroundColor: constants.$senaryColor,
-  //   padding: '8%',
-  //   borderRadius: 30,
-  //   margin: 50,
-  //   color: constants.$textColor2
-  // },
   dropdown: {
-    //marginTop: 10,
     backgroundColor: constants.$textColor2,
     borderWidth: 2,
     padding: '4%',
@@ -391,6 +402,19 @@ const styles = StyleSheet.create({
     top: '90%',
     elevation: 20,
     borderColor: constants.$senaryColor,
+  },
+  messageText: {
+    color: constants.$senaryColor,
+    fontSize: 16,
+    fontFamily: constants.$fontFamilyMedium,
+    marginLeft: '10%',
+    top: '-0.5%',
+    textDecorationLine: 'underline'
+  },
+  messageDets: {
+    top: '-2%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 });
 

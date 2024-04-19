@@ -8,6 +8,7 @@ import {
   Text,
   TouchableHighlight,
   TouchableOpacity,
+  ViewStyle,
 } from 'react-native';
 import {
   Container,
@@ -28,9 +29,6 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import * as icons from '../imports/icons/icons';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
-import constants from '../styles/constants';
 import {chatMixins} from '../components/chatMixins';
 
 
@@ -210,11 +208,11 @@ const styles = StyleSheet.create({
     flex: 1,
     top: '12%',
     position: 'relative',
-  },
+  } as ViewStyle,
   containerHeader: {
     flex: 1,
     ...chatMixins.align1,
-  },
+  } as ViewStyle,
   back: {
     flexDirection: 'row',
     top: '5%',

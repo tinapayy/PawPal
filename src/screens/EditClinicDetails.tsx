@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -49,7 +49,7 @@ const PawPalApp = () => {
   const auth = FIREBASE_AUTH;
   const storage = FIREBASE_STORAGE;
 
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
   const [number, setNumber] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDays, setSelectedDays] = useState([
@@ -81,7 +81,7 @@ const PawPalApp = () => {
         if (currentDoc.data().userId === auth.currentUser?.uid) {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
-            clinicPicture: selectedImage,
+            clinicPicture: selectedImage || null,
             services: tagsInput,
             contactInfo: number,
             about: description,
@@ -130,7 +130,7 @@ const PawPalApp = () => {
     }
   };
 
-  const skipAddClinic = () => {
+  const cancelAddClinic = () => {
     navigation.reset({
       index: 0,
       routes: [{name: 'HomePage'}],
@@ -280,7 +280,29 @@ const PawPalApp = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [address, setAddress] = useState('');
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'user'));
+        querySnapshot.forEach(doc => {
+          if (doc.data().userId === auth.currentUser?.uid) {
+            setDescription(doc.data().about);
+            setSelectedImage(doc.data().clinicPicture);
+            setNumber(doc.data().contactInfo);
+            setSelectedDays(doc.data().storeHours || selectedDays);
+            setTags(doc.data().services);
+            setMapRegion(doc.data().location || mapRegion);
+            setAddress(doc.data().address || address);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
   const handleRegionChange = region => {
     setMapRegion(region);
   };
@@ -304,31 +326,9 @@ const PawPalApp = () => {
           <View style={styles.scrollView}>
             <View>
               <Image
-                source={{uri: selectedImage}}/> ) : (
-              <View
-                style={styles.style1}>
-                <FontAwesomeIcon
-                  icon={faImage}
-                  size={30}
-                  style={{
-                    color: '#ff8700',
-                  }}
-                />
-              </View>
-            )}
-          </TouchableOpacity>
-
-          <View style={styles.style2}>
-            <View
-              style={styles.style3}>
-              <Text style={styles.services}>Services</Text>
-              <TouchableOpacity onPress={handleToggleInput}>
-                <FontAwesomeIcon
-                  icon={faCaretDown}
-                  size={25}
-                  style={{color: '#ff8700', marginLeft: 10, bottom: '20%'}}
-                />
-              </TouchableOpacity>
+                source={require('../images/Vector_8.png')}
+                style={styles.vecImg}
+              />
             </View>
 
             <Text style={styles.clinic}>Clinic Details</Text>
@@ -502,6 +502,7 @@ const PawPalApp = () => {
                 style={{flex: 1, margin: 40, height: 300}}
                 provider={PROVIDER_GOOGLE}
                 initialRegion={mapRegion}
+                region={mapRegion}
                 onRegionChangeComplete={handleRegionChange}>
                 <Marker
                   coordinate={{
@@ -520,8 +521,8 @@ const PawPalApp = () => {
                 textStyle={styles.bt1}
               />
               <AppButton
-                title="Skip"
-                onPress={skipAddClinic}
+                title="Cancel"
+                onPress={cancelAddClinic}
                 buttonStyle={styles.skip}
                 textStyle={styles.skipText}
               />
@@ -627,7 +628,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginRight: '45%',
     bottom: '40%',
-    width: '30%'
+    width: '30%',
   } as ViewStyle,
   bt1: {
     ...buttonMixin.buttonText,
@@ -672,7 +673,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   wrap: {
-    ...alignmentMixin.alignment1
+    ...alignmentMixin.alignment1,
   } as ViewStyle,
   bg: {
     backgroundColor: constants.$primaryColor,
@@ -726,7 +727,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   } as ViewStyle,
   tagupdatecontainer: {
-    ...alignmentMixin.alignment1
+    ...alignmentMixin.alignment1,
   } as ViewStyle,
 });
 

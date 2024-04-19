@@ -1,7 +1,6 @@
 //contains all the the screens
 
 import ClinicProfile from '../../screens/ClinicProfile';
-import ClinicProfileforCards from '../../screens/ClinicProfileforCards';
 import ForumPage from '../../screens/ForumPage';
 import AddPetProfile from '../../screens/AddPetProfile';
 import AddPetProfileSignUp from '../../screens/AddPetProfileSignUp';
@@ -33,17 +32,14 @@ import CreatePost from '../../screens/CreatePost';
 import SettingsPage_Clinic from '../../screens/SettingsPage_Clinic';
 import Approval_page from '../../screens/Approval Page';
 import AdminForumPage from '../../screens/AdminForumPage';
-import ProfileDetailsforCards from '../../screens/ProfileDetailsforCards';
 
 export {
   ClinicProfile,
-  ClinicProfileforCards,
   ForumPage,
   AddPetProfile,
   AddPetProfileSignUp,
   EditPetProfile,
   ProfileDetails,
-  ProfileDetailsforCards,
   MessagePage,
   HomePage,
   SignIn,

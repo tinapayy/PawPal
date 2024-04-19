@@ -258,29 +258,42 @@ const ProfileDetails = () => {
               <Text style={styles.ownerTitle}>Pet Owner</Text>
             </View>   
             <View style={styles.iconContainer}>
+              <View style={{ flexDirection: 'row'}}> 
               <TouchableOpacity onPress={ChatHome}>
                 <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
               </TouchableOpacity>
               <TouchableOpacity onPress={SettingsPage}>
                 <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
               </TouchableOpacity>
+              </View>
             </View>
           </View>
-
-          
           <View style={styles.contentScroll}>
-            <Text
-              style={styles.contentProfile}
-              numberOfLines={showFullBio ? undefined : numLines}
-            >
+            <Text style={styles.contentProfile}>
               {showFullBio ? bio : truncatedBio}
+              {!showFullBio && truncatedBio !== bio && (
+                <>
+                  {/* Add "See more" inline with truncated text */}
+                  <Text style={styles.seeMore} onPress={toggleDescription}>
+                    See More
+                  </Text>
+                  {/* Add the remaining text after truncatedBio */}
+                  {` ${lines.length > numLines ? lines.slice(numLines).join('\n') : ''}`}
+                </>
+              )}
+              {showFullBio && (
+                <>
+                  {/* Concatenate "See Less" inline with the last word in the description */}
+                  {' '}
+                  <Text style={styles.seeMore} onPress={toggleDescription}>
+                    See Less
+                  </Text>
+                </>
+              )}
             </Text>
-            {truncatedBio !== bio && (
-              <TouchableOpacity onPress={toggleDescription}>
-                <Text style={styles.seeMore}>{showFullBio ? 'See Less' : 'See More'}</Text>
-              </TouchableOpacity>
-            )}
           </View>
+
+
         </Card.Content>
        
       </Card>
@@ -338,7 +351,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     alignItems:'center',
-    top:'38%',
+    top:'37%',
   },
  
   // whole including photo, bottom text and container
@@ -368,7 +381,7 @@ const styles = StyleSheet.create({
   },
   // for name and title
   ownerContainer: {
-    top: '39%',
+    top: '37%',
     left:'4%',
     zIndex: 1,
 
@@ -408,20 +421,20 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   // age, color, sex and weight
   bottomContainer: {
-    top: '50%',
+    top: '51%',
     flexDirection:'row',
     zIndex:999,
-    right:'-1%',
+    right:'0.5%',
 
   },
   // inputs of the user
   bottomTexts: {
     ...profDetMixins.align,
-    top: '45%',
+    top: '47%',
     flexDirection:'row',
     paddingVertical: '5%',
     justifyContent:'space-evenly',
-    zIndex:999,
+    zIndex:9,
     right:'3%',
     paddingBottom:'20%', // manipulate this
   } as ImageStyle,
@@ -458,55 +471,35 @@ const styles = StyleSheet.create({
   },
 
   iconContainer: {
-    flexDirection: 'row',
-    justifyContent:'flex-end',
-
     zIndex: 5,
   },
 
   icon: {
     color: constants.$primaryColor,
-    paddingHorizontal: '7.5%',
-    zIndex: 9,
+    position:'relative',
+    paddingHorizontal:'4%',
+ 
   },
   // bio and see more
   contentScroll: {
-    textAlign: 'justify',
-    bottom:'200%',
-    justifyContent:'flex-start',
-    right: '-2%',
-    left:'2%',
-    backgroundColor:'#FFF800',
-    width:screenWidth,
-    maxWidth:'95%',
-    height:'50%',
-    maxHeight:'100%',
+    top:'-40%',
+    right:'-2%',
+    maxWidth:'98%',
+    height:'60%',
   } ,
   // bio
   contentProfile: {
-    // flexDirection: 'row',
     fontSize: 16,
     fontFamily: constants.$fontFamily,
     color: constants.$textColor1,
-    alignItems:'flex-start',
-    width:screenWidth,
-    maxWidth: '100%',
-    maxHeight: '100%',
-    height:ScreenHeight,
-    // backgroundColor: '#FFF800',
-
-  } as TextStyle,
+  },
   // see more
   seeMore: {
-    backgroundColor:'black',
     fontFamily: constants.$fontFamily,
     fontSize: 14,
-    // lineHeight:24,
     color: constants.$primaryColor,
     textDecorationLine: 'underline',
-    position: 'relative',
     zIndex:9,
-    bottom: '110%'
   },
   settingsIcon: {
 

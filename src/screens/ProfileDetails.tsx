@@ -19,10 +19,10 @@ import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { profDetMixins } from '../styles/mixins/profDetMixins';
+import {profDetMixins} from '../styles/mixins/profDetMixins';
 import {PD_typeStyles} from '../components/PD_typeStyles';
 // window dimensions
 const {width: screenWidth} = Dimensions.get('window');
@@ -43,11 +43,13 @@ type CarouselItem = {
   data: Pet;
 };
 
-const ProfileDetails = () => {
+const ProfileDetails = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+
+  const userId = route.params?.userId;
 
   const [pet, setPet] = useState<CarouselItem[]>([]);
   const [name, setName] = useState('');
@@ -91,7 +93,10 @@ const ProfileDetails = () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
+          if (
+            (userId && doc.data().userId === userId) ||
+            (!userId && doc.data().userId === auth.currentUser?.uid)
+          ) {
             setName(doc.data().name);
             setBio(doc.data().bio);
             setProfilePicture(
@@ -103,7 +108,10 @@ const ProfileDetails = () => {
         });
         const pet: Pet[] = [];
         for (const petDoc of querySnapshot.docs) {
-          if (petDoc.data().userId === auth.currentUser?.uid) {
+          if (
+            (userId && petDoc.data().userId === userId) ||
+            (!userId && petDoc.data().userId === auth.currentUser?.uid)
+          ) {
             const petIds = petDoc.data().pet;
             if (petIds.length > 0) {
               for (const petId of petIds) {
@@ -234,7 +242,7 @@ const ProfileDetails = () => {
   const ownerCard = (
     <Card style={styles.card}>
       <Card.Content style={styles.cardContent}>
-          <View>
+        <View>
           <View style={styles.userInfo}>
             <View style={styles.avatarContainer}>
               <Avatar.Image size={50} source={profilePicture} />
@@ -257,16 +265,32 @@ const ProfileDetails = () => {
         </TouchableOpacity>
       </Card.Content>
       <View style={styles.iconContainer}>
-        <TouchableOpacity
-          style={styles.settingsIcon}
-          onPress={() => navigation.navigate('Chat')}>
-          <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsIcon}
-          onPress={() => navigation.navigate('SettingsPage')}>
-          <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
-        </TouchableOpacity>
+        {/* Display message icon if userId is not undefined */}
+        {userId && (
+          <TouchableOpacity
+            style={styles.settingsIcon}
+            onPress={() =>
+              navigation.navigate('Chat', {
+                senderId: userId,
+                senderName: name,
+                senderPicture: profilePicture,
+              })
+            }>
+            <FontAwesomeIcon
+              icon={icons.faMessage}
+              style={styles.icon}
+              size={20}
+            />
+          </TouchableOpacity>
+        )}
+        {/* Display settings icon */}
+        {!userId && (
+          <TouchableOpacity
+            style={styles.settingsIcon}
+            onPress={() => navigation.navigate('SettingsPage')}>
+            <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
+          </TouchableOpacity>
+        )}
       </View>
     </Card>
   );
@@ -280,12 +304,12 @@ const ProfileDetails = () => {
         //background image
         style={{
           ...profDetMixins.backgroundImage,
-          width: screenWidth
+          width: screenWidth,
         }}
       />
-      < View style={styles.headerContainer}>
+      <View style={styles.headerContainer}>
         <Text
-          // Profile Details 
+          // Profile Details
           style={{
             ...profDetMixins.profDetText,
           }}>
@@ -294,12 +318,16 @@ const ProfileDetails = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Home')}
           //backbutton
-          style={profDetMixins.backButton }>
-          <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color={constants.$tertiaryColor} />
+          style={profDetMixins.backButton}>
+          <FontAwesomeIcon
+            icon={icons.faArrowLeft}
+            size={24}
+            color={constants.$tertiaryColor}
+          />
         </TouchableOpacity>
       </View>
-      
-      <View style={profDetMixins.horizontalLine} width= {screenWidth}/>
+
+      <View style={profDetMixins.horizontalLine} width={screenWidth} />
 
       <View style={{bottom: 150}}>
         <Carousel
@@ -310,7 +338,7 @@ const ProfileDetails = () => {
           data={pet}
           renderItem={renderItem}
           hasParallaxImages={true}
-          style={{zIndex: 0}} 
+          style={{zIndex: 0}}
         />
         <View>{ownerCard}</View>
       </View>
@@ -323,27 +351,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imageContainer: {
-   ...profDetMixins.imageContainer,
+    ...profDetMixins.imageContainer,
   } as ImageStyle,
   item: {
     width: screenWidth + 1,
     ...profDetMixins.item,
   } as ImageStyle,
-  headerContainer:{
+  headerContainer: {
     ...profDetMixins.headerContainer,
   } as ImageStyle,
   image: {
     ...profDetMixins.image,
   } as ImageStyle,
   title: {
-   ...profDetMixins.titlePet,
+    ...profDetMixins.titlePet,
     fontWeight: constants.$fontWeightBold,
   } as ImageStyle,
   title1: {
     ...profDetMixins.titlePet,
     top: '-2.5%',
     fontSize: 18,
-    fontWeight:constants.$fontFamilyExtraLight
+    fontWeight: constants.$fontFamilyExtraLight,
   } as ImageStyle,
   petDetail: {
     ...profDetMixins.petDetail,
@@ -361,17 +389,17 @@ const styles = StyleSheet.create({
     top: '-1%',
   } as ImageStyle,
   card: {
-   ...profDetMixins.card,
+    ...profDetMixins.card,
   } as ImageStyle,
   cardContent: {
-   ...profDetMixins.cardContent,
+    ...profDetMixins.cardContent,
   } as ImageStyle,
   userInfo: {
     ...alignmentMixin.alignment,
     ...profDetMixins.userInfo,
   } as TextStyle,
   avatarContainer: {
-   ...profDetMixins.avatarContainer,
+    ...profDetMixins.avatarContainer,
   } as ImageStyle,
   userName: {
     ...profDetMixins.userName,
@@ -383,11 +411,11 @@ const styles = StyleSheet.create({
     ...profDetMixins.descriptionContainer,
   } as TextStyle,
   iconContainer: {
-  ...profDetMixins.iconContainer,
+    ...profDetMixins.iconContainer,
   } as ViewStyle,
 
   icon: {
-   ...profDetMixins.icon,
+    ...profDetMixins.icon,
   } as ViewStyle,
   contentScroll: {
     ...alignmentMixin.alignment,
@@ -397,10 +425,8 @@ const styles = StyleSheet.create({
     ...profDetMixins.contentProfile,
   } as TextStyle,
   seeMore: {
-   ...profDetMixins.seeMore,
+    ...profDetMixins.seeMore,
   } as TextStyle,
-
-
 });
 
 export default ProfileDetails;

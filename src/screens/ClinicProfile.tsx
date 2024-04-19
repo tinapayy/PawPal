@@ -19,13 +19,15 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
-const ClinicProfile = () => {
+const ClinicProfile = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+
+  const userId = route.params?.userId;
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -60,7 +62,10 @@ const ClinicProfile = () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
+          if (
+            (userId && doc.data().userId === userId) ||
+            (!userId && doc.data().userId === auth.currentUser?.uid)
+          ) {
             setClinicName(doc.data().name);
             setAbout(doc.data().about);
             setClinicPicture(doc.data().clinicPicture);
@@ -95,10 +100,16 @@ const ClinicProfile = () => {
               style={{color: 'brown'}}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SettingsPage_Clinic')}>
-            <FontAwesomeIcon icon={icons.faGear} size={30} style={{color: 'brown'}} />
-          </TouchableOpacity>
+          {!userId && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SettingsPage_Clinic')}>
+              <FontAwesomeIcon
+                icon={icons.faGear}
+                size={30}
+                style={{color: 'brown'}}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         <View>
@@ -112,31 +123,25 @@ const ClinicProfile = () => {
             style={styles.profile}></ImageBackground>
         </View>
       </View>
+      {/* Hide scrollbar */}
+      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <ScrollView>
-        <View
-          style={styles.scrollBar}>
-          <Text
-            style={styles.clinicTitle}>
-            {clinicName}
-          </Text>
+        <View style={styles.scrollBar}>
+          <Text style={styles.clinicTitle}>{clinicName}</Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View
-              style={styles.iconStyles}>
+            <View style={styles.iconStyles}>
               <FontAwesomeIcon
-                icon={icons.faPhone} size={23}
+                icon={icons.faPhone}
+                size={23}
                 style={{
                   color: constants.$senaryColor,
                   left: 9,
                 }}
               />
-              <Text
-                style={styles.phoneText}>
-                {contactInfo}
-              </Text>
+              <Text style={styles.phoneText}>{contactInfo}</Text>
             </View>
 
-            <View
-              style={styles.iconStyles}>
+            <View style={styles.iconStyles}>
               <FontAwesomeIcon
                 icon={icons.faClock}
                 size={18}
@@ -144,10 +149,7 @@ const ClinicProfile = () => {
                   color: constants.$senaryColor,
                 }}
               />
-              <Text
-                style={styles.storeText}>
-                Store Hours
-              </Text>
+              <Text style={styles.storeText}>Store Hours</Text>
 
               <View>
                 <TouchableOpacity onPress={toggleDropdown}>
@@ -175,10 +177,7 @@ const ClinicProfile = () => {
               </View>
             </View>
           </View>
-          <Text
-            style={styles.servicesText}>
-            Services
-          </Text>
+          <Text style={styles.servicesText}>Services</Text>
           {Array.isArray(services) && services.length > 0 && (
             <View
               style={{
@@ -188,13 +187,8 @@ const ClinicProfile = () => {
                 margin: 10,
               }}>
               {services.map((service, index) => (
-                <View
-                  key={index}
-                  style={styles.servicesForm}>
-                  <Text
-                    style={styles.servicesView}>
-                    {service}
-                  </Text>
+                <View key={index} style={styles.servicesForm}>
+                  <Text style={styles.servicesView}>{service}</Text>
                 </View>
               ))}
             </View>
@@ -207,33 +201,24 @@ const ClinicProfile = () => {
               style={styles.lineStyle}
             />
           </View>
-          <Text
-            style={styles.aboutText}>
-            {about}
-          </Text>
-          <Text
-            style={styles.locText}>
-            Location
-          </Text>
+          <Text style={styles.aboutText}>{about}</Text>
+          <Text style={styles.locText}>Location</Text>
           {mapRegion && (
             <View>
-              <Text
-                style={styles.addressText}>
-                {address}
-              </Text>
+              <Text style={styles.addressText}>{address}</Text>
               <View>
-              <MapView
-                style={{margin: 20, height: 500}}
-                provider={PROVIDER_GOOGLE}
-                initialRegion={mapRegion}
-                region={mapRegion}>
-                <Marker
-                  coordinate={{
-                    latitude: mapRegion.latitude,
-                    longitude: mapRegion.longitude,
-                  }}
-                />
-              </MapView>
+                <MapView
+                  style={{margin: 20, height: 500}}
+                  provider={PROVIDER_GOOGLE}
+                  initialRegion={mapRegion}
+                  region={mapRegion}>
+                  <Marker
+                    coordinate={{
+                      latitude: mapRegion.latitude,
+                      longitude: mapRegion.longitude,
+                    }}
+                  />
+                </MapView>
               </View>
             </View>
           )}
@@ -246,8 +231,7 @@ const ClinicProfile = () => {
                 longitude: 122.5621,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-              }}>
-            </MapView>
+              }}></MapView>
           )}
         </View>
       </ScrollView>
@@ -369,7 +353,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 30,
     margin: 50,
-    color: constants.$textColor2
+    color: constants.$textColor2,
   },
   dropdown: {
     marginTop: 10,

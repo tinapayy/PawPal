@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import * as icons from '../imports/icons/icons';
 import ImagePicker, {
   ImagePickerResponse,
   launchImageLibrary,
@@ -18,7 +17,11 @@ import ImagePicker, {
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
-
+import * as icons from '../imports/icons/icons';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import constants from '../styles/constants';
+import {chatMixins} from '../components/chatMixins';
 interface ChatMessage {
   id: number;
   senderId: string;
@@ -26,6 +29,7 @@ interface ChatMessage {
   senderName: string;
   senderPicture: any;
   message: string;
+  date: string;
   time: string;
 }
 
@@ -71,13 +75,29 @@ const Chat = ({route}) => {
                   ? {uri: userDoc.data().profilePicture}
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
-                time: chatDoc.data().time.toDate().toLocaleTimeString(),
+                date: chatDoc.data().time.toDate(),
+                time:
+                  // chatDoc.data().time.toDate().toLocaleTimeString('en-US', {
+                  //   hour: 'numeric',
+                  //   minute: 'numeric',
+                  //   second: 'numeric',
+                  // }),
+                  chatDoc.data().time.toDate().toLocaleDateString('en-US', {
+                    timeZone: 'Asia/Manila',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                  }),
               });
             }
           }
         }
       }
-      setMessages(chat.sort((a, b) => a.time.localeCompare(b.time)));
+      // Sort chat by date of message
+      chat.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      );
+      setMessages(chat);
     } catch (error) {
       console.error(error);
     }
@@ -135,7 +155,7 @@ const Chat = ({route}) => {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <icons.MaterialIcons name="arrow-back" size={30} color="#FFF" />
+          <icons.MaterialIcons name="arrow-back" size={30} color= {constants.$tertiaryColor} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImagePress}>
           <Image
@@ -158,7 +178,13 @@ const Chat = ({route}) => {
                 ? [styles.messageWrapper, styles.outgoingMessageWrapper]
                 : styles.messageWrapper
             }>
-            <Text style={styles.timestamp}>{item.time}</Text>
+            {/* Display timestamp if it is the first message or if the time difference is more than 5 minutes */}
+            {messages.indexOf(item) === 0 ||
+            new Date(item.date).getTime() -
+              new Date(messages[messages.indexOf(item) - 1].date).getTime() >
+              5 * 60 * 1000 ? (
+              <Text style={styles.timestamp}>{item.time}</Text>
+            ) : null}
             {item.senderId === auth.currentUser?.uid ? (
               <View
                 style={[styles.messageBubble, styles.outgoingMessageBubble]}>
@@ -185,7 +211,7 @@ const Chat = ({route}) => {
         <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
-          <icons.MaterialIcons name="attachment" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="attachment" size={30} color={constants.$quaternaryColor} />
         </TouchableOpacity>
 
         <TextInput
@@ -196,7 +222,7 @@ const Chat = ({route}) => {
           multiline={true}
         />
         <Pressable style={styles.sendButton} onPress={sendMessage}>
-          <icons.MaterialIcons name="send" size={30} color="#FFBA69" />
+          <icons.MaterialIcons name="send" size={30} color={constants.$quaternaryColor} />
         </Pressable>
       </View>
     </View>
@@ -208,11 +234,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backButton: {
-    margin: 10,
+    left: '10%',
+    marginLeft: '2%',
+    paddingRight: '5%',
   },
   header: {
-    backgroundColor: '#FF8D4D',
-    height: 100,
+    backgroundColor: constants.$octonaryColor,
+    height: '10%',
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -224,51 +252,55 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     marginLeft: 10,
-    color: '#FFF',
+    color: constants.$tertiaryColor,
     fontWeight: 'bold',
   },
   messageContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: constants.$tertiaryColor,
   },
+  // to be adjusted
   messageWrapper: {
-    marginVertical: 10,
-    paddingHorizontal: 10,
+    marginVertical: '2%',
+    paddingHorizontal: '2%',
   },
   timestamp: {
     textAlign: 'center',
     fontSize: 12,
     width: '100%',
-    color: '#AAA',
-    marginBottom: 10,
+    color: constants.$septenaryColor,
+    marginBottom: '2%',
   },
   messageBubble: {
     flex: 1,
     borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    maxWidth: '80%',
+    paddingHorizontal: '2%',
+    paddingVertical: '1%',
+    maxWidth: '40%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
   },
   outgoingMessageBubble: {
-    backgroundColor: '#ECECEC',
+    backgroundColor: constants.$septenaryColor,
+    // padding:'15%',
   },
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
+  // to be adjusted
   incomingMessageAvatar: {
-    width: 30,
-    height: 30,
+    width: '10%',
+    height: '150%',
     borderRadius: 50,
-    marginRight: 10,
+    marginRight: '2%',
   },
   incomingMessageWrapper: {
     alignItems: 'flex-start',
   },
   incomingMessageBubble: {
-    backgroundColor: 'rgba(255, 186, 105, 0.28)',
+    backgroundColor: constants.$backgroundColor2,
+    borderRadius:30,
     maxWidth: '60%',
   },
   messageText: {
@@ -284,29 +316,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#FFF',
+    bottom: '3%',
+    backgroundColor: constants.$tertiaryColor,
   },
   attachmentButton: {
-    margin: 10,
+    margin: '2%',
   },
-  attachmentIcon: {
-    width: 30,
-    height: 30,
-  },
+  attachmentIcon: {},
   input: {
     flex: 1,
-    backgroundColor: 'rgba(255, 186, 105, 0.28)',
-    padding: 10,
+    backgroundColor: constants.$backgroundColor2,
+    padding: '2%',
     borderRadius: 20,
     fontSize: 16,
     width: '100%',
   },
   sendButton: {
-    margin: 10,
+    margin: '2%',
   },
   sendIcon: {
-    width: 30,
-    height: 30,
+    // width: 30,
+    // height: 30,
   },
 });
 

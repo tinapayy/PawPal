@@ -38,6 +38,7 @@ interface Post {
 const ForumPage = () => {
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
   const ProfileDetails = useNavigateTo('ProfileDetails');
+  const ChatHome = useNavigateTo('ChatHome');
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
@@ -226,6 +227,14 @@ const ForumPage = () => {
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
+              <TouchableOpacity onPress={ChatHome}>
+                <FontAwesomeIcon
+                  icon={icons.faComment}
+                  size={20}
+                  color={constants.$senaryColor}
+                  style={styles.messageIcon}
+                />
+              </TouchableOpacity>
             </View>
             {post.postText !== '' && (
               <Text style={styles.postText}>{post.postText}</Text>
@@ -323,17 +332,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   userInfoText: {
+    flex: 1,
     marginLeft: '3%',
     fontFamily: constants.$fontFamily,
   },
-  message: {
-    marginLeft: 3,
-    position: 'absolute',
-  },
   messageIcon: {
-    color: '#F87000',
-    top: 2,
-    left: 50,
+    flexDirection: 'row',
+    top: '-14%',
+    // left: '1300%',
+    flex: 1,
   },
   userName: {
     fontSize: 16,

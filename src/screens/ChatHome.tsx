@@ -25,11 +25,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import constants from '../styles/constants';
+import {useNavigateTo} from '../components/navigation';
 import * as icons from '../imports/icons/icons';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import {chatMixins} from '../components/chatMixins';
+
 
 interface Chat {
   id: number;
@@ -43,6 +46,7 @@ interface Chat {
 
 const MessagePage = () => {
   const navigation = useNavigation();
+  const NewMessage = useNavigateTo('NewMessage');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -187,7 +191,7 @@ const MessagePage = () => {
           />
         </Container>
         <View style={styles.addIcon}>
-          <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
+           <TouchableOpacity onPress={NewMessage}>
             <FontAwesomeIcon
               icon={icons.faCirclePlus}
               size={50}
@@ -232,10 +236,9 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   addIcon: {
-    position: 'absolute',
+    color: constants.$quaternaryColor,
     bottom: '10%',
     right: '10%',
-    color: constants.$senaryColor,
   },
 });
 

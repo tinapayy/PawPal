@@ -22,6 +22,7 @@ import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 import ProfileDetails from './ProfileDetails';
+import LoadingScreen from '../components/loading';
 
 interface Post {
   id: number;
@@ -40,6 +41,7 @@ const ForumPage = () => {
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalImageUri, setModalImageUri] = useState('');
@@ -81,8 +83,10 @@ const ForumPage = () => {
         }
       }
       setUserPosts(posts.reverse());
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
   // Fetch data on first render
@@ -150,6 +154,10 @@ const ForumPage = () => {
 
   function calculateMargin(length: number): number {
     return length * 2;
+  }
+
+  if (loading) {
+    return <LoadingScreen />;
   }
 
   return (
@@ -280,7 +288,7 @@ const styles = StyleSheet.create({
     alignSelf: undefined,
     justifyContent: 'space-between',
     bottom: '2%',
-    left: '2.5%',
+    left: '1%',
   } as ViewStyle,
   imageHeader: {
     width: 150,
@@ -296,7 +304,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 15,
-    left: '-25%',
+    left: '-28%',
   },
   card: {
     marginTop: '5%',

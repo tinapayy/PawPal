@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import * as icons from '../imports/icons/icons';
-
 import {deleteUser} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
+import constants from '../styles/constants';
+import { alignmentMixin } from '../components/alignmentMixin';
 
 class DeleteAccountModal extends React.Component {
   render() {
@@ -65,9 +66,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalcontainer: {
-    backgroundColor: '#fff',
-    margin: 50,
-    padding: 40,
+    top: '15%',
+    backgroundColor: constants.$textColor2,
+    margin: '12%',
+    padding: '10%',
     borderRadius: 10,
     elevation: 20,
   },
@@ -81,56 +83,64 @@ const styles = StyleSheet.create({
   },
 
   modalcontentbody: {
-    backgroundColor: 'white',
+    ...alignmentMixin.align,
+    backgroundColor: constants.$backgroundColor,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   contentbody: {
-    marginTop: 10,
-    fontSize: 20,
-    color: '#5A2828',
+    marginTop: '2%',
+    fontSize: 18,
+    color: constants.$secondaryColor,
     fontWeight: '400',
     lineHeight: 24,
+    fontFamily: constants.$fontFamily,
   },
   logoutText: {
-    marginLeft: 10,
+    marginLeft: '5%',
     fontSize: 20,
     paddingVertical: 10,
-    fontWeight: '300',
-    color: '#FF8700',
+    color: constants.$octonaryColor,
     fontWeight: '400',
+    fontFamily: constants.$fontFamily,
   },
-
   modalcontentbuttons: {
-    backgroundColor: 'white',
+    backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
     marginTop: 20,
     marginLeft: 30,
     padding: 10,
   },
   confirmbutton: {
-    backgroundColor: '#FFF',
+    backgroundColor: constants.$textColor2,
     padding: 10,
     borderRadius: 20,
-    margin: 5,
+    margin: '2%',
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: constants.$senaryColor,
+    padding: '7%',
   },
   rejectbutton: {
-    backgroundColor: '#FF8700',
+    backgroundColor: constants.$octonaryColor,
     padding: 10,
-    borderRadius: 20,
-    margin: 5,
+    borderRadius: 25,
+    margin:'2%',
+    fontFamily: constants.$fontFamily,
+    padding: '7%',
   },
-
   confirmbuttonText: {
-    color: '#FF8700',
-    fontSize: 20,
-    fontWeight: '400',
+    ...alignmentMixin.alignment,
+    color: constants.$octonaryColor,
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: constants.$fontFamily,
   },
   rejectbuttonText: {
-    color: '#FFF',
-    fontSize: 20,
-    fontWeight: '400',
+    ...alignmentMixin.alignment,
+    color: constants.$textColor2,
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: constants.$fontFamily,
   },
 });
 

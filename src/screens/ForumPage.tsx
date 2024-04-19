@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+  Modal,
   View,
   Text,
   ScrollView,
@@ -7,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ViewStyle,
 } from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -20,23 +22,37 @@ import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 import ProfileDetails from './ProfileDetails';
+import LoadingScreen from '../components/loading';
 
 interface Post {
   id: number;
+  userId: string;
+  userType: string;
   name: string;
   profilePicture: any;
   postText: string;
   postTime: string;
-  postPicture: any;
+  postPicture: any; // Assuming postPicture is an object with a uri property
 }
 
 const ForumPage = () => {
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
   const ProfileDetails = useNavigateTo('ProfileDetails');
-  const navigation = useNavigation();
+  const ChatHome = useNavigateTo('ChatHome');
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalImageUri, setModalImageUri] = useState('');
+
+  const openModal = imageUri => {
+    console.log('Modal Image URI:', imageUri); // Check URI in console
+
+    setModalImageUri(imageUri); // Set the URI of the clicked image
+    setModalVisible(true); // Set modal visibility to true
+  };
 
   const fetchData = async () => {
     try {
@@ -49,6 +65,8 @@ const ForumPage = () => {
             if (forumDoc.data().isApproved) {
               posts.push({
                 id: posts.length + 1,
+                userId: forumDoc.data().userId,
+                userType: userDoc.data().userType,
                 name: userDoc.data().name,
                 profilePicture: {
                   uri:
@@ -66,8 +84,10 @@ const ForumPage = () => {
         }
       }
       setUserPosts(posts.reverse());
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
   // Fetch data on first render
@@ -137,6 +157,10 @@ const ForumPage = () => {
     return length * 2;
   }
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <ScrollView
       style={styles.scrollView}
@@ -170,36 +194,79 @@ const ForumPage = () => {
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
-              {/* click profile and navigate Profile Details */}
-              <TouchableOpacity onPress={ProfileDetails}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(
+                    post.userType === 'petOwner'
+                      ? 'ProfileDetails'
+                      : 'ClinicProfile',
+                    {
+                      userId: post.userId,
+                    },
+                  )
+                }>
                 <Avatar.Image
                   size={50}
                   source={post.profilePicture}
                   style={styles.userIcon}
                 />
               </TouchableOpacity>
-              
               <View style={styles.userInfoText}>
-                {/* click profile and navigate Profile Details */}
-                <TouchableOpacity onPress={ProfileDetails}>
-                <Text style={styles.userName}>{post.name}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(
+                      post.userType === 'petOwner'
+                        ? 'ProfileDetails'
+                        : 'ClinicProfile',
+                      {
+                        userId: post.userId,
+                      },
+                    )
+                  }>
+                  <Text style={styles.userName}>{post.name}</Text>
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
+              <TouchableOpacity onPress={ChatHome}>
+                <FontAwesomeIcon
+                  icon={icons.faComment}
+                  size={20}
+                  color={constants.$senaryColor}
+                  style={styles.messageIcon}
+                />
+              </TouchableOpacity>
             </View>
             {post.postText !== '' && (
               <Text style={styles.postText}>{post.postText}</Text>
             )}
             <View style={styles.postImageContainer}>
-              <Image
-                source={post.postPicture}
-                // Add image style if post is not empty string
-                {...(post.postPicture && {style: styles.image})}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  post.postPicture && openModal(post.postPicture.uri);
+                }}>
+                <Image
+                  source={post.postPicture}
+                  // Add image style if post is not an empty string
+                  {...(post.postPicture && {style: styles.image})}
+                />
+              </TouchableOpacity>
             </View>
           </Card.Content>
         </Card>
       ))}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            {modalImageUri ? (
+              <Image source={{uri: modalImageUri}} style={styles.modalImage} />
+            ) : null}
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -209,6 +276,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: constants.$backgroundColor,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalImage: {
+    width: 350, // Adjust width as needed
+    height: 600, // Adjust height as needed
+    resizeMode: 'contain',
+  },
+
   video: {
     width: '100%',
     height: 200,
@@ -218,8 +297,8 @@ const styles = StyleSheet.create({
     alignSelf: undefined,
     justifyContent: 'space-between',
     bottom: '2%',
-    left: '1.5%',
-  },
+    left: '1%',
+  } as ViewStyle,
   imageHeader: {
     width: 150,
     height: 80,
@@ -230,11 +309,11 @@ const styles = StyleSheet.create({
   imageHeader1: {
     position: 'relative',
     top: '50%',
-    left: '-73%',
+    left: '-55%',
   },
   headerText: {
     fontSize: 15,
-    left: '-48%',
+    left: '-28%',
   },
   card: {
     marginTop: '5%',
@@ -253,17 +332,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   userInfoText: {
+    flex: 1,
     marginLeft: '3%',
     fontFamily: constants.$fontFamily,
   },
-  message: {
-    marginLeft: 3,
-    position: 'absolute',
-  },
   messageIcon: {
-    color: '#F87000',
-    top: 2,
-    left: 50,
+    flexDirection: 'row',
+    top: '-14%',
+    // left: '1300%',
+    flex: 1,
   },
   userName: {
     fontSize: 16,

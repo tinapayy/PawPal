@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 import constants from '../styles/constants';
+import LoadingScreen from '../components/loading';
 
 interface Post {
   id: number;
@@ -31,6 +32,7 @@ const ForumPage = () => {
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -60,8 +62,10 @@ const ForumPage = () => {
         }
       }
       setUserPosts(posts.reverse());
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
   // Fetch data on first render
@@ -105,6 +109,10 @@ const ForumPage = () => {
     return length * 2;
   }
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <ScrollView
       style={styles.scrollView}
@@ -124,6 +132,16 @@ const ForumPage = () => {
             style={styles.imageHeader}
           />
         </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ApprovalPage')}
+          //backbutton
+          style={styles.backButton}>
+          <FontAwesomeIcon
+            icon={icons.faArrowLeft}
+            size={22}
+            color={constants.$octonaryColor}
+          />
+        </TouchableOpacity>
       </View>
       {userPosts.map(post => (
         <Card key={post.id} style={styles.card}>
@@ -143,11 +161,9 @@ const ForumPage = () => {
               <Text style={styles.postText}>{post.postText}</Text>
             )}
             <View style={styles.postImageContainer}>
-              <Image
-                source={post.postPicture}
-                // Add image style if post is not empty string
-                {...(post.postPicture !== '' && {style: styles.image})}
-              />
+              {post.postPicture && typeof post.postPicture === 'object' && (
+                <Image source={post.postPicture} style={styles.image} />
+              )}
             </View>
           </Card.Content>
         </Card>
@@ -176,15 +192,10 @@ const styles = StyleSheet.create({
     width: 150,
     height: 70,
     bottom: 5,
+    left: '15%',
     objectFit: 'contain',
     paddingHorizontal: 10,
     position: 'relative',
-  },
-  imageHeader1: {
-    position: 'relative',
-    bottom: 5,
-    top: 20,
-    left: -90,
   },
   headerText: {
     fontSize: 14,
@@ -221,7 +232,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 16,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$textColor1,
   },
   postTime: {
@@ -231,7 +242,7 @@ const styles = StyleSheet.create({
   postText: {
     fontSize: 14,
     textAlign: 'justify',
-    fontFamily: constants.fontFamily,
+    fontFamily: constants.$fontFamily,
     color: constants.$textColor1,
     top: 8,
     bottom: 8,
@@ -247,6 +258,11 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 20,
     top: 8,
+  },
+  backButton: {
+    position: 'absolute',
+    right: '98%',
+    top: 35,
   },
 });
 

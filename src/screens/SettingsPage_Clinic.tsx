@@ -1,20 +1,21 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, ViewStyle} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
-
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
 import {useNavigation} from '@react-navigation/native'; 
 import {onAuthStateChanged} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
+import {useNavigateTo} from '../components/navigation';
 
 function SettingsPage_Clinic() {
   const navigation = useNavigation(); 
+  const EditClinicDetails = useNavigateTo('EditClinicDetails');
 
   const auth = FIREBASE_AUTH;
 
@@ -22,7 +23,7 @@ function SettingsPage_Clinic() {
     if (!user) {
       navigation.reset({
         index: 0,
-        routes: [{name: 'GettingStarted2'}],
+        routes: [{name: 'GettingStarted2'}] as any,
       });
     }
   });
@@ -53,7 +54,7 @@ function SettingsPage_Clinic() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('EditClinicDetails')}>
+          onPress={EditClinicDetails}>
           <icons.User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Profile</Text>
         </TouchableOpacity>
@@ -95,13 +96,13 @@ const styles = StyleSheet.create({
     backgroundColor: constants.$senaryColor,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-  },
+  } as ViewStyle,
   headertextandicon: {
     ...alignmentMixin.alignment1,
     marginLeft: '10%',
     paddingRight: '10%',
     marginRight: '15%',
-  },
+  } as ViewStyle,
   headerText: {
     paddingLeft: '3%',
     fontSize: 35,
@@ -125,22 +126,22 @@ const styles = StyleSheet.create({
     ...buttonMixin.settingsButton,
     justifyContent: undefined,
     backgroundColor: constants.$backgroundColor,
-  },
+  } as ViewStyle,
   buttonlogout: {
     ...alignmentMixin.alignment1,
     ...buttonMixin.settingsButton,
     justifyContent: undefined,
     backgroundColor: constants.$primaryColor,
-  },
+  } as ViewStyle,
   buttonText: {
     ...buttonMixin.buttonText,
     ...buttonMixin.settingsButtonText,
     color: constants.$senaryColor,
-  },
+  } as ViewStyle,
   buttonlogoutText: {
     ...buttonMixin.buttonText,
     ...buttonMixin.settingsButtonText,
-  },
+  } as ViewStyle,
 });
 
 export default SettingsPage_Clinic;

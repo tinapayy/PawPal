@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView, TextInput} from 'react-native';
+import {ScrollView, SafeAreaView, TextInput, NativeSyntheticEvent, TextInputSubmitEditingEventData, ViewStyle, ImageStyle} from 'react-native';
 import {
   View,
   Text,
@@ -16,6 +16,10 @@ import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
+import constants from '../styles/constants';
+import { alignmentMixin } from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
+import FoodAdvisable from './FoodAdvisable';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
@@ -61,66 +65,30 @@ const renderItem = ({item, index, navigation}) => {
   return (
     <SafeAreaView>
       <View
-        style={{
-          borderWidth: 1,
-          padding: 10,
-          borderRadius: 20,
-          backgroundColor: 'white',
-          borderColor: 'white',
-          elevation: 5,
-          marginBottom: 15,
-          position: 'relative',
-        }}>
+        style={styles.data3View}>
         <View
-          style={{
-            alignSelf: 'center',
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            bottom: 10,
-          }}>
+          style={styles.view1}>
           <Image
             source={item.clinicPicture}
-            style={{
-              width: 308,
-              height: 180,
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-            }}
+            style={styles.clinicImage}
           />
         </View>
         <Text
-          style={{
-            fontSize: 19,
-            fontWeight: 'bold',
-            color: '#5a2828',
-            textAlign: 'left',
-            fontFamily: 'Poppins-Bold',
-          }}>
+          style={styles.clinicName}>
           {item.name}
         </Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
           <FontAwesomeIcon
             icon={icons.faLocationDot}
-            style={{color: '#ff8700', marginTop: 5}}
+            style={{color: constants.$senaryColor, marginTop: 5}}
           />
           <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 'normal',
-              color: '#ff8700',
-            }}>
+            style={styles.clinicAddress}>
             {item.address}
           </Text>
         </View>
         <Text
-          style={{
-            fontWeight: 'bold',
-            color: '#5a2828',
-            textAlign: 'left',
-            left: 16,
-            marginTop: 5,
-          }}>
+          style={styles.clinicSched}>
           {item.isOpen ? (
             <Text style={styles.open}>Open</Text>
           ) : (
@@ -128,13 +96,13 @@ const renderItem = ({item, index, navigation}) => {
           )}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text
-            style={{fontSize: 13, fontWeight: '300', color: '#5a2828'}}></Text>
+          <Text style={{fontSize: 13, fontWeight: '300', color: constants.$secondaryColor}}>
+          </Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
               icon={icons.faArrowRight}
               size={20}
-              style={{color: '#ff8700', top: -15, left: -5}}
+              style={{color: constants.$senaryColor, top: -15, left: -5}}
             />
           </TouchableOpacity>
         </View>
@@ -148,35 +116,25 @@ const itemNumber2 = ({item}) => {
     <SafeAreaView>
       <ScrollView>
         <View
-          style={{
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 20,
-            backgroundColor: 'white',
-            elevation: 5,
-            shadowColor: 'black',
-            borderColor: '#FF8484',
-            marginBottom: 10,
-          }}>
+          style={styles.data2View}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Avatar.Image source={item.profilePicture} size={80} />
             <View
               style={{
+                ...alignmentMixin.align,
                 flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+              } as ViewStyle}>
               <Text
-                style={{
-                  color: '#5a2828',
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                  left: -13,
-                  maxWidth: 200,
-                }}>
+                style={styles.userName}>
                 {item.name}
               </Text>
-              <Text style={{color: '#5a2828', fontWeight: '300', fontSize: 15}}>
+              <Text style={{
+                color: constants.$secondaryColor, 
+                fontWeight: '300', 
+                fontSize: 15,
+                alignSelf: 'flex-start',
+                left: '7%',
+                width: '90%'}} numberOfLines={3} ellipsizeMode="tail">
                 {item.postText}
               </Text>
             </View>
@@ -228,16 +186,15 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   }
 
   const navigation = useNavigation();
-
-  const handleSeeMoreClick = () => {
-    navigation.navigate('FoodAdvisable');
-  };
+  const FoodAdvisable = useNavigateTo('FoodAdvisable');
+  const ProfileDetails = useNavigateTo('ProfileDetails');
+  const ClinicProfile = useNavigateTo('ClinicProfile');
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      navigation.navigate('ProfileDetails');
+      ProfileDetails;
     } else {
-      navigation.navigate('ClinicProfile');
+      ClinicProfile;
     }
   };
 
@@ -253,41 +210,23 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
           <ImageBackground
             source={require('../images/Group_75.png')}
             resizeMode="contain"
-            style={{
-              marginTop: -5,
-              flex: 1,
-              justifyContent: 'center',
-              borderRadius: 30,
-              padding: 25,
-              left: 10,
-            }}>
+            style={styles.imgBack}>
             <View style={{top: -3}}>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <View style={{flex: 1, top: 15, left: 20, margin: 10}}>
-                  <View
-                    style={{
-                      flexDirection: 'row-reverse',
-                      alignItems: 'center',
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                      width: 200,
-                    }}>
-                    <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
-                      style={{ color: "#ff8700", marginRight: 10 }} />
-                    <TextInput style={{
-                      flex: 1,
-                      color: 'black',
-                      fontSize: 13,
-                      height: 35,
-                      marginLeft: 10,
-                    }}
+                <View style={{flex: 1, top: '6%', left: '25%', margin: '3%'}}>
+                  <View style={styles.searchBar}>
+                    <TouchableOpacity onPress={handleSearchSubmit}>
+                      <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
+                        style={{ color: "#ff8700", right: '70%' }} />
+                    </TouchableOpacity>
+                    <TextInput style={styles.serchText}
                     //search not implemented
                       placeholder="Search"
-                      placeholderTextColor={'#ff8d4d'}
+                      placeholderTextColor={constants.$senaryColor}
                       onSubmitEditing={handleSearchSubmit}
                     />
                     </View>
@@ -297,14 +236,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 <TouchableOpacity onPress={handleProfileClick}>
                   <Image
                     source={item.imageSome}
-                    style={{
-                      width: 35,
-                      height: 35,
-                      top: '50%',
-                      paddingRight: '20%',
-                      position: 'relative',
-                      borderRadius: 50,
-                    }}
+                    style={styles.userImg}
                   />
                 </TouchableOpacity>
               </View>
@@ -312,43 +244,23 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
               <View style={{flexDirection: 'row-reverse'}}>
                 <Image
                   source={item.imageSource}
-                  style={{
-                    flex: 1,
-                    width: 130,
-                    height: 130,
-                    top: 30,
-                    left: -8,
-                  }}
-                />
+                  style={styles.animalImg}/>
 
                 <View
                   style={{
                     flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    ...alignmentMixin.align,
                     margin: 10,
-                  }}>
+                  }as ViewStyle}>
                   <Text
-                    style={{
-                      fontSize: 23,
-                      fontWeight: 'bold',
-                      color: 'white',
-                      textAlign: 'center',
-                      marginBottom: 20,
-                      bottom: '20%',
-                    }}>
+                    style={styles.firstDesc}>
                     {item.title}
                   </Text>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleSeeMoreClick}>
+                    onPress={FoodAdvisable}>
                     <Text
-                      style={{
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: 'white',
-                        textAlign: 'center',
-                      }}>
+                      style={styles.clickHere}>
                       {item.description}
                     </Text>
                   </TouchableOpacity>
@@ -526,16 +438,19 @@ const HomePage = () => {
   const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    navigation.navigate('FoodAdvisable');
+    //navigation.navigate('FoodAdvisable');
+    FoodAdvisable;
   };
   const handleSearchSubmit = () => {
     console.log('Search query:', searchQuery);
 
     navigation.navigate('ResultsPage', {searchQuery});
   };
-  const handleSearchIconClick = () => {
-    navigation.navigate('ResultsPage');
-  };
+  // const handleSearchIconClick = () => {
+  //   navigation.navigate('ResultsPage');
+  // };
+  const ChatHome = useNavigateTo('ChatHome');
+  const ResultsPage = useNavigateTo('ResultsPage');
 
   return (
     <>
@@ -566,16 +481,14 @@ const HomePage = () => {
                 carouselRef={isCarousel}
                 dotStyle={{
                   flex: 1,
-                  width: 3,
-                  height: 2,
                   borderRadius: 10,
                   padding: 6,
-                  backgroundColor: '#ff6464',
-                  bottom: 85,
+                  backgroundColor: constants.$accentColor,
+                  bottom: '630%',
                 }}
                 tappableDots={true}
                 inactiveDotStyle={{
-                  backgroundColor: 'black',
+                  backgroundColor: constants.$textColor1,
                   width: 2,
                   height: 2,
                   borderRadius: 10,
@@ -585,43 +498,23 @@ const HomePage = () => {
               />
             </View>
 
-            <View style={{bottom: 90}}>
+            <View style={{top: '-11%'}}>
               <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginLeft: 20,
-                  marginRight: 30,
-                }}>
+                style={styles.announceMore}>
                 <Text
-                  style={{
-                    color: '#FF6464',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 20,
-                  }}>
+                  style={styles.announcement}>
                   Urgent Announcements
                 </Text>
                 <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('ForumPage');
-                    navigation.navigate('ChatHome');
-                  }}>
+                  onPress={ChatHome}>
                   <Text
-                    style={{
-                      color: '#FF6464',
-                      textDecorationLine: 'underline',
-                      fontSize: 17,
-                    }}>
+                    style={styles.more}>
                     More
                   </Text>
                 </TouchableOpacity>
               </View>
               <Carousel
-                style={{
-                  flex: 1,
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                }}
+                style={styles.carousel2}
                 data={userPosts}
                 renderItem={itemNumber2}
                 sliderWidth={screenWidth}
@@ -630,38 +523,22 @@ const HomePage = () => {
               />
             </View>
 
-            <View style={{top: -65}}>
+            <View style={{top: '-8%',}}>
               <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginLeft: 20,
-                  marginRight: 30,
-                  top: -30,
-                }}>
+                style={styles.exploreMore}>
                 <Text
-                  style={{
-                    color: '#FF6464',
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 20,
-                  }}>
+                  style={styles.exploreClinics}>
                   Explore Clinics
                 </Text>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ResultsPage');
-                  }}>
+                  onPress={ResultsPage}>
                   <Text
-                    style={{
-                      color: '#FF6464',
-                      textDecorationLine: 'underline',
-                      fontSize: 17,
-                    }}>
+                    style={styles.seeAll}>
                     See all
                   </Text>
                 </TouchableOpacity>
               </View>
-              <View style={{width: Dimensions.get('window').width, top: -30}}>
+              <View style={{width: Dimensions.get('window').width, top: '-5%'}}>
                 <Carousel
                   data={clinics}
                   renderItem={({item, index}) =>
@@ -682,11 +559,164 @@ const HomePage = () => {
 };
 
 const styles = StyleSheet.create({
+  data3View: {
+    borderWidth: 1,
+    padding: '3%',
+    borderRadius: 20,
+    backgroundColor: constants.$backgroundColor,
+    borderColor: constants.$backgroundColor,
+    elevation: 5,
+    marginBottom: 15,
+    position: 'relative',
+    left: '-4%'
+  },
+  view1: {
+    ...alignmentMixin.alignment,
+    flex: 1,
+    bottom: 10,
+  } as ViewStyle,
+  clinicImage: {
+    width: 308,
+    height: 180,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  clinicName: {
+    fontSize: 19,
+    fontWeight: 'bold',
+    color: constants.$secondaryColor,
+    textAlign: 'left',
+    fontFamily: constants.$fontFamilyBold,
+  },
+  clinicAddress: {
+    left: '40%',
+    fontSize: 16,
+    fontWeight: 'normal',
+    color: constants.$senaryColor,
+  },
+  clinicSched: {
+    fontWeight: 'bold',
+    color: constants.$secondaryColor,
+    textAlign: 'left',
+    left: '5%',
+    marginTop: '1.5%',
+  },
+  data2View: {
+    top: '25%',
+    borderWidth: 1,
+    padding:'4%',
+    borderRadius: 20,
+    backgroundColor: constants.$backgroundColor,
+    elevation: 5,
+    shadowColor: constants.$textColor1,
+    borderColor: '#FF8484',
+    marginBottom: '25%',
+  },
+  userName: {
+    color: constants.$secondaryColor,
+    fontWeight: 'bold',
+    fontSize: 20,
+    alignSelf: 'flex-start',
+    left: '4%',
+    maxWidth: '80%',
+  },
+  imgBack: {
+    marginTop: '-5%',
+    flex: 1,
+    justifyContent: 'center',
+    borderRadius: 30,
+    padding: '6%',
+    left: '3%',
+  },
+  searchBar: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    backgroundColor: constants.$backgroundColor,
+    borderRadius: 20,
+    width: '90%',
+    right: '40%',
+  },
+  serchText: {
+    flex: 1,
+    color: constants.$textColor1,
+    fontSize: 13,
+    height: 35,
+    marginLeft: '4%',
+  },
+  userImg: {
+    width: 35,
+    height: 35,
+    top: '49%',
+    paddingRight: '20%',
+    position: 'relative',
+    borderRadius: 50,
+  },
+  animalImg: {
+    flex: 3,
+    width: 160,
+    height: 165,
+    top: '10%',
+    left: '-5%',
+  },
+  firstDesc: {
+    fontSize: 23,
+    fontWeight: 'bold',
+    color: constants.$backgroundColor,
+    textAlign: 'center',
+    marginBottom: 20,
+    bottom: '1%',
+  },
+  clickHere: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: constants.$backgroundColor,
+    textAlign: 'center',
+  },
+  announceMore: {
+    top: '10%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 20,
+    marginRight: 30,
+  },
+  announcement: {
+    color: constants.$accentColor,
+    fontFamily: constants.$fontFamilyBold,
+    fontSize: 20,
+  },
+  more: {
+    color: constants.$accentColor,
+    textDecorationLine: 'underline',
+    fontSize: 17,
+  },
+  carousel2: {
+    top: '10%',
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'flex-start',
+  },
+  exploreMore: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: '6%',
+    marginRight: '6%',
+    top: '-8%',
+  },
+  exploreClinics: {
+    color: constants.$accentColor,
+    fontFamily: constants.$fontFamilyBold,
+    fontSize: 20,
+  },
+  seeAll: {
+    color: constants.$accentColor,
+    textDecorationLine: 'underline',
+    fontSize: 17,
+  },
   button: {
-    backgroundColor: '#ff6464',
+    backgroundColor: constants.$accentColor,
     padding: 10,
     borderRadius: 20,
-    bottom: '20%',
+    bottom: '8%',
   },
   open: {
     fontSize: 17,

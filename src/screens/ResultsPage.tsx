@@ -35,9 +35,10 @@ const clinics = [
 
 const ClinicCard = ({clinicInfo}) => {
   const navigation = useNavigation();
+
   const handleClinicPress = () => {
-    navigation.navigate('ClinicProfileforCards', {
-      clinicId: clinicInfo.clinicId,
+    navigation.navigate('ClinicProfile', {
+      userId: clinicInfo.clinicId,
     });
   };
 
@@ -79,7 +80,7 @@ type Clinic = {
   clinicPicture: any;
 };
 
-const ResultsPage = ({route}) => {
+const ResultsPage = () => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -198,32 +199,17 @@ const ResultsPage = ({route}) => {
     return `${hours}:${minutes}`;
   };
 
-  // SEARCH FUNCTIONALITY
-  const initialsearchstate = route.params ? route.params.searchboxQuery : '';
-  const [searchQuery, setSearchQuery] = useState(initialsearchstate); // Replace with actual search query from the search bar
+  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
   const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
 
   const handleSearch = text => {
-    console.log(text);
     setSearchQuery(text);
-    console.log(searchQuery);
-    console.log('++++++');
-
     const filtered = clinics.filter(clinic =>
       clinic.name.toLowerCase().includes(text.toLowerCase()),
     );
-    console.log(filtered);
-    console.log('------');
-
     fetchData();
     setFilteredClinics(filtered);
   };
-
-  useEffect(() => {
-    if (route.params && route.params.searchboxQuery) {
-      handleSearch(route.params.searchboxQuery);
-    }
-  }, [route.params?.searchboxQuery]);
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
@@ -248,7 +234,7 @@ const ResultsPage = ({route}) => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Search Clinics..."
+              placeholder="Search Clinics"
               onChangeText={handleSearch}
               value={searchQuery}
               placeholderTextColor="white"
@@ -274,7 +260,7 @@ const ResultsPage = ({route}) => {
         <FlatList
           data={filteredClinics ? filteredClinics : clinics}
           renderItem={({item}) => <ClinicCard clinicInfo={item} />}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.id}
         />
       </View>
     </View>

@@ -28,13 +28,22 @@ import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
+import {useNavigation} from '@react-navigation/native';
+import CustomAlert from '../components/CustomAlert';
 
 const CreatePost = () => {
+  const navigation = useNavigation();
   const NavHome = useNavigateTo('Home');
 
   const handleButton1Press = () => {
     uploadPost();
   };
+
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
   interface AppButtonProps {
     onPress: () => void;
     title: string;
@@ -51,19 +60,6 @@ const CreatePost = () => {
       <Text style={[textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
-
-  const [isPressed, setIsPressed] = useState(false);
-  const [isPressedIcon1, setIsPressedIcon1] = useState(false);
-
-  const togglePressedState = () => {
-    setIsPressed(!isPressed);
-    setIsPressedIcon1(false);
-  };
-
-  const togglePressedStateIcon1 = () => {
-    setIsPressedIcon1(!isPressedIcon1);
-    setIsPressed(false);
-  };
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -95,7 +91,11 @@ const CreatePost = () => {
 
   const uploadPost = async () => {
     if (!postText && !selectedImage) {
-      Alert.alert('Please enter a message or upload a photo');
+      setShowAlert({
+        visible: true,
+        title: 'Empty Post',
+        message: 'Please enter a message or upload a photo.',
+      });
       return;
     }
 
@@ -121,8 +121,14 @@ const CreatePost = () => {
       post.postPicture = imageUrl;
     }
     await setDoc(doc(db, 'forum', Date.now().toString()), post);
-    NavHome;
-    Alert.alert('Posted successfully!');
+    setShowAlert({
+      visible: true,
+      title: 'Post Uploaded',
+      message:
+        'The post has been uploaded successfully to the admin. Wait for approval.',
+    });
+    setPostText('');
+    setSelectedImage(null);
   };
 
   return (
@@ -206,6 +212,7 @@ const CreatePost = () => {
             <TextInput
               multiline={true}
               numberOfLines={5}
+              value={postText}
               onChangeText={text => setPostText(text)}
               placeholder="Write something here..."
               textAlignVertical="top"
@@ -244,7 +251,6 @@ const CreatePost = () => {
                   borderRadius: 30,
                   padding: 8,
                   margin: 150,
-                  //flex: 1,
                   bottom: 210,
                   left: 130,
                   elevation: 3,
@@ -293,6 +299,15 @@ const CreatePost = () => {
           </View>
         </View>
       </ScrollView>
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert({visible: false, title: '', message: ''});
+          navigation.navigate('Home');
+        }} // Close the alert on button press
+      />
     </SafeAreaView>
   );
 };

@@ -1,5 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {ScrollView, SafeAreaView, TextInput, NativeSyntheticEvent, TextInputSubmitEditingEventData, ViewStyle} from 'react-native';
+import {
+  ScrollView,
+  SafeAreaView,
+  TextInput,
+  NativeSyntheticEvent,
+  TextInputSubmitEditingEventData,
+  ViewStyle,
+} from 'react-native';
 import {
   View,
   Text,
@@ -17,7 +24,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
@@ -62,31 +69,19 @@ const renderItem = ({item, index, navigation}) => {
 
   return (
     <SafeAreaView>
-      <View
-        style={styles.data3View}>
-        <View
-          style={styles.view1}>
-          <Image
-            source={item.clinicPicture}
-            style={styles.clinicImage}
-          />
+      <View style={styles.data3View}>
+        <View style={styles.view1}>
+          <Image source={item.clinicPicture} style={styles.clinicImage} />
         </View>
-        <Text
-          style={styles.clinicName}>
-          {item.name}
-        </Text>
+        <Text style={styles.clinicName}>{item.name}</Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <FontAwesomeIcon
             icon={icons.faLocationDot}
             style={{color: constants.$senaryColor, marginTop: 5}}
           />
-          <Text
-            style={styles.clinicAddress}>
-            {item.address}
-          </Text>
+          <Text style={styles.clinicAddress}>{item.address}</Text>
         </View>
-        <Text
-          style={styles.clinicSched}>
+        <Text style={styles.clinicSched}>
           {item.isOpen ? (
             <Text style={styles.open}>Open</Text>
           ) : (
@@ -94,8 +89,12 @@ const renderItem = ({item, index, navigation}) => {
           )}
         </Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 13, fontWeight: '300', color: constants.$secondaryColor}}>
-          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              fontWeight: '300',
+              color: constants.$secondaryColor,
+            }}></Text>
           <TouchableOpacity onPress={handleSeeMoreClick}>
             <FontAwesomeIcon
               icon={icons.faArrowRight}
@@ -113,8 +112,7 @@ const itemNumber2 = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View
-          style={styles.data2View}>
+        <View style={styles.data2View}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Avatar.Image source={item.profilePicture} size={80} />
             <View
@@ -122,11 +120,13 @@ const itemNumber2 = ({item}) => {
                 ...alignmentMixin.align,
                 flex: 1,
               }}>
+              <Text style={styles.userName}>{item.name}</Text>
               <Text
-                style={styles.userName}>
-                {item.name}
-              </Text>
-              <Text style={{color: constants.$secondaryColor, fontWeight: '300', fontSize: 15}}>
+                style={{
+                  color: constants.$secondaryColor,
+                  fontWeight: '300',
+                  fontSize: 15,
+                }}>
                 {item.postText}
               </Text>
             </View>
@@ -185,13 +185,15 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      navigation.navigate('ProfileDetails');
+      navigation.navigate('Profile Details');
     } else {
       navigation.navigate('ClinicProfile');
     }
   };
 
-  function handleSearchSubmit(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void {
+  function handleSearchSubmit(
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ): void {
     throw new Error('Function not implemented.');
   }
 
@@ -213,49 +215,44 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 <View style={{flex: 1, top: 15, left: 20, margin: 10}}>
                   <View style={styles.searchBar}>
                     <TouchableOpacity onPress={handleSearchSubmit}>
-                      <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
-                        style={{ color: "#ff8700", marginRight: 10 }} />
+                      <FontAwesomeIcon
+                        icon={icons.faMagnifyingGlass}
+                        size={20}
+                        style={{color: '#ff8700', marginRight: 10}}
+                      />
                     </TouchableOpacity>
-                    <TextInput style={styles.serchText}
-                    //search not implemented
+                    <TextInput
+                      style={styles.serchText}
+                      //search not implemented
                       placeholder="Search"
                       placeholderTextColor={constants.$senaryColor}
                       onSubmitEditing={handleSearchSubmit}
                     />
-                    </View>
+                  </View>
                 </View>
 
                 {/* profile click */}
                 <TouchableOpacity onPress={handleProfileClick}>
-                  <Image
-                    source={item.imageSome}
-                    style={styles.userImg}
-                  />
+                  <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
               </View>
 
               <View style={{flexDirection: 'row-reverse'}}>
-                <Image
-                  source={item.imageSource}
-                  style={styles.animalImg}/>
+                <Image source={item.imageSource} style={styles.animalImg} />
 
                 <View
                   style={{
                     flex: 1,
                     ...alignmentMixin.align,
                     margin: 10,
-                  }} as ViewStyle>
-                  <Text
-                    style={styles.firstDesc}>
-                    {item.title}
-                  </Text>
+                  }}
+                  as
+                  ViewStyle>
+                  <Text style={styles.firstDesc}>{item.title}</Text>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={handleSeeMoreClick}>
-                    <Text
-                      style={styles.clickHere}>
-                      {item.description}
-                    </Text>
+                    <Text style={styles.clickHere}>{item.description}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -491,21 +488,14 @@ const HomePage = () => {
             </View>
 
             <View style={{top: '-10%'}}>
-              <View
-                style={styles.announceMore}>
-                <Text
-                  style={styles.announcement}>
-                  Urgent Announcements
-                </Text>
+              <View style={styles.announceMore}>
+                <Text style={styles.announcement}>Urgent Announcements</Text>
                 <TouchableOpacity
                   onPress={() => {
                     // navigation.navigate('ForumPage');
                     navigation.navigate('ChatHome');
                   }}>
-                  <Text
-                    style={styles.more}>
-                    More
-                  </Text>
+                  <Text style={styles.more}>More</Text>
                 </TouchableOpacity>
               </View>
               <Carousel
@@ -519,20 +509,13 @@ const HomePage = () => {
             </View>
 
             <View style={{top: '-6%'}}>
-              <View
-                style={styles.exploreMore}>
-                <Text
-                  style={styles.exploreClinics}>
-                  Explore Clinics
-                </Text>
+              <View style={styles.exploreMore}>
+                <Text style={styles.exploreClinics}>Explore Clinics</Text>
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('ResultsPage');
                   }}>
-                  <Text
-                    style={styles.seeAll}>
-                    See all
-                  </Text>
+                  <Text style={styles.seeAll}>See all</Text>
                 </TouchableOpacity>
               </View>
               <View style={{width: Dimensions.get('window').width, top: '-5%'}}>
@@ -599,7 +582,7 @@ const styles = StyleSheet.create({
   data2View: {
     top: '30%',
     borderWidth: 1,
-    padding:'4%',
+    padding: '4%',
     borderRadius: 20,
     backgroundColor: constants.$backgroundColor,
     elevation: 5,

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ViewStyle } from 'react-native';
-
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
@@ -16,7 +15,6 @@ import {useNavigateTo} from '../components/navigation';
 
 function SettingsPage() {
   const navigation = useNavigation();
-
   const auth = FIREBASE_AUTH;
 
   onAuthStateChanged(auth, user => {
@@ -47,7 +45,6 @@ function SettingsPage() {
       <TouchableOpacity
         onPress={ProfileDetails}>
         <FontAwesomeIcon
-          // icon={icons.faArrowLeft}
           icon={icons.faArrowLeft}
           size={27}
           style={{ color: 'brown', left: 15, flex: 1, bottom: '500%' }}

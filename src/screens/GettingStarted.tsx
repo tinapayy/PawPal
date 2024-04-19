@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   button: {
     ...alignmentMixin.align,
-    paddingVertical: 12, // Adjust as needed
+    paddingVertical: 12, // adjust as needed
     paddingHorizontal: 24, // Adjust as needed
     borderRadius: 30,
     elevation: 2,

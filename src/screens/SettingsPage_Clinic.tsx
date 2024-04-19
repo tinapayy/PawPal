@@ -5,7 +5,6 @@ import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
-
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
@@ -16,7 +15,6 @@ import {useNavigateTo} from '../components/navigation';
 
 function SettingsPage_Clinic() {
   const navigation = useNavigation(); 
-
   const auth = FIREBASE_AUTH;
 
   onAuthStateChanged(auth, user => {
@@ -115,7 +113,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: '100%',
   },
-
   buttonContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -1,8 +1,6 @@
 import React from 'react';
 import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
-
 import {ArrowRightOnRectangleIcon as ExitIcon} from 'react-native-heroicons/solid';
-
 import {FIREBASE_AUTH} from '../../firebase.config';
 import constants from '../styles/constants';
 import { alignmentMixin } from '../components/alignmentMixin';

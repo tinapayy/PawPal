@@ -481,8 +481,6 @@ const HomePage = () => {
                 carouselRef={isCarousel}
                 dotStyle={{
                   flex: 1,
-                  //width: '2%',
-                  //height: '3%',
                   borderRadius: 10,
                   padding: 6,
                   backgroundColor: constants.$accentColor,

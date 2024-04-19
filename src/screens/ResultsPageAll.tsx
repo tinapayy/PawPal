@@ -22,16 +22,17 @@ import {alignmentMixin} from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
-const DataCard = ({dataInfo}) => {
+const UserCard = ({userInfo}) => {
   const navigation = useNavigation();
+
   const handleDataPress = () => {
-    if (dataInfo.userType === 'clinic') {
-      navigation.navigate('ClinicProfileforCards', {
-        clinicId: dataInfo.clinicId,
+    if (userInfo.userType === 'petOwner') {
+      navigation.navigate('ProfileDetails', {
+        userId: userInfo.userId,
       });
-    } else if (dataInfo.userType === 'petOwner') {
-      navigation.navigate('ProfileDetailsforCards', {
-        petOwnerId: dataInfo.userId,
+    } else if (userInfo.userType === 'clinic') {
+      navigation.navigate('ClinicProfile', {
+        userId: userInfo.userId,
       });
     }
   };
@@ -40,21 +41,17 @@ const DataCard = ({dataInfo}) => {
     <TouchableOpacity onPress={handleDataPress}>
       <View style={styles.card}>
         <Image
-          source={
-            dataInfo.dataPicture
-              ? {uri: dataInfo.dataPicture}
-              : require('../images/placeholder.png')
-          }
+          source={userInfo.userPicture}
           style={styles.image}
           resizeMode="cover"
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{dataInfo.name}</Text>
-          <Text style={styles.address}>{dataInfo.address}</Text>
+          <Text style={styles.name}>{userInfo.name}</Text>
+          <Text style={styles.address}>{userInfo.address}</Text>
           <Text style={styles.hours}>
-            {dataInfo.isOpen === true ? (
+            {userInfo.isOpen === true ? (
               <Text style={styles.open}>Open</Text>
-            ) : dataInfo.isOpen === false ? (
+            ) : userInfo.isOpen === false ? (
               <Text style={styles.closed}>Closed</Text>
             ) : null}
           </Text>
@@ -66,13 +63,13 @@ const DataCard = ({dataInfo}) => {
 
 type SearchData = {
   id: number;
-  dataId: string;
+  userId: string;
+  userType: string;
   name: string;
   address?: string;
   isOpen?: boolean;
   storeHours?: any;
-  dataPicture: any;
-  userType: string;
+  userPicture: any;
 };
 
 const ResultsPageAll = ({route}) => {
@@ -81,9 +78,12 @@ const ResultsPageAll = ({route}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
+  const initialSearchQuery = route.params ? route.params.searchboxQuery : '';
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [searchdata, setSearchData] = useState<SearchData[]>([]);
+  const [filtereddata, setfilteredData] = useState<SearchData[]>(searchdata);
 
   const fetchUser = async () => {
     try {
@@ -106,34 +106,38 @@ const ResultsPageAll = ({route}) => {
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'user'));
-      const allData: SearchData[] = [];
-      for (const allDoc of querySnapshot.docs) {
-        if (allDoc.data().userType === 'clinic') {
-          allData.push({
-            id: allData.length + 1,
-            dataId: allDoc.data().userId,
-            name: allDoc.data().name,
-            address: allDoc.data().address,
-            isOpen: allDoc.data().storeHours
-              ? isClinicOpen(allDoc.data().storeHours)
+      const userData: SearchData[] = [];
+      for (const userDoc of querySnapshot.docs) {
+        if (userDoc.data().userType === 'clinic') {
+          userData.push({
+            id: userData.length + 1,
+            userId: userDoc.data().userId,
+            name: userDoc.data().name,
+            address: userDoc.data().address,
+            isOpen: userDoc.data().storeHours
+              ? isClinicOpen(userDoc.data().storeHours)
               : false,
-            storeHours: allDoc.data().storeHours,
-            dataPicture: allDoc.data().clinicPicture,
-            userType: allDoc.data().userType,
+            storeHours: userDoc.data().storeHours,
+            userPicture: userDoc.data().clinicPicture
+              ? {uri: userDoc.data().clinicPicture}
+              : require('../images/placeholder.png'),
+            userType: userDoc.data().userType,
           });
         }
-        if (allDoc.data().userType === 'petOwner') {
-          allData.push({
-            id: allData.length + 1,
-            dataId: allDoc.data().userId,
-            name: allDoc.data().name,
+        if (userDoc.data().userType === 'petOwner') {
+          userData.push({
+            id: userData.length + 1,
+            userId: userDoc.data().userId,
+            name: userDoc.data().name,
             address: 'Pet Owner',
-            dataPicture: allDoc.data().profilePicture,
-            userType: allDoc.data().userType,
+            userPicture: userDoc.data().profilePicture
+              ? {uri: userDoc.data().profilePicture}
+              : require('../images/defaultIcon.png'),
+            userType: userDoc.data().userType,
           });
         }
       }
-      setSearchData(allData);
+      setSearchData(userData);
     } catch (error) {
       console.log(error);
     }
@@ -143,6 +147,12 @@ const ResultsPageAll = ({route}) => {
     fetchUser();
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (searchdata.length > 0) {
+      handleSearch(searchQuery);
+    }
+  }, [searchdata]);
 
   const isClinicOpen = storeHours => {
     const currentDay = Date.now();
@@ -205,31 +215,13 @@ const ResultsPageAll = ({route}) => {
     return `${hours}:${minutes}`;
   };
 
-  // SEARCH FUNCTIONALITY
-  const initialsearchstate = route.params ? route.params.searchboxQuery : '';
-  const [searchQuery, setSearchQuery] = useState(initialsearchstate); // Replace with actual search query from the search bar
-  const [filtereddata, setfilteredData] = useState(''); // Replace with actual filtered searchdata from the search bar]
-
-  const filterData = text => {
-    const filtered = searchdata.filter(data =>
-      data.name.toLowerCase().includes(text.toLowerCase()),
-    );
-    return filtered;
-  };
-
   const handleSearch = text => {
     setSearchQuery(text);
-    const filtered = filterData(text);
+    const filtered = searchdata.filter(item => {
+      return item.name.toLowerCase().includes(text.toLowerCase());
+    });
     setfilteredData(filtered);
   };
-
-  fetchData();
-
-  useEffect(() => {
-    if (route.params && route.params.searchboxQuery) {
-      handleSearch(route.params.searchboxQuery);
-    }
-  }, [route.params?.searchboxQuery]);
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
@@ -254,7 +246,7 @@ const ResultsPageAll = ({route}) => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Search Users and Clinics..."
+              placeholder="Search Users and Clinics"
               onChangeText={handleSearch}
               value={searchQuery}
               placeholderTextColor="white"
@@ -279,8 +271,8 @@ const ResultsPageAll = ({route}) => {
       <View style={styles.scrollcontainer}>
         <FlatList
           data={filtereddata ? filtereddata : searchdata}
-          renderItem={({item}) => <DataCard dataInfo={item} />}
-          keyExtractor={item => item.id.toString()}
+          renderItem={({item}) => <UserCard userInfo={item} />}
+          keyExtractor={item => item.id}
         />
       </View>
     </View>

@@ -449,7 +449,7 @@ const HomePage = () => {
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style = {{height: Dimensions.get('window').height * 1.05}}>
         <ScrollView>
           <View
             style={{
@@ -499,10 +499,10 @@ const HomePage = () => {
             <View style={{top: '-11%'}}>
               <View style={styles.announceMore}>
                 <Text style={styles.announcement}>Urgent Announcements</Text>
-                <TouchableOpacity onPress={ForumPage}>
-                  <Text style={styles.more}>More</Text>
-                </TouchableOpacity>
               </View>
+              <TouchableOpacity onPress={ForumPage}>
+                  <Text style={styles.moree}>More</Text>
+                </TouchableOpacity>
               <Carousel
                 style={styles.carousel2}
                 data={userPosts}
@@ -520,7 +520,7 @@ const HomePage = () => {
                   <Text style={styles.seeAll}>See all</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{width: Dimensions.get('window').width, top: '-5%'}}>
+              <View style={{width: Dimensions.get('window').width, top: '-13%'}}>
                 <Carousel
                   data={clinics}
                   renderItem={({item, index}) =>
@@ -585,7 +585,7 @@ const styles = StyleSheet.create({
     marginTop: '1.5%',
   },
   data2View: {
-    top: '25%',
+    top: '15%',
     borderWidth: 1,
     padding: '4%',
     borderRadius: 20,
@@ -659,18 +659,27 @@ const styles = StyleSheet.create({
     top: '10%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 30,
+    marginLeft: '6%',
+    marginRight: '6%',
   },
   announcement: {
     color: constants.$accentColor,
     fontFamily: constants.$fontFamilyBold,
     fontSize: 20,
   },
-  more: {
+  // more: {
+  //   color: constants.$accentColor,
+  //   textDecorationLine: 'underline',
+  //   fontSize: 17,
+  //   backgroundColor: 'black',
+  //   //top: '100%'
+  // },
+  moree: {
     color: constants.$accentColor,
     textDecorationLine: 'underline',
     fontSize: 17,
+    left: '84.1%',
+    top:'40%'
   },
   carousel2: {
     top: '10%',
@@ -683,7 +692,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: '6%',
     marginRight: '6%',
-    top: '-8%',
+    top: '-15%',
   },
   exploreClinics: {
     color: constants.$accentColor,

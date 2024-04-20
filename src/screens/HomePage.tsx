@@ -451,7 +451,10 @@ const HomePage = () => {
     <>
       <SafeAreaView>
         <ScrollView>
-          <View style={{width: Dimensions.get('window').width}}>
+          <View
+            style={{
+              width: Dimensions.get('window').width,
+            }}>
             <View>
               <Carousel
                 ref={isCarousel}

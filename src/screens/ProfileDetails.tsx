@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   // age, color, sex and weight
   bottomContainer: {
-    top: '48%',
+    top: '52%',
     flexDirection: 'row',
     zIndex: 999,
     right: '0.5%',
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   // inputs of the user
   bottomTexts: {
     ...profDetMixins.align,
-    top: '44%',
+    top: '47%',
     flexDirection: 'row',
     paddingVertical: '5%',
     justifyContent: 'space-evenly',

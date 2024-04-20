@@ -230,16 +230,17 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilyBold,
     color: constants.$octonaryColor,
     fontSize: 30,
-    top: '16%',
+    top: '23%',
     left: '5%',
     marginBottom: '10%',
+    zIndex:9,
   },
   cardContainer: {
-    width: '90%',
+    width: '100%',
   },
   addIcon: {
     color: constants.$quaternaryColor,
-    bottom: '5%',
+    bottom: '10%',
     right: '-80%',
   },
 });

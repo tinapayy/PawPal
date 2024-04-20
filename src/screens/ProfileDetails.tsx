@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   // age, color, sex and weight
   bottomContainer: {
-    top: '52%',
+    top: '49%',
     flexDirection: 'row',
     zIndex: 999,
     right: '0.5%',
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   // inputs of the user
   bottomTexts: {
     ...profDetMixins.align,
-    top: '47%',
+    top: '44%',
     flexDirection: 'row',
     paddingVertical: '5%',
     justifyContent: 'space-evenly',
@@ -450,11 +450,13 @@ const styles = StyleSheet.create({
     paddingBottom: '20%', // manipulate this
   } as ImageStyle,
   card: {
+    backgroundColor:constants.$tertiaryColor,
 
   },
   cardContainer: {
     top: '114%',
     // backgroundColor:'white',
+    backgroundColor: constants.$tertiaryColor,
   },
   cardContent: {
     position: 'relative',

@@ -357,6 +357,7 @@ const ProfileDetails = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 999,
+    backgroundColor:constants.$tertiaryColor,
   },
   // image container positioning
   imageContainer: {

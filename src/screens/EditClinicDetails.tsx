@@ -40,6 +40,7 @@ import DateTimePicker, {
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
+import LoadingScreen from '../components/loading';
 
 const PawPalApp = () => {
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
@@ -48,6 +49,7 @@ const PawPalApp = () => {
   const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
   const storage = FIREBASE_STORAGE;
+  const [loading, setLoading] = useState(true);
 
   const [selectedImage, setSelectedImage] = useState('');
   const [number, setNumber] = useState('');
@@ -298,8 +300,10 @@ const PawPalApp = () => {
             setAddress(doc.data().address || address);
           }
         });
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     };
     fetchData();
@@ -318,7 +322,10 @@ const PawPalApp = () => {
     address.pop();
     return address.join(',');
   };
-
+  
+  if (loading) {
+    return <LoadingScreen />;
+  }
   return (
     <SafeAreaView>
       <ImageBackground source={require('../images/clinicSettings.png')}

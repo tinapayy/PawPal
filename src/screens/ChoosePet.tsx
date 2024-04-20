@@ -44,8 +44,8 @@ const ChoosePet = () => {
           {
             id: 0,
             petId: '',
-            name: 'Add Pet',
             profilePicture: 'faCirclePlus',
+            name: 'Add Pet',
           },
         ];
         const newUsers: User[] = [];
@@ -80,8 +80,15 @@ const ChoosePet = () => {
     <TouchableOpacity
       style={styles.card}
       onPress={() => handleUserSelection(item.id, item.petId)}>
+      <View style={styles.cardContent}>
+        <Text style={[styles.name, item.id === 0 && styles.addPetText]}>{item.name}</Text>
+        </View>
       {item.id === 0 ? (
-        <FontAwesomeIcon icon={icons.faCirclePlus} size={90} color="#F87000" />
+        <FontAwesomeIcon icon={icons.faCirclePlus}
+         color={constants.$octonaryColor}
+          size={75}
+          style={{ top: '5%' }}
+         />
       ) : (
         <Image
           source={{uri: item.profilePicture}}
@@ -89,7 +96,6 @@ const ChoosePet = () => {
           resizeMode="cover"
         />
       )}
-      <Text style={styles.name}>{item.name}</Text>
     </TouchableOpacity>
   );
 
@@ -103,7 +109,22 @@ const ChoosePet = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Choose Pet</Text>
+      {/* add logo */}
+      <Image
+        source={require('../images/pawpal_forum.png')}
+        style={styles.pawLogo}
+      />
+      <View style={styles.back}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesomeIcon
+            icon={icons.faArrowLeft}
+            style={styles.backIcon}
+            size={25}
+          />
+        </TouchableOpacity>
+        <Text style={styles.backText}>Choose Pet</Text>
+      </View>
+      <Text style={styles.text}>Customize and choose between your pets</Text>
       <FlatList
         data={users}
         renderItem={renderUserCard}
@@ -119,32 +140,68 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: '5%',
   },
+  pawLogo: {
+    resizeMode: 'contain',
+    width: '45%',
+    top: '5%',
+    left: '4%',
+    alignSelf:'center',
+    zIndex:5,
+  },
+  back: {
+    flexDirection: 'row',
+    marginBottom: '2%',
+    top: '-25%',
+    left: '2%',
+  },
+  backIcon: {
+    color: constants.$senaryColor,
+  },
+  backText: {
+    fontSize: 20,
+    fontFamily: constants.$fontFamilyBold,
+    color: constants.$secondaryColor,
+    marginLeft: '5%',
+
+  },
   text: {
     fontFamily: constants.$fontFamily,
-    fontSize: 30,
+    fontSize: 20,
     textAlign: 'center',
-    marginTop: '20%',
+    marginTop: '5%',
     letterSpacing: 0.25,
     color: constants.$secondaryColor,
   },
   card: {
-    marginTop: '20%',
+    marginTop: '10%',
     flex: 1,
     margin: '3%',
     padding: '4%',
-    borderRadius: 8,
-    backgroundColor: constants.$quinaryColor,
+    borderRadius: 10,
+    borderColor: constants.$quinaryColor,
+    borderWidth:2,
+    backgroundColor: constants.$tertiaryColor,
     alignItems: 'center',
+    elevation:3,
+  },
+  cardContent:{
+    alignContent:'center',
+    marginTop:'2%',
+  },
+  addPetText:{
+    color: constants.$secondaryColor,
+    fontSize:18,
+    // fontFamily: constants.$fontFamilyBold,
+
   },
   photo: {
-    width: 100,
-    height: 100,
+    width: 75,
+    height: 75,
     borderRadius: 50,
-    marginBottom: 8,
+    marginTop: 8,
   },
   name: {
-    fontSize: 16,
-    fontWeight: constants.$fontWeightBold,
+    fontSize: 18,
   },
 });
 

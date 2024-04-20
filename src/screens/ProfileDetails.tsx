@@ -253,19 +253,20 @@ const ProfileDetails = () => {
             <View style={{ ...styles.UserInfoText, flexDirection: 'column' }}>
               {/* handle name exceeding 20 characters */}
               <Text style={styles.userName} numberOfLines={2} ellipsizeMode='tail'>
-                {name.length > 20 ? name.slice(0, 20) + '\n' + name.slice(20) : name}
+                {name.length > 25 ? name.slice(0, 25) + '\n' + name.slice(20) : name}
               </Text>
               <Text style={styles.ownerTitle}>Pet Owner</Text>
             </View>
-            <View style={styles.iconContainer}>
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={ChatHome}>
-                  <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={SettingsPage}>
-                  <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
-                </TouchableOpacity>
-              </View>
+           
+          </View>
+          <View style={styles.iconContainer}>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity onPress={ChatHome}>
+                <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={SettingsPage}>
+                <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.contentScroll}>
@@ -421,7 +422,7 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   // age, color, sex and weight
   bottomContainer: {
-    top: '51%',
+    top: '48%',
     flexDirection: 'row',
     zIndex: 999,
     right: '0.5%',
@@ -430,7 +431,7 @@ const styles = StyleSheet.create({
   // inputs of the user
   bottomTexts: {
     ...profDetMixins.align,
-    top: '47%',
+    top: '44%',
     flexDirection: 'row',
     paddingVertical: '5%',
     justifyContent: 'space-evenly',
@@ -443,7 +444,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     top: '114%',
-    //  height:'190%',
+    // backgroundColor:'white',
   },
   cardContent: {
     position: 'relative',
@@ -471,6 +472,9 @@ const styles = StyleSheet.create({
 
   iconContainer: {
     zIndex: 5,
+    top:'-75%',
+    left:'85%',
+    // justifyContent:'flex-start',
   },
 
   icon: {

@@ -15,7 +15,6 @@ import {useNavigateTo} from '../components/navigation';
 
 function SettingsPage_Clinic() {
   const navigation = useNavigation(); 
-  const EditClinicDetails = useNavigateTo('EditClinicDetails');
 
   const auth = FIREBASE_AUTH;
 
@@ -30,7 +29,7 @@ function SettingsPage_Clinic() {
 
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
-
+  const EditClinicDetails = useNavigateTo('EditClinicDetails');
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -115,7 +114,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: '100%',
   },
-
   buttonContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   } as ViewStyle,
 
-  // APPLY DRY to repetitive text styles
+  // APPLY DRY to repetitive text styles!
   signInText: {
     fontSize: 18,
     letterSpacing: constants.$spacingLetter,

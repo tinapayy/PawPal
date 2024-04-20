@@ -1,7 +1,6 @@
 //contains all the the screens
 
 import ClinicProfile from '../../screens/ClinicProfile';
-import ClinicProfileforCards from '../../screens/ClinicProfileforCards';
 import ForumPage from '../../screens/ForumPage';
 import AddPetProfile from '../../screens/AddPetProfile';
 import AddPetProfileSignUp from '../../screens/AddPetProfileSignUp';
@@ -23,6 +22,7 @@ import PopularClinics from '../../screens/PopularClinics';
 import Chat from '../../screens/Chat';
 import SettingsPage from '../../screens/SettingsPage';
 import ResultsPage from '../../screens/ResultsPage';
+import ResultsPageAll from '../../screens/ResultsPageAll';
 import Onboarding from '../../screens/Onboarding';
 import FoodAdvisable from '../../screens/FoodAdvisable';
 import FoodRestricted from '../../screens/FoodRestricted';
@@ -35,7 +35,6 @@ import AdminForumPage from '../../screens/AdminForumPage';
 
 export {
   ClinicProfile,
-  ClinicProfileforCards,
   ForumPage,
   AddPetProfile,
   AddPetProfileSignUp,
@@ -55,6 +54,7 @@ export {
   Chat,
   SettingsPage,
   ResultsPage,
+  ResultsPageAll,
   Onboarding,
   FoodAdvisable,
   FoodRestricted,

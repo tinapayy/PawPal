@@ -32,7 +32,6 @@ function SettingsPage() {
   const EditUserProfile = useNavigateTo('EditUserProfile');
   const ChoosePet = useNavigateTo('ChoosePet');
 
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>

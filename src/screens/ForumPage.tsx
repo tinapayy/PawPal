@@ -22,9 +22,12 @@ import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 import ProfileDetails from './ProfileDetails';
+import LoadingScreen from '../components/loading';
 
 interface Post {
   id: number;
+  userId: string;
+  userType: string;
   name: string;
   profilePicture: any;
   postText: string;
@@ -33,11 +36,14 @@ interface Post {
 }
 
 const ForumPage = () => {
+  const navigation = useNavigation();
+
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
-  const ProfileDetails = useNavigateTo('ProfileDetails');
+
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalImageUri, setModalImageUri] = useState('');
@@ -60,6 +66,8 @@ const ForumPage = () => {
             if (forumDoc.data().isApproved) {
               posts.push({
                 id: posts.length + 1,
+                userId: forumDoc.data().userId,
+                userType: userDoc.data().userType,
                 name: userDoc.data().name,
                 profilePicture: {
                   uri:
@@ -77,8 +85,10 @@ const ForumPage = () => {
         }
       }
       setUserPosts(posts.reverse());
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
   // Fetch data on first render
@@ -148,6 +158,10 @@ const ForumPage = () => {
     return length * 2;
   }
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <ScrollView
       style={styles.scrollView}
@@ -181,22 +195,54 @@ const ForumPage = () => {
         <Card key={post.id} style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.userInfo}>
-              {/* click profile and navigate Profile Details */}
-              <TouchableOpacity onPress={ProfileDetails}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(
+                    post.userType === 'petOwner'
+                      ? 'ProfileDetails'
+                      : 'ClinicProfile',
+                    {
+                      userId: post.userId,
+                    },
+                  )
+                }>
                 <Avatar.Image
                   size={50}
                   source={post.profilePicture}
                   style={styles.userIcon}
                 />
               </TouchableOpacity>
-
               <View style={styles.userInfoText}>
-                {/* click profile and navigate Profile Details */}
-                <TouchableOpacity onPress={ProfileDetails}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(
+                      post.userType === 'petOwner'
+                        ? 'ProfileDetails'
+                        : 'ClinicProfile',
+                      {
+                        userId: post.userId,
+                      },
+                    )
+                  }>
                   <Text style={styles.userName}>{post.name}</Text>
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Chat', {
+                    senderId: post.userId,
+                    senderName: post.name,
+                    senderPicture: post.profilePicture,
+                  })
+                }>
+                <FontAwesomeIcon
+                  icon={icons.faComment}
+                  size={20}
+                  color={constants.$senaryColor}
+                  style={styles.messageIcon}
+                />
+              </TouchableOpacity>
             </View>
             {post.postText !== '' && (
               <Text style={styles.postText}>{post.postText}</Text>
@@ -259,7 +305,7 @@ const styles = StyleSheet.create({
     alignSelf: undefined,
     justifyContent: 'space-between',
     bottom: '2%',
-    left: '2.5%',
+    left: '1%',
   } as ViewStyle,
   imageHeader: {
     width: 150,
@@ -275,7 +321,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 15,
-    left: '-25%',
+    left: '-28%',
   },
   card: {
     marginTop: '5%',
@@ -294,17 +340,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   userInfoText: {
+    flex: 1,
     marginLeft: '3%',
     fontFamily: constants.$fontFamily,
   },
-  message: {
-    marginLeft: 3,
-    position: 'absolute',
-  },
   messageIcon: {
-    color: '#F87000',
-    top: 2,
-    left: 50,
+    flexDirection: 'row',
+    top: '-14%',
+    // left: '1300%',
+    flex: 1,
   },
   userName: {
     fontSize: 16,

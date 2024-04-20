@@ -9,6 +9,7 @@ import * as import_screens from '../PawPal/src/imports/import_screens/import_scr
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from './firebase.config';
 import constants from '../PawPal/src/styles/constants';
+import LoadingScreen from './src/components/loading';
 
 // import Slider from './src/components/slider';
 // import slidePet from './src/components/slider';
@@ -34,7 +35,7 @@ const menuIcons = (
         color={constants.$secondaryColor}
       />
     );
-  } else if (route.name === 'Chat') {
+  } else if (route.name === 'ChatHome') {
     icon = focused ? (
       <icons.ChatBubbleLeftSolid size="30" color={constants.$senaryColor} />
     ) : (
@@ -91,6 +92,7 @@ function HomeTabs() {
   const db = FIREBASE_DB;
 
   const [userType, setUserType] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,12 +103,19 @@ function HomeTabs() {
             setUserType(doc.data().userType);
           }
         });
+        setLoading(false); // Set loading to false after data fetch is complete
       } catch (error) {
         console.log(error);
+        setLoading(false); // Set loading to false even if there's an error
       }
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    // Show loading screen if data is being fetched
+    return <LoadingScreen />;
+  }
 
   return (
     <Tab.Navigator
@@ -126,7 +135,7 @@ function HomeTabs() {
       })}>
       {/* bottom navigation bars and corresponding screens*/}
       <Tab.Screen name="Home" component={import_screens.HomePage} />
-      <Tab.Screen name="Chat" component={import_screens.ChatHome} />
+      <Tab.Screen name="ChatHome" component={import_screens.ChatHome} />
       <Tab.Screen name="Create Post" component={import_screens.CreatePost} />
       <Tab.Screen name="Forum" component={import_screens.ForumPage} />
       <Tab.Screen
@@ -266,13 +275,13 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="ClinicProfile"
-          component={import_screens.ClinicProfile}
+          name="ResultsPageAll"
+          component={import_screens.ResultsPageAll}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="ClinicProfileforCards"
-          component={import_screens.ClinicProfileforCards}
+          name="ClinicProfile"
+          component={import_screens.ClinicProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen

@@ -15,6 +15,7 @@ import {useNavigateTo} from '../components/navigation';
 
 function SettingsPage_Clinic() {
   const navigation = useNavigation(); 
+
   const auth = FIREBASE_AUTH;
 
   onAuthStateChanged(auth, user => {

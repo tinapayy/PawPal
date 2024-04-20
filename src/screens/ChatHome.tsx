@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   container: {
     ...chatMixins.align1,
     flex: 1,
-    top: '12%',
+    top: '20%',
     position: 'relative',
   } as ViewStyle,
 

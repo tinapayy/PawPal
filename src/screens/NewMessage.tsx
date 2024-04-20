@@ -28,6 +28,7 @@ import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import {chatMixins} from '../components/chatMixins';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 
 interface User {
   id: number;
@@ -87,18 +88,22 @@ const NewMessage = () => {
     setFilteredUsers(filteredUsers);
   };
 
+
   return (
     <SafeAreaView>
       <GestureHandlerRootView>
         <View
           style={{
             width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height,
+            height: Dimensions.get('window').height + 100,
           }}>
-          <ImageBackground
+            {/* background */}
+          <Image
             source={require('../images/header.png')}
-            style={{width: '100%', height: '50%'}}>
+            style={{width: '100%', height: '20%', zIndex:0}}>
+          </Image>
             <View style={{flexDirection: 'row', margin: 30}}>
+              {/* back icon */}
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <FontAwesomeIcon
                   icon={icons.faArrowLeft}
@@ -107,17 +112,20 @@ const NewMessage = () => {
                   style={{
                     color: constants.$secondaryColor,
                     left: '2%',
-                    top: '3%',
+                    top: '-420%',
+                    zIndex:5,
                   }}
                 />
               </TouchableOpacity>
+              {/* new message */}
               <Text
                 style={{
                   color: constants.$tertiaryColor,
                   fontFamily: constants.$fontFamilySemiBold,
                   fontSize: 24,
-                  left: '25%',
-                  top: '-1%',
+                  left: '35%',
+                  top: '-50%',
+                  zIndex:5,
                   // color:constants.$tertiaryColor,
                 }}>
                 New Message
@@ -128,18 +136,20 @@ const NewMessage = () => {
               style={{
                 backgroundColor: constants.$tertiaryColor,
                 borderRadius: 20,
-                borderColor: constants.$primaryColor,
-                elevation: 2,
+                borderColor: constants.$quinaryColor,
+                borderWidth: 2,
+                elevation: 3,
                 width: '80%',
                 alignSelf: 'center',
-                top: '5%',
+                top: '-20%',
               }}>
               <TextInput
                 style={{
                   fontSize: 15,
                   color: constants.$primaryColor,
-                  fontFamily: constants.$fontFamilyExtraLight,
+                  fontFamily: constants.$fontFamilySemiBold,
                   left: '5%',
+                  
                 }}
                 placeholder="Search"
                 onChangeText={text => filterUsers(text)}
@@ -151,14 +161,18 @@ const NewMessage = () => {
                 color: constants.$secondaryColor,
                 fontFamily: constants.$fontFamilySemiBold,
                 fontSize: 20,
-                top: '15%',
+                top: '-15%',
                 left: '7%',
               }}>
-              Suggested
+              Suggested Contacts
             </Text>
-
+            
             <FlatList
-              style={{top: '20%', left: '7%', width: '86%'}}
+              style={{top: '-10%', left: '7%', width: ScreenWidth,
+              height:'140%',
+              zIndex:5,
+              maxHeight:'130%',
+            }}
               data={filteredUsers.length > 0 ? filteredUsers : users}
               renderItem={({item}) => (
                 <View>
@@ -189,9 +203,9 @@ const NewMessage = () => {
                   </TouchableOpacity>
                 </View>
               )}
-              keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             />
-          </ImageBackground>
+        
         </View>
       </GestureHandlerRootView>
     </SafeAreaView>

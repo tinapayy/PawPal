@@ -9,37 +9,36 @@ export const profDetMixins = {
     imageContainer: {
         flex: 1,
         justifyContent: 'flex-end',
-        // backgroundColor: '#FFFF00',
-        
+       
     },
 
     input: {
         color: constants.$accentColor1,
         fontFamily: constants.$fontFamilyBold,
         fontSize: 13.1,
-        alignContent:'center',
-        justifyContent:'center',
-        alignSelf:'center',
-        paddingVertical:'2%',
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        paddingVertical: '2%',
     },
     // logo
-    pawLogo:{
+    pawLogo: {
         resizeMode: 'contain',
         width: '15%',
         top: '-75%',
         left: '74%',
     },
-    backgroundImage:{
+    backgroundImage: {
         resizeMode: 'cover',
         position: 'relative',
         height: '24%',
         zIndex: -100,
     },
-    backButton:{
-        top: '2%', 
+    backButton: {
+        top: '2%',
         right: '80%'
     },
-    profDetText:{
+    profDetText: {
         fontSize: 24,
         fontFamily: constants.$fontFamilyBold,
         color: constants.$primaryColor,
@@ -50,9 +49,9 @@ export const profDetMixins = {
         backgroundColor: constants.$primaryColor,
         top: '67%',
         zIndex: 1,
-        
+
     },
-    titlePet:{
+    titlePet: {
         fontFamily: constants.$fontFamilyBold,
         color: constants.$secondaryColor,
         fontSize: 24,
@@ -62,14 +61,14 @@ export const profDetMixins = {
     },
 
     //for profile 
-    avatarContainer:{
+    avatarContainer: {
         left: '50%',
         position: 'relative',
         marginRight: '-10%',
-        top:'15%',
+        top: '15%',
     },
-     // alignments
-  align: {
+    // alignments
+    align: {
         flexDirection: 'row',
         alignItems: 'center',
     },

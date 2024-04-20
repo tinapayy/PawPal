@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,25 +12,25 @@ import {
   ImageStyle,
   ViewStyle,
 } from 'react-native';
-import {Card, Avatar, Surface, Divider} from 'react-native-paper';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { Card, Avatar, Surface, Divider } from 'react-native-paper';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
 import { buttonMixin } from '../components/buttonMixin';
 import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import { profDetMixins } from '../styles/mixins/profDetMixins';
-import {PD_typeStyles} from '../components/PD_typeStyles';
+import { PD_typeStyles } from '../components/PD_typeStyles';
 import { ScreenHeight } from 'react-native-elements/dist/helpers';
 import { useNavigateTo } from '../components/navigation';
 import SettingsPage from './SettingsPage';
 import LoadingScreen from '../components/loading';
 
 // window dimensions
-const {width: screenWidth} = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 interface Pet {
   id: number;
@@ -100,7 +100,7 @@ const ProfileDetails = () => {
             setBio(doc.data().bio);
             setProfilePicture(
               doc.data().profilePicture
-                ? {uri: doc.data().profilePicture}
+                ? { uri: doc.data().profilePicture }
                 : require('../images/defaultIcon.png'),
             );
           }
@@ -121,7 +121,7 @@ const ProfileDetails = () => {
                     sex: petDoc.data().sex || 'N/A',
                     weight: petDoc.data().weight || 'N/A',
                     color: petDoc.data().color || 'N/A',
-                    petPicture: {uri: petDoc.data().petPicture || null},
+                    petPicture: { uri: petDoc.data().petPicture || null },
                   });
                 }
               }
@@ -139,6 +139,7 @@ const ProfileDetails = () => {
             }
           }
         }
+
         setPet([...pet.map(pet => ({type: 'pet', data: pet}))]);
         setLoading(false);
       } catch (error) {
@@ -160,14 +161,14 @@ const ProfileDetails = () => {
 
   //render each carousel item
   //handling pet data inside the carousel
-  const renderItem = ({item}: {item: CarouselItem}) => {
+  const renderItem = ({ item }: { item: CarouselItem }) => {
     return (
       // UI pet data
       <View style={styles.item}>
         {/* Render pet data */}
         {item.type === 'pet' && (
           <>
-          {/* for pet's image */}
+            {/* for pet's image */}
             <View style={styles.imageContainer}>
               <Image
                 source={
@@ -196,13 +197,13 @@ const ProfileDetails = () => {
                 }}
               />
             </View>
-            
+
             {/* age, color, sex and weight */}
             <View style={styles.bottomContainer}>
-                <Text style={styles.petDetail}>Age</Text>
-                <Text style={styles.petDetail}>Color</Text>
-                <Text style={styles.petDetail}>Sex</Text>
-                <Text style={styles.petDetail}>Weight</Text>
+              <Text style={styles.petDetail}>Age</Text>
+              <Text style={styles.petDetail}>Color</Text>
+              <Text style={styles.petDetail}>Sex</Text>
+              <Text style={styles.petDetail}>Weight</Text>
             </View>
             <View style={styles.bottomTexts}>
               {/* for the inputs of age, color, sex and weight */}
@@ -252,29 +253,30 @@ const ProfileDetails = () => {
 
   //handling the card which must contain the profile, username, title (pet owner) and description
   const ownerCard = (
-   <View style={styles.cardContainer}>
+    <View style={styles.cardContainer}>
       <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
           <View style={styles.userInfo}>
-            <View style={[ { paddingRight: '5%' }]}>
+            <View style={[{ paddingRight: '5%' }]}>
               <Avatar.Image size={50} source={profilePicture} />
             </View>
-            <View style={{...styles.UserInfoText,flexDirection:'column'}}>
+            <View style={{ ...styles.UserInfoText, flexDirection: 'column' }}>
               {/* handle name exceeding 20 characters */}
               <Text style={styles.userName} numberOfLines={2} ellipsizeMode='tail'>
-                {name.length > 20 ? name.slice(0, 20) + '\n' + name.slice(20) : name}
-                </Text>
+                {name.length > 25 ? name.slice(0, 25) + '\n' + name.slice(20) : name}
+              </Text>
               <Text style={styles.ownerTitle}>Pet Owner</Text>
-            </View>   
-            <View style={styles.iconContainer}>
-              <View style={{ flexDirection: 'row'}}> 
+            </View>
+           
+          </View>
+          <View style={styles.iconContainer}>
+            <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity onPress={ChatHome}>
                 <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
               </TouchableOpacity>
               <TouchableOpacity onPress={SettingsPage}>
                 <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
               </TouchableOpacity>
-              </View>
             </View>
           </View>
           <View style={styles.contentScroll}>
@@ -304,9 +306,9 @@ const ProfileDetails = () => {
 
 
         </Card.Content>
-       
+
       </Card>
-   </View>
+    </View>
   );
 
   // Return the component's UI
@@ -327,15 +329,15 @@ const ProfileDetails = () => {
           }}>
           Profile Details
         </Text>
-       
+
       </View>
-      
+
       {/* horizontal in mixins */}
-      <View style={profDetMixins.horizontalLine} width= {screenWidth}/>
+      <View style={profDetMixins.horizontalLine} width={screenWidth} />
 
       {/* styling for positioning of the carousel */}
-      <View style={{bottom:'25%'}}>
-        
+      <View style={{ bottom: '25%' }}>
+
         <Carousel
           ref={carouselRef}
           sliderWidth={screenWidth}
@@ -344,9 +346,9 @@ const ProfileDetails = () => {
           data={pet}
           renderItem={renderItem}
           hasParallaxImages={true}
-          style={{zIndex: 0,}} 
+          style={{ zIndex: 0, }}
         />
-        <View style = {styles.owner}>{ownerCard}</View>
+        <View style={styles.owner}>{ownerCard}</View>
       </View>
     </View>
   );
@@ -359,20 +361,20 @@ const styles = StyleSheet.create({
   // image container positioning
   imageContainer: {
     flex: 1,
-    alignItems:'center',
-    top:'37%',
+    alignItems: 'center',
+    top: '37%',
   },
- 
+
   // whole including photo, bottom text and container
   item: {
     // whole carousel
     width: '100%',
-    height:'90%',
-    paddingBottom:'10%',
+    height: '90%',
+    paddingBottom: '10%',
   },
 
   // for back button and profile details
-  headerContainer:{
+  headerContainer: {
     flexDirection: 'row',
     top: '5%',
     left: '7%',
@@ -380,8 +382,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   image: {
-    flex:1,
-    resizeMode: 'contain',
+    flex: 1,
+    resizeMode: 'cover',
     borderRadius: 10,
     zIndex: 5,
     width: '90%',
@@ -391,13 +393,13 @@ const styles = StyleSheet.create({
   // for name and title
   ownerContainer: {
     top: '37%',
-    left:'4%',
+    left: '4%',
     zIndex: 1,
 
   },
   // for name
   title: {
-   ...profDetMixins.titlePet,
+    ...profDetMixins.titlePet,
   } as TextStyle,
   //for breed
   title1: {
@@ -411,67 +413,66 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamily,
     color: constants.$senaryColor,
     fontSize: 15,
-   paddingHorizontal: '6.8%',
+    paddingHorizontal: '6.8%',
     left: '15%',
   },
- // adjust to be dynamic/responsive
+  // adjust to be dynamic/responsive
   surface: {
     ...alignmentMixin.alignment1,
-     backgroundColor: constants.$quinaryColor,
-        padding: '2%',
-        width: '20%',
-        maxwidth:'20%',
-        maxHeight:'100%',
-        minWidth:'20%',
-        marginHorizontal: 5,
-        justifyContent:'center',
-        borderRadius: 20,
-        left: '4%',
+    backgroundColor: constants.$quinaryColor,
+    padding: '2%',
+    width: '20%',
+    maxwidth: '20%',
+    maxHeight: '100%',
+    minWidth: '20%',
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    borderRadius: 20,
+    left: '4%',
   } as ImageStyle,
   // age, color, sex and weight
   bottomContainer: {
-    top: '51%',
-    flexDirection:'row',
-    zIndex:999,
-    right:'0.5%',
+    top: '48%',
+    flexDirection: 'row',
+    zIndex: 999,
+    right: '0.5%',
 
   },
   // inputs of the user
   bottomTexts: {
     ...profDetMixins.align,
-    top: '47%',
-    flexDirection:'row',
+    top: '44%',
+    flexDirection: 'row',
     paddingVertical: '5%',
-    justifyContent:'space-evenly',
-    zIndex:9,
-    right:'3%',
-    paddingBottom:'20%', // manipulate this
+    justifyContent: 'space-evenly',
+    zIndex: 9,
+    right: '3%',
+    paddingBottom: '20%', // manipulate this
   } as ImageStyle,
   card: {
 
   },
-  cardContainer:{
-  top:'114%',
-  //  height:'190%',
+  cardContainer: {
+    top: '114%',
+    // backgroundColor:'white',
   },
   cardContent: {
     position: 'relative',
     justifyContent: 'space-between',
     padding: '5%',
-    // backgroundColor: '#FFFF00',
+
   },
   userInfo: {
     // flex:1,
-    flexDirection:'row',
-    justifyContent:'flex-start',
-    // backgroundColor: '#FFFF00',
-    top:'-18%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    top: '-18%',
   },
   userName: {
     fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
     fontSize: 18,
-    paddingRight:'12%',
+    paddingRight: '12%',
   } as TextStyle,
   ownerTitle: {
     fontFamily: constants.$fontFamily,
@@ -481,21 +482,24 @@ const styles = StyleSheet.create({
 
   iconContainer: {
     zIndex: 5,
+    top:'-75%',
+    left:'85%',
+    // justifyContent:'flex-start',
   },
 
   icon: {
     color: constants.$primaryColor,
-    position:'relative',
-    paddingHorizontal:'4%',
- 
+    position: 'relative',
+    paddingHorizontal: '4%',
+
   },
   // bio and see more
   contentScroll: {
-    top:'-40%',
-    right:'-2%',
-    maxWidth:'98%',
-    height:'60%',
-  } ,
+    top: '-40%',
+    right: '-2%',
+    maxWidth: '98%',
+    height: '60%',
+  },
   // bio
   contentProfile: {
     fontSize: 16,
@@ -508,13 +512,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: constants.$primaryColor,
     textDecorationLine: 'underline',
-    zIndex:9,
+    zIndex: 9,
   },
   settingsIcon: {
 
   },
-  owner:{
-    height:'10%',
+  owner: {
+    height: '10%',
 
   },
 

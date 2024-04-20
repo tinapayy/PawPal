@@ -59,9 +59,14 @@ const NewMessage = () => {
           userId: userDoc.data().userId,
           userType: userDoc.data().userType,
           name: userDoc.data().name,
-          picture: userDoc.data().profilePicture
-            ? {uri: userDoc.data().profilePicture}
-            : require('../images/chat_icon.jpg'),
+          picture:
+            userDoc.data().profilePicture || userDoc.data().clinicPicture
+              ? {
+                  uri:
+                    userDoc.data().profilePicture ||
+                    userDoc.data().clinicPicture,
+                }
+              : require('../images/defaultIcon.png'),
         });
       }
       users.sort((a, b) => (a.userType > b.userType ? 1 : -1));

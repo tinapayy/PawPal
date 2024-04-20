@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     borderRadius: 10,
     zIndex: 5,
     width: '90%',
@@ -449,13 +449,12 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'space-between',
     padding: '5%',
-    // backgroundColor: '#FFFF00',
+
   },
   userInfo: {
     // flex:1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    // backgroundColor: '#FFFF00',
     top: '-18%',
   },
   userName: {

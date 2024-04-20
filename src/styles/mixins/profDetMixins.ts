@@ -9,8 +9,7 @@ export const profDetMixins = {
     imageContainer: {
         flex: 1,
         justifyContent: 'flex-end',
-        // backgroundColor: '#FFFF00',
-
+       
     },
 
     input: {

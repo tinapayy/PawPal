@@ -36,9 +36,10 @@ interface Post {
 }
 
 const ForumPage = () => {
+  const navigation = useNavigation();
+
   const NavFoodSuggestions = useNavigateTo('FoodAdvisable');
-  const ProfileDetails = useNavigateTo('ProfileDetails');
-  const ChatHome = useNavigateTo('ChatHome');
+
   const db = FIREBASE_DB;
 
   const [userPosts, setUserPosts] = useState<Post[]>([]);
@@ -227,7 +228,14 @@ const ForumPage = () => {
                 </TouchableOpacity>
                 <Text style={styles.postTime}>{post.postTime}</Text>
               </View>
-              <TouchableOpacity onPress={ChatHome}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Chat', {
+                    senderId: post.userId,
+                    senderName: post.name,
+                    senderPicture: post.profilePicture,
+                  })
+                }>
                 <FontAwesomeIcon
                   icon={icons.faComment}
                   size={20}

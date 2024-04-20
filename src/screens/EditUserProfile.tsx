@@ -33,11 +33,14 @@ import constants from '../styles/constants';
 import { alignmentMixin } from '../components/alignmentMixin';
 import { buttonMixin } from '../components/buttonMixin';
 import { addPetMixins } from '../styles/mixins/addPetMixins';
+import LoadingScreen from '../components/loading';
+
 const UserProfile = () => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const [loading, setLoading] = useState(true);
 
   const [currentName, setCurrentName] = useState('');
   const [currentBio, setCurrentBio] = useState('');
@@ -129,8 +132,10 @@ const UserProfile = () => {
             setProfilePicture(doc.data().profilePicture);
           }
         });
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     };
 
@@ -201,7 +206,7 @@ const UserProfile = () => {
             try {
               await updateDoc(userRef, updateData);
               Alert.alert('Profile updated successfully');
-              navigation.navigate('car');
+              navigation.navigate('Profile Details');
             } catch (updateError) {
               console.error('Error updating profile:', updateError);
               Alert.alert('Error updating profile. Please try again.');
@@ -219,6 +224,10 @@ const UserProfile = () => {
   const imageSize = Dimensions.get('window').width * (imageSizePercentage / 100);
   const borderRadius = imageSize / 2;
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}

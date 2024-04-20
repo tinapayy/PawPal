@@ -65,14 +65,9 @@ const data3 = [
 const renderItem = ({item, index, navigation}) => {
   return (
     <SafeAreaView>
-      <View
-        style={styles.data3View}>
-        <View
-          style={styles.view1}>
-          <Image
-            source={item.clinicPicture}
-            style={styles.clinicImage}
-          />
+      <View style={styles.data3View}>
+        <View style={styles.view1}>
+          <Image source={item.clinicPicture} style={styles.clinicImage} />
         </View>
         <Text style={styles.clinicName}>{item.name}</Text>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
@@ -80,13 +75,9 @@ const renderItem = ({item, index, navigation}) => {
             icon={icons.faLocationDot}
             style={{color: constants.$senaryColor, marginTop: 5}}
           />
-          <Text
-            style={styles.clinicAddress}>
-            {item.address}
-          </Text>
+          <Text style={styles.clinicAddress}>{item.address}</Text>
         </View>
-        <Text
-          style={styles.clinicSched}>
+        <Text style={styles.clinicSched}>
           {item.isOpen ? (
             <Text style={styles.open}>Open</Text>
           ) : (
@@ -120,8 +111,7 @@ const itemNumber2 = ({item}) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View
-          style={styles.data2View}>
+        <View style={styles.data2View}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Avatar.Image source={item.profilePicture} size={80} />
             <View
@@ -206,7 +196,9 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
-  function handleSearchSubmit(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void {
+  function handleSearchSubmit(
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ): void {
     throw new Error('Function not implemented.');
   }
 
@@ -228,31 +220,30 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 <View style={{flex: 1, top: '6%', left: '25%', margin: '3%'}}>
                   <View style={styles.searchBar}>
                     <TouchableOpacity onPress={handleSearchSubmit}>
-                      <FontAwesomeIcon icon={icons.faMagnifyingGlass} size={20}
-                        style={{ color: "#ff8700", right: '70%' }} />
+                      <FontAwesomeIcon
+                        icon={icons.faMagnifyingGlass}
+                        size={20}
+                        style={{color: '#ff8700', right: '70%'}}
+                      />
                     </TouchableOpacity>
-                    <TextInput style={styles.serchText}
-                    //search not implemented
+                    <TextInput
+                      style={styles.serchText}
+                      //search not implemented
                       placeholder="Search"
                       placeholderTextColor={constants.$senaryColor}
                       onSubmitEditing={handleSearchSubmit}
                     />
-                    </View>
+                  </View>
                 </View>
 
                 {/* profile click */}
                 <TouchableOpacity onPress={handleProfileClick}>
-                  <Image
-                    source={item.imageSome}
-                    style={styles.userImg}
-                  />
+                  <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
               </View>
 
               <View style={{flexDirection: 'row-reverse'}}>
-                <Image
-                  source={item.imageSource}
-                  style={styles.animalImg}/>
+                <Image source={item.imageSource} style={styles.animalImg} />
 
                 <View
                   style={
@@ -556,7 +547,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 15,
     position: 'relative',
-    left: '-4%'
+    left: '-4%',
   },
   view1: {
     ...alignmentMixin.alignment,
@@ -564,8 +555,8 @@ const styles = StyleSheet.create({
     bottom: 10,
   } as ViewStyle,
   clinicImage: {
-    width: 308,
-    height: 180,
+    width: 330,
+    height: 185,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -575,9 +566,10 @@ const styles = StyleSheet.create({
     color: constants.$secondaryColor,
     textAlign: 'left',
     fontFamily: constants.$fontFamilyBold,
+    left: '1%',
   },
   clinicAddress: {
-    left: '40%',
+    left: '20%',
     fontSize: 16,
     fontWeight: 'normal',
     color: constants.$senaryColor,
@@ -586,13 +578,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: constants.$secondaryColor,
     textAlign: 'left',
-    left: '5%',
+    left: '8%',
     marginTop: '1.5%',
   },
   data2View: {
     top: '25%',
     borderWidth: 1,
-    padding:'4%',
+    padding: '4%',
     borderRadius: 20,
     backgroundColor: constants.$backgroundColor,
     elevation: 5,
@@ -642,7 +634,7 @@ const styles = StyleSheet.create({
   animalImg: {
     flex: 3,
     width: 160,
-    height: 165,
+    height: 171,
     top: '10%',
     left: '-5%',
   },

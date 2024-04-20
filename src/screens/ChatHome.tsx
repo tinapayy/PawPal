@@ -138,7 +138,7 @@ const MessagePage = () => {
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{width: '100%', height: '100%'}}>
+        style={{width: '100%', height: '111%', top:'2%'}}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -192,6 +192,7 @@ const MessagePage = () => {
            <TouchableOpacity onPress={NewMessage}>
             <FontAwesomeIcon
               icon={icons.faCirclePlus}
+              // style={styles.icon}
               size={50}
               color={constants.$senaryColor}
             />
@@ -209,14 +210,17 @@ const styles = StyleSheet.create({
     top: '12%',
     position: 'relative',
   } as ViewStyle,
+
+  // container before image background
   containerHeader: {
     flex: 1,
+    color:'black',
     ...chatMixins.align1,
   } as ViewStyle,
   back: {
     flexDirection: 'row',
-    top: '5%',
-    right: '-1%',
+    top: '15%',
+    right: '-2%',
   },
   backIcon: {
     color: constants.$tertiaryColor,
@@ -235,8 +239,8 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     color: constants.$quaternaryColor,
-    bottom: '10%',
-    right: '10%',
+    bottom: '5%',
+    right: '-80%',
   },
 });
 

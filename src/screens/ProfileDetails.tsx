@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,20 +12,23 @@ import {
   ImageStyle,
   ViewStyle,
 } from 'react-native';
-import {Card, Avatar, Surface, Divider} from 'react-native-paper';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { Card, Avatar, Surface, Divider } from 'react-native-paper';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import {profDetMixins} from '../styles/mixins/profDetMixins';
-import {PD_typeStyles} from '../components/PD_typeStyles';
+import { profDetMixins } from '../styles/mixins/profDetMixins';
+import { PD_typeStyles } from '../components/PD_typeStyles';
+import { ScreenHeight } from 'react-native-elements/dist/helpers';
+import { useNavigateTo } from '../components/navigation';
+import SettingsPage from './SettingsPage';
 // window dimensions
-const {width: screenWidth} = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 interface Pet {
   id: number;
@@ -43,18 +46,18 @@ type CarouselItem = {
   data: Pet;
 };
 
-const ProfileDetails = ({route}) => {
+const ProfileDetails = () => {
   const navigation = useNavigation();
+  const ChatHome = useNavigateTo('ChatHome');
+  const SettingsPage = useNavigateTo('SettingsPage');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const userId = route.params?.userId;
-
   const [pet, setPet] = useState<CarouselItem[]>([]);
   const [name, setName] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const MAX_DESCRIPTION_LENGTH = 27;
+  const MAX_DESCRIPTION_LENGTH = 45;
 
   const [bio, setBio] = useState(''); // Ensure bio starts as an empty string
   const [showFullBio, setShowFullBio] = useState(false); // Ensure showFullBio starts as false
@@ -63,10 +66,6 @@ const ProfileDetails = ({route}) => {
   const [numLines, setNumLines] = useState<number | undefined>(2); // Ensure numLines starts as 2 or undefined
 
   const toggleDescription = () => {
-    setShowFullBio(!showFullBio);
-  };
-
-  const handleDescriptionPress = () => {
     setShowFullBio(!showFullBio);
   };
 
@@ -83,7 +82,7 @@ const ProfileDetails = ({route}) => {
         const truncated = bio.slice(0, MAX_DESCRIPTION_LENGTH);
         setTruncatedBio(truncated);
         setLines(truncated.split('\n'));
-        setNumLines(2);
+        setNumLines(3);
       }
     }
   }, [bio, showFullBio]);
@@ -93,25 +92,19 @@ const ProfileDetails = ({route}) => {
       try {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
-          if (
-            (userId && doc.data().userId === userId) ||
-            (!userId && doc.data().userId === auth.currentUser?.uid)
-          ) {
+          if (doc.data().userId === auth.currentUser?.uid) {
             setName(doc.data().name);
             setBio(doc.data().bio);
             setProfilePicture(
               doc.data().profilePicture
-                ? {uri: doc.data().profilePicture}
+                ? { uri: doc.data().profilePicture }
                 : require('../images/defaultIcon.png'),
             );
           }
         });
         const pet: Pet[] = [];
         for (const petDoc of querySnapshot.docs) {
-          if (
-            (userId && petDoc.data().userId === userId) ||
-            (!userId && petDoc.data().userId === auth.currentUser?.uid)
-          ) {
+          if (petDoc.data().userId === auth.currentUser?.uid) {
             const petIds = petDoc.data().pet;
             if (petIds.length > 0) {
               for (const petId of petIds) {
@@ -125,7 +118,7 @@ const ProfileDetails = ({route}) => {
                     sex: petDoc.data().sex || 'N/A',
                     weight: petDoc.data().weight || 'N/A',
                     color: petDoc.data().color || 'N/A',
-                    petPicture: {uri: petDoc.data().petPicture || null},
+                    petPicture: { uri: petDoc.data().petPicture || null },
                   });
                 }
               }
@@ -143,7 +136,7 @@ const ProfileDetails = ({route}) => {
             }
           }
         }
-        setPet([...pet.map(pet => ({type: 'pet', data: pet}))]);
+        setPet([...pet.map(pet => ({ type: 'pet', data: pet }))]);
       } catch (error) {
         console.error(error);
       }
@@ -158,13 +151,14 @@ const ProfileDetails = ({route}) => {
 
   //render each carousel item
   //handling pet data inside the carousel
-  const renderItem = ({item}: {item: CarouselItem}) => {
+  const renderItem = ({ item }: { item: CarouselItem }) => {
     return (
       // UI pet data
       <View style={styles.item}>
         {/* Render pet data */}
         {item.type === 'pet' && (
           <>
+            {/* for pet's image */}
             <View style={styles.imageContainer}>
               <Image
                 source={
@@ -172,57 +166,18 @@ const ProfileDetails = ({route}) => {
                     ? item.data.petPicture
                     : require('../images/placeholder.png')
                 }
+                // styling for the pet image
                 style={styles.image}
               />
             </View>
-            <Text style={styles.title} numberOfLines={2}>
-              {item.data.name}
-            </Text>
-            <Text style={styles.title1} numberOfLines={2}>
-              {item.data.breed}
-            </Text>
-            <View style={styles.bottomContainer}>
-              <View style={styles.bottomTexts}>
-                <Text style={styles.petDetail}>Age</Text>
-                <Text style={styles.petDetail}>Color</Text>
-                <Text style={styles.petDetail}>Sex</Text>
-                <Text style={styles.petDetail}>Weight</Text>
-              </View>
-            </View>
-            <View style={styles.bottomTexts}>
-              {/* for the inputs of age, color, sex and weight */}
-              <Surface style={styles.surface} elevation={2}>
-                <Text
-                  style={{
-                    ...profDetMixins.input,
-                  }}>
-                  {item.data.age}
-                </Text>
-              </Surface>
-              <Surface style={styles.surface} elevation={2}>
-                <Text
-                  style={{
-                    ...profDetMixins.input,
-                  }}>
-                  {item.data.color}
-                </Text>
-              </Surface>
-              <Surface style={styles.surface} elevation={2}>
-                <Text
-                  style={{
-                    ...profDetMixins.input,
-                  }}>
-                  {item.data.sex}
-                </Text>
-              </Surface>
-              <Surface style={styles.surface} elevation={2}>
-                <Text
-                  style={{
-                    ...profDetMixins.input,
-                  }}>
-                  {item.data.weight}
-                </Text>
-              </Surface>
+            {/* name and title of the owner */}
+            <View style={styles.ownerContainer}>
+              <Text style={styles.title} numberOfLines={2}>
+                {item.data.name}
+              </Text>
+              <Text style={styles.title1} numberOfLines={2}>
+                {item.data.breed}
+              </Text>
               <Image
                 source={require('../images/gradient_logo.png')}
                 style={{
@@ -232,6 +187,54 @@ const ProfileDetails = ({route}) => {
                 }}
               />
             </View>
+
+            {/* age, color, sex and weight */}
+            <View style={styles.bottomContainer}>
+              <Text style={styles.petDetail}>Age</Text>
+              <Text style={styles.petDetail}>Color</Text>
+              <Text style={styles.petDetail}>Sex</Text>
+              <Text style={styles.petDetail}>Weight</Text>
+            </View>
+            <View style={styles.bottomTexts}>
+              {/* for the inputs of age, color, sex and weight */}
+              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+                {/* styling for the inputs */}
+                <Text
+                  style={{
+                    ...profDetMixins.input,
+                    textAlign: 'center',
+                  }}>
+                  {item.data.age}
+                </Text>
+              </Surface>
+              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+                <Text
+                  style={{
+                    ...profDetMixins.input,
+                    textAlign: 'center',
+                  }}>
+                  {item.data.color}
+                </Text>
+              </Surface>
+              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+                <Text
+                  style={{
+                    ...profDetMixins.input,
+                    textAlign: 'center',
+                  }}>
+                  {item.data.sex}
+                </Text>
+              </Surface>
+              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+                <Text
+                  style={{
+                    ...profDetMixins.input,
+                    textAlign: 'center',
+                  }}>
+                  {item.data.weight}
+                </Text>
+              </Surface>
+            </View>
           </>
         )}
       </View>
@@ -240,107 +243,101 @@ const ProfileDetails = ({route}) => {
 
   //handling the card which must contain the profile, username, title (pet owner) and description
   const ownerCard = (
-    <Card style={styles.card}>
-      <Card.Content style={styles.cardContent}>
-        <View>
+    <View style={styles.cardContainer}>
+      <Card style={styles.card}>
+        <Card.Content style={styles.cardContent}>
           <View style={styles.userInfo}>
-            <View style={styles.avatarContainer}>
+            <View style={[{ paddingRight: '5%' }]}>
               <Avatar.Image size={50} source={profilePicture} />
             </View>
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.userName}>{name}</Text>
+            <View style={{ ...styles.UserInfoText, flexDirection: 'column' }}>
+              {/* handle name exceeding 20 characters */}
+              <Text style={styles.userName} numberOfLines={2} ellipsizeMode='tail'>
+                {name.length > 20 ? name.slice(0, 20) + '\n' + name.slice(20) : name}
+              </Text>
               <Text style={styles.ownerTitle}>Pet Owner</Text>
             </View>
+            <View style={styles.iconContainer}>
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity onPress={ChatHome}>
+                  <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={SettingsPage}>
+                  <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
-        <TouchableOpacity onPress={handleDescriptionPress}>
           <View style={styles.contentScroll}>
             <Text style={styles.contentProfile}>
               {showFullBio ? bio : truncatedBio}
-            </Text>
-            <Text style={styles.seeMore}>
-              {showFullBio ? 'See Less' : 'See More'}
+              {!showFullBio && truncatedBio !== bio && (
+                <>
+                  {/* Add "See more" inline with truncated text */}
+                  <Text style={styles.seeMore} onPress={toggleDescription}>
+                    See More
+                  </Text>
+                  {/* Add the remaining text after truncatedBio */}
+                  {` ${lines.length > numLines ? lines.slice(numLines).join('\n') : ''}`}
+                </>
+              )}
+              {showFullBio && (
+                <>
+                  {/* Concatenate "See Less" inline with the last word in the description */}
+                  {' '}
+                  <Text style={styles.seeMore} onPress={toggleDescription}>
+                    See Less
+                  </Text>
+                </>
+              )}
             </Text>
           </View>
-        </TouchableOpacity>
-      </Card.Content>
-      <View style={styles.iconContainer}>
-        {/* Display message icon if userId is not undefined */}
-        {userId && (
-          <TouchableOpacity
-            style={styles.settingsIcon}
-            onPress={() =>
-              navigation.navigate('Chat', {
-                senderId: userId,
-                senderName: name,
-                senderPicture: profilePicture,
-              })
-            }>
-            <FontAwesomeIcon
-              icon={icons.faMessage}
-              style={styles.icon}
-              size={20}
-            />
-          </TouchableOpacity>
-        )}
-        {/* Display settings icon */}
-        {!userId && (
-          <TouchableOpacity
-            style={styles.settingsIcon}
-            onPress={() => navigation.navigate('SettingsPage')}>
-            <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
-          </TouchableOpacity>
-        )}
-      </View>
-    </Card>
+
+
+        </Card.Content>
+
+      </Card>
+    </View>
   );
 
   // Return the component's UI
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={goForward}></TouchableOpacity>
-      <Image
-        source={require('../images/header.png')}
-        //background image
-        style={{
-          ...profDetMixins.backgroundImage,
-          width: screenWidth,
-        }}
-      />
-      <View style={styles.headerContainer}>
+      < View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomePage')}
+          //backbutton
+          style={profDetMixins.backButton}>
+          <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color={constants.$primaryColor} />
+        </TouchableOpacity>
         <Text
-          // Profile Details
+          // Profile Details in mixins
           style={{
             ...profDetMixins.profDetText,
           }}>
           Profile Details
         </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Home')}
-          //backbutton
-          style={profDetMixins.backButton}>
-          <FontAwesomeIcon
-            icon={icons.faArrowLeft}
-            size={24}
-            color={constants.$tertiaryColor}
-          />
-        </TouchableOpacity>
+
       </View>
 
+      {/* horizontal in mixins */}
       <View style={profDetMixins.horizontalLine} width={screenWidth} />
 
-      <View style={{bottom: 150}}>
+      {/* styling for positioning of the carousel */}
+      <View style={{ bottom: '25%' }}>
+
         <Carousel
           ref={carouselRef}
-          sliderWidth={screenWidth - 5}
-          sliderHeight={screenWidth - 60}
+          sliderWidth={screenWidth}
+          sliderHeight={ScreenHeight + 100}
           itemWidth={screenWidth - 30}
           data={pet}
           renderItem={renderItem}
           hasParallaxImages={true}
-          style={{zIndex: 0}}
+          style={{ zIndex: 0, }}
         />
-        <View>{ownerCard}</View>
+        <View style={styles.owner}>{ownerCard}</View>
       </View>
     </View>
   );
@@ -348,85 +345,171 @@ const ProfileDetails = ({route}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 999,
   },
+  // image container positioning
   imageContainer: {
-    ...profDetMixins.imageContainer,
-  } as ImageStyle,
+    flex: 1,
+    alignItems: 'center',
+    top: '37%',
+  },
+
+  // whole including photo, bottom text and container
   item: {
-    width: screenWidth + 1,
-    ...profDetMixins.item,
-  } as ImageStyle,
+    // whole carousel
+    width: '100%',
+    height: '90%',
+    paddingBottom: '10%',
+  },
+
+  // for back button and profile details
   headerContainer: {
-    ...profDetMixins.headerContainer,
-  } as ImageStyle,
+    flexDirection: 'row',
+    top: '5%',
+    left: '7%',
+    position: 'relative',
+    zIndex: 1,
+  },
   image: {
-    ...profDetMixins.image,
-  } as ImageStyle,
+    flex: 1,
+    resizeMode: 'contain',
+    borderRadius: 10,
+    zIndex: 5,
+    width: '90%',
+    alignSelf: 'center',
+
+  },
+  // for name and title
+  ownerContainer: {
+    top: '37%',
+    left: '4%',
+    zIndex: 1,
+
+  },
+  // for name
   title: {
     ...profDetMixins.titlePet,
-    fontWeight: constants.$fontWeightBold,
-  } as ImageStyle,
+  } as TextStyle,
+  //for breed
   title1: {
     ...profDetMixins.titlePet,
-    top: '-2.5%',
+    fontFamily: constants.$fontFamilyLight,
+    top: '-30%',
     fontSize: 18,
-    fontWeight: constants.$fontFamilyExtraLight,
-  } as ImageStyle,
+  } as TextStyle,
+  // batch styling per category
   petDetail: {
-    ...profDetMixins.petDetail,
-  } as ImageStyle,
-  bottomTexts: {
-    ...profDetMixins.align,
-    top: '-15%',
-    paddingVertical: '4%',
-  } as ImageStyle,
+    fontFamily: constants.$fontFamily,
+    color: constants.$senaryColor,
+    fontSize: 15,
+    paddingHorizontal: '6.8%',
+    left: '15%',
+  },
+  // adjust to be dynamic/responsive
   surface: {
     ...alignmentMixin.alignment1,
-    ...profDetMixins.surface,
+    backgroundColor: constants.$quinaryColor,
+    padding: '2%',
+    width: '20%',
+    maxwidth: '20%',
+    maxHeight: '100%',
+    minWidth: '20%',
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    borderRadius: 20,
+    left: '4%',
   } as ImageStyle,
+  // age, color, sex and weight
   bottomContainer: {
-    top: '-1%',
+    top: '51%',
+    flexDirection: 'row',
+    zIndex: 999,
+    right: '0.5%',
+
+  },
+  // inputs of the user
+  bottomTexts: {
+    ...profDetMixins.align,
+    top: '47%',
+    flexDirection: 'row',
+    paddingVertical: '5%',
+    justifyContent: 'space-evenly',
+    zIndex: 9,
+    right: '3%',
+    paddingBottom: '20%', // manipulate this
   } as ImageStyle,
   card: {
-    ...profDetMixins.card,
-  } as ImageStyle,
+
+  },
+  cardContainer: {
+    top: '114%',
+    //  height:'190%',
+  },
   cardContent: {
-    ...profDetMixins.cardContent,
-  } as ImageStyle,
+    position: 'relative',
+    justifyContent: 'space-between',
+    padding: '5%',
+    // backgroundColor: '#FFFF00',
+  },
   userInfo: {
-    ...alignmentMixin.alignment,
-    ...profDetMixins.userInfo,
-  } as TextStyle,
-  avatarContainer: {
-    ...profDetMixins.avatarContainer,
-  } as ImageStyle,
+    // flex:1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    // backgroundColor: '#FFFF00',
+    top: '-18%',
+  },
   userName: {
-    ...profDetMixins.userName,
+    fontFamily: constants.$fontFamilyBold,
+    color: constants.$secondaryColor,
+    fontSize: 18,
+    paddingRight: '12%',
   } as TextStyle,
   ownerTitle: {
-    ...profDetMixins.ownerTitle,
+    fontFamily: constants.$fontFamily,
+    color: constants.$accentColor,
+    fontSize: 16,
   },
-  descriptionContainer: {
-    ...profDetMixins.descriptionContainer,
-  } as TextStyle,
+
   iconContainer: {
-    ...profDetMixins.iconContainer,
-  } as ViewStyle,
+    zIndex: 5,
+  },
 
   icon: {
-    ...profDetMixins.icon,
-  } as ViewStyle,
+    color: constants.$primaryColor,
+    position: 'relative',
+    paddingHorizontal: '4%',
+
+  },
+  // bio and see more
   contentScroll: {
-    ...alignmentMixin.alignment,
-    ...profDetMixins.contentScroll,
-  } as TextStyle,
+    top: '-40%',
+    right: '-2%',
+    maxWidth: '98%',
+    height: '60%',
+  },
+  // bio
   contentProfile: {
-    ...profDetMixins.contentProfile,
-  } as TextStyle,
+    fontSize: 16,
+    fontFamily: constants.$fontFamily,
+    color: constants.$textColor1,
+  },
+  // see more
   seeMore: {
-    ...profDetMixins.seeMore,
-  } as TextStyle,
+    fontFamily: constants.$fontFamily,
+    fontSize: 14,
+    color: constants.$primaryColor,
+    textDecorationLine: 'underline',
+    zIndex: 9,
+  },
+  settingsIcon: {
+
+  },
+  owner: {
+    height: '10%',
+
+  },
+
+
 });
 
 export default ProfileDetails;

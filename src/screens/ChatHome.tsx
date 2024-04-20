@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -22,16 +22,16 @@ import {
   PostTime,
   MessageText,
 } from '../components/MessageStyle';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
 import constants from '../styles/constants';
-import {useNavigateTo} from '../components/navigation';
+import { useNavigateTo } from '../components/navigation';
 import * as icons from '../imports/icons/icons';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
-import {chatMixins} from '../components/chatMixins';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
+import { chatMixins } from '../components/chatMixins';
 
 interface Chat {
   id: number;
@@ -139,7 +139,7 @@ const MessagePage = () => {
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{width: '100%', height: '111%', top:'2%'}}>
+        style={{ width: '100%', height: '111%', top: '2%' }}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -156,7 +156,7 @@ const MessagePage = () => {
             data={messages}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
                   onPress={() =>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   // container before image background
   containerHeader: {
     flex: 1,
-    color:'black',
+    color: 'black',
     ...chatMixins.align1,
   } as ViewStyle,
   back: {
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     top: '23%',
     left: '5%',
     marginBottom: '10%',
-    zIndex:9,
+    zIndex: 9,
   },
   cardContainer: {
     width: '100%',

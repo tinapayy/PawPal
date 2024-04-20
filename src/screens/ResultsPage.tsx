@@ -19,6 +19,7 @@ import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
+import {useNavigateTo} from '../components/navigation';
 
 const screenWidth = Dimensions.get('window').width;
 

@@ -20,16 +20,18 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 
-const ClinicProfile = () => {
+const ClinicProfile = ({route}) => {
   const navigation = useNavigation();
   const SettingsClinic = useNavigateTo('SettingsPage_Clinic');
-  const ChatHome = useNavigateTo ('ChatHome');
+  const ChatHome = useNavigateTo('ChatHome');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+
+  const userId = route.params?.userId;
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -64,7 +66,10 @@ const ClinicProfile = () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'user'));
         querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
+          if (
+            (userId && doc.data().userId === userId) ||
+            (!userId && doc.data().userId === auth.currentUser?.uid)
+          ) {
             setClinicName(doc.data().name);
             setAbout(doc.data().about);
             setClinicPicture(doc.data().clinicPicture);
@@ -99,10 +104,15 @@ const ClinicProfile = () => {
               style={{color: constants.$secondaryColor}}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={SettingsClinic}>
-            <FontAwesomeIcon icon={icons.faGear} size={30} style={{color: constants.$secondaryColor, right: '60%'}} />
-          </TouchableOpacity>
+          {!userId && (
+            <TouchableOpacity onPress={SettingsClinic}>
+              <FontAwesomeIcon
+                icon={icons.faGear}
+                size={30}
+                style={{color: constants.$secondaryColor, right: '60%'}}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         <View>
@@ -117,41 +127,32 @@ const ClinicProfile = () => {
         </View>
       </View>
       <ScrollView>
-        <View
-          style={styles.scrollBar}>
-          <Text
-            style={styles.clinicTitle}>
-            {clinicName}
-          </Text>
+        <View style={styles.scrollBar}>
+          <Text style={styles.clinicTitle}>{clinicName}</Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View
-              style={styles.iconStyles}>
+            <View style={styles.iconStyles}>
               <FontAwesomeIcon
-                icon={icons.faPhone} size={19}
+                icon={icons.faPhone}
+                size={19}
                 style={{
                   color: constants.$senaryColor,
                   left: '75%',
                 }}
               />
-              <Text
-                style={styles.phoneText}>
-                {contactInfo}
-              </Text>
+              <Text style={styles.phoneText}>{contactInfo}</Text>
             </View>
 
-            <View
-              style={styles.iconStyles}>
+            <View style={styles.iconStyles}>
               <FontAwesomeIcon
                 icon={icons.faClock}
                 size={16}
                 style={{
-                  color: constants.$senaryColor, top: '3%', right: '20%'
+                  color: constants.$senaryColor,
+                  top: '3%',
+                  right: '20%',
                 }}
               />
-              <Text
-                style={styles.storeText}>
-                Store Hours
-              </Text>
+              <Text style={styles.storeText}>Store Hours</Text>
 
               <View>
                 <TouchableOpacity onPress={toggleDropdown}>
@@ -180,27 +181,30 @@ const ClinicProfile = () => {
             </View>
           </View>
 
-          <TouchableOpacity onPress={ChatHome}>
-          <View
-              style={styles.messageDets}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Chat', {
+                senderId: userId,
+                senderName: clinicName,
+                senderPicture: clinicPicture
+                  ? {uri: clinicPicture}
+                  : require('../images/placeholder.png'),
+              })
+            }>
+            <View style={styles.messageDets}>
               <FontAwesomeIcon
-                icon={icons.faComment} size={19}
+                icon={icons.faComment}
+                size={19}
                 style={{
                   color: constants.$senaryColor,
                   left: '120%',
                 }}
               />
-              <Text
-                style={styles.messageText}>
-                Message
-              </Text>
+              <Text style={styles.messageText}>Message</Text>
             </View>
           </TouchableOpacity>
 
-          <Text
-            style={styles.servicesText}>
-            Services
-          </Text>
+          <Text style={styles.servicesText}>Services</Text>
           {Array.isArray(services) && services.length > 0 && (
             <View
               style={{
@@ -210,13 +214,8 @@ const ClinicProfile = () => {
                 margin: 10,
               }}>
               {services.map((service, index) => (
-                <View
-                  key={index}
-                  style={styles.servicesForm}>
-                  <Text
-                    style={styles.servicesView}>
-                    {service}
-                  </Text>
+                <View key={index} style={styles.servicesForm}>
+                  <Text style={styles.servicesView}>{service}</Text>
                 </View>
               ))}
             </View>
@@ -229,33 +228,24 @@ const ClinicProfile = () => {
               resizeMode="stretch"
             />
           </View>
-          <Text
-            style={styles.aboutText}>
-            {about}
-          </Text>
-          <Text
-            style={styles.locText}>
-            Location
-          </Text>
+          <Text style={styles.aboutText}>{about}</Text>
+          <Text style={styles.locText}>Location</Text>
           {mapRegion && (
             <View>
-              <Text
-                style={styles.addressText}>
-                {address}
-              </Text>
+              <Text style={styles.addressText}>{address}</Text>
               <View>
-              <MapView
-                style={{margin: 20, height: 500}}
-                provider={PROVIDER_GOOGLE}
-                initialRegion={mapRegion}
-                region={mapRegion}>
-                <Marker
-                  coordinate={{
-                    latitude: mapRegion.latitude,
-                    longitude: mapRegion.longitude,
-                  }}
-                />
-              </MapView>
+                <MapView
+                  style={{margin: 20, height: 500}}
+                  provider={PROVIDER_GOOGLE}
+                  initialRegion={mapRegion}
+                  region={mapRegion}>
+                  <Marker
+                    coordinate={{
+                      latitude: mapRegion.latitude,
+                      longitude: mapRegion.longitude,
+                    }}
+                  />
+                </MapView>
               </View>
             </View>
           )}
@@ -268,8 +258,7 @@ const ClinicProfile = () => {
                 longitude: 122.5621,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-              }}>
-            </MapView>
+              }}></MapView>
           )}
         </View>
       </ScrollView>
@@ -316,7 +305,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: '3%',
     justifyContent: 'flex-start',
-    right: '3%'
+    right: '3%',
   },
   phoneText: {
     color: constants.$senaryColor,
@@ -409,7 +398,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilyMedium,
     marginLeft: '10%',
     top: '-0.5%',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   messageDets: {
     top: '-2%',

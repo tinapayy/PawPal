@@ -20,6 +20,7 @@ import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
+import LoadingScreen from '../components/loading';
 
 interface User {
   id: number;
@@ -33,6 +34,7 @@ const ChoosePet = () => {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const [loading, setLoading] = useState(true);
 
   const [users, setUsers] = useState<User[]>([]);
 
@@ -66,8 +68,10 @@ const ChoosePet = () => {
           }
         }
         setUsers([...oldUsers, ...newUsers]);
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     };
     fetchData();
@@ -107,6 +111,10 @@ const ChoosePet = () => {
     }
   };
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
   return (
     <View style={styles.container}>
       {/* add logo */}

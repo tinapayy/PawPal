@@ -34,12 +34,14 @@ import {
 } from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import LoadingScreen from '../components/loading';
 
 const PetProfile = ({route}) => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const [loading, setLoading] = useState(true);
 
   const {petId} = route.params;
 
@@ -62,8 +64,11 @@ const PetProfile = ({route}) => {
         setColor(petDoc.data().color);
         setChecked(petDoc.data().sex);
         setPetPicture(petDoc.data().petPicture);
+
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     };
     fetchData();
@@ -154,6 +159,10 @@ const PetProfile = ({route}) => {
     }
   };
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}

@@ -19,6 +19,10 @@ import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
+import LoadingScreen from '../components/loading';
+import { useState } from 'react';
+
+
 interface FoodItemDetails {
   glutenFree: boolean;
   containsSodium: boolean;
@@ -48,6 +52,7 @@ const FoodAdvisable = () => {
   const [value, setValue] = React.useState<string>('Advisable');
   const [selectedItem, setSelectedItem] = React.useState<FoodItem | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
 
   const appleImage = require('../images/apple.jpg');
   const broccoliImage = require('../images/broccoli.jpg');
@@ -238,6 +243,14 @@ const FoodAdvisable = () => {
     value === 'Advisable'
       ? foodData.filter(item => !('restriction' in item)) // Filter out restricted items
       : foodData.filter(item => 'restriction' in item); // Filter only restricted items
+
+      React.useEffect(() => {
+        setLoading(false);
+      }, []);
+    
+      if (loading) {
+        return <LoadingScreen />;
+      }
 
   return (
     <SafeAreaView style={styles.bigcontainer}>

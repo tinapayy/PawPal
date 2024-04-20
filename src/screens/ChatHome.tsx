@@ -29,8 +29,9 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import * as icons from '../imports/icons/icons';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import {chatMixins} from '../components/chatMixins';
-
 
 interface Chat {
   id: number;
@@ -159,7 +160,7 @@ const MessagePage = () => {
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('Chat', {
+                    navigation.navigate('ChatHome', {
                       senderId: item.senderId,
                       senderName: item.senderName,
                       senderPicture: item.senderPicture,
@@ -189,7 +190,7 @@ const MessagePage = () => {
           />
         </Container>
         <View style={styles.addIcon}>
-           <TouchableOpacity onPress={NewMessage}>
+          <TouchableOpacity onPress={NewMessage}>
             <FontAwesomeIcon
               icon={icons.faCirclePlus}
               // style={styles.icon}

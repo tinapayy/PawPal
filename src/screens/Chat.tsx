@@ -204,7 +204,7 @@ const Chat = ({route}) => {
             )}
           </View>
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
       />
 
       <View style={styles.inputContainer}>
@@ -335,8 +335,6 @@ const styles = StyleSheet.create({
     margin: '2%',
   },
   sendIcon: {
-    // width: 30,
-    // height: 30,
   },
 });
 

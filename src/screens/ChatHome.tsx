@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: '100%',
+    maxWidth:'110%',
   },
   addIcon: {
     color: constants.$quaternaryColor,

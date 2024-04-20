@@ -88,12 +88,12 @@ const NewMessage = () => {
     setFilteredUsers(filteredUsers);
   };
 
-
   return (
     <SafeAreaView>
       <GestureHandlerRootView>
         <View
           style={{
+            // adjust this for screen sizing
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height + 100,
           }}>
@@ -131,7 +131,6 @@ const NewMessage = () => {
               New Message
             </Text>
           </View>
-
           <View
             style={{
               backgroundColor: constants.$tertiaryColor,
@@ -155,7 +154,6 @@ const NewMessage = () => {
               onChangeText={text => filterUsers(text)}
             />
           </View>
-
           <Text
             style={{
               color: constants.$secondaryColor,
@@ -166,7 +164,6 @@ const NewMessage = () => {
             }}>
             Suggested Contacts
           </Text>
-
           <FlatList
             style={{
               top: '-10%', left: '7%', width: ScreenWidth,
@@ -206,7 +203,6 @@ const NewMessage = () => {
             )}
             keyExtractor={item => item.id.toString()}
           />
-
         </View>
       </GestureHandlerRootView>
     </SafeAreaView>

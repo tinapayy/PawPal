@@ -22,6 +22,7 @@ import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
+import LoadingScreen from '../components/loading';
 
 const ClinicProfile = ({route}) => {
   const navigation = useNavigation();
@@ -30,6 +31,8 @@ const ClinicProfile = ({route}) => {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  
+  const [loading, setLoading] = useState(true);
 
   const userId = route.params?.userId;
 
@@ -80,14 +83,21 @@ const ClinicProfile = ({route}) => {
             setAddress(doc.data().address);
           }
         });
+        setLoading(false);
       } catch (error) {
         console.log(error);
-      }
+        setLoading(false);
+      } 
     };
 
     fetchData();
+    
   }, []);
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
   return (
     <SafeAreaView
       style={{

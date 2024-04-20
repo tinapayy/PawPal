@@ -25,7 +25,6 @@ import ResultsPage from '../../screens/ResultsPage';
 import ResultsPageAll from '../../screens/ResultsPageAll';
 import Onboarding from '../../screens/Onboarding';
 import FoodAdvisable from '../../screens/FoodAdvisable';
-import FoodRestricted from '../../screens/FoodRestricted';
 import ChoosePet from '../../screens/ChoosePet';
 import NewMessage from '../../screens/NewMessage';
 import CreatePost from '../../screens/CreatePost';
@@ -57,7 +56,6 @@ export {
   ResultsPageAll,
   Onboarding,
   FoodAdvisable,
-  FoodRestricted,
   ChoosePet,
   NewMessage,
   CreatePost,

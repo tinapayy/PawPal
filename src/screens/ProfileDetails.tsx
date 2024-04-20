@@ -27,6 +27,8 @@ import {PD_typeStyles} from '../components/PD_typeStyles';
 import { ScreenHeight } from 'react-native-elements/dist/helpers';
 import { useNavigateTo } from '../components/navigation';
 import SettingsPage from './SettingsPage';
+import LoadingScreen from '../components/loading';
+
 // window dimensions
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -53,6 +55,7 @@ const ProfileDetails = () => {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const [loading, setLoading] = useState(true);
 
   const [pet, setPet] = useState<CarouselItem[]>([]);
   const [name, setName] = useState('');
@@ -137,8 +140,10 @@ const ProfileDetails = () => {
           }
         }
         setPet([...pet.map(pet => ({type: 'pet', data: pet}))]);
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     };
     fetchData();
@@ -148,6 +153,10 @@ const ProfileDetails = () => {
   const goForward = () => {
     carouselRef.current?.snapToNext();
   };
+  
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   //render each carousel item
   //handling pet data inside the carousel

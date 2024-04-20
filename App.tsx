@@ -265,11 +265,6 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="FoodRestricted"
-          component={import_screens.FoodRestricted}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="ResultsPage"
           component={import_screens.ResultsPage}
           options={{headerShown: false}}

@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     backgroundColor: constants.$tertiaryColor,
+
   },
   // to be adjusted
   messageWrapper: {
@@ -267,22 +268,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
     width: '100%',
-    color: constants.$septenaryColor,
+    color: constants.$textColor1,
     marginBottom: '2%',
   },
   messageBubble: {
     flex: 1,
-    borderRadius: 20,
-    paddingHorizontal: '2%',
+    borderRadius: 10,
+    paddingHorizontal: '3%',
     paddingVertical: '1%',
-    maxWidth: '40%',
+    maxWidth: '70%',
+    marginBottom:'5%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
   },
   outgoingMessageBubble: {
-    backgroundColor: constants.$septenaryColor,
-    // padding:'15%',
+    backgroundColor: constants.$backgroundColor4,
   },
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
@@ -304,7 +305,8 @@ const styles = StyleSheet.create({
     maxWidth: '60%',
   },
   messageText: {
-    fontSize: 16,
+    fontSize: 15,
+    fontFamily:constants.$fontFamilyRegular,
   },
   messageImage: {
     width: 200,

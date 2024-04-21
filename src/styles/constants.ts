@@ -7,6 +7,7 @@ const constants = {
   $quinaryColor: '#f1d5c6', // light grayish orange
   $senaryColor: '#ff8d4d', // dark orange
   $septenaryColor: '#aaaa', //gray
+
   $octonaryColor: '#ff8700',
 
   $accentColor: '#ff6464', // pink
@@ -18,6 +19,7 @@ const constants = {
   $backgroundColor1: '#ffac4e', // light orange
   $backgroundColor2: 'rgba(255, 186, 105, 0.28)',
   $backgroundColor3: 'rgba(255, 184, 105, 0.10)',
+  $backgroundColor4:'rgba(191,191,191,0.40)',
   // SPACING
   $spacingLetter: 0.25,
   $spacingSmall: 5,

@@ -444,12 +444,12 @@ const HomePage = () => {
   // const handleSearchIconClick = () => {
   //   navigation.navigate('ResultsPage');
   // };
-  const ForumPage = useNavigateTo('ForumPage');
+  const ForumPage = useNavigateTo('Forum');
   const ResultsPage = useNavigateTo('ResultsPage');
 
   return (
     <>
-      <SafeAreaView style = {{height: Dimensions.get('window').height * 1.05}}>
+      <SafeAreaView style={{height: Dimensions.get('window').height * 1.05}}>
         <ScrollView>
           <View
             style={{
@@ -501,8 +501,8 @@ const HomePage = () => {
                 <Text style={styles.announcement}>Urgent Announcements</Text>
               </View>
               <TouchableOpacity onPress={ForumPage}>
-                  <Text style={styles.moree}>More</Text>
-                </TouchableOpacity>
+                <Text style={styles.moree}>More</Text>
+              </TouchableOpacity>
               <Carousel
                 style={styles.carousel2}
                 data={userPosts}
@@ -520,7 +520,8 @@ const HomePage = () => {
                   <Text style={styles.seeAll}>See all</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{width: Dimensions.get('window').width, top: '-13%'}}>
+              <View
+                style={{width: Dimensions.get('window').width, top: '-13%'}}>
                 <Carousel
                   data={clinics}
                   renderItem={({item, index}) =>
@@ -679,7 +680,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 17,
     left: '84.1%',
-    top:'40%'
+    top: '40%',
   },
   carousel2: {
     top: '10%',

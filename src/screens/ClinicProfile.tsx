@@ -121,7 +121,7 @@ const ClinicProfile = ({route}) => {
               style={{color: constants.$secondaryColor}}
             />
           </TouchableOpacity>
-          {!userId && (
+          {(!userId || userId === auth.currentUser?.uid) && (
             <TouchableOpacity onPress={SettingsClinic}>
               <FontAwesomeIcon
                 icon={icons.faGear}
@@ -198,7 +198,7 @@ const ClinicProfile = ({route}) => {
             </View>
           </View>
 
-          {userId && (
+          {userId && userId !== auth.currentUser?.uid && (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('Chat', {

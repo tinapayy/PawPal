@@ -198,10 +198,18 @@ const Chat = ({route}) => {
               </View>
             ) : (
               <View style={[styles.incomingMessageAvatarWrapper]}>
-                <Image
-                  style={styles.incomingMessageAvatar}
-                  source={item.senderPicture}
-                />
+                {/* Display one avatar if less than 5 minutes on the bottom message */}
+                {messages.indexOf(item) === messages.length - 1 ||
+                new Date(messages[messages.indexOf(item) + 1].date).getTime() -
+                  new Date(item.date).getTime() >
+                  5 * 60 * 1000 ? (
+                  <Image
+                    style={styles.incomingMessageAvatar}
+                    source={item.senderPicture}
+                  />
+                ) : (
+                  <View style={{width: '12%'}}></View>
+                )}
                 <View
                   style={[styles.messageBubble, styles.incomingMessageBubble]}>
                   <Text style={styles.messageText}>{item.message}</Text>

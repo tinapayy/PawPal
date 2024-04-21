@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   Alert,
@@ -18,16 +18,17 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import {useNavigation} from '@react-navigation/native';
-import {getDocs, collection} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
+import { useNavigation } from '@react-navigation/native';
+import { getDocs, collection } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import { buttonMixin } from '../components/buttonMixin';
+import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import {chatMixins} from '../components/chatMixins';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { chatMixins } from '../components/chatMixins';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 
 interface User {
   id: number;
@@ -62,10 +63,10 @@ const NewMessage = () => {
           picture:
             userDoc.data().profilePicture || userDoc.data().clinicPicture
               ? {
-                  uri:
-                    userDoc.data().profilePicture ||
-                    userDoc.data().clinicPicture,
-                }
+                uri:
+                  userDoc.data().profilePicture ||
+                  userDoc.data().clinicPicture,
+              }
               : require('../images/defaultIcon.png'),
         });
       }
@@ -92,106 +93,116 @@ const NewMessage = () => {
       <GestureHandlerRootView>
         <View
           style={{
+            // adjust this for screen sizing
             width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height,
+            height: Dimensions.get('window').height + 100,
           }}>
-          <ImageBackground
+          {/* background */}
+          <Image
             source={require('../images/header.png')}
-            style={{width: '100%', height: '50%'}}>
-            <View style={{flexDirection: 'row', margin: 30}}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <FontAwesomeIcon
-                  icon={icons.faArrowLeft}
-                  size={25}
-                  color={constants.$tertiaryColor}
-                  style={{
-                    color: constants.$secondaryColor,
-                    left: '2%',
-                    top: '3%',
-                  }}
-                />
-              </TouchableOpacity>
-              <Text
+            style={{ width: '100%', height: '20%', zIndex: 0 }}>
+          </Image>
+          <View style={{ flexDirection: 'row', margin: 30 }}>
+            {/* back icon */}
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <FontAwesomeIcon
+                icon={icons.faArrowLeft}
+                size={25}
+                color={constants.$tertiaryColor}
                 style={{
-                  color: constants.$tertiaryColor,
-                  fontFamily: constants.$fontFamilySemiBold,
-                  fontSize: 24,
-                  left: '25%',
-                  top: '-1%',
-                  // color:constants.$tertiaryColor,
-                }}>
-                New Message
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: constants.$tertiaryColor,
-                borderRadius: 20,
-                borderColor: constants.$primaryColor,
-                elevation: 2,
-                width: '80%',
-                alignSelf: 'center',
-                top: '5%',
-              }}>
-              <TextInput
-                style={{
-                  fontSize: 15,
-                  color: constants.$primaryColor,
-                  fontFamily: constants.$fontFamilyExtraLight,
-                  left: '5%',
+                  color: constants.$secondaryColor,
+                  left: '2%',
+                  top: '-420%',
+                  zIndex: 5,
                 }}
-                placeholder="Search"
-                onChangeText={text => filterUsers(text)}
               />
-            </View>
-
+            </TouchableOpacity>
+            {/* new message */}
             <Text
               style={{
-                color: constants.$secondaryColor,
+                color: constants.$tertiaryColor,
                 fontFamily: constants.$fontFamilySemiBold,
-                fontSize: 20,
-                top: '15%',
-                left: '7%',
+                fontSize: 24,
+                left: '35%',
+                top: '-50%',
+                zIndex: 5,
+                // color:constants.$tertiaryColor,
               }}>
-              Suggested
+              New Message
             </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: constants.$tertiaryColor,
+              borderRadius: 20,
+              borderColor: constants.$quinaryColor,
+              borderWidth: 2,
+              elevation: 3,
+              width: '80%',
+              alignSelf: 'center',
+              top: '-20%',
+            }}>
+            <TextInput
+              style={{
+                fontSize: 15,
+                color: constants.$primaryColor,
+                fontFamily: constants.$fontFamilySemiBold,
+                left: '5%',
 
-            <FlatList
-              style={{top: '20%', left: '7%', width: '86%'}}
-              data={filteredUsers.length > 0 ? filteredUsers : users}
-              renderItem={({item}) => (
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('Chat', {
-                        senderId: item.userId,
-                        senderName: item.name,
-                        senderPicture: item.picture,
-                      })
-                    }>
-                    <View style={{flexDirection: 'row', marginBottom: '5%'}}>
-                      <Image
-                        source={item.picture}
-                        style={{height: 50, width: 50, borderRadius: 50}}
-                      />
-                      <Text
-                        style={{
-                          color: constants.$secondaryColor,
-                          fontFamily: constants.$fontFamilyRegular,
-                          fontSize: 15,
-                          top: '2%',
-                          left: '20%',
-                        }}>
-                        {item.name}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
-              keyExtractor={item => item.id}
+              }}
+              placeholder="Search"
+              onChangeText={text => filterUsers(text)}
             />
-          </ImageBackground>
+          </View>
+          <Text
+            style={{
+              color: constants.$secondaryColor,
+              fontFamily: constants.$fontFamilySemiBold,
+              fontSize: 20,
+              top: '-15%',
+              left: '7%',
+            }}>
+            Suggested Contacts
+          </Text>
+          <FlatList
+            style={{
+              top: '-10%', left: '7%', width: ScreenWidth,
+              height: '140%',
+              zIndex: 5,
+              maxHeight: '130%',
+            }}
+            data={filteredUsers.length > 0 ? filteredUsers : users}
+            renderItem={({ item }) => (
+              <View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Chat', {
+                      senderId: item.userId,
+                      senderName: item.name,
+                      senderPicture: item.picture,
+                    })
+                  }>
+                  <View style={{ flexDirection: 'row', marginBottom: '5%' }}>
+                    <Image
+                      source={item.picture}
+                      style={{ height: 50, width: 50, borderRadius: 50 }}
+                    />
+                    <Text
+                      style={{
+                        color: constants.$secondaryColor,
+                        fontFamily: constants.$fontFamilyRegular,
+                        fontSize: 15,
+                        top: '2%',
+                        left: '20%',
+                      }}>
+                      {item.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
         </View>
       </GestureHandlerRootView>
     </SafeAreaView>

@@ -357,7 +357,7 @@ const ProfileDetails = ({route}) => {
       <TouchableOpacity onPress={goForward}></TouchableOpacity>
       <View style={styles.headerContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('HomePage')}
+          onPress={() => navigation.navigate('Home')}
           //backbutton
           style={profDetMixins.backButton}>
           <FontAwesomeIcon

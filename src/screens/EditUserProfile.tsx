@@ -305,7 +305,7 @@ const UserProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
+            <FontAwesomeIcon icon={icons.faUserLock} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="New Password"
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: constants.$fontFamilyLight,
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
     height: 48,
     borderBottomWidth: 2,
     borderBottomColor: constants.$senaryColor,

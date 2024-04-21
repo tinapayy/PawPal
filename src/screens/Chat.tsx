@@ -191,15 +191,16 @@ const Chat = ({route}) => {
                 <Text style={styles.messageText}>{item.message}</Text>
               </View>
             ) : (
-              <View style={[styles.incomingMessageAvatarWrapper]}>
+              // for messages received
+              <View
+               style={[styles.incomingMessageAvatarWrapper]}>
                 <Image
                   style={styles.incomingMessageAvatar}
                   source={item.senderPicture}
                 />
-                <View
-                  style={[styles.messageBubble, styles.incomingMessageBubble]}>
-                  <Text style={styles.messageText}>{item.message}</Text>
-                </View>
+                  <View style={[styles.messageBubble, styles.incomingMessageBubble]}>
+                    <Text style={styles.messageText}>{item.message}</Text>
+                  </View>
               </View>
             )}
           </View>
@@ -264,6 +265,7 @@ const styles = StyleSheet.create({
     marginVertical: '2%',
     paddingHorizontal: '2%',
   },
+  // time message sent
   timestamp: {
     textAlign: 'center',
     fontSize: 12,
@@ -271,38 +273,46 @@ const styles = StyleSheet.create({
     color: constants.$textColor1,
     marginBottom: '2%',
   },
+  // message bubble
   messageBubble: {
-    flex: 1,
+    // flex: 1,
     borderRadius: 10,
     paddingHorizontal: '3%',
     paddingVertical: '1%',
     maxWidth: '70%',
-    marginBottom:'5%',
+    marginBottom:'-0.8%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
+    // marginBottom:'2%',
   },
   outgoingMessageBubble: {
     backgroundColor: constants.$backgroundColor4,
   },
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
   // to be adjusted
   incomingMessageAvatar: {
-    width: '10%',
-    height: '150%',
+    width: 40,
+    height: 40,
     borderRadius: 50,
     marginRight: '2%',
   },
   incomingMessageWrapper: {
     alignItems: 'flex-start',
+    // width:'90%',
   },
+  //messages received
   incomingMessageBubble: {
     backgroundColor: constants.$backgroundColor2,
-    borderRadius:30,
-    maxWidth: '60%',
+    // borderRadius: 10,
+    // paddingHorizontal: '3%',
+    // paddingVertical: '1%',
+
+    marginBottom: '-0.8%',
+    alignSelf:'flex-start',
   },
   messageText: {
     fontSize: 15,
@@ -314,7 +324,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: 'flex-end',
   },
+  //typing of message
   inputContainer: {
+    marginTop:'4%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,

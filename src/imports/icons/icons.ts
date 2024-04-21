@@ -31,6 +31,8 @@ import {
     faArrowRight,
     faMagnifyingGlass,
     faCaretSquareDown,
+    faLockOpen,
+    faUserLock,
     
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -102,5 +104,7 @@ export {
     UserSolid,
     faMagnifyingGlass,
     faCaretSquareDown,
+    faLockOpen,
+    faUserLock,
 
 };

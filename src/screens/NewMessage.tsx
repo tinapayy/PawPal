@@ -158,15 +158,15 @@ const NewMessage = () => {
             style={{
               color: constants.$secondaryColor,
               fontFamily: constants.$fontFamilySemiBold,
-              fontSize: 20,
-              top: '-15%',
+              fontSize: 24,
+              top: '-16%',
               left: '7%',
             }}>
             Suggested Contacts
           </Text>
           <FlatList
             style={{
-              top: '-10%', left: '7%', width: ScreenWidth,
+              top: '-13%', left: '7%', width: ScreenWidth,
               height: '140%',
               zIndex: 5,
               maxHeight: '130%',

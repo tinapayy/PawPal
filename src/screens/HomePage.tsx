@@ -185,16 +185,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   const navigation = useNavigation();
   const FoodAdvisable = useNavigateTo('FoodAdvisable');
-  const ProfileDetails = useNavigateTo('ProfileDetails');
-  const ClinicProfile = useNavigateTo('ClinicProfile');
-
-  const handleProfileClick = () => {
-    if (userType === 'petOwner') {
-      ProfileDetails;
-    } else {
-      ClinicProfile;
-    }
-  };
 
   function handleSearchSubmit(
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
@@ -237,7 +227,14 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 </View>
 
                 {/* profile click */}
-                <TouchableOpacity onPress={handleProfileClick}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (userType === 'petOwner') {
+                      navigation.navigate('ProfileDetails');
+                    } else {
+                      navigation.navigate('ClinicProfile');
+                    }
+                  }}>
                   <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
               </View>

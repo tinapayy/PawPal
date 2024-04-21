@@ -64,34 +64,42 @@ const ClinicProfile = ({route}) => {
   });
   const [address, setAddress] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'user'));
-        querySnapshot.forEach(doc => {
-          if (
-            (userId && doc.data().userId === userId) ||
-            (!userId && doc.data().userId === auth.currentUser?.uid)
-          ) {
-            setClinicName(doc.data().name);
-            setAbout(doc.data().about);
-            setClinicPicture(doc.data().clinicPicture);
-            setContactInfo(doc.data().contactInfo);
-            setStoreHours(doc.data().storeHours);
-            setServices(doc.data().services);
-            setMapRegion(doc.data().location);
-            setAddress(doc.data().address);
-          }
-        });
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      querySnapshot.forEach(doc => {
+        if (
+          (userId && doc.data().userId === userId) ||
+          (!userId && doc.data().userId === auth.currentUser?.uid)
+        ) {
+          setClinicName(doc.data().name);
+          setAbout(doc.data().about);
+          setClinicPicture(doc.data().clinicPicture);
+          setContactInfo(doc.data().contactInfo);
+          setStoreHours(doc.data().storeHours);
+          setServices(doc.data().services);
+          setMapRegion(doc.data().location);
+          setAddress(doc.data().address);
+        }
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  // Fetch data after editing profile
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -190,28 +198,30 @@ const ClinicProfile = ({route}) => {
             </View>
           </View>
 
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Chat', {
-                senderId: userId,
-                senderName: clinicName,
-                senderPicture: clinicPicture
-                  ? {uri: clinicPicture}
-                  : require('../images/placeholder.png'),
-              })
-            }>
-            <View style={styles.messageDets}>
-              <FontAwesomeIcon
-                icon={icons.faComment}
-                size={19}
-                style={{
-                  color: constants.$senaryColor,
-                  left: '120%',
-                }}
-              />
-              <Text style={styles.messageText}>Message</Text>
-            </View>
-          </TouchableOpacity>
+          {userId && (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Chat', {
+                  senderId: userId,
+                  senderName: clinicName,
+                  senderPicture: clinicPicture
+                    ? {uri: clinicPicture}
+                    : require('../images/placeholder.png'),
+                })
+              }>
+              <View style={styles.messageDets}>
+                <FontAwesomeIcon
+                  icon={icons.faComment}
+                  size={19}
+                  style={{
+                    color: constants.$senaryColor,
+                    left: '120%',
+                  }}
+                />
+                <Text style={styles.messageText}>Message</Text>
+              </View>
+            </TouchableOpacity>
+          )}
 
           <Text style={styles.servicesText}>Services</Text>
           {Array.isArray(services) && services.length > 0 && (

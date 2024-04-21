@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,25 +12,25 @@ import {
   ImageStyle,
   ViewStyle,
 } from 'react-native';
-import { Card, Avatar, Surface, Divider } from 'react-native-paper';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {Card, Avatar, Surface, Divider} from 'react-native-paper';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import { useNavigation } from '@react-navigation/native';
-import { getDocs, collection, getDoc, doc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { profDetMixins } from '../styles/mixins/profDetMixins';
-import { PD_typeStyles } from '../components/PD_typeStyles';
-import { ScreenHeight } from 'react-native-elements/dist/helpers';
-import { useNavigateTo } from '../components/navigation';
+import {profDetMixins} from '../styles/mixins/profDetMixins';
+import {PD_typeStyles} from '../components/PD_typeStyles';
+import {ScreenHeight} from 'react-native-elements/dist/helpers';
+import {useNavigateTo} from '../components/navigation';
 import SettingsPage from './SettingsPage';
 import LoadingScreen from '../components/loading';
 
 // window dimensions
-const { width: screenWidth } = Dimensions.get('window');
+const {width: screenWidth} = Dimensions.get('window');
 
 interface Pet {
   id: number;
@@ -48,7 +48,7 @@ type CarouselItem = {
   data: Pet;
 };
 
-const ProfileDetails = () => {
+const ProfileDetails = ({route}) => {
   const navigation = useNavigation();
   const ChatHome = useNavigateTo('ChatHome');
   const SettingsPage = useNavigateTo('SettingsPage');
@@ -56,6 +56,8 @@ const ProfileDetails = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
   const [loading, setLoading] = useState(true);
+
+  const userId = route.params?.userId;
 
   const [pet, setPet] = useState<CarouselItem[]>([]);
   const [name, setName] = useState('');
@@ -90,78 +92,93 @@ const ProfileDetails = () => {
     }
   }, [bio, showFullBio]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'user'));
-        querySnapshot.forEach(doc => {
-          if (doc.data().userId === auth.currentUser?.uid) {
-            setName(doc.data().name);
-            setBio(doc.data().bio);
-            setProfilePicture(
-              doc.data().profilePicture
-                ? { uri: doc.data().profilePicture }
-                : require('../images/defaultIcon.png'),
-            );
-          }
-        });
-        const pet: Pet[] = [];
-        for (const petDoc of querySnapshot.docs) {
-          if (petDoc.data().userId === auth.currentUser?.uid) {
-            const petIds = petDoc.data().pet;
-            if (petIds.length > 0) {
-              for (const petId of petIds) {
-                const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
-                if (petDoc.exists()) {
-                  pet.push({
-                    id: pet.length + 1,
-                    name: petDoc.data().name || 'N/A',
-                    breed: petDoc.data().breed || 'N/A',
-                    age: petDoc.data().age || 'N/A',
-                    sex: petDoc.data().sex || 'N/A',
-                    weight: petDoc.data().weight || 'N/A',
-                    color: petDoc.data().color || 'N/A',
-                    petPicture: { uri: petDoc.data().petPicture || null },
-                  });
-                }
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'user'));
+      querySnapshot.forEach(doc => {
+        if (
+          (userId && doc.data().userId === userId) ||
+          (!userId && doc.data().userId === auth.currentUser?.uid)
+        ) {
+          setName(doc.data().name);
+          setBio(doc.data().bio);
+          setProfilePicture(
+            doc.data().profilePicture
+              ? {uri: doc.data().profilePicture}
+              : require('../images/defaultIcon.png'),
+          );
+        }
+      });
+      const pet: Pet[] = [];
+      for (const petDoc of querySnapshot.docs) {
+        if (
+          (userId && petDoc.data().userId === userId) ||
+          (!userId && petDoc.data().userId === auth.currentUser?.uid)
+        ) {
+          const petIds = petDoc.data().pet;
+          if (petIds.length > 0) {
+            for (const petId of petIds) {
+              const petDoc = await getDoc(doc(db, 'pet', petId.toString()));
+              if (petDoc.exists()) {
+                pet.push({
+                  id: pet.length + 1,
+                  name: petDoc.data().name || 'N/A',
+                  breed: petDoc.data().breed || 'N/A',
+                  age: petDoc.data().age || 'N/A',
+                  sex: petDoc.data().sex || 'N/A',
+                  weight: petDoc.data().weight || 'N/A',
+                  color: petDoc.data().color || 'N/A',
+                  petPicture: {uri: petDoc.data().petPicture || null},
+                });
               }
-            } else {
-              pet.push({
-                id: 1,
-                name: 'No pet',
-                breed: 'No pet',
-                age: 'No pet',
-                sex: 'No pet',
-                weight: 'No pet',
-                color: 'No pet',
-                petPicture: null,
-              });
             }
+          } else {
+            pet.push({
+              id: 1,
+              name: 'No pet',
+              breed: 'No pet',
+              age: 'No pet',
+              sex: 'No pet',
+              weight: 'No pet',
+              color: 'No pet',
+              petPicture: null,
+            });
           }
         }
-
-        setPet([...pet.map(pet => ({type: 'pet', data: pet}))]);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
       }
-    };
+
+      setPet([...pet.map(pet => ({type: 'pet', data: pet}))]);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
+
+  // Fetch data after editing profile
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   // navigate next carousel item
   const goForward = () => {
     carouselRef.current?.snapToNext();
   };
-  
+
   if (loading) {
     return <LoadingScreen />;
   }
 
   //render each carousel item
   //handling pet data inside the carousel
-  const renderItem = ({ item }: { item: CarouselItem }) => {
+  const renderItem = ({item}: {item: CarouselItem}) => {
     return (
       // UI pet data
       <View style={styles.item}>
@@ -207,7 +224,7 @@ const ProfileDetails = () => {
             </View>
             <View style={styles.bottomTexts}>
               {/* for the inputs of age, color, sex and weight */}
-              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+              <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 {/* styling for the inputs */}
                 <Text
                   style={{
@@ -217,7 +234,7 @@ const ProfileDetails = () => {
                   {item.data.age}
                 </Text>
               </Surface>
-              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+              <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 <Text
                   style={{
                     ...profDetMixins.input,
@@ -226,7 +243,7 @@ const ProfileDetails = () => {
                   {item.data.color}
                 </Text>
               </Surface>
-              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+              <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 <Text
                   style={{
                     ...profDetMixins.input,
@@ -235,7 +252,7 @@ const ProfileDetails = () => {
                   {item.data.sex}
                 </Text>
               </Surface>
-              <Surface style={{ ...styles.surface, flex: 1 }} elevation={2}>
+              <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 <Text
                   style={{
                     ...profDetMixins.input,
@@ -257,26 +274,49 @@ const ProfileDetails = () => {
       <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
           <View style={styles.userInfo}>
-            <View style={[{ paddingRight: '5%' }]}>
+            <View style={[{paddingRight: '5%'}]}>
               <Avatar.Image size={50} source={profilePicture} />
             </View>
-            <View style={{ ...styles.UserInfoText, flexDirection: 'column' }}>
+            <View style={{...styles.UserInfoText, flexDirection: 'column'}}>
               {/* handle name exceeding 20 characters */}
-              <Text style={styles.userName} numberOfLines={2} ellipsizeMode='tail'>
-                {name.length > 25 ? name.slice(0, 25) + '\n' + name.slice(20) : name}
+              <Text
+                style={styles.userName}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {name.length > 25
+                  ? name.slice(0, 25) + '\n' + name.slice(20)
+                  : name}
               </Text>
               <Text style={styles.ownerTitle}>Pet Owner</Text>
             </View>
-           
           </View>
           <View style={styles.iconContainer}>
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={ChatHome}>
-                <FontAwesomeIcon icon={icons.faMessage} style={styles.icon} size={20} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={SettingsPage}>
-                <FontAwesomeIcon icon={icons.faCog} style={styles.icon} size={20} />
-              </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              {userId && (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Chat', {
+                      senderId: userId,
+                      senderName: name,
+                      senderPicture: profilePicture,
+                    })
+                  }>
+                  <FontAwesomeIcon
+                    icon={icons.faMessage}
+                    style={styles.icon}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              )}
+              {!userId && (
+                <TouchableOpacity onPress={SettingsPage}>
+                  <FontAwesomeIcon
+                    icon={icons.faCog}
+                    style={styles.icon}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <View style={styles.contentScroll}>
@@ -289,13 +329,16 @@ const ProfileDetails = () => {
                     See More
                   </Text>
                   {/* Add the remaining text after truncatedBio */}
-                  {` ${lines.length > numLines ? lines.slice(numLines).join('\n') : ''}`}
+                  {` ${
+                    lines.length > numLines
+                      ? lines.slice(numLines).join('\n')
+                      : ''
+                  }`}
                 </>
               )}
               {showFullBio && (
                 <>
-                  {/* Concatenate "See Less" inline with the last word in the description */}
-                  {' '}
+                  {/* Concatenate "See Less" inline with the last word in the description */}{' '}
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See Less
                   </Text>
@@ -303,10 +346,7 @@ const ProfileDetails = () => {
               )}
             </Text>
           </View>
-
-
         </Card.Content>
-
       </Card>
     </View>
   );
@@ -315,12 +355,16 @@ const ProfileDetails = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={goForward}></TouchableOpacity>
-      < View style={styles.headerContainer}>
+      <View style={styles.headerContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('HomePage')}
           //backbutton
           style={profDetMixins.backButton}>
-          <FontAwesomeIcon icon={icons.faArrowLeft} size={24} color={constants.$primaryColor} />
+          <FontAwesomeIcon
+            icon={icons.faArrowLeft}
+            size={24}
+            color={constants.$primaryColor}
+          />
         </TouchableOpacity>
         <Text
           // Profile Details in mixins
@@ -329,15 +373,13 @@ const ProfileDetails = () => {
           }}>
           Profile Details
         </Text>
-
       </View>
 
       {/* horizontal in mixins */}
       <View style={profDetMixins.horizontalLine} width={screenWidth} />
 
       {/* styling for positioning of the carousel */}
-      <View style={{ bottom: '25%' }}>
-
+      <View style={{bottom: '25%'}}>
         <Carousel
           ref={carouselRef}
           sliderWidth={screenWidth}
@@ -346,7 +388,7 @@ const ProfileDetails = () => {
           data={pet}
           renderItem={renderItem}
           hasParallaxImages={true}
-          style={{ zIndex: 0, }}
+          style={{zIndex: 0}}
         />
         <View style={styles.owner}>{ownerCard}</View>
       </View>
@@ -357,7 +399,7 @@ const ProfileDetails = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 999,
-    backgroundColor:constants.$tertiaryColor,
+    backgroundColor: constants.$tertiaryColor,
   },
   // image container positioning
   imageContainer: {
@@ -389,14 +431,12 @@ const styles = StyleSheet.create({
     zIndex: 5,
     width: '90%',
     alignSelf: 'center',
-
   },
   // for name and title
   ownerContainer: {
     top: '37%',
     left: '4%',
     zIndex: 1,
-
   },
   // for name
   title: {
@@ -437,7 +477,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     zIndex: 999,
     right: '0.5%',
-
   },
   // inputs of the user
   bottomTexts: {
@@ -451,8 +490,7 @@ const styles = StyleSheet.create({
     paddingBottom: '20%', // manipulate this
   } as ImageStyle,
   card: {
-    backgroundColor:constants.$tertiaryColor,
-
+    backgroundColor: constants.$tertiaryColor,
   },
   cardContainer: {
     top: '114%',
@@ -463,7 +501,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'space-between',
     padding: '5%',
-
   },
   userInfo: {
     // flex:1,
@@ -485,8 +522,8 @@ const styles = StyleSheet.create({
 
   iconContainer: {
     zIndex: 5,
-    top:'-75%',
-    left:'85%',
+    top: '-75%',
+    left: '85%',
     // justifyContent:'flex-start',
   },
 
@@ -494,7 +531,6 @@ const styles = StyleSheet.create({
     color: constants.$primaryColor,
     position: 'relative',
     paddingHorizontal: '4%',
-
   },
   // bio and see more
   contentScroll: {
@@ -517,15 +553,10 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     zIndex: 9,
   },
-  settingsIcon: {
-
-  },
+  settingsIcon: {},
   owner: {
     height: '10%',
-
   },
-
-
 });
 
 export default ProfileDetails;

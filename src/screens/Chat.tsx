@@ -43,10 +43,6 @@ const Chat = ({route}) => {
   const senderName = route.params?.senderName;
   const senderPicture = route.params?.senderPicture;
 
-  const handleImagePress = () => {
-    navigation.navigate('ClinicProfile');
-  };
-
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const fetchData = async () => {
@@ -86,7 +82,6 @@ const Chat = ({route}) => {
                     timeZone: 'Asia/Manila',
                     hour: 'numeric',
                     minute: 'numeric',
-                    second: 'numeric',
                   }),
               });
             }
@@ -155,16 +150,18 @@ const Chat = ({route}) => {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <icons.MaterialIcons name="arrow-back" size={30} color= {constants.$tertiaryColor} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleImagePress}>
-          <Image
-            style={styles.avatar}
-            source={
-              senderPicture ? senderPicture : require('../images/chat_icon.jpg')
-            }
+          <icons.MaterialIcons
+            name="arrow-back"
+            size={30}
+            color={constants.$tertiaryColor}
           />
         </TouchableOpacity>
+        <Image
+          style={styles.avatar}
+          source={
+            senderPicture ? senderPicture : require('../images/chat_icon.jpg')
+          }
+        />
         <Text style={styles.headerText}>{senderName}</Text>
       </View>
 
@@ -183,7 +180,16 @@ const Chat = ({route}) => {
             new Date(item.date).getTime() -
               new Date(messages[messages.indexOf(item) - 1].date).getTime() >
               5 * 60 * 1000 ? (
-              <Text style={styles.timestamp}>{item.time}</Text>
+              <Text style={styles.timestamp}>
+                {new Date(item.date).toLocaleDateString('en-US', {
+                  timeZone: 'Asia/Manila',
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
+              </Text>
             ) : null}
             {item.senderId === auth.currentUser?.uid ? (
               <View
@@ -208,11 +214,15 @@ const Chat = ({route}) => {
       />
 
       <View style={styles.inputContainer}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
-          <icons.MaterialIcons name="attachment" size={30} color={constants.$quaternaryColor} />
-        </TouchableOpacity>
+          <icons.MaterialIcons
+            name="attachment"
+            size={30}
+            color={constants.$quaternaryColor}
+          />
+        </TouchableOpacity> */}
 
         <TextInput
           style={styles.input}
@@ -222,7 +232,11 @@ const Chat = ({route}) => {
           multiline={true}
         />
         <Pressable style={styles.sendButton} onPress={sendMessage}>
-          <icons.MaterialIcons name="send" size={30} color={constants.$quaternaryColor} />
+          <icons.MaterialIcons
+            name="send"
+            size={30}
+            color={constants.$quaternaryColor}
+          />
         </Pressable>
       </View>
     </View>
@@ -257,7 +271,6 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     backgroundColor: constants.$tertiaryColor,
-
   },
   // to be adjusted
   messageWrapper: {
@@ -277,7 +290,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '3%',
     paddingVertical: '1%',
     maxWidth: '70%',
-    marginBottom:'5%',
+    marginBottom: '5%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
@@ -301,12 +314,12 @@ const styles = StyleSheet.create({
   },
   incomingMessageBubble: {
     backgroundColor: constants.$backgroundColor2,
-    borderRadius:30,
+    borderRadius: 30,
     maxWidth: '60%',
   },
   messageText: {
     fontSize: 15,
-    fontFamily:constants.$fontFamilyRegular,
+    fontFamily: constants.$fontFamilyRegular,
   },
   messageImage: {
     width: 200,
@@ -336,8 +349,7 @@ const styles = StyleSheet.create({
   sendButton: {
     margin: '2%',
   },
-  sendIcon: {
-  },
+  sendIcon: {},
 });
 
 export default Chat;

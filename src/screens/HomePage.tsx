@@ -239,7 +239,14 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 </View>
 
                 {/* profile click */}
-                <TouchableOpacity onPress={handleProfileClick}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (userType === 'petOwner') {
+                      navigation.navigate('ProfileDetails');
+                    } else {
+                      navigation.navigate('ClinicProfile');
+                    }
+                  }}>
                   <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
               </View>

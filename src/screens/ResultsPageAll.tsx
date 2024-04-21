@@ -9,6 +9,7 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
+  ViewStyle,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
@@ -237,7 +238,7 @@ const ResultsPageAll = ({route}) => {
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+              <icons.BackIcon size="30" color="#ff8d4d" strokeWidth={20} style = {{left: '-13%'}} />
             </TouchableOpacity>
             <Text style={styles.headerText}>Explore Data</Text>
             <Image
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
     height: '18%',
     backgroundColor: constants.$backgroundColor,
     borderBottomRightRadius: 40,
-  },
+  } as ViewStyle,
   headercontent: {
     backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
@@ -314,9 +315,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   headerText: {
+    left: '-6%',
     paddingLeft: '5%',
     fontSize: 30,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$senaryColor,
   },
 
@@ -356,7 +358,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 14,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
     color: constants.$secondaryColor,
   },
   address: {

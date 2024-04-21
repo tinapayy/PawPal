@@ -504,14 +504,6 @@ const HomePage = () => {
             <View style={{top: '-10%'}}>
               <View style={styles.announceMore}>
                 <Text style={styles.announcement}>Urgent Announcements</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('ForumPage');
-                    navigation.navigate('ChatHome');
-                  }}>
-                  <Text style={styles.more}>More</Text>
-                </TouchableOpacity>
-
               </View>
               <TouchableOpacity onPress={ForumPage}>
                 <Text style={styles.moree}>More</Text>
@@ -599,7 +591,7 @@ const styles = StyleSheet.create({
     marginTop: '1.5%',
   },
   data2View: {
-    top: '30%',
+    top: '15%',
     borderWidth: 1,
     padding: '4%',
     borderRadius: 20,

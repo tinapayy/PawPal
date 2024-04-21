@@ -9,6 +9,7 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
+  ViewStyle,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
@@ -237,9 +238,9 @@ const ResultsPageAll = ({route}) => {
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <icons.BackIcon size="35" color="#ff8d4d" strokeWidth={10} />
+              <icons.BackIcon size="25" color="#ff8d4d" strokeWidth={20} style = {{left: '-28%', top: '-50%'}} />
             </TouchableOpacity>
-            <Text style={styles.headerText}>Explore Data</Text>
+            <Text style={styles.headerText}>Explore</Text>
             <Image
               source={require('../images/doggy.png')}
               style={styles.doggo}
@@ -261,7 +262,7 @@ const ResultsPageAll = ({route}) => {
                       ? {uri: profilePicture}
                       : require('../images/defaultIcon.png')
                   }
-                  size={50}
+                  size={40}
                 />
               </TouchableOpacity>
             </TouchableOpacity>
@@ -282,57 +283,61 @@ const ResultsPageAll = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: constants.$backgroundColor,
   },
   headercontainer: {
     ...alignmentMixin.alignment1,
-    height: '18%',
+    height: '20%',
     backgroundColor: constants.$backgroundColor,
-    borderBottomRightRadius: 40,
-  },
+  } as ViewStyle,
   headercontent: {
     backgroundColor: constants.$backgroundColor,
     flexDirection: 'row',
   },
   userheadercontent: {
-    backgroundColor: constants.$backgroundColor,
     marginRight: '6%',
     zIndex: 1,
-    height: '15%',
+    bottom: '5%',
+    left: '45%',
   },
   doggo: {
-    height: '130%',
+    height: '135%',
     width: '70%',
-    left: '100%',
+    left: '90%',
     position: 'absolute',
-    top: '5%',
+    top: '20%',
     zIndex: -1,
   },
-  headertextandicon: {
-    marginLeft: '6%',
-    paddingRight: '7%',
-    marginRight: '13%',
-    flexDirection: 'column',
+  headericon: {
+    marginRight: '15%',
+    bottom: '8%',
+    right: '5%',
   },
   headerText: {
     paddingLeft: '5%',
     fontSize: 30,
-    fontWeight: constants.$fontWeightBold,
+    fontWeight: 'bold',
+    right: '10%',
+    top: '-17%',
     color: constants.$senaryColor,
   },
-
   input: {
-    height: '31%',
-    width: '100%',
+    width: Dimensions.get('window').width * 0.50,
+    height: Dimensions.get('window').height * 0.05,
+    top: '-10%',
+    right: '10%',
     backgroundColor: constants.$primaryColor,
-    borderColor: constants.$senaryColor,
     color: constants.$backgroundColor,
-    borderRadius: 15,
+    borderRadius: 25,
     paddingLeft: '4%',
   },
   scrollcontainer: {
     borderTopRightRadius: 40,
     backgroundColor: constants.$quaternaryColor,
     paddingTop: '5%',
+    marginTop: '5%',
+    paddingBottom: '15%',
+    height: '100%',
   },
   card: {
     ...buttonMixin.button,
@@ -341,6 +346,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: constants.$backgroundColor,
     margin: 10,
+    marginTop: 7,
     borderRadius: 15,
     flexDirection: 'row',
   },
@@ -355,8 +361,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: 14,
-    fontWeight: constants.$fontWeightBold,
+    fontSize: constants.$fontSizeSmall,
+    fontWeight: 'bold', // replace with one of the valid values: "200", "400", "500", "700", "normal", "bold", "100", "300", "600", "800", "900"
     color: constants.$secondaryColor,
   },
   address: {
@@ -368,11 +374,11 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   open: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'green',
   },
   closed: {
-    fontSize: 14,
+    fontSize: 13,
     color: 'red',
   },
 });

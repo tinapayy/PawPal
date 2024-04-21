@@ -43,10 +43,6 @@ const Chat = ({route}) => {
   const senderName = route.params?.senderName;
   const senderPicture = route.params?.senderPicture;
 
-  const handleImagePress = () => {
-    navigation.navigate('ClinicProfile');
-  };
-
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const fetchData = async () => {
@@ -86,7 +82,6 @@ const Chat = ({route}) => {
                     timeZone: 'Asia/Manila',
                     hour: 'numeric',
                     minute: 'numeric',
-                    second: 'numeric',
                   }),
               });
             }
@@ -155,16 +150,18 @@ const Chat = ({route}) => {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <icons.MaterialIcons name="arrow-back" size={30} color= {constants.$tertiaryColor} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleImagePress}>
-          <Image
-            style={styles.avatar}
-            source={
-              senderPicture ? senderPicture : require('../images/chat_icon.jpg')
-            }
+          <icons.MaterialIcons
+            name="arrow-back"
+            size={30}
+            color={constants.$tertiaryColor}
           />
         </TouchableOpacity>
+        <Image
+          style={styles.avatar}
+          source={
+            senderPicture ? senderPicture : require('../images/chat_icon.jpg')
+          }
+        />
         <Text style={styles.headerText}>{senderName}</Text>
       </View>
 
@@ -183,7 +180,16 @@ const Chat = ({route}) => {
             new Date(item.date).getTime() -
               new Date(messages[messages.indexOf(item) - 1].date).getTime() >
               5 * 60 * 1000 ? (
-              <Text style={styles.timestamp}>{item.time}</Text>
+              <Text style={styles.timestamp}>
+                {new Date(item.date).toLocaleDateString('en-US', {
+                  timeZone: 'Asia/Manila',
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
+              </Text>
             ) : null}
             {item.senderId === auth.currentUser?.uid ? (
               <View
@@ -191,16 +197,24 @@ const Chat = ({route}) => {
                 <Text style={styles.messageText}>{item.message}</Text>
               </View>
             ) : (
-              // for messages received
-              <View
-               style={[styles.incomingMessageAvatarWrapper]}>
-                <Image
-                  style={styles.incomingMessageAvatar}
-                  source={item.senderPicture}
-                />
-                  <View style={[styles.messageBubble, styles.incomingMessageBubble]}>
-                    <Text style={styles.messageText}>{item.message}</Text>
-                  </View>
+              <View style={[styles.incomingMessageAvatarWrapper]}>
+                {messages.indexOf(item) === messages.length - 1 ||
+                new Date(messages[messages.indexOf(item) + 1].date).getTime() -
+                  new Date(item.date).getTime() >
+                  5 * 60 * 1000 ||
+                messages[messages.indexOf(item) + 1].senderId !==
+                  item.senderId ? (
+                  <Image
+                    style={styles.incomingMessageAvatar}
+                    source={item.senderPicture}
+                  />
+                ) : (
+                  <View style={{width: '12%'}}></View>
+                )}
+                <View
+                  style={[styles.messageBubble, styles.incomingMessageBubble]}>
+                  <Text style={styles.messageText}>{item.message}</Text>
+                </View>
               </View>
             )}
           </View>
@@ -209,11 +223,15 @@ const Chat = ({route}) => {
       />
 
       <View style={styles.inputContainer}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
-          <icons.MaterialIcons name="attachment" size={30} color={constants.$quaternaryColor} />
-        </TouchableOpacity>
+          <icons.MaterialIcons
+            name="attachment"
+            size={30}
+            color={constants.$quaternaryColor}
+          />
+        </TouchableOpacity> */}
 
         <TextInput
           style={styles.input}
@@ -223,7 +241,11 @@ const Chat = ({route}) => {
           multiline={true}
         />
         <Pressable style={styles.sendButton} onPress={sendMessage}>
-          <icons.MaterialIcons name="send" size={30} color={constants.$quaternaryColor} />
+          <icons.MaterialIcons
+            name="send"
+            size={30}
+            color={constants.$quaternaryColor}
+          />
         </Pressable>
       </View>
     </View>
@@ -258,7 +280,6 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     backgroundColor: constants.$tertiaryColor,
-
   },
   // to be adjusted
   messageWrapper: {
@@ -312,13 +333,12 @@ const styles = StyleSheet.create({
     // borderRadius: 10,
     // paddingHorizontal: '3%',
     // paddingVertical: '1%',
-
     marginBottom: '-0.8%',
     alignSelf:'flex-start',
   },
   messageText: {
     fontSize: 15,
-    fontFamily:constants.$fontFamilyRegular,
+    fontFamily: constants.$fontFamilyRegular,
   },
   messageImage: {
     width: 200,
@@ -350,8 +370,7 @@ const styles = StyleSheet.create({
   sendButton: {
     margin: '2%',
   },
-  sendIcon: {
-  },
+  sendIcon: {},
 });
 
 export default Chat;

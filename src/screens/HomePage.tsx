@@ -6,6 +6,7 @@ import {
   NativeSyntheticEvent,
   TextInputSubmitEditingEventData,
   ViewStyle,
+  Pressable,
 } from 'react-native';
 import {
   View,
@@ -27,6 +28,7 @@ import constants from '../styles/constants';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 import FoodAdvisable from './FoodAdvisable';
+import LoadingScreen from '../components/loading';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
@@ -196,11 +198,11 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   };
 
-  function handleSearchSubmit(
-    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
-  ): void {
-    throw new Error('Function not implemented.');
-  }
+  const [searchboxQuery, setSearchBoxQuery] = useState('');
+
+  const handleSearchIconClick = () => {
+    navigation.navigate('ResultsPageAll', {searchboxQuery: searchboxQuery});
+  };
 
   // first carousel
   return (
@@ -219,25 +221,32 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 }}>
                 <View style={{flex: 1, top: '6%', left: '25%', margin: '3%'}}>
                   <View style={styles.searchBar}>
-                    <TouchableOpacity onPress={handleSearchSubmit}>
+                    <Pressable onPress={handleSearchIconClick}>
                       <FontAwesomeIcon
                         icon={icons.faMagnifyingGlass}
                         size={20}
-                        style={{color: '#ff8700', right: '70%'}}
+                        style={{color: '#ff8700', marginRight: '5%',}}
                       />
-                    </TouchableOpacity>
+                    </Pressable>
                     <TextInput
                       style={styles.serchText}
                       //search not implemented
                       placeholder="Search"
                       placeholderTextColor={constants.$senaryColor}
-                      onSubmitEditing={handleSearchSubmit}
+                      onChangeText={text => setSearchBoxQuery(text)}
                     />
                   </View>
                 </View>
 
                 {/* profile click */}
-                <TouchableOpacity onPress={handleProfileClick}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (userType === 'petOwner') {
+                      navigation.navigate('ProfileDetails');
+                    } else {
+                      navigation.navigate('ClinicProfile');
+                    }
+                  }}>
                   <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
               </View>
@@ -287,6 +296,7 @@ type Clinic = {
 
 const HomePage = () => {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   const db = FIREBASE_DB;
 
@@ -333,8 +343,10 @@ const HomePage = () => {
         }
       }
       setUserPosts(posts.reverse().slice(0, 3));
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -444,8 +456,12 @@ const HomePage = () => {
   // const handleSearchIconClick = () => {
   //   navigation.navigate('ResultsPage');
   // };
-  const ForumPage = useNavigateTo('ForumPage');
+  const ForumPage = useNavigateTo('Forum');
   const ResultsPage = useNavigateTo('ResultsPage');
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>

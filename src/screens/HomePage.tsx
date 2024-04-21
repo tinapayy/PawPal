@@ -27,6 +27,10 @@ import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
 import {alignmentMixin} from '../components/alignmentMixin';
 
+import {useNavigateTo} from '../components/navigation';
+import FoodAdvisable from './FoodAdvisable';
+import LoadingScreen from '../components/loading';
+
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
   {
@@ -281,6 +285,7 @@ type Clinic = {
 
 const HomePage = () => {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   const db = FIREBASE_DB;
 
@@ -327,8 +332,10 @@ const HomePage = () => {
         }
       }
       setUserPosts(posts.reverse().slice(0, 3));
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -430,9 +437,24 @@ const HomePage = () => {
     navigation.navigate('FoodAdvisable');
   };
 
+  const handleSearchSubmit = () => {
+    console.log('Search query:', searchQuery);
+
+    navigation.navigate('ResultsPage', {searchQuery});
+  };
+  // const handleSearchIconClick = () => {
+  //   navigation.navigate('ResultsPage');
+  // };
+  const ForumPage = useNavigateTo('Forum');
+  const ResultsPage = useNavigateTo('ResultsPage');
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={{height: Dimensions.get('window').height * 1.05}}>
         <ScrollView>
           <View style={{width: Dimensions.get('window').width}}>
             <View>
@@ -488,7 +510,11 @@ const HomePage = () => {
                   }}>
                   <Text style={styles.more}>More</Text>
                 </TouchableOpacity>
+
               </View>
+              <TouchableOpacity onPress={ForumPage}>
+                <Text style={styles.moree}>More</Text>
+              </TouchableOpacity>
               <Carousel
                 style={styles.carousel2}
                 data={userPosts}
@@ -509,7 +535,8 @@ const HomePage = () => {
                   <Text style={styles.seeAll}>See all</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{width: Dimensions.get('window').width, top: '-5%'}}>
+              <View
+                style={{width: Dimensions.get('window').width, top: '-13%'}}>
                 <Carousel
                   data={clinics}
                   renderItem={({item, index}) =>
@@ -644,18 +671,27 @@ const styles = StyleSheet.create({
     top: '10%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 30,
+    marginLeft: '6%',
+    marginRight: '6%',
   },
   announcement: {
     color: constants.$accentColor,
     fontFamily: constants.$fontFamilyBold,
     fontSize: 20,
   },
-  more: {
+  // more: {
+  //   color: constants.$accentColor,
+  //   textDecorationLine: 'underline',
+  //   fontSize: 17,
+  //   backgroundColor: 'black',
+  //   //top: '100%'
+  // },
+  moree: {
     color: constants.$accentColor,
     textDecorationLine: 'underline',
     fontSize: 17,
+    left: '84.1%',
+    top: '40%',
   },
   carousel2: {
     top: '10%',
@@ -666,9 +702,9 @@ const styles = StyleSheet.create({
   exploreMore: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 30,
-    top: -30,
+    marginLeft: '6%',
+    marginRight: '6%',
+    top: '-15%',
   },
   exploreClinics: {
     color: constants.$accentColor,

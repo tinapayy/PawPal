@@ -42,7 +42,7 @@ function SettingsPage() {
         <Image source={grh} style={styles.headerimg} />
       </View>
       <TouchableOpacity
-        onPress={'Profile Details'}>
+        onPress={ProfileDetails}>
         <FontAwesomeIcon
           icon={icons.faArrowLeft}
           size={27}

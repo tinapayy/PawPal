@@ -76,7 +76,7 @@ const FoodAdvisable = () => {
       key: 'apple',
       name: 'Apple',
       imageUrl: appleImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Crisp and juicy fruit with a sweet or tart flavor.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -87,7 +87,7 @@ const FoodAdvisable = () => {
       key: 'broccoli',
       name: 'Broccoli',
       imageUrl: broccoliImage,
-      description: 'A green vegetable packed with vitamins.',
+      description: 'Nutrient-rich green vegetable with a slightly bitter taste.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -98,7 +98,7 @@ const FoodAdvisable = () => {
       key: 'chicken',
       name: 'Chicken',
       imageUrl: chickenImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Versatile meat with a mild flavor and tender texture.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -109,7 +109,7 @@ const FoodAdvisable = () => {
       key: 'carrot',
       name: 'Carrot',
       imageUrl: carrotImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Sweet and crunchy root vegetable packed with vitamin A.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -120,7 +120,7 @@ const FoodAdvisable = () => {
       key: 'salmon',
       name: 'Salmon',
       imageUrl: salmonImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Rich, flavorful fish with a buttery texture and high omega-3 content.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -131,7 +131,7 @@ const FoodAdvisable = () => {
       key: 'banana',
       name: 'Banana',
       imageUrl: bananasImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Creamy and sweet tropical fruit with a distinctive curved shape.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -142,7 +142,7 @@ const FoodAdvisable = () => {
       key: 'eggs',
       name: 'Eggs',
       imageUrl: eggsImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Versatile and nutritious food rich in protein, commonly used in cooking.',
       details: {
         glutenFree: true,
         containsSodium: true,
@@ -153,7 +153,7 @@ const FoodAdvisable = () => {
       key: 'bread',
       name: 'Bread',
       imageUrl: breadImage,
-      description: 'A nutritious and delicious fruit.',
+      description: 'Staple food made from dough of flour and water, typically baked.',
       details: {
         glutenFree: false,
         containsSodium: true,

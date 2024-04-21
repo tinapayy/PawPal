@@ -27,6 +27,7 @@ export const profDetMixins = {
         width: '15%',
         top: '-75%',
         left: '74%',
+        // paddingVertical:'2%',
     },
     backgroundImage: {
         resizeMode: 'cover',

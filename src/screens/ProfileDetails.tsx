@@ -278,7 +278,6 @@ const ProfileDetails = ({route}) => {
               <Avatar.Image size={50} source={profilePicture} />
             </View>
             <View style={{...styles.UserInfoText, flexDirection: 'column'}}>
-              {/* handle name exceeding 20 characters */}
               <Text
                 style={styles.userName}
                 numberOfLines={2}
@@ -286,38 +285,33 @@ const ProfileDetails = ({route}) => {
                 {name.length > 25
                   ? name.slice(0, 25) + '\n' + name.slice(20)
                   : name}
-                  {/* owner title and text */}
               </Text>
               <Text style={styles.ownerTitle}> Pet Owner </Text>
             </View>
           </View>
           <View style={styles.iconContainer}>
             <View style={{flexDirection: 'row'}}>
-              {userId && (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('Chat', {
-                      senderId: userId,
-                      senderName: name,
-                      senderPicture: profilePicture,
-                    })
-                  }>
-                  <FontAwesomeIcon
-                    icon={icons.faMessage}
-                    style={styles.icon}
-                    size={20}
-                  />
-                </TouchableOpacity>
-              )}
-              {!userId && (
-                <TouchableOpacity onPress={SettingsPage}>
-                  <FontAwesomeIcon
-                    icon={icons.faCog}
-                    style={styles.icon}
-                    size={20}
-                  />
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Chat', {
+                    senderId: userId,
+                    senderName: name,
+                    senderPicture: profilePicture,
+                  })
+                }>
+                <FontAwesomeIcon
+                  icon={icons.faMessage}
+                  style={styles.icon}
+                  size={20}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={SettingsPage}>
+                <FontAwesomeIcon
+                  icon={icons.faCog}
+                  style={styles.icon}
+                  size={20}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.contentScroll}>
@@ -325,11 +319,9 @@ const ProfileDetails = ({route}) => {
               {showFullBio ? bio : truncatedBio}
               {!showFullBio && truncatedBio !== bio && (
                 <>
-                  {/* Add "See more" inline with truncated text */}
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See More
                   </Text>
-                  {/* Add the remaining text after truncatedBio */}
                   {` ${
                     lines.length > numLines
                       ? lines.slice(numLines).join('\n')
@@ -339,7 +331,6 @@ const ProfileDetails = ({route}) => {
               )}
               {showFullBio && (
                 <>
-                  {/* Concatenate "See Less" inline with the last word in the description */}{' '}
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See Less
                   </Text>
@@ -522,9 +513,10 @@ const styles = StyleSheet.create({
   },
 
   iconContainer: {
+    flexDirection:'row',
     zIndex: 5,
-    top: '-75%',
-    left: '85%',
+    top: '-32%',
+    left: '195%',
     // justifyContent:'flex-start',
   },
 
@@ -555,6 +547,7 @@ const styles = StyleSheet.create({
     zIndex: 9,
   },
   settingsIcon: {},
+  // messageIcon:{},
   owner: {
     height: '10%',
   },

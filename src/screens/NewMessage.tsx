@@ -166,7 +166,7 @@ const NewMessage = () => {
           </Text>
           <FlatList
             style={{
-              top: '-13%', left: '7%', width: ScreenWidth,
+              top: '-13%', left: '7%',
               height: '140%',
               zIndex: 5,
               maxHeight: '130%',

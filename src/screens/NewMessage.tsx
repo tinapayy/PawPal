@@ -28,7 +28,6 @@ import { alignmentMixin } from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import { chatMixins } from '../components/chatMixins';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ScreenHeight, ScreenWidth } from 'react-native-elements/dist/helpers';
 
 interface User {
   id: number;
@@ -37,6 +36,7 @@ interface User {
   name: string;
   picture: any;
 }
+
 
 const NewMessage = () => {
   const navigation = useNavigation();

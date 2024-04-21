@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     color: constants.$textColor1,
     marginBottom: '2%',
   },
-  // message bubble
+  // message bubble container
   messageBubble: {
     // flex: 1,
     borderRadius: 10,
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
-  // to be adjusted
+  // incoming message avatar
   incomingMessageAvatar: {
     width: 40,
     height: 40,

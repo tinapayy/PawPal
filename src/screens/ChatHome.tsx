@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -22,16 +22,16 @@ import {
   PostTime,
   MessageText,
 } from '../components/MessageStyle';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useNavigation } from '@react-navigation/native';
-import { getDocs, collection } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import constants from '../styles/constants';
-import { useNavigateTo } from '../components/navigation';
+import {useNavigateTo} from '../components/navigation';
 import * as icons from '../imports/icons/icons';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
-import { chatMixins } from '../components/chatMixins';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {chatMixins} from '../components/chatMixins';
 
 interface Chat {
   id: number;
@@ -79,9 +79,14 @@ const MessagePage = () => {
                   ? chatDoc.data().receiverId
                   : chatDoc.data().senderId,
               senderName: userDoc.data().name,
-              senderPicture: {
-                uri: userDoc.data().profilePicture,
-              },
+              senderPicture:
+                userDoc.data().profilePicture || userDoc.data().clinicPicture
+                  ? {
+                      uri:
+                        userDoc.data().profilePicture ||
+                        userDoc.data().clinicPicture,
+                    }
+                  : require('../images/defaultIcon.png'),
               message:
                 chatDoc.data().senderId === auth.currentUser?.uid
                   ? 'You: ' + chatDoc.data().message
@@ -139,7 +144,7 @@ const MessagePage = () => {
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{ width: '100%', height: '111%', top: '2%' }}>
+        style={{width: '100%', height: '111%', top: '2%'}}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -156,11 +161,11 @@ const MessagePage = () => {
             data={messages}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <Card style={styles.cardContainer}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('ChatHome', {
+                    navigation.navigate('Chat', {
                       senderId: item.senderId,
                       senderName: item.senderName,
                       senderPicture: item.senderPicture,
@@ -238,7 +243,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: '100%',
-    maxWidth:'110%',
+    maxWidth: '110%',
   },
   addIcon: {
     color: constants.$quaternaryColor,

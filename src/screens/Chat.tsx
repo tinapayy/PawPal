@@ -289,11 +289,13 @@ const styles = StyleSheet.create({
   outgoingMessageBubble: {
     backgroundColor: constants.$backgroundColor4,
   },
+  
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
   // incoming message avatar
+
   incomingMessageAvatar: {
     width: 40,
     height: 40,

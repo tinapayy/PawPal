@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     paddingRight: '5%',
   },
   header: {
-    backgroundColor: constants.$octonaryColor,
+    backgroundColor: constants.$primaryColor,
     height: '10%',
     flexDirection: 'row',
     alignItems: 'center',

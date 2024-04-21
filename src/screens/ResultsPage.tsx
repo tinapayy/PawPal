@@ -209,7 +209,7 @@ const ResultsPage = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState<Clinic[]>([]); // Replace with actual filtered clinics from the search bar]
+  const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
 
   const handleSearch = (text: string) => {
     setSearchQuery(text);

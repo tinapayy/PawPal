@@ -27,6 +27,7 @@ import constants from '../styles/constants';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 import FoodAdvisable from './FoodAdvisable';
+import LoadingScreen from '../components/loading';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 const data3 = [
@@ -287,6 +288,7 @@ type Clinic = {
 
 const HomePage = () => {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   const db = FIREBASE_DB;
 
@@ -333,8 +335,10 @@ const HomePage = () => {
         }
       }
       setUserPosts(posts.reverse().slice(0, 3));
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -446,6 +450,10 @@ const HomePage = () => {
   // };
   const ForumPage = useNavigateTo('Forum');
   const ResultsPage = useNavigateTo('ResultsPage');
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>

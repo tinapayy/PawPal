@@ -286,8 +286,9 @@ const ProfileDetails = ({route}) => {
                 {name.length > 25
                   ? name.slice(0, 25) + '\n' + name.slice(20)
                   : name}
+                  {/* owner title and text */}
               </Text>
-              <Text style={styles.ownerTitle}>Pet Owner</Text>
+              <Text style={styles.ownerTitle}> Pet Owner </Text>
             </View>
           </View>
           <View style={styles.iconContainer}>

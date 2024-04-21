@@ -43,6 +43,7 @@ const data3 = [
     description: 'Click Here',
     imageSource: require('../images/kitty.png'),
   },
+
   {
     id: 2,
     img1: require('../images/Ellipse17.png'),

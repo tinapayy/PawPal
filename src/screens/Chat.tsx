@@ -266,6 +266,7 @@ const styles = StyleSheet.create({
     height: '10%',
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 76,
   },
   avatar: {
     width: 50,
@@ -301,7 +302,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '3%',
     paddingVertical: '1%',
     maxWidth: '70%',
-    marginBottom:'-0.8%',
+    marginBottom: '-0.8%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
   outgoingMessageBubble: {
     backgroundColor: constants.$backgroundColor4,
   },
-  
+
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: '3%',
     // paddingVertical: '1%',
     marginBottom: '-0.8%',
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
   },
   messageText: {
     fontSize: 15,
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
   },
   //typing of message
   inputContainer: {
-    marginTop:'4%',
+    marginTop: '4%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,

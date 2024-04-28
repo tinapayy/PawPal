@@ -114,14 +114,14 @@ const ClinicProfile = ({route}) => {
       }}>
       <View>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
             <FontAwesomeIcon
               icon={icons.faArrowLeft}
               size={25}
               style={{color: constants.$secondaryColor}}
             />
           </TouchableOpacity>
-          {!userId && (
+          {(!userId || userId === auth.currentUser?.uid) && (
             <TouchableOpacity onPress={SettingsClinic}>
               <FontAwesomeIcon
                 icon={icons.faGear}
@@ -198,7 +198,7 @@ const ClinicProfile = ({route}) => {
             </View>
           </View>
 
-          {userId && (
+          {userId && userId !== auth.currentUser?.uid && (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('Chat', {

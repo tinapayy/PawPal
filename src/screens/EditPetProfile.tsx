@@ -142,7 +142,7 @@ const PetProfile = ({route}) => {
               pet: arrayUnion(petId),
             });
 
-            Alert.alert('Profile picture updated successfully');
+            Alert.alert('Profile updated successfully');
             navigation.reset({
               index: 0,
               routes: [{name: 'HomePage'}],
@@ -162,7 +162,7 @@ const PetProfile = ({route}) => {
   if (loading) {
     return <LoadingScreen />;
   }
-  
+
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}
@@ -188,7 +188,10 @@ const PetProfile = ({route}) => {
             style={styles.profileImage}
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} />
+            <FontAwesomeIcon
+              icon={icons.faCirclePlus}
+              style={styles.arrowAdd}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.formContainer}>

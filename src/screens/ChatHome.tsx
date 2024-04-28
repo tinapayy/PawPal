@@ -115,6 +115,13 @@ const MessagePage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   function getTimeDifference(postTime) {
     const currentTime = new Date().getTime();
     const postTimestamp = postTime.toDate().getTime();

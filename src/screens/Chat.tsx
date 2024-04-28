@@ -16,7 +16,12 @@ import ImagePicker, {
 } from 'react-native-image-picker';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
 import * as icons from '../imports/icons/icons';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
@@ -29,6 +34,7 @@ interface ChatMessage {
   senderName: string;
   senderPicture: any;
   message: string;
+  chatPicture?: any;
   date: string;
   time: string;
   isSent: boolean;
@@ -39,6 +45,7 @@ const Chat = ({route}) => {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const storage = FIREBASE_STORAGE;
 
   const senderId = route.params?.senderId;
   const senderName = route.params?.senderName;
@@ -72,6 +79,9 @@ const Chat = ({route}) => {
                   ? {uri: userDoc.data().profilePicture}
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
+                chatPicture: chatDoc.data().chatPicture
+                  ? {uri: chatDoc.data().chatPicture}
+                  : null,
                 date: chatDoc.data().time.toDate(),
                 time:
                   // chatDoc.data().time.toDate().toLocaleTimeString('en-US', {
@@ -105,6 +115,7 @@ const Chat = ({route}) => {
   }, []);
 
   const [selectedImage, setSelectedImage] = useState(null);
+
   const openImagePicker = () => {
     const options = {
       mediaType: 'photo',
@@ -136,6 +147,7 @@ const Chat = ({route}) => {
       senderId: auth.currentUser?.uid,
       receiverId: senderId,
       message: text,
+      chatPicture: '',
       time: serverTimestamp(),
     };
 
@@ -150,6 +162,7 @@ const Chat = ({route}) => {
           ? {uri: auth.currentUser?.photoURL}
           : require('../images/chat_icon.jpg'),
         message: text,
+        chatPicture: selectedImage ? {uri: selectedImage} : null,
         date: new Date(),
         time: new Date().toLocaleTimeString('en-US', {
           hour: 'numeric',
@@ -159,6 +172,21 @@ const Chat = ({route}) => {
         isSent: false,
       },
     ]);
+
+    if (selectedImage) {
+      const storageRef = ref(
+        storage,
+        'chatPicture/' + selectedImage.split('/').pop(),
+      );
+      const metadata = {
+        contentType: 'image/jpeg',
+      };
+      const response = await fetch(selectedImage);
+      const blob = await response.blob();
+      await uploadBytes(storageRef, blob, metadata);
+      const imageUrl = await getDownloadURL(storageRef);
+      chatDoc.chatPicture = imageUrl;
+    }
 
     onChangeText('');
     setSelectedImage(null);
@@ -220,8 +248,16 @@ const Chat = ({route}) => {
               <View
                 style={[styles.messageBubble, styles.outgoingMessageBubble]}>
                 <Text style={styles.messageText}>{item.message}</Text>
+                {item.chatPicture ? (
+                  <Image
+                    style={styles.messageImage}
+                    source={item.chatPicture}
+                  />
+                ) : null}
+                {/* Display time icon if message is not yet sent */}
                 {!item.isSent ? (
                   <icons.MaterialIcons
+                    style={{alignSelf: 'flex-end'}}
                     name="access-time"
                     size={20}
                     color={constants.$quaternaryColor}
@@ -246,6 +282,12 @@ const Chat = ({route}) => {
                 <View
                   style={[styles.messageBubble, styles.incomingMessageBubble]}>
                   <Text style={styles.messageText}>{item.message}</Text>
+                  {item.chatPicture ? (
+                    <Image
+                      style={styles.messageImage}
+                      source={item.chatPicture}
+                    />
+                  ) : null}
                 </View>
               </View>
             )}
@@ -255,7 +297,7 @@ const Chat = ({route}) => {
       />
 
       <View style={styles.inputContainer}>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
           <icons.MaterialIcons
@@ -263,8 +305,21 @@ const Chat = ({route}) => {
             size={30}
             color={constants.$quaternaryColor}
           />
-        </TouchableOpacity> */}
-
+        </TouchableOpacity>
+        {selectedImage ? (
+          <View>
+            <Image
+              source={{uri: selectedImage}}
+              style={{width: 100, height: 100, borderRadius: 20}}
+            />
+            <icons.MaterialIcons
+              name="close"
+              size={20}
+              color={constants.$quaternaryColor}
+              onPress={() => setSelectedImage(null)}
+            />
+          </View>
+        ) : null}
         <TextInput
           style={styles.input}
           onChangeText={onChangeText}

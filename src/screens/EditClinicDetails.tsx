@@ -41,6 +41,7 @@ import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import LoadingScreen from '../components/loading';
+import CustomAlert from '../components/CustomAlert';
 
 const PawPalApp = () => {
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
@@ -50,6 +51,12 @@ const PawPalApp = () => {
   const auth = FIREBASE_AUTH;
   const storage = FIREBASE_STORAGE;
   const [loading, setLoading] = useState(true);
+
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const [selectedImage, setSelectedImage] = useState('');
   const [number, setNumber] = useState('');
@@ -115,10 +122,15 @@ const PawPalApp = () => {
           }
           try {
             await updateDoc(userRef, updateData);
-            Alert.alert('Profile updated successfully');
+            setShowAlert({
+              visible: true,
+              title: 'Action Completed',
+              message: 'Profile updated successfully.'
+            });
+            //Alert.alert('Profile updated successfully');
             navigation.reset({
               index: 0,
-              routes: [{name: 'HomePage'}] as any,
+              routes: [{name: 'ClinicProfile'}] as any,
             });
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
@@ -130,12 +142,13 @@ const PawPalApp = () => {
       console.log('Error querying user data: ', error);
       Alert.alert('Error updating clinic details. Please try again.');
     }
+
   };
 
   const cancelEditClinic = () => {
     navigation.reset({
       index: 0,
-      routes: [{name: 'HomePage'}] as any,
+      routes: [{name: 'ClinicProfile'}] as any,
     });
   };
 
@@ -160,7 +173,12 @@ const PawPalApp = () => {
 
   const handleSaveTagInput = () => {
     handleTagsChange(tags);
-    Alert.alert('Services tags updated successfully');
+    setShowAlert({
+      visible: true,
+      title: 'Action Completed',
+      message: 'Services tags updated successfully.',
+    });
+    //Alert.alert('Services tags updated successfully');
     setInputVisible(!isInputVisible);
   };
 
@@ -551,6 +569,12 @@ const PawPalApp = () => {
           </View>
         </ScrollView>
       </ImageBackground>
+      <CustomAlert
+            visible={showAlert.visible} // Pass the state to control visibility
+            title={showAlert.title} // Pass the title from showAlert
+            message={showAlert.message} // Pass the message from showAlert
+            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+          />
     </SafeAreaView>
   );
 };

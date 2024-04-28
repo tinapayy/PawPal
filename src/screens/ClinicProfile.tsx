@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   servicesView: {
     left: '35%',
     color: constants.$textColor1,
-    textAlign: ' center ',
+    textAlign: 'center',
     backgroundColor: '#f1d5c5',
     padding: '2.5%',
     borderRadius: 20,
@@ -375,13 +375,13 @@ const styles = StyleSheet.create({
   },
   locText: {
     color: constants.$senaryColor,
-    marginLeft: '9%',
+    marginLeft: '7%',
     fontFamily: constants.$fontFamilyMedium,
     fontSize: 21,
     padding: '3%',
   },
   addressText: {
-    marginLeft: '12%',
+    marginLeft: '10%',
     fontSize: 14,
     fontFamily: constants.$fontFamilyMedium,
   },

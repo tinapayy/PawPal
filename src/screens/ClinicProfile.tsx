@@ -114,7 +114,7 @@ const ClinicProfile = ({route}) => {
       }}>
       <View>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
             <FontAwesomeIcon
               icon={icons.faArrowLeft}
               size={25}

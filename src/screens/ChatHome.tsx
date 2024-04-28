@@ -89,7 +89,11 @@ const MessagePage = () => {
                   : require('../images/defaultIcon.png'),
               message:
                 chatDoc.data().senderId === auth.currentUser?.uid
-                  ? 'You: ' + chatDoc.data().message
+                  ? chatDoc.data().chatPicture
+                    ? 'You sent a photo.'
+                    : 'You: ' + chatDoc.data().message
+                  : chatDoc.data().chatPicture
+                  ? userDoc.data().name + 'sent a photo.'
                   : chatDoc.data().message,
               date: chatDoc.data().time.toDate(),
               time: getTimeDifference(chatDoc.data().time),
@@ -114,6 +118,13 @@ const MessagePage = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   function getTimeDifference(postTime) {
     const currentTime = new Date().getTime();

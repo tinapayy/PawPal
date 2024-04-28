@@ -16,7 +16,12 @@ import ImagePicker, {
 } from 'react-native-image-picker';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_STORAGE,
+} from '../../firebase.config';
 import * as icons from '../imports/icons/icons';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
@@ -29,8 +34,10 @@ interface ChatMessage {
   senderName: string;
   senderPicture: any;
   message: string;
+  chatPicture?: any;
   date: string;
   time: string;
+  isSent: boolean;
 }
 
 const Chat = ({route}) => {
@@ -38,6 +45,7 @@ const Chat = ({route}) => {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const storage = FIREBASE_STORAGE;
 
   const senderId = route.params?.senderId;
   const senderName = route.params?.senderName;
@@ -71,6 +79,9 @@ const Chat = ({route}) => {
                   ? {uri: userDoc.data().profilePicture}
                   : require('../images/chat_icon.jpg'),
                 message: chatDoc.data().message,
+                chatPicture: chatDoc.data().chatPicture
+                  ? {uri: chatDoc.data().chatPicture}
+                  : null,
                 date: chatDoc.data().time.toDate(),
                 time:
                   // chatDoc.data().time.toDate().toLocaleTimeString('en-US', {
@@ -83,6 +94,7 @@ const Chat = ({route}) => {
                     hour: 'numeric',
                     minute: 'numeric',
                   }),
+                isSent: true,
               });
             }
           }
@@ -103,6 +115,7 @@ const Chat = ({route}) => {
   }, []);
 
   const [selectedImage, setSelectedImage] = useState(null);
+
   const openImagePicker = () => {
     const options = {
       mediaType: 'photo',
@@ -134,13 +147,53 @@ const Chat = ({route}) => {
       senderId: auth.currentUser?.uid,
       receiverId: senderId,
       message: text,
+      chatPicture: '',
       time: serverTimestamp(),
     };
-    const chatRef = await addDoc(collection(db, 'chat'), chatDoc);
-    console.log('Document written with ID: ', chatRef.id);
+
+    setMessages([
+      ...messages,
+      {
+        id: messages.length + 1,
+        senderId: auth.currentUser?.uid,
+        receiverId: senderId,
+        senderName: auth.currentUser?.displayName,
+        senderPicture: auth.currentUser?.photoURL
+          ? {uri: auth.currentUser?.photoURL}
+          : require('../images/chat_icon.jpg'),
+        message: text,
+        chatPicture: selectedImage ? {uri: selectedImage} : null,
+        date: new Date(),
+        time: new Date().toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+        }),
+        isSent: false,
+      },
+    ]);
+
+    if (selectedImage) {
+      const storageRef = ref(
+        storage,
+        'chatPicture/' + selectedImage.split('/').pop(),
+      );
+      const metadata = {
+        contentType: 'image/jpeg',
+      };
+      const response = await fetch(selectedImage);
+      const blob = await response.blob();
+      await uploadBytes(storageRef, blob, metadata);
+      const imageUrl = await getDownloadURL(storageRef);
+      chatDoc.chatPicture = imageUrl;
+    }
 
     onChangeText('');
     setSelectedImage(null);
+
+    const chatRef = await addDoc(collection(db, 'chat'), chatDoc);
+    console.log('Document written with ID: ', chatRef.id);
+
     fetchData();
   };
 
@@ -195,6 +248,21 @@ const Chat = ({route}) => {
               <View
                 style={[styles.messageBubble, styles.outgoingMessageBubble]}>
                 <Text style={styles.messageText}>{item.message}</Text>
+                {item.chatPicture ? (
+                  <Image
+                    style={styles.messageImage}
+                    source={item.chatPicture}
+                  />
+                ) : null}
+                {/* Display time icon if message is not yet sent */}
+                {!item.isSent ? (
+                  <icons.MaterialIcons
+                    style={{alignSelf: 'flex-end'}}
+                    name="access-time"
+                    size={20}
+                    color={constants.$quaternaryColor}
+                  />
+                ) : null}
               </View>
             ) : (
               <View style={[styles.incomingMessageAvatarWrapper]}>
@@ -214,6 +282,12 @@ const Chat = ({route}) => {
                 <View
                   style={[styles.messageBubble, styles.incomingMessageBubble]}>
                   <Text style={styles.messageText}>{item.message}</Text>
+                  {item.chatPicture ? (
+                    <Image
+                      style={styles.messageImage}
+                      source={item.chatPicture}
+                    />
+                  ) : null}
                 </View>
               </View>
             )}
@@ -223,7 +297,7 @@ const Chat = ({route}) => {
       />
 
       <View style={styles.inputContainer}>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={openImagePicker}
           style={styles.attachmentButton}>
           <icons.MaterialIcons
@@ -231,8 +305,21 @@ const Chat = ({route}) => {
             size={30}
             color={constants.$quaternaryColor}
           />
-        </TouchableOpacity> */}
-
+        </TouchableOpacity>
+        {selectedImage ? (
+          <View>
+            <Image
+              source={{uri: selectedImage}}
+              style={{width: 100, height: 100, borderRadius: 20}}
+            />
+            <icons.MaterialIcons
+              name="close"
+              size={20}
+              color={constants.$quaternaryColor}
+              onPress={() => setSelectedImage(null)}
+            />
+          </View>
+        ) : null}
         <TextInput
           style={styles.input}
           onChangeText={onChangeText}
@@ -266,6 +353,7 @@ const styles = StyleSheet.create({
     height: '10%',
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 76,
   },
   avatar: {
     width: 50,
@@ -301,7 +389,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '3%',
     paddingVertical: '1%',
     maxWidth: '70%',
-    marginBottom:'-0.8%',
+    marginBottom: '-0.8%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
@@ -310,7 +398,7 @@ const styles = StyleSheet.create({
   outgoingMessageBubble: {
     backgroundColor: constants.$backgroundColor4,
   },
-  
+
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -334,7 +422,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: '3%',
     // paddingVertical: '1%',
     marginBottom: '-0.8%',
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
   },
   messageText: {
     fontSize: 15,
@@ -348,7 +436,7 @@ const styles = StyleSheet.create({
   },
   //typing of message
   inputContainer: {
-    marginTop:'4%',
+    marginTop: '4%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,

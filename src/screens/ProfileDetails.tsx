@@ -291,27 +291,30 @@ const ProfileDetails = ({route}) => {
           </View>
           <View style={styles.iconContainer}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('Chat', {
-                    senderId: userId,
-                    senderName: name,
-                    senderPicture: profilePicture,
-                  })
-                }>
-                <FontAwesomeIcon
-                  icon={icons.faMessage}
-                  style={styles.icon}
-                  size={20}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={SettingsPage}>
-                <FontAwesomeIcon
-                  icon={icons.faCog}
-                  style={styles.icon}
-                  size={20}
-                />
-              </TouchableOpacity>
+              {userId ? (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Chat', {
+                      senderId: userId,
+                      senderName: name,
+                      senderPicture: profilePicture,
+                    })
+                  }>
+                  <FontAwesomeIcon
+                    icon={icons.faMessage}
+                    style={styles.icon}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={SettingsPage}>
+                  <FontAwesomeIcon
+                    icon={icons.faCog}
+                    style={styles.icon}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <View style={styles.contentScroll}>
@@ -513,7 +516,7 @@ const styles = StyleSheet.create({
   },
 
   iconContainer: {
-    flexDirection:'row',
+    flexDirection: 'row',
     zIndex: 5,
     top: '-32%',
     left: '195%',

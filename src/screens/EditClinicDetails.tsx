@@ -84,7 +84,7 @@ const PawPalApp = () => {
           const userRef = doc(collection(db, 'user'), currentDoc.id);
           const updateData = {
             clinicPicture: selectedImage,
-            services: tagsInput,
+            services: tags,
             contactInfo: number,
             about: description,
             storeHours: selectedDays,
@@ -118,7 +118,7 @@ const PawPalApp = () => {
             Alert.alert('Profile updated successfully');
             navigation.reset({
               index: 0,
-              routes: [{name: 'HomePage'}] as any,
+              routes: [{name: 'ClinicProfile'}] as any,
             });
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
@@ -133,10 +133,7 @@ const PawPalApp = () => {
   };
 
   const cancelEditClinic = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'HomePage'}] as any,
-    });
+    navigation.goBack();
   };
 
   interface AppButtonProps {

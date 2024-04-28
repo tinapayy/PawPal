@@ -31,6 +31,7 @@ interface ChatMessage {
   message: string;
   date: string;
   time: string;
+  isSent: boolean;
 }
 
 const Chat = ({route}) => {
@@ -83,6 +84,7 @@ const Chat = ({route}) => {
                     hour: 'numeric',
                     minute: 'numeric',
                   }),
+                isSent: true,
               });
             }
           }
@@ -136,11 +138,34 @@ const Chat = ({route}) => {
       message: text,
       time: serverTimestamp(),
     };
-    const chatRef = await addDoc(collection(db, 'chat'), chatDoc);
-    console.log('Document written with ID: ', chatRef.id);
+
+    setMessages([
+      ...messages,
+      {
+        id: messages.length + 1,
+        senderId: auth.currentUser?.uid,
+        receiverId: senderId,
+        senderName: auth.currentUser?.displayName,
+        senderPicture: auth.currentUser?.photoURL
+          ? {uri: auth.currentUser?.photoURL}
+          : require('../images/chat_icon.jpg'),
+        message: text,
+        date: new Date(),
+        time: new Date().toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+        }),
+        isSent: false,
+      },
+    ]);
 
     onChangeText('');
     setSelectedImage(null);
+
+    const chatRef = await addDoc(collection(db, 'chat'), chatDoc);
+    console.log('Document written with ID: ', chatRef.id);
+
     fetchData();
   };
 
@@ -195,6 +220,13 @@ const Chat = ({route}) => {
               <View
                 style={[styles.messageBubble, styles.outgoingMessageBubble]}>
                 <Text style={styles.messageText}>{item.message}</Text>
+                {!item.isSent ? (
+                  <icons.MaterialIcons
+                    name="access-time"
+                    size={20}
+                    color={constants.$quaternaryColor}
+                  />
+                ) : null}
               </View>
             ) : (
               <View style={[styles.incomingMessageAvatarWrapper]}>

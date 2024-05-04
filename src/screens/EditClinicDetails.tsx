@@ -140,12 +140,6 @@ const PawPalApp = () => {
                 title: 'Action Completed',
                 message: 'Profile updated successfully.'
             });   
-                 
-            //Alert.alert ("Profile updated successfully.");
-            // navigation.reset({
-            //     index: 0,
-            //     routes: [{ name: 'ClinicProfile' }] as any,
-            // });
         }
          catch (updateError) {
             console.error('Error updating profile:', updateError);

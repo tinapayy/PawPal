@@ -14,6 +14,7 @@ import ImagePicker, {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import { TextInputContentSizeChangeEventData } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, serverTimestamp, addDoc} from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
@@ -250,10 +251,14 @@ const Chat = ({route}) => {
                 <Text style={styles.messageText}>{item.message}</Text>
                 {item.chatPicture ? (
                   <Image
-                    style={styles.messageImage}
-                    source={item.chatPicture}
-                  />
+                  style={[
+                    styles.messageImage,
+                    item.isSent && { backgroundColor: 'transparent' },
+                  ]}
+                  source={item.chatPicture}
+                />
                 ) : null}
+                
                 {/* Display time icon if message is not yet sent */}
                 {!item.isSent ? (
                   <icons.MaterialIcons
@@ -283,10 +288,13 @@ const Chat = ({route}) => {
                   style={[styles.messageBubble, styles.incomingMessageBubble]}>
                   <Text style={styles.messageText}>{item.message}</Text>
                   {item.chatPicture ? (
-                    <Image
-                      style={styles.messageImage}
-                      source={item.chatPicture}
-                    />
+                      <Image
+                        style={[
+                          styles.messageImage,
+                          item.isSent && { backgroundColor: 'transparent' },
+                        ]}
+                        source={item.chatPicture}
+                      />
                   ) : null}
                 </View>
               </View>
@@ -306,27 +314,43 @@ const Chat = ({route}) => {
             color={constants.$quaternaryColor}
           />
         </TouchableOpacity>
-        {selectedImage ? (
-          <View>
-            <Image
-              source={{uri: selectedImage}}
-              style={{width: 100, height: 100, borderRadius: 20}}
-            />
-            <icons.MaterialIcons
-              name="close"
-              size={20}
-              color={constants.$quaternaryColor}
-              onPress={() => setSelectedImage(null)}
-            />
-          </View>
-        ) : null}
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeText}
-          placeholder="Type a message..."
-          value={text}
-          multiline={true}
-        />
+        <View style={styles.textInputContainer}>
+          {selectedImage ? (
+            <View style={styles.selectedImageContainer}>
+              <Image
+                source={{ uri: selectedImage }}
+                style={styles.selectedImage}
+              />
+              <TouchableOpacity
+                style={styles.closeIconContainer}
+                onPress={() => setSelectedImage(null)}
+              >
+                // unselecting the image to be sent
+                <icons.MaterialIcons
+                  name="close"
+                  size={20}
+                  color={constants.$textColor1}
+                  style={styles.closeIcon}
+                />
+              </TouchableOpacity>     
+            </View>
+          ) : null}
+          <TextInput
+            style={[
+              styles.input,
+              selectedImage && { paddingTop: 50 },
+            ]}
+            // Callback that is called when the text input's text changes
+            onChangeText={onChangeText}
+            placeholder="Type a message..."
+            value={text}
+            multiline={true}
+            // Adjust the text input's height based on its content
+            onContentSizeChange={(event) =>
+              onChangeText(event.nativeEvent.text)
+            }
+          />
+        </View>
         <Pressable style={styles.sendButton} onPress={sendMessage}>
           <icons.MaterialIcons
             name="send"
@@ -335,7 +359,7 @@ const Chat = ({route}) => {
           />
         </Pressable>
       </View>
-    </View>
+      </View>
   );
 };
 
@@ -433,6 +457,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
     alignSelf: 'flex-end',
+    backgroundColor:'transparent',
   },
   //typing of message
   inputContainer: {
@@ -459,6 +484,39 @@ const styles = StyleSheet.create({
     margin: '2%',
   },
   sendIcon: {},
+  textInputContainer:{
+    flexDirection: 'row',
+    position:'relative',
+    width:'79%',
+  },
+  selectedImageContainer: {
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 20,
+    paddingLeft: 10,
+  },
+  selectedImage: {
+    width: 60,
+    height: 40,
+    borderRadius: 10,
+    alignItems:'center',
+    top:'15%',
+    // marginRight: 5,
+  },
+  closeIcon: {
+    marginLeft: 1,
+  },
+  closeIconContainer:{
+    position: 'absolute',
+    zIndex:5,
+    top: 5,
+    left: 35,
+    backgroundColor: 'rgba(220, 150, 100, 0.5)',
+    borderRadius: 30,
+    padding: 5,
+
+  },
 });
 
 export default Chat;

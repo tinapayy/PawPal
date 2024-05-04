@@ -37,6 +37,7 @@ import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
+import CustomAlert from '../components/CustomAlert';
 
 const PawPalApp = () => {
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
@@ -70,6 +71,18 @@ const PawPalApp = () => {
   const [currentDay, setCurrentDay] = useState('');
 
   const [tagsInput, setTagsInput] = useState([]);
+
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  }); 
+  const [showAlert1, setShowAlert1] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  }); 
+
 
   const saveClinicInfo = async () => {
     try {
@@ -110,11 +123,11 @@ const PawPalApp = () => {
           }
           try {
             await updateDoc(userRef, updateData);
-            Alert.alert('Profile updated successfully');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'HomePage'}] as any,
-            });
+            setShowAlert({
+              visible: true,
+              title: 'Action Completed',
+              message: 'Profile updated successfully.'
+          }); 
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating clinic profile. Please try again.');
@@ -155,7 +168,11 @@ const PawPalApp = () => {
 
   const handleSaveTagInput = () => {
     handleTagsChange(tags);
-    Alert.alert('Services tags updated successfully');
+    setShowAlert1({
+      visible: true,
+      title: 'Action Completed',
+      message: 'Services tags updated successfully.',
+    });
     setInputVisible(!isInputVisible);
   };
 
@@ -507,6 +524,21 @@ const PawPalApp = () => {
             </View>
           </View>
         </ScrollView>
+        <CustomAlert
+            visible={showAlert.visible} // Pass the state to control visibility
+            title={showAlert.title} // Pass the title from showAlert
+            message={showAlert.message} // Pass the message from showAlert
+            onClose={() => {
+              setShowAlert({ visible: false, title: '', message: '' });
+              navigation.navigate('HomePage'); // Navigate to a different page
+          }} // Close the alert on button press
+          />
+          <CustomAlert
+            visible={showAlert1.visible} // Pass the state to control visibility
+            title={showAlert1.title} // Pass the title from showAlert
+            message={showAlert1.message} // Pass the message from showAlert
+            onClose={() => {setShowAlert1({ visible: false, title: '', message: '' })}} // Close the alert on button press
+          />
       </ImageBackground>
     </SafeAreaView>
   );

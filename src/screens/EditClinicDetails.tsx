@@ -16,6 +16,7 @@ import {
   Button,
   ImageBackground,
   Dimensions,
+  ImageStyle,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -56,7 +57,12 @@ const PawPalApp = () => {
     visible: false,
     title: '',
     message: '',
-  });
+  }); 
+  const [showAlert1, setShowAlert1] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  }); 
 
   const [selectedImage, setSelectedImage] = useState('');
   const [number, setNumber] = useState('');
@@ -82,6 +88,13 @@ const PawPalApp = () => {
   const [currentDay, setCurrentDay] = useState('');
 
   const [tagsInput, setTagsInput] = useState([]);
+
+  const handleNavigate = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'ClinicProfile' }] as any,
+    });
+  }
 
   const saveClinicInfo = async () => {
     try {
@@ -123,26 +136,22 @@ const PawPalApp = () => {
           try {
             await updateDoc(userRef, updateData);
             setShowAlert({
-              visible: true,
-              title: 'Action Completed',
-              message: 'Profile updated successfully.'
-            });
-            //Alert.alert('Profile updated successfully');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'ClinicProfile'}] as any,
-            });
-          } catch (updateError) {
+                visible: true,
+                title: 'Action Completed',
+                message: 'Profile updated successfully.'
+            });   
+        }
+         catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating clinic profile. Please try again.');
-          }
+        }        
         }
       });
-    } catch (error) {
+    } 
+    catch (error) {
       console.log('Error querying user data: ', error);
       Alert.alert('Error updating clinic details. Please try again.');
     }
-
   };
 
   const cancelEditClinic = () => {
@@ -170,12 +179,11 @@ const PawPalApp = () => {
 
   const handleSaveTagInput = () => {
     handleTagsChange(tags);
-    setShowAlert({
+    setShowAlert1({
       visible: true,
       title: 'Action Completed',
       message: 'Services tags updated successfully.',
     });
-    //Alert.alert('Services tags updated successfully');
     setInputVisible(!isInputVisible);
   };
 
@@ -565,13 +573,22 @@ const PawPalApp = () => {
             </View>
           </View>
         </ScrollView>
-      </ImageBackground>
-      <CustomAlert
+        <CustomAlert
             visible={showAlert.visible} // Pass the state to control visibility
             title={showAlert.title} // Pass the title from showAlert
             message={showAlert.message} // Pass the message from showAlert
-            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+            onClose={() => {
+              setShowAlert({ visible: false, title: '', message: '' });
+              navigation.navigate('ClinicProfile'); // Navigate to a different page
+          }} // Close the alert on button press
           />
+          <CustomAlert
+            visible={showAlert1.visible} // Pass the state to control visibility
+            title={showAlert1.title} // Pass the title from showAlert
+            message={showAlert1.message} // Pass the message from showAlert
+            onClose={() => {setShowAlert1({ visible: false, title: '', message: '' })}} // Close the alert on button press
+          />
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -605,7 +622,7 @@ const styles = StyleSheet.create({
     margin: '1%',
     height: 150,
     width: '82%',
-  } as ViewStyle,
+  } as ImageStyle,
   style2: {
     flexDirection: 'column',
     flexWrap: 'wrap',

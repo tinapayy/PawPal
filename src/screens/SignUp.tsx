@@ -20,6 +20,7 @@ import SwitchButton from '../components/SwitchButton';
 import {useNavigation} from '@react-navigation/native';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
+import CustomAlert from '../components/CustomAlert';
 
 const SignIn = () => {
   type Nav = {
@@ -36,11 +37,20 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const signUp = async () => {
     try {
       if (password !== confirmPassword) {
-        Alert.alert('Password do not match');
+        setShowAlert({
+          visible: true,
+          title: 'Action Incomplete',
+          message: 'Password do not match.'
+      });
         return;
       }
       const response = await createUserWithEmailAndPassword(
@@ -84,6 +94,12 @@ const SignIn = () => {
       }
 
       const docRef = await addDoc(collection(db, 'user'), userDoc);
+      // still not showing //
+      setShowAlert({
+        visible: true,
+        title: 'Action Completed',
+        message: 'User created successfully.'
+    });
       Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {
@@ -184,6 +200,12 @@ const SignIn = () => {
           </Text>
         </TouchableOpacity>
       </ScrollView>
+      <CustomAlert
+            visible={showAlert.visible} // Pass the state to control visibility
+            title={showAlert.title} // Pass the title from showAlert
+            message={showAlert.message} // Pass the message from showAlert
+            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+          />
     </SafeAreaView>
   );
 };

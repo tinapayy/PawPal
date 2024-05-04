@@ -467,6 +467,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 15,
+    left:'3%',
     fontFamily: constants.$fontFamilyRegular,
   },
   messageImage: {
@@ -525,13 +526,13 @@ const styles = StyleSheet.create({
     marginLeft: 1,
   },
   closeIconContainer:{
-    position: 'absolute',
+    position: 'relative',
     zIndex:5,
-    top: 5,
-    left: 35,
+    top: '-2%',
+    right: '45%',
     backgroundColor: 'rgba(220, 150, 100, 0.5)',
-    borderRadius: 30,
-    padding: 5,
+    borderRadius: 50,
+    padding: '2%',
 
   },
 });

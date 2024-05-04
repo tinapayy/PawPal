@@ -21,6 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
+import CustomAlert from '../components/CustomAlert';
 
 const SignIn = () => {
   type Nav = {
@@ -35,6 +36,11 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const signIn = async () => {
     if (email === 'admin@pawpal.com' && password === 'pawpal') {
@@ -74,7 +80,11 @@ const SignIn = () => {
           }
         });
         if (!userFound) {
-          Alert.alert('User not found');
+          setShowAlert({
+            visible: true,
+            title: 'Action Incomplete',
+            message: 'User not found.'
+        });
         }
       } catch (error) {
         console.error(error);
@@ -142,6 +152,12 @@ const SignIn = () => {
           </View>
         </View>
       </ScrollView>
+      <CustomAlert
+            visible={showAlert.visible} // Pass the state to control visibility
+            title={showAlert.title} // Pass the title from showAlert
+            message={showAlert.message} // Pass the message from showAlert
+            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+          />
     </SafeAreaView>
   );
 };

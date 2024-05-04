@@ -203,7 +203,8 @@ const Chat = ({route}) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.goBack()}>
+          onPress={() => navigation.goBack()}
+        >
           <icons.MaterialIcons
             name="arrow-back"
             size={30}
@@ -213,7 +214,9 @@ const Chat = ({route}) => {
         <Image
           style={styles.avatar}
           source={
-            senderPicture ? senderPicture : require('../images/chat_icon.jpg')
+            senderPicture
+              ? senderPicture
+              : require('../images/chat_icon.jpg')
           }
         />
         <Text style={styles.headerText}>{senderName}</Text>
@@ -222,17 +225,20 @@ const Chat = ({route}) => {
       <FlatList
         inverted
         data={[...messages].reverse()}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <View
             style={
               item.senderId === auth.currentUser?.uid
                 ? [styles.messageWrapper, styles.outgoingMessageWrapper]
                 : styles.messageWrapper
-            }>
+            }
+          >
             {/* Display timestamp if it is the first message or if the time difference is more than 5 minutes */}
             {messages.indexOf(item) === 0 ||
-            new Date(item.date).getTime() -
-              new Date(messages[messages.indexOf(item) - 1].date).getTime() >
+              new Date(item.date).getTime() -
+              new Date(
+                messages[messages.indexOf(item) - 1].date
+              ).getTime() >
               5 * 60 * 1000 ? (
               <Text style={styles.timestamp}>
                 {new Date(item.date).toLocaleDateString('en-US', {
@@ -247,22 +253,23 @@ const Chat = ({route}) => {
             ) : null}
             {item.senderId === auth.currentUser?.uid ? (
               <View
-                style={[styles.messageBubble, styles.outgoingMessageBubble]}>
+                style={[styles.messageBubble, styles.outgoingMessageBubble]}
+              >
                 <Text style={styles.messageText}>{item.message}</Text>
                 {item.chatPicture ? (
                   <Image
-                  style={[
-                    styles.messageImage,
-                    item.isSent && { backgroundColor: 'transparent' },
-                  ]}
-                  source={item.chatPicture}
-                />
+                    style={[
+                      styles.messageImage,
+                      item.isSent && { backgroundColor: 'transparent' },
+                    ]}
+                    source={item.chatPicture}
+                  />
                 ) : null}
-                
+
                 {/* Display time icon if message is not yet sent */}
                 {!item.isSent ? (
                   <icons.MaterialIcons
-                    style={{alignSelf: 'flex-end'}}
+                    style={{ alignSelf: 'flex-end' }}
                     name="access-time"
                     size={20}
                     color={constants.$quaternaryColor}
@@ -272,42 +279,49 @@ const Chat = ({route}) => {
             ) : (
               <View style={[styles.incomingMessageAvatarWrapper]}>
                 {messages.indexOf(item) === messages.length - 1 ||
-                new Date(messages[messages.indexOf(item) + 1].date).getTime() -
+                  new Date(
+                    messages[messages.indexOf(item) + 1].date
+                  ).getTime() -
                   new Date(item.date).getTime() >
                   5 * 60 * 1000 ||
-                messages[messages.indexOf(item) + 1].senderId !==
+                  messages[messages.indexOf(item) + 1].senderId !==
                   item.senderId ? (
                   <Image
                     style={styles.incomingMessageAvatar}
                     source={item.senderPicture}
                   />
                 ) : (
-                  <View style={{width: '12%'}}></View>
+                  <View style={{ width: '12%' }}></View>
                 )}
                 <View
-                  style={[styles.messageBubble, styles.incomingMessageBubble]}>
+                  style={[
+                    styles.messageBubble,
+                    styles.incomingMessageBubble,
+                  ]}
+                >
                   <Text style={styles.messageText}>{item.message}</Text>
                   {item.chatPicture ? (
-                      <Image
-                        style={[
-                          styles.messageImage,
-                          item.isSent && { backgroundColor: 'transparent' },
-                        ]}
-                        source={item.chatPicture}
-                      />
+                    <Image
+                      style={[
+                        styles.messageImage,
+                        item.isSent && { backgroundColor: 'transparent' },
+                      ]}
+                      source={item.chatPicture}
+                    />
                   ) : null}
                 </View>
               </View>
             )}
           </View>
         )}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
       />
 
       <View style={styles.inputContainer}>
         <TouchableOpacity
           onPress={openImagePicker}
-          style={styles.attachmentButton}>
+          style={styles.attachmentButton}
+        >
           <icons.MaterialIcons
             name="attachment"
             size={30}
@@ -325,14 +339,13 @@ const Chat = ({route}) => {
                 style={styles.closeIconContainer}
                 onPress={() => setSelectedImage(null)}
               >
-                // unselecting the image to be sent
                 <icons.MaterialIcons
                   name="close"
                   size={20}
                   color={constants.$textColor1}
                   style={styles.closeIcon}
                 />
-              </TouchableOpacity>     
+              </TouchableOpacity>
             </View>
           ) : null}
           <TextInput
@@ -340,14 +353,17 @@ const Chat = ({route}) => {
               styles.input,
               selectedImage && { paddingTop: 50 },
             ]}
-            // Callback that is called when the text input's text changes
             onChangeText={onChangeText}
             placeholder="Type a message..."
             value={text}
             multiline={true}
-            // Adjust the text input's height based on its content
-            onContentSizeChange={(event) =>
-              onChangeText(event.nativeEvent.text)
+            onContentSizeChange={(
+              event: TextInputContentSizeChangeEventData,
+            ) => {
+              if (event.nativeEvent.contentSize.height < 100) {
+                event.nativeEvent.contentSize.height = 100;
+              }
+            }
             }
           />
         </View>
@@ -359,9 +375,10 @@ const Chat = ({route}) => {
           />
         </Pressable>
       </View>
-      </View>
+    </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -411,9 +428,9 @@ const styles = StyleSheet.create({
     // flex: 1,
     borderRadius: 10,
     paddingHorizontal: '3%',
-    paddingVertical: '1%',
+    paddingVertical: '3%',
     maxWidth: '70%',
-    marginBottom: '-0.8%',
+    marginBottom: '0.8%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',

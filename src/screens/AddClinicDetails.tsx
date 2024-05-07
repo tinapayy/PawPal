@@ -16,6 +16,7 @@ import {
   Button,
   ImageBackground,
   Dimensions,
+  ImageStyle,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -83,6 +84,7 @@ const PawPalApp = () => {
     message: '',
   }); 
 
+  const HomePage = useNavigateTo('HomePage');
 
   const saveClinicInfo = async () => {
     try {
@@ -530,7 +532,7 @@ const PawPalApp = () => {
             message={showAlert.message} // Pass the message from showAlert
             onClose={() => {
               setShowAlert({ visible: false, title: '', message: '' });
-              navigation.navigate('HomePage'); // Navigate to a different page
+              {HomePage}; // Navigate to a different page
           }} // Close the alert on button press
           />
           <CustomAlert
@@ -573,7 +575,7 @@ const styles = StyleSheet.create({
     margin: '1%',
     height: 150,
     width: '82%',
-  } as ViewStyle,
+  } as ImageStyle,
   style2: {
     flexDirection: 'column',
     flexWrap: 'wrap',

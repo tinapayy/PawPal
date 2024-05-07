@@ -35,6 +35,7 @@ import {
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import LoadingScreen from '../components/loading';
+import CustomAlert from '../components/CustomAlert';
 
 const PetProfile = ({route}) => {
   const navigation = useNavigation();
@@ -42,6 +43,16 @@ const PetProfile = ({route}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
+  const [showAlert1, setShowAlert1] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const {petId} = route.params;
 
@@ -96,7 +107,12 @@ const PetProfile = ({route}) => {
   const updatePetProfile = async () => {
     try {
       if (!petPicture) {
-        Alert.alert('Please select a picture of your pet');
+        setShowAlert({
+          visible: true,
+          title: 'Action Incomplete',
+          message: 'Please select a picture of your pet.'
+      });
+        //Alert.alert('Please select a picture of your pet');
         return;
       }
 
@@ -141,21 +157,35 @@ const PetProfile = ({route}) => {
             await updateDoc(userRef, {
               pet: arrayUnion(petId),
             });
-
-            Alert.alert('Profile updated successfully');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'HomePage'}],
-            });
+            setShowAlert1({
+              visible: true,
+              title: 'Action Completed',
+              message: 'Profile updated successfully.'
+          });
+            //Alert.alert('Profile updated successfully');
+            // navigation.reset({
+            //   index: 0,
+            //   routes: [{name: 'HomePage'}],
+            // });
           } catch (updateError) {
-            console.error('Error updating profile:', updateError);
-            Alert.alert('Error updating profile. Please try again.');
+            setShowAlert({
+              visible: true,
+              title: 'Action Incomplete',
+              message: 'Error updating profile. Please try again.'
+          });
+            //console.error('Error updating profile:', updateError);
+            //Alert.alert('Error updating profile. Please try again.');
           }
         }
       });
     } catch (error) {
-      console.error('Error uploading profile picture:', error);
-      Alert.alert('Error updating profile picture. Please try again.');
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Error updating profile. Please try again.'
+    });
+      //console.error('Error uploading profile picture:', error);
+      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 
@@ -298,6 +328,21 @@ const PetProfile = ({route}) => {
           </View>
         </View>
       </View>
+      <CustomAlert
+            visible={showAlert1.visible} // Pass the state to control visibility
+            title={showAlert1.title} // Pass the title from showAlert
+            message={showAlert1.message} // Pass the message from showAlert
+            onClose={() => {
+              setShowAlert1({ visible: false, title: '', message: '' });
+              navigation.navigate('HomePage'); // Navigate to a different page
+          }} // Close the alert on button press
+          />
+          <CustomAlert
+            visible={showAlert.visible} // Pass the state to control visibility
+            title={showAlert.title} // Pass the title from showAlert
+            message={showAlert.message} // Pass the message from showAlert
+            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
+          />
     </ImageBackground>
   );
 };

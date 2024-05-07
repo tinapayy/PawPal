@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {
   ScrollView,
   SafeAreaView,
@@ -62,6 +62,7 @@ const CreatePost = () => {
   );
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const MAX_MESSAGE_LENGTH = 200;
 
   const openImagePicker = () => {
     const options = {
@@ -130,6 +131,7 @@ const CreatePost = () => {
     setPostText('');
     setSelectedImage(null);
   };
+
 
   return (
     <SafeAreaView>
@@ -214,13 +216,26 @@ const CreatePost = () => {
               numberOfLines={5}
               value={postText}
               onChangeText={text => setPostText(text)}
+              maxLength={130}
               placeholder="Write something here..."
               textAlignVertical="top"
+              
               style={{
                 color: constants.$secondaryColor,
                 fontSize: 15,
                 fontFamily: constants.$fontFamily,
+                
               }}></TextInput>
+            {/* <Text>{postText.length}/200</Text> */}
+            <Text
+              style={{
+                color: constants.$senaryColor,
+                fontSize: 13,
+                fontFamily: 'Poppins-Medium',
+                alignSelf:'flex-end',
+              }}>
+              {postText.length} /{MAX_MESSAGE_LENGTH}
+            </Text>
           </View>
           <Text
             style={{
@@ -235,13 +250,15 @@ const CreatePost = () => {
           <View style={{}}>
             <View
               style={{
-                backgroundColor: '#dcdcdc',
+                backgroundColor: constants.$nonaryColor,
                 padding: 10,
                 borderRadius: 30,
                 margin: 20,
               }}>
-              <Text style={{color: constants.$secondaryColor, fontSize: 13}}>
-                {selectedImage?.split('/').pop() || 'No photo selected'}
+              <Text style={{ color: constants.$secondaryColor, fontSize: 13 }}>
+                {selectedImage
+                  ? (selectedImage.split('/')?.pop()?.substring(0, 30) || '') + (selectedImage?.length > 30 ? '...' : '')
+                  : 'No photo selected'}
               </Text>
             </View>
             <TouchableOpacity onPress={openImagePicker}>
@@ -281,7 +298,7 @@ const CreatePost = () => {
           </TouchableOpacity>
           <Text
             style={{
-              color: 'lightgray',
+              color: constants.$textColor1,
               fontFamily: 'Poppins-Italic',
               fontSize: 13,
               left: 30,

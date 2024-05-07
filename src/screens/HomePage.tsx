@@ -187,16 +187,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   const navigation = useNavigation();
   const FoodAdvisable = useNavigateTo('FoodAdvisable');
-  const ProfileDetails = useNavigateTo('Profile Details');
-  const ClinicProfile = useNavigateTo('Profile Details');
-
-  const handleProfileClick = () => {
-    if (userType === 'petOwner') {
-      ProfileDetails;
-    } else {
-      ClinicProfile;
-    }
-  };
 
   const [searchboxQuery, setSearchBoxQuery] = useState('');
 
@@ -238,14 +228,9 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   </View>
                 </View>
 
-                {/* profile click */}
                 <TouchableOpacity
                   onPress={() => {
-                    if (userType === 'petOwner') {
-                      navigation.navigate('Profile Details');
-                    } else {
-                      navigation.navigate('ClinicProfile');
-                    }
+                    navigation.navigate('Profile Details');
                   }}>
                   <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>

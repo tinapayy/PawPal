@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   SafeAreaView,
@@ -132,7 +132,6 @@ const CreatePost = () => {
     setSelectedImage(null);
   };
 
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -177,7 +176,7 @@ const CreatePost = () => {
               />
             </TouchableOpacity>
           </View>
-          <View style={{}}>
+          <View style={{top: '9%'}}>
             <Image
               source={require('../images/cutePug.png')}
               style={{right: '10%', position: 'absolute'}}
@@ -219,12 +218,10 @@ const CreatePost = () => {
               maxLength={130}
               placeholder="Write something here..."
               textAlignVertical="top"
-              
               style={{
                 color: constants.$secondaryColor,
                 fontSize: 15,
                 fontFamily: constants.$fontFamily,
-                
               }}></TextInput>
             {/* <Text>{postText.length}/200</Text> */}
             <Text
@@ -232,7 +229,7 @@ const CreatePost = () => {
                 color: constants.$senaryColor,
                 fontSize: 13,
                 fontFamily: 'Poppins-Medium',
-                alignSelf:'flex-end',
+                alignSelf: 'flex-end',
               }}>
               {postText.length} /{MAX_MESSAGE_LENGTH}
             </Text>
@@ -255,9 +252,10 @@ const CreatePost = () => {
                 borderRadius: 30,
                 margin: 20,
               }}>
-              <Text style={{ color: constants.$secondaryColor, fontSize: 13 }}>
+              <Text style={{color: constants.$secondaryColor, fontSize: 13}}>
                 {selectedImage
-                  ? (selectedImage.split('/')?.pop()?.substring(0, 30) || '') + (selectedImage?.length > 30 ? '...' : '')
+                  ? (selectedImage.split('/')?.pop()?.substring(0, 30) || '') +
+                    (selectedImage?.length > 30 ? '...' : '')
                   : 'No photo selected'}
               </Text>
             </View>
@@ -306,7 +304,7 @@ const CreatePost = () => {
             }}>
             Maximum upload file size : 100 MB
           </Text>
-          <View style={{bottom: '53%'}}>
+          <View style={{bottom: '51%'}}>
             <AppButton
               title="Post"
               onPress={handleButton1Press}

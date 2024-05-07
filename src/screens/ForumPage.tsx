@@ -199,7 +199,7 @@ const ForumPage = () => {
                 onPress={() =>
                   navigation.navigate(
                     post.userType === 'petOwner'
-                      ? 'ProfileDetails'
+                      ? 'Profile Details'
                       : 'ClinicProfile',
                     {
                       userId: post.userId,
@@ -217,7 +217,7 @@ const ForumPage = () => {
                   onPress={() =>
                     navigation.navigate(
                       post.userType === 'petOwner'
-                        ? 'ProfileDetails'
+                        ? 'Profile Details'
                         : 'ClinicProfile',
                       {
                         userId: post.userId,

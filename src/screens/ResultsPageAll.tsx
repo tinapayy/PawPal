@@ -28,7 +28,7 @@ const UserCard = ({userInfo}) => {
 
   const handleDataPress = () => {
     if (userInfo.userType === 'petOwner') {
-      navigation.navigate('ProfileDetails', {
+      navigation.navigate('Profile Details', {
         userId: userInfo.userId,
       });
     } else if (userInfo.userType === 'clinic') {
@@ -226,7 +226,7 @@ const ResultsPageAll = ({route}) => {
 
   const handleProfileClick = () => {
     if (userType === 'petOwner') {
-      navigation.navigate('ProfileDetails');
+      navigation.navigate('Profile Details');
     } else {
       navigation.navigate('ClinicProfile');
     }
@@ -238,7 +238,12 @@ const ResultsPageAll = ({route}) => {
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <icons.BackIcon size="25" color="#ff8d4d" strokeWidth={20} style = {{left: '-28%', top: '-50%'}} />
+              <icons.BackIcon
+                size="25"
+                color="#ff8d4d"
+                strokeWidth={20}
+                style={{left: '-28%', top: '-50%'}}
+              />
             </TouchableOpacity>
             <Text style={styles.headerText}>Explore</Text>
             <Image
@@ -322,7 +327,7 @@ const styles = StyleSheet.create({
     color: constants.$senaryColor,
   },
   input: {
-    width: Dimensions.get('window').width * 0.50,
+    width: Dimensions.get('window').width * 0.5,
     height: Dimensions.get('window').height * 0.05,
     top: '-10%',
     right: '10%',

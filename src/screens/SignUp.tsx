@@ -129,7 +129,7 @@ const SignIn = () => {
         } else if (selectedUserType === 'clinic') {
           setShowAlert2({
             visible: true,
-            title: 'Action Complete',
+            title: 'Action Completed',
             message: 'User created successfully.',
         });
           // reset({

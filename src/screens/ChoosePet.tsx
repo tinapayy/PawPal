@@ -89,9 +89,9 @@ const ChoosePet = () => {
         </View>
       {item.id === 0 ? (
         <FontAwesomeIcon icon={icons.faCirclePlus}
-         color={constants.$octonaryColor}
-          size={75}
-          style={{ top: '5%' }}
+         color={constants.$primaryColor}
+          size={55}
+          style={{ top: '15%' }}
          />
       ) : (
         <Image
@@ -133,12 +133,14 @@ const ChoosePet = () => {
         <Text style={styles.backText}>Choose Pet</Text>
       </View>
       <Text style={styles.text}>Customize and choose between your pets</Text>
+      <View style={styles.cardContainer}>
       <FlatList
         data={users}
         renderItem={renderUserCard}
         keyExtractor={item => item.id.toString()}
         numColumns={2}
       />
+      </View>
     </View>
   );
 };
@@ -158,8 +160,9 @@ const styles = StyleSheet.create({
   },
   back: {
     flexDirection: 'row',
-    marginBottom: '2%',
-    top: '-25%',
+    // marginBottom: '2%',
+    alignItems:'flex-start',
+    top: '-28%',
     left: '2%',
   },
   backIcon: {
@@ -177,24 +180,34 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginTop: '5%',
+    marginBottom:'5%',
     letterSpacing: 0.25,
     color: constants.$secondaryColor,
   },
+  cardContainer: {
+    justifyContent: 'center',
+    alignItems:'center',
+
+  },
   card: {
-    marginTop: '10%',
-    flex: 1,
+    marginTop: '5%',
+    // flex: 1,
+    width: 160,
     margin: '3%',
-    padding: '4%',
+    paddingVertical:'5%',
+    // padding: '4%',
     borderRadius: 10,
     borderColor: constants.$quinaryColor,
     borderWidth:2,
     backgroundColor: constants.$tertiaryColor,
     alignItems: 'center',
     elevation:3,
+
   },
   cardContent:{
     alignContent:'center',
-    marginTop:'2%',
+    // marginTop:'2%',
+    paddingBottom:'10%',
   },
   addPetText:{
     color: constants.$secondaryColor,

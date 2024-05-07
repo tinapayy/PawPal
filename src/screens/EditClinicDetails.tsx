@@ -592,7 +592,7 @@ const PawPalApp = () => {
             message={showAlert.message} // Pass the message from showAlert
             onClose={() => {
               setShowAlert({ visible: false, title: '', message: '' });
-              {ClinicProfile}; // Navigate to a different page
+              navigation.navigate('ClinicProfile'); // Navigate to a different page
           }} // Close the alert on button press
           />
           <CustomAlert

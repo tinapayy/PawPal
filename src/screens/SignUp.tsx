@@ -31,6 +31,8 @@ const SignIn = () => {
   const NavSignIn = useNavigateTo('SignIn');
   const AddUser = useNavigateTo('AddUserProfile');
   const AddClinic = useNavigateTo('AddClinicDetails');
+  const navigation = useNavigation();
+
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -120,17 +122,15 @@ const SignIn = () => {
           setShowAlert1({
             visible: true,
             title: 'Action Completed',
-            message: 'User created successfully.',
+            message: 'Pet Owner User created successfully.',
+            
         });
-          // reset({
-          //   index: 0,
-          //   routes: [{name: 'AddUserProfile'}],
-          // });
+          
         } else if (selectedUserType === 'clinic') {
           setShowAlert2({
             visible: true,
             title: 'Action Completed',
-            message: 'User created successfully.',
+            message: 'Clinic User created successfully.',
         });
           // reset({
           //   index: 0,
@@ -240,7 +240,7 @@ const SignIn = () => {
             message={showAlert1.message} // Pass the message from showAlert
             onClose={() => {
               setShowAlert1({ visible: false, title: '', message: '' });
-              {AddUser}; // Navigate to a different page
+              navigation.navigate('AddUserProfile'); // Navigate to a different page
           }}
           />
       <CustomAlert
@@ -249,7 +249,7 @@ const SignIn = () => {
             message={showAlert2.message} // Pass the message from showAlert
             onClose={() => {
               setShowAlert2({ visible: false, title: '', message: '' });
-              {AddClinic}; // Navigate to a different page
+              navigation.navigate('AddClinicDetails'); // Navigate to a different page
           }}
           />
     </SafeAreaView>

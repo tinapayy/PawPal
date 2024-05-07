@@ -46,7 +46,7 @@ function SettingsPage_Clinic() {
         <FontAwesomeIcon
           icon={icons.faArrowLeft}
           size={27}
-          style={{color: 'brown', left: 15, flex: 1, bottom: '500%'}}
+          style={{color: constants.$secondaryColor, left: 15, flex: 1, bottom: '500%'}}
         />
       </TouchableOpacity>
 

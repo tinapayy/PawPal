@@ -43,10 +43,13 @@ import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import LoadingScreen from '../components/loading';
 import CustomAlert from '../components/CustomAlert';
+import { useNavigateTo } from '../components/navigation';
 
 const PawPalApp = () => {
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
   const navigation = useNavigation();
+
+  const ClinicProfile = useNavigateTo('ClinicProfile');
 
   const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
@@ -89,12 +92,12 @@ const PawPalApp = () => {
 
   const [tagsInput, setTagsInput] = useState([]);
 
-  const handleNavigate = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'ClinicProfile' }] as any,
-    });
-  }
+  // const handleNavigate = () => {
+  //   navigation.reset({
+  //     index: 0,
+  //     routes: [{ name: 'ClinicProfile' }] as any,
+  //   });
+  // }
 
   const saveClinicInfo = async () => {
     try {
@@ -142,15 +145,25 @@ const PawPalApp = () => {
             });   
         }
          catch (updateError) {
+          setShowAlert({
+            visible: true,
+            title: 'Action Incomplete',
+            message: 'Error updating clinic profile. Please try again.'
+        }); 
             console.error('Error updating profile:', updateError);
-            Alert.alert('Error updating clinic profile. Please try again.');
+           // Alert.alert('Error updating clinic profile. Please try again.');
         }        
         }
       });
     } 
     catch (error) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Error updating clinic details. Please try again.'
+    });
       console.log('Error querying user data: ', error);
-      Alert.alert('Error updating clinic details. Please try again.');
+      //Alert.alert('Error updating clinic details. Please try again.');
     }
   };
 
@@ -579,7 +592,7 @@ const PawPalApp = () => {
             message={showAlert.message} // Pass the message from showAlert
             onClose={() => {
               setShowAlert({ visible: false, title: '', message: '' });
-              navigation.navigate('ClinicProfile'); // Navigate to a different page
+              {ClinicProfile}; // Navigate to a different page
           }} // Close the alert on button press
           />
           <CustomAlert

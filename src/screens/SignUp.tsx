@@ -22,12 +22,15 @@ import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import CustomAlert from '../components/CustomAlert';
 
+
 const SignIn = () => {
   type Nav = {
     reset: (value: any) => void;
   };
   const {reset} = useNavigation<Nav>();
   const NavSignIn = useNavigateTo('SignIn');
+  const AddUser = useNavigateTo('AddUserProfile');
+  const AddClinic = useNavigateTo('AddClinicDetails');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -38,6 +41,16 @@ const SignIn = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
   const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
+  const [showAlert1, setShowAlert1] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
+  const [showAlert2, setShowAlert2] = useState({
     visible: false,
     title: '',
     message: '',
@@ -100,24 +113,39 @@ const SignIn = () => {
         title: 'Action Completed',
         message: 'User created successfully.'
     });
-      Alert.alert('User created successfully');
+     //  Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {
         if (selectedUserType === 'petOwner') {
-          reset({
-            index: 0,
-            routes: [{name: 'AddUserProfile'}],
-          });
+          setShowAlert1({
+            visible: true,
+            title: 'Action Completed',
+            message: 'User created successfully.',
+        });
+          // reset({
+          //   index: 0,
+          //   routes: [{name: 'AddUserProfile'}],
+          // });
         } else if (selectedUserType === 'clinic') {
-          reset({
-            index: 0,
-            routes: [{name: 'AddClinicDetails'}],
-          });
+          setShowAlert2({
+            visible: true,
+            title: 'Action Complete',
+            message: 'User created successfully.',
+        });
+          // reset({
+          //   index: 0,
+          //   routes: [{name: 'AddClinicDetails'}],
+          // });
         }
       }
     } catch (error: any) {
-      console.error(error);
-      Alert.alert(error.message);
+      //console.error(error);
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: (error.message),
+    });
+      //Alert.alert(error.message);
     }
   };
 
@@ -205,6 +233,24 @@ const SignIn = () => {
             title={showAlert.title} // Pass the title from showAlert
             message={showAlert.message} // Pass the message from showAlert
             onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+          />
+      <CustomAlert
+            visible={showAlert1.visible} // Pass the state to control visibility
+            title={showAlert1.title} // Pass the title from showAlert
+            message={showAlert1.message} // Pass the message from showAlert
+            onClose={() => {
+              setShowAlert1({ visible: false, title: '', message: '' });
+              {AddUser}; // Navigate to a different page
+          }}
+          />
+      <CustomAlert
+            visible={showAlert2.visible} // Pass the state to control visibility
+            title={showAlert2.title} // Pass the title from showAlert
+            message={showAlert2.message} // Pass the message from showAlert
+            onClose={() => {
+              setShowAlert2({ visible: false, title: '', message: '' });
+              {AddClinic}; // Navigate to a different page
+          }}
           />
     </SafeAreaView>
   );

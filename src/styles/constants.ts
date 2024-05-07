@@ -8,7 +8,8 @@ const constants = {
   $senaryColor: '#ff8d4d', // dark orange
   $septenaryColor: '#aaaa', //gray
 
-  $octonaryColor: '#ff8700',
+  $octonaryColor: '#ff8700', //darker shade of orange
+  $nonaryColor: '#dcdcdc', // shade of gray
 
   $accentColor: '#ff6464', // pink
   $accentColor1: '#894848', // light brown

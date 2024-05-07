@@ -93,7 +93,7 @@ const SignIn = () => {
           setShowAlert({
             visible: true,
             title: 'Action Incomplete',
-            message: 'User not found.'
+            message: 'Please enter correct details.'
         });
         }
       } catch (error) {

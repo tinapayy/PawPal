@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     padding: '4%',
     borderRadius: 5,
     position: 'absolute',
-    width: '1200%',
+    width: '1350%',
     right: '5%',
     zIndex: 5,
     top: '90%',

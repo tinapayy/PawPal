@@ -30,10 +30,10 @@ import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import constants from '../styles/constants';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
-import { addPetMixins } from '../styles/mixins/addPetMixins';
-import { KeyboardAvoidingView } from 'react-native';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
+import {addPetMixins} from '../styles/mixins/addPetMixins';
+import {KeyboardAvoidingView} from 'react-native';
 const UserProfile = () => {
   const navigation = useNavigation();
 
@@ -215,7 +215,8 @@ const UserProfile = () => {
     }
   };
   const imageSizePercentage = 30;
-  const imageSize = Dimensions.get('window').width * (imageSizePercentage / 100);
+  const imageSize =
+    Dimensions.get('window').width * (imageSizePercentage / 100);
   const borderRadius = imageSize / 2;
 
   return (
@@ -237,12 +238,12 @@ const UserProfile = () => {
           <Text style={styles.backText}>Add User Profile</Text>
         </View>
         {/* profile photo and arrow */}
-        <View style={styles.profileContainer} >
+        <View style={styles.profileContainer}>
           <View>
             <Image
               source={
                 profilePicture
-                  ? { uri: profilePicture }
+                  ? {uri: profilePicture}
                   : require('../images/userIcon.png')
               }
               style={{
@@ -251,7 +252,7 @@ const UserProfile = () => {
                 height: imageSize,
                 borderRadius: borderRadius,
               }}
-              resizeMode='cover'
+              resizeMode="cover"
             />
             <TouchableOpacity
               style={styles.arrowAdd}
@@ -263,7 +264,6 @@ const UserProfile = () => {
               />
             </TouchableOpacity>
           </View>
-          
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
@@ -310,7 +310,7 @@ const UserProfile = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => navigation.navigate('AddPetProfileSignUp')}
+              onPress={() => navigation.navigate('Add New Pet Profile')}
               accessible={true}
               accessibilityRole="button">
               <Text style={styles.buttonTextCancel}>Skip</Text>
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   },
   back: {
     flexDirection: 'row',
-    left:'2.6%',
+    left: '2.6%',
     top: '-29%',
     color: constants.$senaryColor,
   },
@@ -347,12 +347,11 @@ const styles = StyleSheet.create({
     color: constants.$secondaryColor,
     marginLeft: '5%',
   },
-  profileContainer: {
-  },
+  profileContainer: {},
   profilePicture: {
     width: '40%',
     top: '-20%',
-    aspectRatio:1,
+    aspectRatio: 1,
     borderRadius: 75,
     alignSelf: 'center',
     marginBottom: '10%',
@@ -377,7 +376,7 @@ const styles = StyleSheet.create({
     color: constants.$senaryColor,
     position: 'absolute',
     top: '30%',
-    marginLeft: '13%', 
+    marginLeft: '13%',
     ...addPetMixins.align3,
   } as TextStyle,
   //texts input field
@@ -390,7 +389,7 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.$senaryColor,
     marginLeft: '17%',
     paddingHorizontal: '10%',
-    paddingVertical:'2%',
+    paddingVertical: '2%',
   },
   //button container for save and skip
   buttonContainer: {
@@ -404,8 +403,8 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     paddingVertical: '15%',
     borderRadius: 40,
-    top:'-5%',
-    left:'54%',
+    top: '-5%',
+    left: '54%',
   } as ViewStyle,
   //skip texts
   buttonTextCancel: {

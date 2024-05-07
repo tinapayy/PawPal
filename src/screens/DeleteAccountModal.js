@@ -1,16 +1,56 @@
 import React from 'react';
 import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import * as icons from '../imports/icons/icons';
-import {deleteUser} from 'firebase/auth';
-import {FIREBASE_AUTH} from '../../firebase.config';
+import {
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from 'firebase/auth';
+import {collection, doc, getDocs, deleteDoc} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import constants from '../styles/constants';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 class DeleteAccountModal extends React.Component {
   render() {
     const auth = FIREBASE_AUTH;
+    const db = FIREBASE_DB;
 
     const {modalVisible, setModalVisible} = this.props;
+
+    const getPassword = async () => {
+      let password = '';
+
+      const userSnapshot = await getDocs(collection(db, 'user'));
+      for (const userDoc of userSnapshot.docs) {
+        if (userDoc.data().userId === auth.currentUser.uid) {
+          password = userDoc.data().password;
+          await deleteDoc(doc(db, 'user', userDoc.id));
+        }
+      }
+
+      return password;
+    };
+
+    const reauthenticateUser = async currentPassword => {
+      const user = auth.currentUser;
+
+      // Create a credential with the user's current email and password
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        currentPassword,
+      );
+
+      try {
+        // Reauthenticate the user with the provided credential
+        await reauthenticateWithCredential(user, credential);
+        console.log('User reauthenticated successfully');
+        return true; // Reauthentication successful
+      } catch (error) {
+        console.error('Error reauthenticating user:', error);
+        return false; // Reauthentication failed
+      }
+    };
 
     return (
       <Modal transparent={true} visible={modalVisible}>
@@ -39,15 +79,22 @@ class DeleteAccountModal extends React.Component {
 
               <View style={styles.confirmbutton}>
                 <TouchableOpacity
-                  onPress={() => {
+                  onPress={async () => {
                     setModalVisible(false);
-                    deleteUser(auth.currentUser)
-                      .then(() => {
-                        console.log('User deleted');
-                      })
-                      .catch(error => {
-                        console.log(error);
-                      });
+                    // Reauthenticate user
+                    const isReauthenticated = await reauthenticateUser(
+                      await getPassword(),
+                    );
+                    // Delete the user account if reauthentication is successful
+                    if (isReauthenticated) {
+                      deleteUser(auth.currentUser)
+                        .then(() => {
+                          console.log('User deleted');
+                        })
+                        .catch(error => {
+                          console.log(error);
+                        });
+                    }
                   }}>
                   <Text style={styles.confirmbuttonText}>Delete</Text>
                 </TouchableOpacity>
@@ -124,7 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: constants.$octonaryColor,
     padding: 10,
     borderRadius: 25,
-    margin:'2%',
+    margin: '2%',
     fontFamily: constants.$fontFamily,
     padding: '7%',
   },

@@ -34,6 +34,7 @@ import {alignmentMixin} from '../components/alignmentMixin';
 import {buttonMixin} from '../components/buttonMixin';
 import {addPetMixins} from '../styles/mixins/addPetMixins';
 import LoadingScreen from '../components/loading';
+import CustomAlert from '../components/CustomAlert';
 
 const UserProfile = () => {
   const navigation = useNavigation();
@@ -41,6 +42,18 @@ const UserProfile = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
   const [loading, setLoading] = useState(true);
+
+  const [showAlert, setShowAlert] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  }); 
+
+  const [showAlert1, setShowAlert1] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  }); 
 
   const [currentName, setCurrentName] = useState('');
   const [currentBio, setCurrentBio] = useState('');
@@ -70,10 +83,15 @@ const UserProfile = () => {
 
   const uploadProfilePicture = async () => {
     try {
-      if (!profilePicture) {
-        Alert.alert('Please select a profile picture');
-        return;
-      }
+      // if (!profilePicture) {
+      //   setShowAlert({
+      //     visible: true,
+      //     title: 'Action Incomplete',
+      //     message: 'Please select a profile picture.'
+      // }); 
+      //   //Alert.alert('Please select a profile picture');
+      //   return;
+      // }
 
       const metadata = {
         contentType: 'image/jpeg', // Adjust the content type based on your image type
@@ -110,14 +128,24 @@ const UserProfile = () => {
           try {
             await updateDoc(userRef, updateData);
           } catch (updateError) {
-            console.error('Error updating profile:', updateError);
-            Alert.alert('Error updating profile. Please try again.');
+            setShowAlert({
+              visible: true,
+              title: 'Action Incomplete',
+              message: 'Error updating profile. Please try again.'
+          });
+            //console.error('Error updating profile:', updateError);
+            //Alert.alert('Error updating profile. Please try again.');
           }
         }
       });
     } catch (error) {
-      console.error('Error uploading profile picture:', error);
-      Alert.alert('Error updating profile picture. Please try again.');
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Error updating profile picture. Please try again.'
+    });
+      //console.error('Error uploading profile picture:', error);
+      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 
@@ -164,7 +192,12 @@ const UserProfile = () => {
 
   const updateProfile = async () => {
     if (currentName === '') {
-      Alert.alert('Please enter a name');
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Please enter a name.'
+    });
+      //Alert.alert('Please enter a name');
       return;
     }
     try {
@@ -181,7 +214,12 @@ const UserProfile = () => {
             // Reauthenticate the user before changing the password
             const isReauthenticated = await reauthenticateUser(currentPassword);
             if (!isReauthenticated) {
-              Alert.alert('Current password is incorrect');
+              setShowAlert({
+                visible: true,
+                title: 'Action Incomplete',
+                message: 'Current password is incorrect.'
+            });
+              //Alert.alert('Current password is incorrect');
               return;
             }
             try {
@@ -192,31 +230,61 @@ const UserProfile = () => {
               // Update the password after successfully updating the profile
               try {
                 await updatePassword(auth.currentUser!, newPassword);
-                Alert.alert('Profile and password updated successfully');
+                setShowAlert({
+                  visible: true,
+                  title: 'Action Completed',
+                  message: 'Profile and password updated successfully.'
+              });
+                //Alert.alert('Profile and password updated successfully');
               } catch (error) {
-                console.error('Error updating password:', error);
-                Alert.alert('Error updating password. Please try again.');
+                setShowAlert({
+                  visible: true,
+                  title: 'Action Incomplete',
+                  message: 'Error updating password. Please try again.'
+              });
+                //console.error('Error updating password:', error);
+                //Alert.alert('Error updating password. Please try again.');
               }
             } catch (updateError) {
-              console.error('Error updating profile:', updateError);
-              Alert.alert('Error updating profile. Please try again.');
+              setShowAlert({
+                visible: true,
+                title: 'Action Incomplete',
+                message: 'Error updating profile. Please try again.'
+            });
+              //console.error('Error updating profile:', updateError);
+              //Alert.alert('Error updating profile. Please try again.');
             }
           } else {
             // If no current password provided, update the profile without updating the password
             try {
               await updateDoc(userRef, updateData);
-              Alert.alert('Profile updated successfully');
-              navigation.navigate('Profile Details');
+              setShowAlert1({
+                visible: true,
+                title: 'Action Completed',
+                message: 'Profile updated successfully.'
+            });
+              //Alert.alert('Profile updated successfully');
+              //navigation.navigate('Profile Details');
             } catch (updateError) {
-              console.error('Error updating profile:', updateError);
-              Alert.alert('Error updating profile. Please try again.');
+              setShowAlert({
+                visible: true,
+                title: 'Action Incomplete',
+                message: 'Error updating profile. Please try again.'
+            });
+              //console.error('Error updating profile:', updateError);
+              //Alert.alert('Error updating profile. Please try again.');
             }
           }
         }
       });
     } catch (error) {
-      console.error('Error querying user data:', error);
-      Alert.alert('Error updating profile. Please try again.');
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Error updating profile. Please try again.'
+    });
+      //console.error('Error querying user data:', error);
+      //Alert.alert('Error updating profile. Please try again.');
     }
   };
 
@@ -352,6 +420,21 @@ const UserProfile = () => {
           </View>
         </View>
       </View>
+      <CustomAlert
+            visible={showAlert1.visible} // Pass the state to control visibility
+            title={showAlert1.title} // Pass the title from showAlert
+            message={showAlert1.message} // Pass the message from showAlert
+            onClose={() => {
+              setShowAlert1({ visible: false, title: '', message: '' });
+              navigation.navigate('Profile Details'); // Navigate to a different page
+          }} // Close the alert on button press
+          />
+          <CustomAlert
+            visible={showAlert.visible} // Pass the state to control visibility
+            title={showAlert.title} // Pass the title from showAlert
+            message={showAlert.message} // Pass the message from showAlert
+            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
+          />
     </ImageBackground>
   );
 };

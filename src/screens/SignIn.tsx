@@ -52,8 +52,13 @@ const SignIn = () => {
           });
         })
         .catch(error => {
+          setShowAlert({
+            visible: true,
+            title: 'Action Incomplete',
+            message: 'Error signing in.',
+        });
           console.error(error);
-          Alert.alert('Error signing in');
+          //Alert.alert('Error signing in');
         });
     } else {
       try {
@@ -74,8 +79,13 @@ const SignIn = () => {
                 });
               })
               .catch(error => {
+                setShowAlert({
+                  visible: true,
+                  title: 'Action Incomplete',
+                  message: 'Error signing in.',
+              });
                 console.error(error);
-                Alert.alert('Error signing in');
+                //Alert.alert('Error signing in');
               });
           }
         });
@@ -87,8 +97,13 @@ const SignIn = () => {
         });
         }
       } catch (error) {
+        setShowAlert({
+          visible: true,
+          title: 'Action Incomplete',
+          message: 'Error fetching user data.',
+      });
         console.error(error);
-        Alert.alert('Error fetching user data');
+        //Alert.alert('Error fetching user data');
       }
     }
   };

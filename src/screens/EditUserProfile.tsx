@@ -47,13 +47,13 @@ const UserProfile = () => {
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
 
   const [showAlert1, setShowAlert1] = useState({
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
 
   const [currentName, setCurrentName] = useState('');
   const [currentBio, setCurrentBio] = useState('');
@@ -83,67 +83,67 @@ const UserProfile = () => {
 
   const uploadProfilePicture = async () => {
     try {
-      // if (!profilePicture) {
-      //   setShowAlert({
-      //     visible: true,
-      //     title: 'Action Incomplete',
-      //     message: 'Please select a profile picture.'
-      // }); 
-      //   //Alert.alert('Please select a profile picture');
-      //   return;
-      // }
+      if (profilePicture) {
+        const metadata = {
+          contentType: 'image/jpeg', // Adjust the content type based on your image type
+        };
 
-      const metadata = {
-        contentType: 'image/jpeg', // Adjust the content type based on your image type
-      };
+        const storage = FIREBASE_STORAGE;
+        const storageRef = ref(
+          storage,
+          `profilePicture/${auth.currentUser?.uid}.jpeg`,
+        );
 
-      const storage = FIREBASE_STORAGE;
-      const storageRef = ref(
-        storage,
-        `profilePicture/${auth.currentUser?.uid}.jpeg`,
-      );
+        // Convert image URI to Blob
+        const response = await fetch(profilePicture);
+        const blob = await response.blob();
 
-      // Convert image URI to Blob
-      const response = await fetch(profilePicture);
-      const blob = await response.blob();
+        // Upload the image to Firebase Storage
+        await uploadBytes(storageRef, blob, metadata);
 
-      // Upload the image to Firebase Storage
-      await uploadBytes(storageRef, blob, metadata);
+        // Get the download URL of the uploaded image
+        const imageUrl = await getDownloadURL(storageRef);
 
-      // Get the download URL of the uploaded image
-      const imageUrl = await getDownloadURL(storageRef);
+        // Update the user profile in Firestore with the new image URL
+        const userQuery = await getDocs(collection(db, 'user'));
+        userQuery.forEach(async currentDoc => {
+          if (currentDoc.data().userId === auth.currentUser?.uid) {
+            const userRef = doc(collection(db, 'user'), currentDoc.id);
+            const updateData = {
+              name: currentDoc.data().name,
+              bio: currentDoc.data().bio,
+              password: currentDoc.data().password,
+              profilePicture: imageUrl, // Add the profile image URL to the user data
+            };
 
-      // Update the user profile in Firestore with the new image URL
-      const userQuery = await getDocs(collection(db, 'user'));
-      userQuery.forEach(async currentDoc => {
-        if (currentDoc.data().userId === auth.currentUser?.uid) {
-          const userRef = doc(collection(db, 'user'), currentDoc.id);
-          const updateData = {
-            name: currentDoc.data().name,
-            bio: currentDoc.data().bio,
-            password: currentDoc.data().password,
-            profilePicture: imageUrl, // Add the profile image URL to the user data
-          };
-
-          try {
-            await updateDoc(userRef, updateData);
-          } catch (updateError) {
-            setShowAlert({
-              visible: true,
-              title: 'Action Incomplete',
-              message: 'Error updating profile. Please try again.'
-          });
-            //console.error('Error updating profile:', updateError);
-            //Alert.alert('Error updating profile. Please try again.');
+            try {
+              await updateDoc(userRef, updateData);
+            } catch (updateError) {
+              setShowAlert({
+                visible: true,
+                title: 'Action Incomplete',
+                message: 'Error updating profile. Please try again.',
+              });
+              //console.error('Error updating profile:', updateError);
+              //Alert.alert('Error updating profile. Please try again.');
+            }
           }
-        }
-      });
+        });
+      } else {
+        //   setShowAlert({
+        //     visible: true,
+        //     title: 'Action Incomplete',
+        //     message: 'Please select a profile picture.'
+        // });
+        //   Alert.alert('Please select a profile picture');
+        return;
+      }
     } catch (error) {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating profile picture. Please try again.'
-    });
+        message: 'Error updating profile picture. Please try again.',
+      });
       //console.error('Error uploading profile picture:', error);
       //Alert.alert('Error updating profile picture. Please try again.');
     }
@@ -195,8 +195,8 @@ const UserProfile = () => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Please enter a name.'
-    });
+        message: 'Please enter a name.',
+      });
       //Alert.alert('Please enter a name');
       return;
     }
@@ -217,8 +217,8 @@ const UserProfile = () => {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
-                message: 'Current password is incorrect.'
-            });
+                message: 'Current password is incorrect.',
+              });
               //Alert.alert('Current password is incorrect');
               return;
             }
@@ -233,15 +233,15 @@ const UserProfile = () => {
                 setShowAlert({
                   visible: true,
                   title: 'Action Completed',
-                  message: 'Profile and password updated successfully.'
-              });
+                  message: 'Profile and password updated successfully.',
+                });
                 //Alert.alert('Profile and password updated successfully');
               } catch (error) {
                 setShowAlert({
                   visible: true,
                   title: 'Action Incomplete',
-                  message: 'Error updating password. Please try again.'
-              });
+                  message: 'Error updating password. Please try again.',
+                });
                 //console.error('Error updating password:', error);
                 //Alert.alert('Error updating password. Please try again.');
               }
@@ -249,8 +249,8 @@ const UserProfile = () => {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
-                message: 'Error updating profile. Please try again.'
-            });
+                message: 'Error updating profile. Please try again.',
+              });
               //console.error('Error updating profile:', updateError);
               //Alert.alert('Error updating profile. Please try again.');
             }
@@ -261,16 +261,16 @@ const UserProfile = () => {
               setShowAlert1({
                 visible: true,
                 title: 'Action Completed',
-                message: 'Profile updated successfully.'
-            });
+                message: 'Profile updated successfully.',
+              });
               //Alert.alert('Profile updated successfully');
               //navigation.navigate('Profile Details');
             } catch (updateError) {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
-                message: 'Error updating profile. Please try again.'
-            });
+                message: 'Error updating profile. Please try again.',
+              });
               //console.error('Error updating profile:', updateError);
               //Alert.alert('Error updating profile. Please try again.');
             }
@@ -281,8 +281,8 @@ const UserProfile = () => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating profile. Please try again.'
-    });
+        message: 'Error updating profile. Please try again.',
+      });
       //console.error('Error querying user data:', error);
       //Alert.alert('Error updating profile. Please try again.');
     }
@@ -421,20 +421,22 @@ const UserProfile = () => {
         </View>
       </View>
       <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('Profile Details'); // Navigate to a different page
-          }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        visible={showAlert1.visible} // Pass the state to control visibility
+        title={showAlert1.title} // Pass the title from showAlert
+        message={showAlert1.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert1({visible: false, title: '', message: ''});
+          navigation.navigate('Profile Details'); // Navigate to a different page
+        }} // Close the alert on button press
+      />
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert({visible: false, title: '', message: ''});
+        }} // Close the alert on button press
+      />
     </ImageBackground>
   );
 };

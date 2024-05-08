@@ -156,6 +156,9 @@ const ProfileDetails = ({route}) => {
   };
 
   useEffect(() => {
+    if (userId === auth.currentUser!.uid) {
+      navigation.navigate('Profile Details');
+    }
     fetchData();
   }, []);
 

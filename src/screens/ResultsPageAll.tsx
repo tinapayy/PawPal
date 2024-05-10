@@ -28,7 +28,7 @@ const UserCard = ({userInfo}) => {
 
   const handleDataPress = () => {
     if (userInfo.userType === 'petOwner') {
-      navigation.navigate('ProfileDetails', {
+      navigation.navigate('VisitedProfileDetails', {
         userId: userInfo.userId,
       });
     } else if (userInfo.userType === 'clinic') {

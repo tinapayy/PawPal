@@ -187,7 +187,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   const navigation = useNavigation();
   const FoodAdvisable = useNavigateTo('FoodAdvisable');
-
   const [searchboxQuery, setSearchBoxQuery] = useState('');
 
   const handleSearchIconClick = () => {

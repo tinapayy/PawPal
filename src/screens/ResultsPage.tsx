@@ -83,8 +83,6 @@ type Clinic = {
 
 const ResultsPage = () => {
   const NavHome = useNavigateTo('Home');
-  const NavClinicProfile = useNavigateTo('ClinicProfile');
-  const NavProfileDetails = useNavigateTo('Profile Details');
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -220,14 +218,6 @@ const ResultsPage = () => {
     setFilteredClinics(filtered);
   };
 
-  const handleProfileClick = () => {
-    if (userType === 'petOwner') {
-      NavProfileDetails;
-    } else {
-      NavClinicProfile;
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.headercontainer}>
@@ -252,17 +242,18 @@ const ResultsPage = () => {
             />
           </View>
           <View style={styles.userheadercontent}>
-            <TouchableOpacity onPress={navigation.goBack}>
-              <TouchableOpacity onPress={handleProfileClick}>
-                <Avatar.Image
-                  source={
-                    profilePicture
-                      ? {uri: profilePicture}
-                      : require('../images/defaultIcon.png')
-                  }
-                  size={40}
-                />
-              </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Profile Details');
+              }}>
+              <Avatar.Image
+                source={
+                  profilePicture
+                    ? {uri: profilePicture}
+                    : require('../images/defaultIcon.png')
+                }
+                size={40}
+              />
             </TouchableOpacity>
           </View>
         </View>

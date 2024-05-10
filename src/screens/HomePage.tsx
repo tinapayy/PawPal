@@ -187,17 +187,6 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   const navigation = useNavigation();
   const FoodAdvisable = useNavigateTo('FoodAdvisable');
-  const ProfileDetails = useNavigateTo('Profile Details');
-  const ClinicProfile = useNavigateTo('ClinicProfile');
-
-  const handleProfileClick = () => {
-    if (userType === 'petOwner') {
-      ProfileDetails;
-    } else {
-      ClinicProfile;
-    }
-  };
-
   const [searchboxQuery, setSearchBoxQuery] = useState('');
 
   const handleSearchIconClick = () => {
@@ -225,7 +214,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       <FontAwesomeIcon
                         icon={icons.faMagnifyingGlass}
                         size={20}
-                        style={{color: '#ff8700', marginRight: '5%',}}
+                        style={{color: '#ff8700', marginRight: '5%'}}
                       />
                     </Pressable>
                     <TextInput
@@ -238,14 +227,9 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                   </View>
                 </View>
 
-                {/* profile click */}
                 <TouchableOpacity
                   onPress={() => {
-                    if (userType === 'petOwner') {
-                      navigation.navigate('Profile Details');
-                    } else {
-                      navigation.navigate('ClinicProfile');
-                    }
+                    navigation.navigate('Profile Details');
                   }}>
                   <Image source={item.imageSome} style={styles.userImg} />
                 </TouchableOpacity>
@@ -465,7 +449,7 @@ const HomePage = () => {
 
   return (
     <>
-      <SafeAreaView style = {{height: Dimensions.get('window').height * 1.05}}>
+      <SafeAreaView style={{height: Dimensions.get('window').height * 1.05}}>
         <ScrollView>
           <View
             style={{
@@ -517,8 +501,8 @@ const HomePage = () => {
                 <Text style={styles.announcement}>Urgent Announcements</Text>
               </View>
               <TouchableOpacity onPress={ForumPage}>
-                  <Text style={styles.moree}>More</Text>
-                </TouchableOpacity>
+                <Text style={styles.moree}>More</Text>
+              </TouchableOpacity>
               <Carousel
                 style={styles.carousel2}
                 data={userPosts}
@@ -536,7 +520,8 @@ const HomePage = () => {
                   <Text style={styles.seeAll}>See all</Text>
                 </TouchableOpacity>
               </View>
-              <View style={{width: Dimensions.get('window').width, top: '-13%'}}>
+              <View
+                style={{width: Dimensions.get('window').width, top: '-13%'}}>
                 <Carousel
                   data={clinics}
                   renderItem={({item, index}) =>
@@ -695,7 +680,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 17,
     left: '84.1%',
-    top:'40%'
+    top: '40%',
   },
   carousel2: {
     top: '10%',

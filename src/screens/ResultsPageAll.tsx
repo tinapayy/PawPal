@@ -224,21 +224,18 @@ const ResultsPageAll = ({route}) => {
     setfilteredData(filtered);
   };
 
-  const handleProfileClick = () => {
-    if (userType === 'petOwner') {
-      navigation.navigate('Profile Details');
-    } else {
-      navigation.navigate('ClinicProfile');
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.headercontainer}>
         <View style={styles.headercontent}>
           <View style={styles.headertextandicon}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <icons.BackIcon size="25" color="#ff8d4d" strokeWidth={20} style = {{left: '-28%', top: '-50%'}} />
+              <icons.BackIcon
+                size="25"
+                color="#ff8d4d"
+                strokeWidth={20}
+                style={{left: '-28%', top: '-50%'}}
+              />
             </TouchableOpacity>
             <Text style={styles.headerText}>Explore</Text>
             <Image
@@ -254,17 +251,18 @@ const ResultsPageAll = ({route}) => {
             />
           </View>
           <View style={styles.userheadercontent}>
-            <TouchableOpacity onPress={navigation.goBack}>
-              <TouchableOpacity onPress={handleProfileClick}>
-                <Avatar.Image
-                  source={
-                    profilePicture
-                      ? {uri: profilePicture}
-                      : require('../images/defaultIcon.png')
-                  }
-                  size={40}
-                />
-              </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Profile Details');
+              }}>
+              <Avatar.Image
+                source={
+                  profilePicture
+                    ? {uri: profilePicture}
+                    : require('../images/defaultIcon.png')
+                }
+                size={40}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -322,7 +320,7 @@ const styles = StyleSheet.create({
     color: constants.$senaryColor,
   },
   input: {
-    width: Dimensions.get('window').width * 0.50,
+    width: Dimensions.get('window').width * 0.5,
     height: Dimensions.get('window').height * 0.05,
     top: '-10%',
     right: '10%',

@@ -187,7 +187,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
 
   const navigation = useNavigation();
   const FoodAdvisable = useNavigateTo('FoodAdvisable');
-  const ProfileDetails = useNavigateTo('ProfileDetails');
+  const ProfileDetails = useNavigateTo('Profile Details');
   const ClinicProfile = useNavigateTo('ClinicProfile');
 
   const handleProfileClick = () => {
@@ -242,7 +242,7 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                 <TouchableOpacity
                   onPress={() => {
                     if (userType === 'petOwner') {
-                      navigation.navigate('ProfileDetails');
+                      navigation.navigate('Profile Details');
                     } else {
                       navigation.navigate('ClinicProfile');
                     }

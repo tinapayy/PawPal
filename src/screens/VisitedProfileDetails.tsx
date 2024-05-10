@@ -48,7 +48,7 @@ type CarouselItem = {
   data: Pet;
 };
 
-const ProfileDetails = ({route}) => {
+const VisitedProfileDetails = ({route}) => {
   const navigation = useNavigation();
   const ChatHome = useNavigateTo('ChatHome');
   const SettingsPage = useNavigateTo('SettingsPage');
@@ -211,7 +211,7 @@ const ProfileDetails = ({route}) => {
                   // logo
                   ...StyleSheet.absoluteFillObject,
                   ...profDetMixins.pawLogo,
-                }}
+                } as ImageStyle}
               />
             </View>
 
@@ -230,7 +230,7 @@ const ProfileDetails = ({route}) => {
                   style={{
                     ...profDetMixins.input,
                     textAlign: 'center',
-                  }}>
+                  } as ViewStyle}>
                   {item.data.age}
                 </Text>
               </Surface>
@@ -239,7 +239,7 @@ const ProfileDetails = ({route}) => {
                   style={{
                     ...profDetMixins.input,
                     textAlign: 'center',
-                  }}>
+                  }as ViewStyle}>
                   {item.data.color}
                 </Text>
               </Surface>
@@ -248,7 +248,7 @@ const ProfileDetails = ({route}) => {
                   style={{
                     ...profDetMixins.input,
                     textAlign: 'center',
-                  }}>
+                  } as ViewStyle}>
                   {item.data.sex}
                 </Text>
               </Surface>
@@ -257,7 +257,7 @@ const ProfileDetails = ({route}) => {
                   style={{
                     ...profDetMixins.input,
                     textAlign: 'center',
-                  }}>
+                  }as ViewStyle}>
                   {item.data.weight}
                 </Text>
               </Surface>
@@ -468,7 +468,7 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   // age, color, sex and weight
   bottomContainer: {
-    top: '49%',
+    top: '52%',
     flexDirection: 'row',
     zIndex: 999,
     right: '0.5%',
@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
   // inputs of the user
   bottomTexts: {
     ...profDetMixins.align,
-    top: '44%',
+    top: '47%',
     flexDirection: 'row',
     paddingVertical: '5%',
     justifyContent: 'space-evenly',
@@ -556,4 +556,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileDetails;
+export default VisitedProfileDetails;

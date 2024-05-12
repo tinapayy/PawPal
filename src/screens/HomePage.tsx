@@ -149,8 +149,12 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
+  const navigation = useNavigation();
+  const FoodAdvisable = useNavigateTo('FoodAdvisable');
+  const [searchboxQuery, setSearchBoxQuery] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
   const [userType, setUserType] = useState('');
+  const searchInputRef = useRef(null); // Creating a ref for the TextInput
 
   const fetchData = async () => {
     try {
@@ -185,12 +189,10 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
     }
   }
 
-  const navigation = useNavigation();
-  const FoodAdvisable = useNavigateTo('FoodAdvisable');
-  const [searchboxQuery, setSearchBoxQuery] = useState('');
-
   const handleSearchIconClick = () => {
     navigation.navigate('ResultsPageAll', {searchboxQuery: searchboxQuery});
+    setSearchBoxQuery('');
+    searchInputRef.current.clear();
   };
 
   // first carousel
@@ -218,8 +220,8 @@ const Data3Item = ({item, handleItemClick, searchQuery, setSearchQuery}) => {
                       />
                     </Pressable>
                     <TextInput
+                      ref={searchInputRef}
                       style={styles.serchText}
-                      //search not implemented
                       placeholder="Search"
                       placeholderTextColor={constants.$senaryColor}
                       onChangeText={text => setSearchBoxQuery(text)}

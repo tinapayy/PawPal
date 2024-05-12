@@ -156,6 +156,9 @@ const VisitedProfileDetails = ({route}) => {
   };
 
   useEffect(() => {
+    if (userId === auth.currentUser!.uid) {
+      navigation.navigate('Profile Details');
+    }
     fetchData();
   }, []);
 
@@ -207,11 +210,13 @@ const VisitedProfileDetails = ({route}) => {
               </Text>
               <Image
                 source={require('../images/gradient_logo.png')}
-                style={{
-                  // logo
-                  ...StyleSheet.absoluteFillObject,
-                  ...profDetMixins.pawLogo,
-                } as ImageStyle}
+                style={
+                  {
+                    // logo
+                    ...StyleSheet.absoluteFillObject,
+                    ...profDetMixins.pawLogo,
+                  } as ImageStyle
+                }
               />
             </View>
 
@@ -227,37 +232,45 @@ const VisitedProfileDetails = ({route}) => {
               <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 {/* styling for the inputs */}
                 <Text
-                  style={{
-                    ...profDetMixins.input,
-                    textAlign: 'center',
-                  } as ViewStyle}>
+                  style={
+                    {
+                      ...profDetMixins.input,
+                      textAlign: 'center',
+                    } as ViewStyle
+                  }>
                   {item.data.age}
                 </Text>
               </Surface>
               <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 <Text
-                  style={{
-                    ...profDetMixins.input,
-                    textAlign: 'center',
-                  }as ViewStyle}>
+                  style={
+                    {
+                      ...profDetMixins.input,
+                      textAlign: 'center',
+                    } as ViewStyle
+                  }>
                   {item.data.color}
                 </Text>
               </Surface>
               <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 <Text
-                  style={{
-                    ...profDetMixins.input,
-                    textAlign: 'center',
-                  } as ViewStyle}>
+                  style={
+                    {
+                      ...profDetMixins.input,
+                      textAlign: 'center',
+                    } as ViewStyle
+                  }>
                   {item.data.sex}
                 </Text>
               </Surface>
               <Surface style={{...styles.surface, flex: 1}} elevation={2}>
                 <Text
-                  style={{
-                    ...profDetMixins.input,
-                    textAlign: 'center',
-                  }as ViewStyle}>
+                  style={
+                    {
+                      ...profDetMixins.input,
+                      textAlign: 'center',
+                    } as ViewStyle
+                  }>
                   {item.data.weight}
                 </Text>
               </Surface>
@@ -519,7 +532,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     zIndex: 5,
     top: '-32%',
-    alignSelf:'flex-end',
+    alignSelf: 'flex-end',
     // justifyContent:'flex-start',
   },
 

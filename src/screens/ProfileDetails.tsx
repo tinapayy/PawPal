@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     zIndex: 5,
     top: '-32%',
-    alignSelf:'flex-end',
+    alignSelf: 'flex-end',
     // justifyContent:'flex-start',
   },
 

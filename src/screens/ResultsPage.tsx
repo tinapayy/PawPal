@@ -84,7 +84,7 @@ type Clinic = {
 const ResultsPage = () => {
   const NavHome = useNavigateTo('Home');
   const NavClinicProfile = useNavigateTo('ClinicProfile');
-  const NavProfileDetails = useNavigateTo('ProfileDetails');
+  const NavProfileDetails = useNavigateTo('Profile Details');
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;

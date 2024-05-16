@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     color: constants.$textColor1,
     marginLeft: '9%',
     fontSize: 16,
-    fontFamily: constants.$fontFamilySemiBold,
+    fontFamily: constants.$fontFamilyRegular,
   },
   locText: {
     color: constants.$senaryColor,

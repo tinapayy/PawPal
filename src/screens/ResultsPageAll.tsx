@@ -28,7 +28,7 @@ const UserCard = ({userInfo}) => {
 
   const handleDataPress = () => {
     if (userInfo.userType === 'petOwner') {
-      navigation.navigate('Profile Details', {
+      navigation.navigate('VisitedProfileDetails', {
         userId: userInfo.userId,
       });
     } else if (userInfo.userType === 'clinic') {
@@ -224,14 +224,6 @@ const ResultsPageAll = ({route}) => {
     setfilteredData(filtered);
   };
 
-  const handleProfileClick = () => {
-    if (userType === 'petOwner') {
-      navigation.navigate('Profile Details');
-    } else {
-      navigation.navigate('ClinicProfile');
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.headercontainer}>
@@ -259,17 +251,18 @@ const ResultsPageAll = ({route}) => {
             />
           </View>
           <View style={styles.userheadercontent}>
-            <TouchableOpacity onPress={navigation.goBack}>
-              <TouchableOpacity onPress={handleProfileClick}>
-                <Avatar.Image
-                  source={
-                    profilePicture
-                      ? {uri: profilePicture}
-                      : require('../images/defaultIcon.png')
-                  }
-                  size={40}
-                />
-              </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Profile Details');
+              }}>
+              <Avatar.Image
+                source={
+                  profilePicture
+                    ? {uri: profilePicture}
+                    : require('../images/defaultIcon.png')
+                }
+                size={40}
+              />
             </TouchableOpacity>
           </View>
         </View>

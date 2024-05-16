@@ -334,7 +334,7 @@ const PetProfile = ({route}) => {
             message={showAlert1.message} // Pass the message from showAlert
             onClose={() => {
               setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('HomePage'); // Navigate to a different page
+              navigation.navigate('Profile Details'); // Navigate to a different page
           }} // Close the alert on button press
           />
           <CustomAlert

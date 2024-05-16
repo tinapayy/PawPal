@@ -90,6 +90,9 @@ const ClinicProfile = ({route}) => {
   };
 
   useEffect(() => {
+    if (userId === auth.currentUser!.uid) {
+      navigation.navigate('Profile Details');
+    }
     fetchData();
   }, []);
 
@@ -114,7 +117,7 @@ const ClinicProfile = ({route}) => {
       }}>
       <View>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <FontAwesomeIcon
               icon={icons.faArrowLeft}
               size={25}

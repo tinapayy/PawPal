@@ -198,6 +198,11 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="VisitedProfileDetails"
+          component={import_screens.VisitedProfileDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="SettingsPage"
           component={import_screens.SettingsPage}
           options={{headerShown: false}}

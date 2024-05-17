@@ -253,7 +253,9 @@ const Chat = ({route}) => {
             ) : null}
             {item.senderId === auth.currentUser?.uid ? (
               <View
-                style={[styles.messageBubble, styles.outgoingMessageBubble]}
+                style={[styles.messageBubble, styles.outgoingMessageBubble,
+                  {flexDirection:'row', right:'2%', alignSelf:'flex-end' }
+                ]} 
               >
                 <Text style={styles.messageText}>{item.message}</Text>
                 {item.chatPicture ? (
@@ -269,9 +271,9 @@ const Chat = ({route}) => {
                 {/* Display time icon if message is not yet sent */}
                 {!item.isSent ? (
                   <icons.MaterialIcons
-                    style={{ alignSelf: 'flex-end' }}
+                    style={{ alignSelf: 'flex-end', top:'-2%', right:'-5%' }}
                     name="access-time"
-                    size={20}
+                    size={15}
                     color={constants.$quaternaryColor}
                   />
                 ) : null}
@@ -427,9 +429,9 @@ const styles = StyleSheet.create({
   messageBubble: {
     // flex: 1,
     borderRadius: 10,
-    paddingHorizontal: '3%',
+    paddingHorizontal: '5%',
     paddingVertical: '3%',
-    maxWidth: '70%',
+    maxWidth: '80%',
     marginBottom: '0.8%',
   },
   outgoingMessageWrapper: {
@@ -450,7 +452,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    marginRight: '2%',
+    // marginRight: '2%',
   },
   incomingMessageWrapper: {
     alignItems: 'flex-start',
@@ -467,7 +469,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 15,
-    left:'3%',
+    // left:'3%',
     fontFamily: constants.$fontFamilyRegular,
   },
   messageImage: {

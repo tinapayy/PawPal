@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: 'row',
     marginBottom: '2%',
-    top: '-5%',
+    top: '-10%',
     left: '2%',
   },
   backIcon: {
@@ -512,7 +512,7 @@ const styles = StyleSheet.create({
     paddingVertical: '2%',
   },
   changePassword: {
-    fontSize: 25,
+    fontSize: 19,
     fontFamily: constants.$fontFamilyBold,
     left: '8%',
     marginBottom: '4%',

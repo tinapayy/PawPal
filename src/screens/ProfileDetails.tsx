@@ -270,10 +270,11 @@ const ProfileDetails = ({route}) => {
 
   //handling the card which must contain the profile, username, title (pet owner) and description
   const ownerCard = (
-    <View style={styles.cardContainer}>
-      <Card style={styles.card}>
-        <Card.Content style={styles.cardContent}>
-          <View style={styles.userInfo}>
+  <View style={styles.cardContainer}>
+    <Card style={styles.card}>
+      <Card.Content style={styles.cardContent}>
+
+        <View style={styles.userInfo}>
             <View style={[{paddingRight: '5%'}]}>
               <Avatar.Image size={50} source={profilePicture} />
             </View>
@@ -289,6 +290,7 @@ const ProfileDetails = ({route}) => {
               <Text style={styles.ownerTitle}> Pet Owner </Text>
             </View>
           </View>
+
           <View style={styles.iconContainer}>
             <View style={{flexDirection: 'row'}}>
               {userId ? (
@@ -317,23 +319,26 @@ const ProfileDetails = ({route}) => {
               )}
             </View>
           </View>
+
           <View style={styles.contentScroll}>
             <Text style={styles.contentProfile}>
               {showFullBio ? bio : truncatedBio}
               {!showFullBio && truncatedBio !== bio && (
                 <>
+                  <Text>{' '}</Text>
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See More
                   </Text>
                   {` ${
                     lines.length > numLines
-                      ? lines.slice(numLines).join('\n')
+                      ? lines.slice(numLines).join(' \n')
                       : ''
                   }`}
                 </>
               )}
               {showFullBio && (
                 <>
+                  <Text>{' '}</Text>
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See Less
                   </Text>
@@ -341,6 +346,7 @@ const ProfileDetails = ({route}) => {
               )}
             </Text>
           </View>
+          
         </Card.Content>
       </Card>
     </View>
@@ -534,6 +540,7 @@ const styles = StyleSheet.create({
     right: '-2%',
     maxWidth: '98%',
     height: '60%',
+    
   },
   // bio
   contentProfile: {
@@ -545,9 +552,13 @@ const styles = StyleSheet.create({
   seeMore: {
     fontFamily: constants.$fontFamily,
     fontSize: 14,
+    // paddingRight:'10%',
     color: constants.$primaryColor,
     textDecorationLine: 'underline',
     zIndex: 9,
+    left: '-10%',
+    // justifyContent:'space-between',
+    paddingLeft:'10%',
   },
   settingsIcon: {},
   // messageIcon:{},

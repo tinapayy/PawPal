@@ -257,16 +257,19 @@ const Chat = ({route}) => {
                   {flexDirection:'row', right:'2%', alignSelf:'flex-end' }
                 ]} 
               >
+                <View style ={[styles.messageContent]}>
                 <Text style={styles.messageText}>{item.message}</Text>
                 {item.chatPicture ? (
                   <Image
                     style={[
                       styles.messageImage,
+                      { marginTop: 20 },
                       item.isSent && { backgroundColor: 'transparent' },
                     ]}
                     source={item.chatPicture}
                   />
                 ) : null}
+                </View>
 
                 {/* Display time icon if message is not yet sent */}
                 {!item.isSent ? (
@@ -353,7 +356,7 @@ const Chat = ({route}) => {
           <TextInput
             style={[
               styles.input,
-              selectedImage && { paddingTop: 50 },
+              selectedImage && { paddingTop: 50, paddingLeft:10 },
             ]}
             onChangeText={onChangeText}
             placeholder="Type a message..."
@@ -412,6 +415,9 @@ const styles = StyleSheet.create({
   messageContainer: {
     backgroundColor: constants.$tertiaryColor,
   },
+  messageContent:{
+    alignSelf:'center',
+  },
   // to be adjusted
   messageWrapper: {
     marginVertical: '2%',
@@ -427,16 +433,15 @@ const styles = StyleSheet.create({
   },
   // message bubble container
   messageBubble: {
-    // flex: 1,
     borderRadius: 10,
     paddingHorizontal: '5%',
-    paddingVertical: '3%',
+    paddingVertical: '5%',
     maxWidth: '80%',
     marginBottom: '0.8%',
   },
   outgoingMessageWrapper: {
     alignItems: 'flex-end',
-    // marginBottom:'2%',
+    marginBottom:'2%',
   },
   outgoingMessageBubble: {
     backgroundColor: constants.$backgroundColor4,
@@ -461,22 +466,28 @@ const styles = StyleSheet.create({
   //messages received
   incomingMessageBubble: {
     backgroundColor: constants.$backgroundColor2,
-    // borderRadius: 10,
-    // paddingHorizontal: '3%',
-    // paddingVertical: '1%',
+    borderRadius: 10,
+    paddingHorizontal: '3%',
+    paddingVertical: '1%',
     marginBottom: '-0.8%',
     alignSelf: 'flex-start',
   },
   messageText: {
     fontSize: 15,
     // left:'3%',
+    // top:'10%',
+    // paddingBottom:'10%',
     fontFamily: constants.$fontFamilyRegular,
   },
   messageImage: {
+    // paddingTop:'5%',
+    // paddingVertical:'5%',
     width: 200,
     height: 200,
     borderRadius: 20,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
+    justifyContent:'center',
+    alignContent:'center',
     backgroundColor:'transparent',
   },
   //typing of message
@@ -496,6 +507,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: constants.$backgroundColor2,
     padding: '2%',
+    textAlign:'left',
+    paddingLeft:20,
     borderRadius: 20,
     fontSize: 16,
     width: '100%',
@@ -505,6 +518,7 @@ const styles = StyleSheet.create({
   },
   sendIcon: {},
   textInputContainer:{
+    padding:5,
     flexDirection: 'row',
     position:'relative',
     width:'79%',

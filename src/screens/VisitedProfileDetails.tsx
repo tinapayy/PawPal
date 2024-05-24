@@ -365,7 +365,7 @@ const VisitedProfileDetails = ({route}) => {
       <TouchableOpacity onPress={goForward}></TouchableOpacity>
       <View style={styles.headerContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('ResultsPageAll')}
           //backbutton
           style={profDetMixins.backButton}>
           <FontAwesomeIcon

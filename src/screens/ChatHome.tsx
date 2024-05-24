@@ -32,6 +32,7 @@ import * as icons from '../imports/icons/icons';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {chatMixins} from '../components/chatMixins';
+import LoadingScreen from '../components/loading';
 
 interface Chat {
   id: number;
@@ -49,6 +50,7 @@ const MessagePage = () => {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
+  const [loading, setLoading] = useState(true);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [messages, setMessages] = useState<Chat[]>([]);
@@ -109,9 +111,11 @@ const MessagePage = () => {
       const uniqueChat = chat.filter(
         (v, i, a) => a.findIndex(t => t.senderId === v.senderId) === i,
       );
+      setLoading(false);
       setMessages(uniqueChat);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -149,6 +153,10 @@ const MessagePage = () => {
         day: 'numeric',
       });
     }
+  }
+  
+  if (loading) {
+    return <LoadingScreen />;
   }
 
   return (

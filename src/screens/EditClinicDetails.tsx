@@ -770,13 +770,14 @@ const styles = StyleSheet.create({
   tagitems: {
     flex: 1,
     ...alignmentMixin.alignment1,
-    padding: '4%',
+    padding: '3%',
     margin: 6,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: constants.$primaryColor,
     color: constants.$secondaryColor,
     backgroundColor: constants.$quinaryColor,
+    bottom: '7%',
   } as ViewStyle,
   taginputcontainer: {
     ...alignmentMixin.alignment1,

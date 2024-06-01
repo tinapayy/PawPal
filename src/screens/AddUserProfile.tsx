@@ -113,16 +113,26 @@ const UserProfile = () => {
 
           try {
             await updateDoc(userRef, updateData);
-            Alert.alert('Profile picture updated successfully');
+            setShowAlert1({
+              visible: true,
+              title: 'Action Completed',
+              message: 'Profile picture updated successfully.'
+          })
+            //Alert.alert('Profile picture updated successfully');
           } catch (updateError) {
+            setShowAlert({
+              visible: true,
+              title: 'Action Incompleted',
+              message: 'Error updating profile. Please try again.'
+          })
             console.error('Error updating profile:', updateError);
-            Alert.alert('Error updating profile. Please try again.');
+            //Alert.alert('Error updating profile. Please try again.');
           }
         }
       });
     } catch (error) {
       console.error('Error uploading profile picture:', error);
-      Alert.alert('Error updating profile picture. Please try again.');
+      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 

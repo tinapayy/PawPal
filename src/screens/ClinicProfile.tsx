@@ -373,6 +373,7 @@ const styles = StyleSheet.create({
   aboutText: {
     color: constants.$textColor1,
     marginLeft: '9%',
+    marginRight: '9%',
     fontSize: 16,
     fontFamily: constants.$fontFamilyRegular,
   },

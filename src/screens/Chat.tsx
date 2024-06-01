@@ -450,6 +450,7 @@ const styles = StyleSheet.create({
   incomingMessageAvatarWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    left:'3%',
   },
   // incoming message avatar
 
@@ -468,9 +469,10 @@ const styles = StyleSheet.create({
     backgroundColor: constants.$backgroundColor2,
     borderRadius: 10,
     paddingHorizontal: '3%',
-    paddingVertical: '1%',
+    paddingVertical: '3%',
     marginBottom: '-0.8%',
     alignSelf: 'flex-start',
+    left:'8%',
   },
   messageText: {
     fontSize: 15,

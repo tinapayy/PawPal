@@ -57,7 +57,7 @@ const SignIn = () => {
             title: 'Action Incomplete',
             message: 'Error signing in.',
         });
-          console.error(error);
+          //console.error(error);
           //Alert.alert('Error signing in');
         });
     } else {
@@ -84,7 +84,7 @@ const SignIn = () => {
                   title: 'Action Incomplete',
                   message: 'Error signing in.',
               });
-                console.error(error);
+                //console.error(error);
                 //Alert.alert('Error signing in');
               });
           }
@@ -102,7 +102,7 @@ const SignIn = () => {
           title: 'Action Incomplete',
           message: 'Error fetching user data.',
       });
-        console.error(error);
+        //console.error(error);
         //Alert.alert('Error fetching user data');
       }
     }

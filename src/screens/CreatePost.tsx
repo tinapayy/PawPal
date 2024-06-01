@@ -215,7 +215,7 @@ const CreatePost = () => {
               numberOfLines={5}
               value={postText}
               onChangeText={text => setPostText(text)}
-              maxLength={130}
+              maxLength={200}
               placeholder="Write something here..."
               textAlignVertical="top"
               style={{

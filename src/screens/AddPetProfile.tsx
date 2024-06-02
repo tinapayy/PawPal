@@ -59,7 +59,6 @@ const PetProfile = () => {
     message: '',
   });
 
-  const [petId, setPetId] = useState('');
   const [petName, setPetName] = useState('');
   const [breed, setBreed] = useState('');
   const [age, setAge] = useState('');
@@ -72,8 +71,8 @@ const PetProfile = () => {
     const options = {
       mediaType: 'photo',
       includeBase64: false,
-      maxHeight: 200,
-      maxWidth: 200,
+      maxHeight: 400,
+      maxWidth: 400,
     };
 
     launchImageLibrary(options, response => {
@@ -106,7 +105,7 @@ const PetProfile = () => {
       const storage = FIREBASE_STORAGE;
       const storageRef = ref(
         storage,
-        `petPicture/${auth.currentUser?.uid}.jpeg`,
+        `petPicture/${auth.currentUser?.uid}/${petPicture.split('/').pop()}`,
       );
 
       // Convert image URI to Blob
@@ -180,10 +179,12 @@ const PetProfile = () => {
       //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
+
   const imageSizePercentage = 30;
   const imageSize =
     Dimensions.get('window').width * (imageSizePercentage / 100);
   const borderRadius = imageSize / 2;
+
   return (
     <ImageBackground
       source={require('../images/real_bg.png')}

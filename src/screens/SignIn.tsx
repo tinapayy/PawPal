@@ -36,6 +36,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [showAlert, setShowAlert] = useState({
     visible: false,
     title: '',
@@ -56,7 +57,7 @@ const SignIn = () => {
             visible: true,
             title: 'Action Incomplete',
             message: 'Error signing in.',
-        });
+          });
           //console.error(error);
           //Alert.alert('Error signing in');
         });
@@ -83,7 +84,7 @@ const SignIn = () => {
                   visible: true,
                   title: 'Action Incomplete',
                   message: 'Error signing in.',
-              });
+                });
                 //console.error(error);
                 //Alert.alert('Error signing in');
               });
@@ -93,15 +94,15 @@ const SignIn = () => {
           setShowAlert({
             visible: true,
             title: 'Action Incomplete',
-            message: 'Please enter correct details.'
-        });
+            message: 'Please enter correct details.',
+          });
         }
       } catch (error) {
         setShowAlert({
           visible: true,
           title: 'Action Incomplete',
           message: 'Error fetching user data.',
-      });
+        });
         //console.error(error);
         //Alert.alert('Error fetching user data');
       }
@@ -136,14 +137,30 @@ const SignIn = () => {
               </View>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
+
+                {/* //password starts here  */}
                 <TextInput
                   style={styles.input}
                   placeholder="Password"
                   value={password}
-                  secureTextEntry={true}
-                  underlineColorAndroid="orange"
+                  // secureTextEntry={true}
+                  secureTextEntry={isSecureEntry}
                   onChangeText={text => setPassword(text)}
+                  underlineColorAndroid="orange"
                 />
+                {/* toggle show and hide */}
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry(prev => !prev);
+                  }}
+                  style={styles.showButton}>
+                  {/* icon eye open and slash */}
+                  <FontAwesomeIcon
+                    icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                    style={styles.eyeicon}
+                    size={18}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
             <View style={styles.btnContainer}>
@@ -168,11 +185,11 @@ const SignIn = () => {
         </View>
       </ScrollView>
       <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
-          />
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+      />
     </SafeAreaView>
   );
 };
@@ -281,6 +298,20 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
     color: constants.$secondaryColor,
     left: 40,
+  },
+  // button for password toggle
+  showButton: {
+    // backgroundColor: 'black',
+    // padding:'5%',
+    width: '5%',
+    left: '89%',
+    position: 'relative',
+    alignItems: 'flex-end',
+    zIndex: 5,
+    top: '-165%',
+  },
+  eyeicon: {
+    color: constants.$primaryColor,
   },
 });
 

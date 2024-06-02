@@ -42,6 +42,7 @@ const UserProfile = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
   const [loading, setLoading] = useState(true);
+  const [isSecureEntry, setIsSecureEntry] = useState(true); // for password toggle
 
   const [showAlert, setShowAlert] = useState({
     visible: false,
@@ -191,6 +192,8 @@ const UserProfile = () => {
   };
 
   const verifySignUp = (password: string) => {
+    const errors = [];
+
     if (!password || !confirmPassword) {
       setShowAlert({
         visible: true,
@@ -199,54 +202,47 @@ const UserProfile = () => {
       });
       return false;
     }
+
     if (password.length < 8) {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Password should be atleast 8 characters.',
+        message: 'Password should be at least 8 characters.',
       });
       return false;
     }
+
     if (!/(?=.*\d)/.test(password)) {
-      setShowAlert({
-        visible: true,
-        title: 'Action Incomplete',
-        message: 'Password should contain atleast 1 number.',
-      });
-      return false;
+      errors.push('At least one number.');
     }
     if (!/(?=.*[a-z])/.test(password)) {
-      setShowAlert({
-        visible: true,
-        title: 'Action Incomplete',
-        message: 'Password should contain atleast 1 lowercase letter.',
-      });
-      return false;
+      errors.push('At least one lowercase letter.');
     }
     if (!/(?=.*[A-Z])/.test(password)) {
-      setShowAlert({
-        visible: true,
-        title: 'Action Incomplete',
-        message: 'Password should contain atleast 1 uppercase letter.',
-      });
-      return false;
+      errors.push('At least one uppercase letter.');
     }
     if (!/(?=.*[!@#$%^&*])/.test(password)) {
+      errors.push('At least one special character.');
+    }
+
+    if (errors.length > 0) {
       setShowAlert({
         visible: true,
-        title: 'Action Incomplete',
-        message: 'Password should contain atleast 1 special character.',
+        title: 'Password Must Contain:',
+        message: errors.join('\n'),
       });
       return false;
     }
+
     if (password !== confirmPassword) {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Password do not match.',
+        message: 'Passwords do not match.',
       });
       return false;
     }
+
     return true;
   };
 
@@ -434,8 +430,20 @@ const UserProfile = () => {
               secureTextEntry
               value={currentPassword}
               onChangeText={text => setCurrentPassword(text)}
+              
             />
+            {/* toggle show and hide */}
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+              style={styles.showButton}
+            >
+              {/* icon eye open and slash */}
+              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+            </TouchableOpacity>
           </View>
+
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={icons.faUserLock} style={styles.icon} />
             <TextInput
@@ -445,6 +453,16 @@ const UserProfile = () => {
               value={newPassword}
               onChangeText={text => setNewPassword(text)}
             />
+            {/* toggle show and hide */}
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+              style={styles.showButton}
+            >
+              {/* icon eye open and slash */}
+              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+            </TouchableOpacity>
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={icons.faCheckCircle} style={styles.icon} />
@@ -455,6 +473,16 @@ const UserProfile = () => {
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
             />
+            {/* toggle show and hide */}
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+              style={styles.showButton}
+            >
+              {/* icon eye open and slash */}
+              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+            </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -624,6 +652,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
     top: '-5%',
   } as ViewStyle,
+  // button for password toggle
+  showButton: {
+    width: '5%',
+    right: '-10%',
+    position: 'relative',
+    alignItems: 'flex-end',
+    zIndex: 5,
+    top: '4%',
+  },
+  eyeicon: {
+    color: constants.$primaryColor,
+  },
 });
 
 export default UserProfile;

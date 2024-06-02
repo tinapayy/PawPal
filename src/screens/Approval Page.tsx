@@ -55,7 +55,7 @@ const ForumCard = ({userPost, onCheck, onX}) => {
         <Image
           source={userPost.postPicture}
           style={{
-            width: 370,
+            width: 353,
             height: 200,
             alignSelf: 'center',
             marginBottom: 10,
@@ -289,8 +289,8 @@ const styles = StyleSheet.create({
   cardBg: {
     paddingTop: '2%',
     backgroundColor: constants.$backgroundColor,
-    margin: '2%',
-    marginBottom: '8%',
+    margin: '4%',
+    marginBottom: '5%',
     position: 'relative',
     borderRadius: 30,
     elevation: 10,
@@ -309,6 +309,7 @@ const styles = StyleSheet.create({
   },
   contentBg: {
     backgroundColor: constants.$backgroundColor,
+    padding: '3%',
     paddingBottom: '3%',
     flexDirection: 'row',
   },
@@ -332,82 +333,6 @@ const styles = StyleSheet.create({
     color: constants.$senaryColor,
     fontSize: 28,
     fontFamily: constants.$fontFamilySemiBold,
-    left: '115%',
+    left: '95%',
   },
-  // container: {
-  //   paddingTop: 16,
-  //   backgroundColor: constants.$backgroundColor,
-  //   margin: 8,
-  //   marginBottom: 25,
-  //   position: 'relative',
-  //   borderRadius: 30,
-  //   elevation: 10,
-  // },
-  // box: {
-  //   ...alignmentMixin.alignment1,
-  //   backgroundColor: constants.$backgroundColor,
-  //   paddingBottom: 25,
-  // },
-  // forumcontent: {
-  //   fontSize: 20,
-  //   justifyContent: 'center',
-  // },
-  // usercontainer: {
-  //   backgroundColor: constants.$backgroundColor,
-  //   padding: 5,
-  //   margin: 3,
-  //   flexDirection: 'row',
-  //   justifyContent: 'flex-start',
-  //   alignItems: 'center',
-  // },
-  // user: {
-  //   flexDirection: 'column',
-  //   backgroundColor: constants.$senaryColor,
-  //   marginLeft: 5,
-  // },
-  // username: {
-  //   fontSize: 20,
-  //   fontWeight: constants.$fontWeightBold,
-  // },
-  // choosebuttons: {
-  //   backgroundColor: constants.$primaryColor,
-  //   flexDirection: 'row',
-  //   borderBottomLeftRadius: 30,
-  //   borderBottomRightRadius: 30,
-  // },
-  // buttons: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   left: '30%',
-  // },
-  // button: {
-  //   minWidth: 80,
-  //   marginHorizontal: 4,
-  //   borderRadius: 40,
-  // },
-  // radioButtonContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   marginRight: 45,
-  //   marginLeft: 25,
-  // },
-  // radioButton: {
-  //   ...alignmentMixin.alignment,
-  //   height: 20,
-  //   width: 20,
-  //   backgroundColor: '#F8F8F8',
-  //   borderRadius: 10,
-  //   borderWidth: 1,
-  //   borderColor: '#E6E6E6',
-  // },
-  // radioButtonIcon: {
-  //   height: 16,
-  //   width: 16,
-  //   borderRadius: 7,
-  //   backgroundColor: '#FF8700',
-  // },
-  // radioButtonText: {
-  //   fontSize: 16,
-  //   marginLeft: 16,
-  // },
 });

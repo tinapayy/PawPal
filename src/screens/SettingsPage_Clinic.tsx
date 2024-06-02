@@ -1,20 +1,27 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, ViewStyle} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ViewStyle,
+} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 const grh = require('../images/grh.png');
 import LogOutModal from './LogoutModal';
 import DeleteAccountModal from './DeleteAccountModal';
-import {useNavigation} from '@react-navigation/native'; 
+import {useNavigation} from '@react-navigation/native';
 import {onAuthStateChanged} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
 import {useNavigateTo} from '../components/navigation';
 
 function SettingsPage_Clinic() {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
 
@@ -48,21 +55,22 @@ function SettingsPage_Clinic() {
         <FontAwesomeIcon
           icon={icons.faArrowLeft}
           size={27}
-          style={{color: constants.$secondaryColor, left: 15, flex: 1, bottom: '500%'}}
+          style={{
+            color: constants.$secondaryColor,
+            left: 15,
+            flex: 1,
+            bottom: '500%',
+          }}
         />
       </TouchableOpacity>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={EditClinicDetails}>
+        <TouchableOpacity style={styles.button} onPress={EditClinicDetails}>
           <icons.User size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Profile</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={EditClinicPassword}>
+        <TouchableOpacity style={styles.button} onPress={EditClinicPassword}>
           <icons.Lock size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Edit Clinic Password</Text>
         </TouchableOpacity>
@@ -109,11 +117,11 @@ const styles = StyleSheet.create({
   headertextandicon: {
     ...alignmentMixin.alignment1,
     marginLeft: '10%',
-    paddingRight: '10%',
+    paddingRight: '5%',
     marginRight: '15%',
   } as ViewStyle,
   headerText: {
-    paddingLeft: '3%',
+    paddingLeft: '2%',
     fontSize: 35,
     fontWeight: 'bold',
     color: constants.$secondaryColor,
@@ -128,6 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10%',
+    left: '3%',
   },
   button: {
     ...alignmentMixin.alignment1,

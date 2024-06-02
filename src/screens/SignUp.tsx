@@ -22,7 +22,6 @@ import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import CustomAlert from '../components/CustomAlert';
 
-
 const SignIn = () => {
   type Nav = {
     reset: (value: any) => void;
@@ -247,12 +246,15 @@ const SignIn = () => {
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    setIsSecureEntry((prev) => !prev);
+                    setIsSecureEntry(prev => !prev);
                   }}
-                  style={styles.showButton}
-                >
+                  style={styles.showButton}>
                   {/* icon eye open and slash */}
-                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                  <FontAwesomeIcon
+                    icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                    style={styles.eyeicon}
+                    size={18}
+                  />
                 </TouchableOpacity>
               </View>
               <View style={styles.iconInputRow}>
@@ -270,12 +272,15 @@ const SignIn = () => {
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    setIsSecureEntry((prev) => !prev);
+                    setIsSecureEntry(prev => !prev);
                   }}
-                  style={styles.showButton1}
-                >
+                  style={styles.showButton1}>
                   {/* icon eye open and slash */}
-                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                  <FontAwesomeIcon
+                    icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                    style={styles.eyeicon}
+                    size={18}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -431,7 +436,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'flex-end',
     zIndex: 5,
-    top: '-159%',
+    top: '-170%',
   },
   //confirm password
   showButton1: {
@@ -440,7 +445,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'flex-end',
     zIndex: 5,
-    top: '-165%',
+    top: '-170%',
   },
   eyeicon: {
     color: constants.$primaryColor,

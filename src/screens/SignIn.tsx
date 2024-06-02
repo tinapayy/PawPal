@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'flex-end',
     zIndex: 5,
-    top: '-165%',
+    top: '-170%',
   },
   eyeicon: {
     color: constants.$primaryColor,

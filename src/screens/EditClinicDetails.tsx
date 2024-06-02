@@ -43,7 +43,7 @@ import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import LoadingScreen from '../components/loading';
 import CustomAlert from '../components/CustomAlert';
-import { useNavigateTo } from '../components/navigation';
+import {useNavigateTo} from '../components/navigation';
 
 const PawPalApp = () => {
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
@@ -60,12 +60,12 @@ const PawPalApp = () => {
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
   const [showAlert1, setShowAlert1] = useState({
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
 
   const [selectedImage, setSelectedImage] = useState('');
   const [number, setNumber] = useState('');
@@ -139,29 +139,27 @@ const PawPalApp = () => {
           try {
             await updateDoc(userRef, updateData);
             setShowAlert({
-                visible: true,
-                title: 'Action Completed',
-                message: 'Profile updated successfully.'
-            });   
-        }
-         catch (updateError) {
-          setShowAlert({
-            visible: true,
-            title: 'Action Incomplete',
-            message: 'Error updating clinic profile. Please try again.'
-        }); 
+              visible: true,
+              title: 'Action Completed',
+              message: 'Profile updated successfully.',
+            });
+          } catch (updateError) {
+            setShowAlert({
+              visible: true,
+              title: 'Action Incomplete',
+              message: 'Error updating clinic profile. Please try again.',
+            });
             console.error('Error updating profile:', updateError);
-           // Alert.alert('Error updating clinic profile. Please try again.');
-        }        
+            // Alert.alert('Error updating clinic profile. Please try again.');
+          }
         }
       });
-    } 
-    catch (error) {
+    } catch (error) {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating clinic details. Please try again.'
-    });
+        message: 'Error updating clinic details. Please try again.',
+      });
       console.log('Error querying user data: ', error);
       //Alert.alert('Error updating clinic details. Please try again.');
     }
@@ -502,7 +500,7 @@ const PawPalApp = () => {
                     {daysOfWeek.some(
                       selectedDay => selectedDay.day === day,
                     ) && (
-                      <View style={{width: 85}}>
+                      <View style={{width: 80}}>
                         <Button
                           onPress={() => showOpenTimepicker(day)}
                           title={
@@ -518,7 +516,7 @@ const PawPalApp = () => {
                     {daysOfWeek.some(
                       selectedDay => selectedDay.day === day,
                     ) && (
-                      <View style={{width: 85}}>
+                      <View style={{width: 80}}>
                         <Button
                           onPress={() => showCloseTimepicker(day)}
                           title={
@@ -557,7 +555,7 @@ const PawPalApp = () => {
             <Text style={styles.clinicDets}>Location</Text>
             <View style={{flex: 1}}>
               <MapView
-                style={{flex: 1, margin: 40, height: 300}}
+                style={{flex: 1, margin: 25, height: 400}}
                 provider={PROVIDER_GOOGLE}
                 initialRegion={mapRegion}
                 onRegionChangeComplete={handleRegionChange}>
@@ -570,7 +568,7 @@ const PawPalApp = () => {
               </MapView>
             </View>
 
-            <View style={{height: 300}}>
+            <View style={{marginLeft: 30, height: 300}}>
               <AppButton
                 title="Save"
                 onPress={saveClinicInfo}
@@ -587,20 +585,22 @@ const PawPalApp = () => {
           </View>
         </ScrollView>
         <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert({ visible: false, title: '', message: '' });
-              navigation.navigate('Profile Details'); // Navigate to a different page
+          visible={showAlert.visible} // Pass the state to control visibility
+          title={showAlert.title} // Pass the title from showAlert
+          message={showAlert.message} // Pass the message from showAlert
+          onClose={() => {
+            setShowAlert({visible: false, title: '', message: ''});
+            navigation.navigate('Profile Details'); // Navigate to a different page
           }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert1({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        />
+        <CustomAlert
+          visible={showAlert1.visible} // Pass the state to control visibility
+          title={showAlert1.title} // Pass the title from showAlert
+          message={showAlert1.message} // Pass the message from showAlert
+          onClose={() => {
+            setShowAlert1({visible: false, title: '', message: ''});
+          }} // Close the alert on button press
+        />
       </ImageBackground>
     </SafeAreaView>
   );
@@ -662,7 +662,7 @@ const styles = StyleSheet.create({
   },
   dashText: {
     fontSize: constants.$fontSizeMedium,
-    color: constants.$secondaryColor,
+    color: constants.$primaryColor,
     fontWeight: 'bold',
     marginRight: 5,
   },
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.alignment,
     flex: 1,
     marginLeft: '37%',
-    margin: '23%',
+    margin: '26%',
     borderRadius: 40,
     marginRight: '45%',
     bottom: '30%',
@@ -705,7 +705,7 @@ const styles = StyleSheet.create({
   bt1: {
     ...buttonMixin.buttonText,
     fontFamily: constants.$fontFamilyMedium,
-    fontSize: constants.$fontSizeLarge,
+    fontSize: constants.$fontSizeMedium,
   } as ViewStyle,
   skip: {
     ...buttonMixin.button,
@@ -730,7 +730,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: '2%',
-    fontSize: constants.$fontSizeLarge,
+    fontSize: 17,
     padding: '1%',
     color: '#878787',
     fontFamily: constants.$fontFamily,
@@ -746,6 +746,7 @@ const styles = StyleSheet.create({
   },
   wrap: {
     ...alignmentMixin.alignment1,
+    padding: '2%',
   } as ViewStyle,
   bg: {
     backgroundColor: constants.$primaryColor,
@@ -765,12 +766,12 @@ const styles = StyleSheet.create({
     paddingVertical: '1%',
     marginHorizontal: '1%',
     height: 60,
-    width: '95%',
+    width: '87%',
   },
   tagitems: {
     flex: 1,
     ...alignmentMixin.alignment1,
-    padding: '3%',
+    padding: '5%',
     margin: 6,
     borderWidth: 1,
     borderRadius: 10,
@@ -788,7 +789,7 @@ const styles = StyleSheet.create({
     marginTop: '2%',
     marginBottom: '2%',
     fontWeight: 'bold',
-    paddingHorizontal: '3%',
+    paddingHorizontal: '5%',
     backgroundColor: constants.$quinaryColor,
   } as ViewStyle,
   taginput: {

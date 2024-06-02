@@ -3,7 +3,7 @@ import {View, Text, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import {ArrowRightOnRectangleIcon as ExitIcon} from 'react-native-heroicons/solid';
 import {FIREBASE_AUTH} from '../../firebase.config';
 import constants from '../styles/constants';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 
 class LogOutModal extends React.Component {
   render() {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   modalcontainer: {
     top: '20%',
     backgroundColor: constants.$textColor2,
-    margin: '12%',
+    margin: '7%',
     padding: 40,
     borderRadius: 10,
     elevation: 20,

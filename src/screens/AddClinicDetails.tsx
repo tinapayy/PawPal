@@ -77,12 +77,12 @@ const PawPalApp = () => {
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
   const [showAlert1, setShowAlert1] = useState({
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
 
   const HomePage = useNavigateTo('HomePage');
 
@@ -128,8 +128,8 @@ const PawPalApp = () => {
             setShowAlert({
               visible: true,
               title: 'Action Completed',
-              message: 'Profile updated successfully.'
-          }); 
+              message: 'Profile updated successfully.',
+            });
           } catch (updateError) {
             console.error('Error updating profile:', updateError);
             Alert.alert('Error updating clinic profile. Please try again.');
@@ -442,7 +442,7 @@ const PawPalApp = () => {
                     {daysOfWeek.some(
                       selectedDay => selectedDay.day === day,
                     ) && (
-                      <View style={{width: 85}}>
+                      <View style={{width: 80}}>
                         <Button
                           onPress={() => showOpenTimepicker(day)}
                           title={
@@ -458,7 +458,7 @@ const PawPalApp = () => {
                     {daysOfWeek.some(
                       selectedDay => selectedDay.day === day,
                     ) && (
-                      <View style={{width: 85}}>
+                      <View style={{width: 80}}>
                         <Button
                           onPress={() => showCloseTimepicker(day)}
                           title={
@@ -497,7 +497,7 @@ const PawPalApp = () => {
             <Text style={styles.clinicDets}>Location</Text>
             <View style={{flex: 1}}>
               <MapView
-                style={{flex: 1, margin: 40, height: 300, bottom: '8%'}}
+                style={{flex: 1, margin: 35, height: 400, bottom: '5%'}}
                 provider={PROVIDER_GOOGLE}
                 initialRegion={mapRegion}
                 onRegionChangeComplete={handleRegionChange}>
@@ -527,20 +527,22 @@ const PawPalApp = () => {
           </View>
         </ScrollView>
         <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert({ visible: false, title: '', message: '' });
-              navigation.navigate('HomePage'); // Navigate to a different page
+          visible={showAlert.visible} // Pass the state to control visibility
+          title={showAlert.title} // Pass the title from showAlert
+          message={showAlert.message} // Pass the message from showAlert
+          onClose={() => {
+            setShowAlert({visible: false, title: '', message: ''});
+            navigation.navigate('HomePage'); // Navigate to a different page
           }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert1({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        />
+        <CustomAlert
+          visible={showAlert1.visible} // Pass the state to control visibility
+          title={showAlert1.title} // Pass the title from showAlert
+          message={showAlert1.message} // Pass the message from showAlert
+          onClose={() => {
+            setShowAlert1({visible: false, title: '', message: ''});
+          }} // Close the alert on button press
+        />
       </ImageBackground>
     </SafeAreaView>
   );
@@ -602,7 +604,7 @@ const styles = StyleSheet.create({
   },
   dashText: {
     fontSize: constants.$fontSizeMedium,
-    color: constants.$secondaryColor,
+    color: constants.$primaryColor,
     fontWeight: 'bold',
     marginRight: 5,
   },
@@ -636,16 +638,16 @@ const styles = StyleSheet.create({
     ...alignmentMixin.alignment,
     flex: 1,
     marginLeft: '20%',
-    margin: '23%',
+    margin: '28%',
     borderRadius: 40,
-    marginRight: '45%',
+    marginRight: '40%',
     bottom: '40%',
     width: '30%',
   } as ViewStyle,
   bt1: {
     ...buttonMixin.buttonText,
     fontFamily: constants.$fontFamilyMedium,
-    fontSize: constants.$fontSizeLarge,
+    fontSize: constants.$fontSizeMedium,
   } as ViewStyle,
   skip: {
     ...buttonMixin.button,
@@ -670,15 +672,16 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: '2%',
-    fontSize: constants.$fontSizeLarge,
+    fontSize: constants.$fontSizeMedium,
     padding: '1%',
     color: '#878787',
     fontFamily: constants.$fontFamily,
     width: '33%',
   },
   btn: {
-    marginLeft: '10%',
+    marginLeft: '8%',
     width: '5%',
+
     height: '50%',
     borderRadius: 20,
     borderColor: constants.$primaryColor,
@@ -702,10 +705,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: constants.$textColor2,
     paddingHorizontal: '-1%',
-    paddingVertical: '1%',
+    paddingVertical: '-1%',
     marginHorizontal: '1%',
     height: 60,
-    width: '95%',
+    width: '87%',
   },
   tagitems: {
     flex: 1,

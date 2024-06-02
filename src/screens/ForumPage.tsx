@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 15,
     left: '-40%',
+    left: '-40%',
   },
   card: {
     marginTop: '5%',

@@ -6,11 +6,6 @@ export const buttonMixin = {
     borderRadius: 25,
     width: 150,
     height: 45,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
   },
   buttonText: {
     color: '#ffffff',

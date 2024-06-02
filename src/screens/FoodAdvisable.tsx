@@ -70,6 +70,22 @@ const FoodAdvisable = () => {
   const grapesImage = require('../images/grapes.jpg');
   const gumImage = require('../images/gum.jpg');
   const nutsImage = require('../images/nuts.jpg');
+  const pumpkinImage = require('../images/pumpkin.jpg');
+  const turkeyImage = require('../images/turkey.jpg');
+  const peasImage = require('../images/peas.jpg');
+  const spinachImage = require('../images/spinach.png');
+  const oatmealImage = require('../images/oatmeal.jpg');
+  const blueberryImage = require('../images/blueberry.jpg');
+  const yougurtImage = require('../images/yougurt.jpg');
+  const porkImage = require('../images/pork.jpg');
+  const cucumberImage = require('../images/cucumber.png');
+  const watermelonImage = require('../images/watermelon.jpg');
+  const softdrinkImage = require('../images/softdrinks.jpg');
+  const avocadoImage = require('../images/avocado.jpg');
+  const yeastImage = require('../images/yeast.jpg');
+  const cinnamonImage = require('../images/cinammon.png');
+  const rawmeatImage = require('../images/rawmeat.jpg');
+  const cherryImage = require('../images/cherry.png');
 
   const foodData: FoodItem[] = [
     {
@@ -161,6 +177,116 @@ const FoodAdvisable = () => {
       },
     },
     {
+      key: 'pumpkin',
+      name: 'Pumpkin',
+      imageUrl: pumpkinImage,
+      description: 'A nutrient-dense squash, rich in vitamins A and C, commonly used in pies and soups.',
+      details: {
+        glutenFree: false,
+        containsSodium: true,
+        amountOfSugar: '2.76g',
+      },
+    },
+    {
+      key: 'turkey',
+      name: 'Turkey',
+      imageUrl: turkeyImage,
+      description: 'A lean, protein-rich poultry, often enjoyed roasted during holidays.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '0g',
+      },
+    },
+    {
+      key: 'peas',
+      name: 'Peas',
+      imageUrl: peasImage,
+      description: 'Small, sweet green legumes that are high in fiber and protein.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '5.67g',
+      },
+    },
+    {
+      key: 'spinach',
+      name: 'Spinach',
+      imageUrl: spinachImage,
+      description: 'A leafy green vegetable, rich in iron and vitamins A, C, and K.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '130g',
+      },
+    },
+    {
+      key: 'oatmeal',
+      name: 'Oatmeal',
+      imageUrl: oatmealImage,
+      description: 'A whole-grain cereal that is high in fiber and often enjoyed as a warm breakfast.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '234g',
+      },
+    },
+    {
+      key: 'blueberries',
+      name: 'Blueberries',
+      imageUrl: blueberryImage,
+      description: 'Are small, sweet, and tangy berries rich in antioxidants and vitamins C and K.',
+      details: {
+        glutenFree: true,
+        containsSodium: false,
+        amountOfSugar: '148g',
+      },
+    },
+    {
+      key: 'yougurt',
+      name: 'Yougurt',
+      imageUrl: yougurtImage,
+      description: 'A creamy dairy product made from fermented milk, high in protein and probiotics.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '245g',
+      },
+    },
+    {
+      key: 'pork',
+      name: 'Pork',
+      imageUrl: porkImage,
+      description: 'A versatile and widely consumed meat, known for its rich flavor and protein content.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '0g',
+      },
+    },
+    {
+      key: 'cucumber',
+      name: 'Cucumber',
+      imageUrl: cucumberImage,
+      description: 'Are refreshing, hydrating vegetables often enjoyed raw in salads and sandwiches.',
+      details: {
+        glutenFree: true,
+        containsSodium: true,
+        amountOfSugar: '104g',
+      },
+    },
+    {
+      key: 'watermelon',
+      name: 'Watermelon',
+      imageUrl: watermelonImage,
+      description: 'A juicy, sweet fruit that is hydrating and rich in vitamins A and C.',
+      details: {
+        glutenFree: true,
+        containsSodium: false,
+        amountOfSugar: '152g',
+      },
+    },
+    {
       key: 'alcohol',
       name: 'Alcohol',
       imageUrl: alcoholImage,
@@ -223,6 +349,54 @@ const FoodAdvisable = () => {
       description: 'An edible seeds encased in a hard shell.',
       restriction:
         "While some nuts are safe for cats and dogs in moderation, others can be harmful or even toxic. It's important to be aware of which nuts are safe and which ones should be avoided: Almonds, Walnuts, Macadamia Nuts, Pecans, and Brazil Nuts",
+    },
+    {
+      key: 'softdrinks',
+      name: 'Soft Drinks',
+      imageUrl: softdrinkImage,
+      description: 'A carbonated beverages often sweetened with sugar.',
+      restriction:
+        "Soft drinks often contain caffeine and sugar, both of which are harmful to pets. Caffeine is particularly dangerous as it can cause restlessness, rapid breathing, heart palpitations, muscle tremors, and even death in severe cases.",
+    },
+    {
+      key: 'avocado',
+      name: 'Avocados',
+      imageUrl: avocadoImage,
+      description: 'A creamy, nutrient-rich fruits.',
+      restriction:
+        "Avocados contain a substance called persin, which can cause vomiting and diarrhea in dogs and cats. In large amounts, persin can be toxic, and the pit poses a choking hazard or can cause an intestinal blockage.",
+    },
+    {
+      key: 'yeast',
+      name: 'Yeast Dough',
+      imageUrl: yeastImage,
+      description: 'It rises due to fermentation.',
+      restriction:
+        "Uncooked yeast dough can expand in a pet’s stomach, leading to bloating and potential stomach rupture. The fermentation process also produces alcohol, which can cause alcohol poisoning in pets.",
+    },
+    {
+      key: 'cherries',
+      name: 'Cherries',
+      imageUrl: cherryImage,
+      description: 'A sweet or tart stone fruits.',
+      restriction:
+        "Cherry pits, stems, and leaves contain cyanide, which is toxic to pets. Ingestion can cause difficulty breathing, dilated pupils, red gums, and shock. The pits can also cause intestinal blockages.",
+    },
+    {
+      key: 'cinnamon',
+      name: 'Cinnamon',
+      imageUrl: cinnamonImage,
+      description: 'A fragrant spice from tree bark.',
+      restriction:
+        "While not toxic in small amounts, cinnamon can cause irritation in your pet’s mouth, leading to discomfort and digestive issues. Inhaled cinnamon powder can cause coughing, choking, and breathing difficulties.",
+    },
+    {
+      key: 'rawMeat',
+      name: 'Raw Meat',
+      imageUrl: rawmeatImage,
+      description: 'An uncooked animal flesh.',
+      restriction:
+        " Raw meat can contain harmful bacteria like Salmonella and E. coli, which can lead to food poisoning in pets. Raw meat diets also pose a risk of nutritional deficiencies and imbalances if not properly managed.",
     },
   ];
 

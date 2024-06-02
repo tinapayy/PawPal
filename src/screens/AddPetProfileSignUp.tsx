@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { RadioButton } from 'react-native-paper';
+import {RadioButton} from 'react-native-paper';
 import {
   View,
   TextInput,
@@ -14,9 +14,9 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import CustomAlert from '../components/CustomAlert';
 import {
   FIREBASE_AUTH,
@@ -36,22 +36,23 @@ import {
   updateDoc,
   doc,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { launchImageLibrary } from 'react-native-image-picker';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { addPetMixins } from '../styles/mixins/addPetMixins';
+import {addPetMixins} from '../styles/mixins/addPetMixins';
 
 const PetProfile = () => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
-  const db = FIREBASE_DB;const [showAlert, setShowAlert] = useState({
+  const db = FIREBASE_DB;
+  const [showAlert, setShowAlert] = useState({
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
   const [showAlert1, setShowAlert1] = useState({
     visible: false,
     title: '',
@@ -92,8 +93,8 @@ const PetProfile = () => {
         setShowAlert({
           visible: true,
           title: 'Action Incomplete',
-          message: 'Please select a picture of your pet.'
-      }); 
+          message: 'Please select a picture of your pet.',
+        });
         //Alert.alert('Please select a picture of your pet');
         return;
       }
@@ -150,8 +151,8 @@ const PetProfile = () => {
             setShowAlert1({
               visible: true,
               title: 'Action Completed',
-              message: 'Pet picture updated successfully.'
-          }); 
+              message: 'Pet added successfully.',
+            });
 
             // Alert.alert('Profile picture updated successfully');
             // navigation.reset({
@@ -162,10 +163,10 @@ const PetProfile = () => {
             setShowAlert({
               visible: true,
               title: 'Action Incomplete',
-              message: 'Error updating profile. Please try again.'
-          }); 
-            console.error('Error updating profile:', updateError);
-            //Alert.alert('Error updating profile. Please try again.');
+              message: 'Error adding profile. Please try again.',
+            });
+            console.error('Error adding profile:', updateError);
+            //Alert.alert('Error adding profile. Please try again.');
           }
         }
       });
@@ -173,14 +174,15 @@ const PetProfile = () => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating profile. Please try again.'
-    }); 
+        message: 'Error updating profile. Please try again.',
+      });
       console.error('Error uploading profile picture:', error);
       //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
   const imageSizePercentage = 30;
-  const imageSize = Dimensions.get('window').width * (imageSizePercentage / 100);
+  const imageSize =
+    Dimensions.get('window').width * (imageSizePercentage / 100);
   const borderRadius = imageSize / 2;
   return (
     <ImageBackground
@@ -201,8 +203,8 @@ const PetProfile = () => {
           <Image
             source={
               petPicture
-                ? { uri: petPicture }
-                : require('../images/UserIcon1.png')
+                ? {uri: petPicture}
+                : require('../images/defaultIcon.png')
             }
             style={{
               ...styles.profileImage,
@@ -210,10 +212,13 @@ const PetProfile = () => {
               height: imageSize,
               borderRadius: borderRadius,
             }}
-            resizeMode='cover'
+            resizeMode="cover"
           />
           <TouchableOpacity style={styles.arrowAdd} onPress={openImagePicker}>
-            <FontAwesomeIcon icon={icons.faCirclePlus} style={styles.arrowAdd} size={30}
+            <FontAwesomeIcon
+              icon={icons.faCirclePlus}
+              style={styles.arrowAdd}
+              size={30}
             />
           </TouchableOpacity>
         </View>
@@ -264,7 +269,11 @@ const PetProfile = () => {
             />
           </View>
           <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={icons.faVenusMars} style={styles.malInput} size={25} />
+            <FontAwesomeIcon
+              icon={icons.faVenusMars}
+              style={styles.malInput}
+              size={25}
+            />
             <Text style={styles.malefeminput}>Sex</Text>
             <View style={styles.radioButton} />
             <RadioButton
@@ -275,7 +284,7 @@ const PetProfile = () => {
               uncheckedColor={constants.$quaternaryColor}
             />
             <Text style={styles.maleinput}>Male</Text>
-            <View style={{ marginLeft: '2%' }} />
+            <View style={{marginLeft: '2%'}} />
             <RadioButton
               value="Female"
               status={checked === 'Female' ? 'checked' : 'unchecked'}
@@ -300,9 +309,12 @@ const PetProfile = () => {
                   accessible={true}
                   accessibilityRole="button">
                   <LinearGradient
-                    colors={[constants.$backgroundColor1, constants.$accentColor]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
+                    colors={[
+                      constants.$backgroundColor1,
+                      constants.$accentColor,
+                    ]}
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
                     style={styles.gradientBackground}>
                     <Text style={styles.buttonSave}>Save Changes</Text>
                   </LinearGradient>
@@ -321,20 +333,22 @@ const PetProfile = () => {
         </View>
       </View>
       <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('HomePage'); // Navigate to a different page
-          }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        visible={showAlert1.visible} // Pass the state to control visibility
+        title={showAlert1.title} // Pass the title from showAlert
+        message={showAlert1.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert1({visible: false, title: '', message: ''});
+          navigation.navigate('HomePage'); // Navigate to a different page
+        }} // Close the alert on button press
+      />
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert({visible: false, title: '', message: ''});
+        }} // Close the alert on button press
+      />
     </ImageBackground>
   );
 };
@@ -348,7 +362,6 @@ const styles = StyleSheet.create({
     ...addPetMixins.input,
     right: '-3%',
     top: '4%',
-
   } as TextStyle,
 
   malefeminput: {
@@ -432,7 +445,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     top: '40%',
     left: '10%',
-
   },
   gradientBackground: {
     ...buttonMixin.button,
@@ -458,13 +470,11 @@ const styles = StyleSheet.create({
     ...addPetMixins.align1,
     paddingVertical: '10%',
     paddingHorizontal: '5%',
-
   } as TextStyle,
   buttonText: {
     ...buttonMixin.buttonText,
     ...addPetMixins.align5,
     // color: constants.$textColor2,
-
   } as TextStyle,
   buttonTextCancel: {
     ...addPetMixins.align5,

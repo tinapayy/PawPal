@@ -170,7 +170,7 @@ const UserProfile = () => {
     fetchData();
   }, []);
 
-  const reauthenticateUser = async currentPassword => {
+  const reauthenticateUser = async (currentPassword: string) => {
     const user = auth.currentUser;
 
     // Create a credential with the user's current email and password
@@ -188,6 +188,66 @@ const UserProfile = () => {
       console.error('Error reauthenticating user:', error);
       return false; // Reauthentication failed
     }
+  };
+
+  const verifySignUp = (password: string) => {
+    if (!password || !confirmPassword) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Please fill in all fields.',
+      });
+      return false;
+    }
+    if (password.length < 8) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should be atleast 8 characters.',
+      });
+      return false;
+    }
+    if (!/(?=.*\d)/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 number.',
+      });
+      return false;
+    }
+    if (!/(?=.*[a-z])/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 lowercase letter.',
+      });
+      return false;
+    }
+    if (!/(?=.*[A-Z])/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 uppercase letter.',
+      });
+      return false;
+    }
+    if (!/(?=.*[!@#$%^&*])/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 special character.',
+      });
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password do not match.',
+      });
+      return false;
+    }
+    return true;
   };
 
   const updateProfile = async () => {
@@ -223,6 +283,9 @@ const UserProfile = () => {
               return;
             }
             try {
+              if (!verifySignUp(newPassword)) {
+                return;
+              }
               updateData.password = newPassword;
               // Update the user document with new profile data and potentially new password
               await updateDoc(userRef, updateData);

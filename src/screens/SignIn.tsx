@@ -57,7 +57,7 @@ const SignIn = () => {
             visible: true,
             title: 'Action Incomplete',
             message: 'Error signing in.',
-        });
+          });
           //console.error(error);
           //Alert.alert('Error signing in');
         });
@@ -84,7 +84,7 @@ const SignIn = () => {
                   visible: true,
                   title: 'Action Incomplete',
                   message: 'Error signing in.',
-              });
+                });
                 //console.error(error);
                 //Alert.alert('Error signing in');
               });
@@ -94,15 +94,15 @@ const SignIn = () => {
           setShowAlert({
             visible: true,
             title: 'Action Incomplete',
-            message: 'Please enter correct details.'
-        });
+            message: 'Please enter correct details.',
+          });
         }
       } catch (error) {
         setShowAlert({
           visible: true,
           title: 'Action Incomplete',
           message: 'Error fetching user data.',
-      });
+        });
         //console.error(error);
         //Alert.alert('Error fetching user data');
       }
@@ -145,18 +145,21 @@ const SignIn = () => {
                   value={password}
                   // secureTextEntry={true}
                   secureTextEntry={isSecureEntry}
-                  onChangeText={setPassword}
+                  onChangeText={text => setPassword(text)}
                   underlineColorAndroid="orange"
-                  />
-                  {/* toggle show and hide */}
+                />
+                {/* toggle show and hide */}
                 <TouchableOpacity
                   onPress={() => {
-                    setIsSecureEntry((prev) => !prev);
+                    setIsSecureEntry(prev => !prev);
                   }}
-                  style={styles.showButton}
-                >
+                  style={styles.showButton}>
                   {/* icon eye open and slash */}
-                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                  <FontAwesomeIcon
+                    icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                    style={styles.eyeicon}
+                    size={18}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -182,11 +185,11 @@ const SignIn = () => {
         </View>
       </ScrollView>
       <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
-          />
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+      />
     </SafeAreaView>
   );
 };
@@ -300,12 +303,12 @@ const styles = StyleSheet.create({
   showButton: {
     // backgroundColor: 'black',
     // padding:'5%',
-    width:'5%',
-    left:'89%',
-    position:'relative',
-    alignItems:'flex-end',
-    zIndex:5,
-    top:'-165%',
+    width: '5%',
+    left: '89%',
+    position: 'relative',
+    alignItems: 'flex-end',
+    zIndex: 5,
+    top: '-165%',
   },
   eyeicon: {
     color: constants.$primaryColor,

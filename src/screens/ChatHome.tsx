@@ -154,7 +154,7 @@ const MessagePage = () => {
       });
     }
   }
-  
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -163,7 +163,7 @@ const MessagePage = () => {
     <View style={styles.containerHeader}>
       <ImageBackground
         source={require('../images/messagePage_bg.png')}
-        style={{width: '100%', height: '111%', top: '2%'}}>
+        style={{width: '100%', height: '105%', top: '2%'}}>
         <View style={styles.back}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   } as ViewStyle,
   back: {
     flexDirection: 'row',
-    top: '15%',
+    top: '5%',
     right: '-2%',
   },
   backIcon: {

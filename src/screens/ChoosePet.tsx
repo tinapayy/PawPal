@@ -85,14 +85,17 @@ const ChoosePet = () => {
       style={styles.card}
       onPress={() => handleUserSelection(item.id, item.petId)}>
       <View style={styles.cardContent}>
-        <Text style={[styles.name, item.id === 0 && styles.addPetText]}>{item.name}</Text>
-        </View>
+        <Text style={[styles.name, item.id === 0 && styles.addPetText]}>
+          {item.name}
+        </Text>
+      </View>
       {item.id === 0 ? (
-        <FontAwesomeIcon icon={icons.faCirclePlus}
-         color={constants.$primaryColor}
+        <FontAwesomeIcon
+          icon={icons.faCirclePlus}
+          color={constants.$primaryColor}
           size={55}
-          style={{ top: '15%' }}
-         />
+          style={{top: '15%'}}
+        />
       ) : (
         <Image
           source={{uri: item.profilePicture}}
@@ -114,10 +117,9 @@ const ChoosePet = () => {
   if (loading) {
     return <LoadingScreen />;
   }
-  
+
   return (
     <View style={styles.container}>
-      {/* add logo */}
       <Image
         source={require('../images/pawpal_forum.png')}
         style={styles.pawLogo}
@@ -134,12 +136,12 @@ const ChoosePet = () => {
       </View>
       <Text style={styles.text}>Customize and choose between your pets</Text>
       <View style={styles.cardContainer}>
-      <FlatList
-        data={users}
-        renderItem={renderUserCard}
-        keyExtractor={item => item.id.toString()}
-        numColumns={2}
-      />
+        <FlatList
+          data={users}
+          renderItem={renderUserCard}
+          keyExtractor={item => item.id.toString()}
+          numColumns={2}
+        />
       </View>
     </View>
   );
@@ -155,15 +157,14 @@ const styles = StyleSheet.create({
     width: '45%',
     top: '5%',
     left: '4%',
-    alignSelf:'center',
-    zIndex:5,
+    alignSelf: 'center',
+    zIndex: 5,
   },
   back: {
     flexDirection: 'row',
     // marginBottom: '2%',
-    alignItems:'flex-start',
-    top: '-28%',
-    left: '2%',
+    alignItems: 'flex-start',
+    top: '-30%',
   },
   backIcon: {
     color: constants.$senaryColor,
@@ -173,47 +174,39 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
     marginLeft: '5%',
-
   },
   text: {
     fontFamily: constants.$fontFamily,
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
     marginTop: '5%',
-    marginBottom:'5%',
+    marginBottom: '5%',
     letterSpacing: 0.25,
     color: constants.$secondaryColor,
   },
   cardContainer: {
     justifyContent: 'center',
-    alignItems:'center',
-
+    alignItems: 'center',
   },
   card: {
     marginTop: '5%',
-    // flex: 1,
-    width: 160,
+    width: 140,
     margin: '3%',
-    paddingVertical:'5%',
-    // padding: '4%',
+    paddingVertical: '5%',
     borderRadius: 10,
     borderColor: constants.$quinaryColor,
-    borderWidth:2,
+    borderWidth: 2,
     backgroundColor: constants.$tertiaryColor,
     alignItems: 'center',
-    elevation:3,
-
+    elevation: 3,
   },
-  cardContent:{
-    alignContent:'center',
-    // marginTop:'2%',
-    paddingBottom:'10%',
+  cardContent: {
+    alignContent: 'center',
+    paddingBottom: '10%',
   },
-  addPetText:{
+  addPetText: {
     color: constants.$secondaryColor,
-    fontSize:18,
-    // fontFamily: constants.$fontFamilyBold,
-
+    fontSize: 18,
   },
   photo: {
     width: 75,

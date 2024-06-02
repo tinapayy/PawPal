@@ -484,7 +484,7 @@ const HomePage = () => {
                   borderRadius: 10,
                   padding: 6,
                   backgroundColor: constants.$accentColor,
-                  bottom: '630%',
+                  bottom: '660%',
                 }}
                 tappableDots={true}
                 inactiveDotStyle={{
@@ -559,9 +559,10 @@ const styles = StyleSheet.create({
     ...alignmentMixin.alignment,
     flex: 1,
     bottom: 10,
+    overflow: 'hidden',
   } as ViewStyle,
   clinicImage: {
-    width: 330,
+    width: 307,
     height: 185,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -576,8 +577,9 @@ const styles = StyleSheet.create({
   },
   clinicAddress: {
     left: '20%',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'normal',
+    width: '85%',
     color: constants.$senaryColor,
   },
   clinicSched: {
@@ -632,20 +634,20 @@ const styles = StyleSheet.create({
   userImg: {
     width: 35,
     height: 35,
-    top: '49%',
-    paddingRight: '20%',
+    top: '50%',
+    paddingRight: '18%',
     position: 'relative',
     borderRadius: 50,
   },
   animalImg: {
     flex: 3,
-    width: 160,
-    height: 171,
+    width: 150,
+    height: 156,
     top: '10%',
     left: '-5%',
   },
   firstDesc: {
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: 'bold',
     color: constants.$backgroundColor,
     textAlign: 'center',

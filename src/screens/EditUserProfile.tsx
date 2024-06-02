@@ -479,8 +479,8 @@ const styles = StyleSheet.create({
   arrowAdd: {
     color: constants.$senaryColor,
     position: 'absolute',
-    top: '75%',
-    left: '59%',
+    top: '78%',
+    left: '57%',
   },
   formContainer: {
     marginTop: '10%',

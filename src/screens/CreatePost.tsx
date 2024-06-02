@@ -30,7 +30,7 @@ import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import {useNavigation} from '@react-navigation/native';
 import CustomAlert from '../components/CustomAlert';
-import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const CreatePost = () => {
   const navigation = useNavigation();
@@ -155,7 +155,6 @@ const CreatePost = () => {
                 flexDirection: 'row',
                 margin: 15,
                 justifyContent: 'flex-start',
-                
               }}>
               <FontAwesomeIcon
                 icon={icons.faCommentDots}
@@ -176,14 +175,14 @@ const CreatePost = () => {
               <FontAwesomeIcon
                 icon={icons.faCircleXmark}
                 size={25}
-                style={{color: '#cbcbcb', top: 20 }}
+                style={{color: '#cbcbcb', top: 20}}
               />
             </TouchableOpacity>
           </View>
           <View style={{top: '9%'}}>
             <Image
               source={require('../images/cutePug.png')}
-              style={{right: '10%', position: 'absolute',}}
+              style={{right: '10%', position: 'absolute'}}
             />
           </View>
           <View
@@ -192,7 +191,7 @@ const CreatePost = () => {
               height: 2,
               backgroundColor: constants.$secondaryColor,
               alignSelf: 'center',
-              bottom: 25,     
+              bottom: 25,
             }}
           />
           <Text
@@ -244,8 +243,7 @@ const CreatePost = () => {
               fontSize: 20,
               fontFamily: constants.$fontFamilyMedium,
               left: 20,
-              top:'2%',
-              
+              top: '2%',
             }}>
             Upload Media
           </Text>
@@ -255,32 +253,37 @@ const CreatePost = () => {
               style={{
                 backgroundColor: constants.$nonaryColor,
                 padding: 10,
-                paddingHorizontal:30,
+                paddingHorizontal: 30,
                 borderRadius: 30,
                 margin: 20,
-                top:'12%',
-                
-                
+                top: '12%',
               }}>
-              <Text style={{color: constants.$secondaryColor, fontSize: 13}}>
+              <Text
+                style={{
+                  color: constants.$secondaryColor,
+                  fontSize: 13,
+                  right: '5%',
+                }}>
                 {selectedImage
                   ? (selectedImage.split('/')?.pop()?.substring(0, 30) || '') +
                     (selectedImage?.length > 30 ? '...' : '')
                   : 'No photo selected'}
               </Text>
             </View>
-            <TouchableOpacity onPress={openImagePicker} style={{ alignSelf: 'center' }}>
+            <TouchableOpacity
+              onPress={openImagePicker}
+              style={{alignSelf: 'center'}}>
               <View
                 style={{
                   backgroundColor: 'white',
                   borderRadius: 30,
-                  paddingHorizontal: 20,  
-                  paddingVertical: 5,    
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
                   elevation: 3,
                   borderColor: constants.$senaryColor,
                   borderWidth: 2,
-                  bottom:'115%',
-                  left:'33%',
+                  bottom: '115%',
+                  left: '33%',
                 }}>
                 <Text
                   style={{
@@ -295,11 +298,18 @@ const CreatePost = () => {
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => setSelectedImage('')} style={{ position: 'relative', bottom: '9%', right: '30%', alignSelf:'flex-end' }}>
+          <TouchableOpacity
+            onPress={() => setSelectedImage('')}
+            style={{
+              position: 'relative',
+              bottom: '9%',
+              right: '31%',
+              alignSelf: 'flex-end',
+            }}>
             <FontAwesomeIcon
               icon={icons.faCircleXmark}
               size={23}
-              style={{ color: 'grey' }}
+              style={{color: 'grey'}}
             />
           </TouchableOpacity>
           <Text
@@ -309,12 +319,12 @@ const CreatePost = () => {
               fontSize: 13,
               left: 30,
               bottom: '7%',
+              color: 'grey',
               // paddingBottom:'10%',
-              
             }}>
             Maximum upload file size : 100 MB
           </Text>
-          <View style={{ bottom: '10%' }}>
+          <View style={{bottom: '10%'}}>
             <AppButton
               title="Post"
               onPress={handleButton1Press}

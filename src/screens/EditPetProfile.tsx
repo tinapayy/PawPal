@@ -110,8 +110,8 @@ const PetProfile = ({route}) => {
         setShowAlert({
           visible: true,
           title: 'Action Incomplete',
-          message: 'Please select a picture of your pet.'
-      });
+          message: 'Please select a picture of your pet.',
+        });
         //Alert.alert('Please select a picture of your pet');
         return;
       }
@@ -160,8 +160,8 @@ const PetProfile = ({route}) => {
             setShowAlert1({
               visible: true,
               title: 'Action Completed',
-              message: 'Profile updated successfully.'
-          });
+              message: 'Profile updated successfully.',
+            });
             //Alert.alert('Profile updated successfully');
             // navigation.reset({
             //   index: 0,
@@ -171,8 +171,8 @@ const PetProfile = ({route}) => {
             setShowAlert({
               visible: true,
               title: 'Action Incomplete',
-              message: 'Error updating profile. Please try again.'
-          });
+              message: 'Error updating profile. Please try again.',
+            });
             //console.error('Error updating profile:', updateError);
             //Alert.alert('Error updating profile. Please try again.');
           }
@@ -182,8 +182,8 @@ const PetProfile = ({route}) => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating profile. Please try again.'
-    });
+        message: 'Error updating profile. Please try again.',
+      });
       //console.error('Error uploading profile picture:', error);
       //Alert.alert('Error updating profile picture. Please try again.');
     }
@@ -329,20 +329,22 @@ const PetProfile = ({route}) => {
         </View>
       </View>
       <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('Profile Details'); // Navigate to a different page
-          }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        visible={showAlert1.visible} // Pass the state to control visibility
+        title={showAlert1.title} // Pass the title from showAlert
+        message={showAlert1.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert1({visible: false, title: '', message: ''});
+          navigation.navigate('Profile Details'); // Navigate to a different page
+        }} // Close the alert on button press
+      />
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert({visible: false, title: '', message: ''});
+        }} // Close the alert on button press
+      />
     </ImageBackground>
   );
 };
@@ -361,12 +363,12 @@ const styles = StyleSheet.create({
     top: 2,
     paddingLeft: 15,
     flexDirection: 'row',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
   malefeminput: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
     alignItems: 'center',
     left: 50,
     color: 'gray',
@@ -393,6 +395,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 40,
     top: 45,
+    left: -5,
   },
   backIcon: {
     color: '#FF8D4D',
@@ -422,15 +425,15 @@ const styles = StyleSheet.create({
   arrowAdd: {
     color: '#FF8D4D',
     position: 'absolute',
-    top: 37,
-    bottom: 0,
-    right: 62,
+    top: 40,
+    right: 55,
     paddingRight: 30,
     marginBottom: 90,
     paddingVertical: 40,
   },
   formContainer: {
     marginTop: 30,
+    right: 10,
   },
   iconInputRow: {
     flexDirection: 'row',

@@ -52,7 +52,12 @@ function SettingsPage() {
         <FontAwesomeIcon
           icon={icons.faArrowLeft}
           size={27}
-          style={{color: constants.$secondaryColor, left: 15, flex: 1, bottom: '500%'}}
+          style={{
+            color: constants.$secondaryColor,
+            left: 15,
+            flex: 1,
+            bottom: '500%',
+          }}
         />
       </TouchableOpacity>
 
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
   headertextandicon: {
     ...alignmentMixin.alignment1,
     marginLeft: '10%',
-    paddingRight: '10%',
+    paddingRight: '5%',
     marginRight: '15%',
   } as ViewStyle,
   headerText: {
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
     color: constants.$secondaryColor,
   },
   headerimg: {
-    marginTop: '8%',
+    marginTop: '10%',
     marginRight: '6%',
     width: 100,
     height: '100%',
@@ -130,6 +135,8 @@ const styles = StyleSheet.create({
   button: {
     ...alignmentMixin.alignment1,
     ...buttonMixin.settingsButton,
+    padding: '5%',
+    marginBottom: '-1%',
     justifyContent: undefined,
     backgroundColor: constants.$backgroundColor,
   } as ViewStyle,

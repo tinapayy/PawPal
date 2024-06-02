@@ -313,15 +313,16 @@ const styles = StyleSheet.create({
     bottom: '7%',
     objectFit: 'contain',
     position: 'relative',
+    left: '-10%',
   },
   imageHeader1: {
     position: 'relative',
     top: '50%',
-    left: '-55%',
+    left: '-65%',
   },
   headerText: {
     fontSize: 15,
-    left: '-28%',
+    left: '-40%',
   },
   card: {
     marginTop: '5%',
@@ -372,7 +373,7 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   image: {
-    width: 340,
+    width: 320,
     height: 200,
     resizeMode: 'cover',
     borderRadius: 20,

@@ -118,7 +118,7 @@ function HomeTabs() {
           backgroundColor: 'white',
         },
         tabBarItemStyle: {
-          marginTop: android ? 10 : 0,
+          marginTop: android ? 0 : 0,
         },
       })}>
       {/* bottom navigation bars and corresponding screens*/}

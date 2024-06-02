@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Alert,
@@ -18,16 +18,16 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
-import { useNavigation } from '@react-navigation/native';
-import { getDocs, collection } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIREBASE_DB } from '../../firebase.config';
-import { buttonMixin } from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {useNavigation} from '@react-navigation/native';
+import {getDocs, collection} from 'firebase/firestore';
+import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {buttonMixin} from '../components/buttonMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
-import { chatMixins } from '../components/chatMixins';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {chatMixins} from '../components/chatMixins';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 interface User {
   id: number;
@@ -36,7 +36,6 @@ interface User {
   name: string;
   picture: any;
 }
-
 
 const NewMessage = () => {
   const navigation = useNavigation();
@@ -63,10 +62,10 @@ const NewMessage = () => {
           picture:
             userDoc.data().profilePicture || userDoc.data().clinicPicture
               ? {
-                uri:
-                  userDoc.data().profilePicture ||
-                  userDoc.data().clinicPicture,
-              }
+                  uri:
+                    userDoc.data().profilePicture ||
+                    userDoc.data().clinicPicture,
+                }
               : require('../images/defaultIcon.png'),
         });
       }
@@ -100,9 +99,8 @@ const NewMessage = () => {
           {/* background */}
           <Image
             source={require('../images/header.png')}
-            style={{ width: '100%', height: '20%', zIndex: 0 }}>
-          </Image>
-          <View style={{ flexDirection: 'row', margin: 30 }}>
+            style={{width: '100%', height: '20%', zIndex: 0}}></Image>
+          <View style={{flexDirection: 'row', margin: 30}}>
             {/* back icon */}
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <FontAwesomeIcon
@@ -111,8 +109,8 @@ const NewMessage = () => {
                 color={constants.$tertiaryColor}
                 style={{
                   color: constants.$secondaryColor,
-                  left: '2%',
-                  top: '-420%',
+                  left: '-5%',
+                  top: '-460%',
                   zIndex: 5,
                 }}
               />
@@ -124,7 +122,7 @@ const NewMessage = () => {
                 fontFamily: constants.$fontFamilySemiBold,
                 fontSize: 24,
                 left: '35%',
-                top: '-50%',
+                bottom: '60%',
                 zIndex: 5,
                 // color:constants.$tertiaryColor,
               }}>
@@ -148,7 +146,6 @@ const NewMessage = () => {
                 color: constants.$primaryColor,
                 fontFamily: constants.$fontFamilySemiBold,
                 left: '5%',
-
               }}
               placeholder="Search"
               onChangeText={text => filterUsers(text)}
@@ -166,13 +163,15 @@ const NewMessage = () => {
           </Text>
           <FlatList
             style={{
-              top: '-13%', left: '7%',
+              top: '-13%',
+              left: '7%',
               height: '140%',
               zIndex: 5,
               maxHeight: '130%',
+              width: '90%',
             }}
             data={filteredUsers.length > 0 ? filteredUsers : users}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <View>
                 <TouchableOpacity
                   onPress={() =>
@@ -182,10 +181,10 @@ const NewMessage = () => {
                       senderPicture: item.picture,
                     })
                   }>
-                  <View style={{ flexDirection: 'row', marginBottom: '5%' }}>
+                  <View style={{flexDirection: 'row', marginBottom: '5%'}}>
                     <Image
                       source={item.picture}
-                      style={{ height: 50, width: 50, borderRadius: 50 }}
+                      style={{height: 50, width: 50, borderRadius: 50}}
                     />
                     <Text
                       style={{

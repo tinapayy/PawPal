@@ -151,7 +151,8 @@ const PetProfile = () => {
             setShowAlert1({
               visible: true,
               title: 'Action Completed',
-              message: 'Pet picture updated successfully.',
+
+              message: 'Pet added successfully.',
             });
 
             // Alert.alert('Profile picture updated successfully');
@@ -163,10 +164,11 @@ const PetProfile = () => {
             setShowAlert({
               visible: true,
               title: 'Action Incomplete',
-              message: 'Error updating profile. Please try again.',
+
+              message: 'Error adding profile. Please try again.',
             });
-            console.error('Error updating profile:', updateError);
-            //Alert.alert('Error updating profile. Please try again.');
+            console.error('Error adding profile:', updateError);
+            //Alert.alert('Error adding profile. Please try again.');
           }
         }
       });
@@ -204,7 +206,8 @@ const PetProfile = () => {
             source={
               petPicture
                 ? {uri: petPicture}
-                : require('../images/UserIcon1.png')
+
+                : require('../images/defaultIcon.png')
             }
             style={{
               ...styles.profileImage,

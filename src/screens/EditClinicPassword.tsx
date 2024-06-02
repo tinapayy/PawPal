@@ -36,7 +36,7 @@ import {addPetMixins} from '../styles/mixins/addPetMixins';
 import LoadingScreen from '../components/loading';
 import CustomAlert from '../components/CustomAlert';
 
-const UserProfile = () => {
+const EditClinicPassword = () => {
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -62,24 +62,6 @@ const UserProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
 
-  const openImagePicker = async () => {
-    const options = {
-      mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 200,
-      maxWidth: 200,
-    };
-
-    launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.error('Image picker error:', response.errorMessage);
-      } else {
-        setProfilePicture(response.assets[0].uri);
-      }
-    });
-  };
 
   const uploadProfilePicture = async () => {
     try {
@@ -185,7 +167,7 @@ const UserProfile = () => {
       console.log('User reauthenticated successfully');
       return true; // Reauthentication successful
     } catch (error) {
-      console.error('Error reauthenticating user:', error);
+      //console.error('Error reauthenticating user:', error);
       return false; // Reauthentication failed
     }
   };
@@ -373,32 +355,7 @@ const UserProfile = () => {
               size={25}
             />
           </TouchableOpacity>
-          <Text style={styles.backText}>Edit User Profile</Text>
-        </View>
-        <View style={styles.profileContainer}>
-          <Image
-            source={
-              profilePicture
-                ? {uri: profilePicture}
-                : require('../images/defaultIcon.png')
-            }
-            style={{
-              ...styles.profilePicture,
-              width: imageSize,
-              height: imageSize,
-              borderRadius: borderRadius,
-            }}
-            resizeMode="cover"
-          />
-          <TouchableOpacity
-            style={styles.arrowAdd}
-            onPress={() => openImagePicker()}>
-            <FontAwesomeIcon
-              icon={icons.faCirclePlus}
-              style={styles.arrowAdd}
-              size={30}
-            />
-          </TouchableOpacity>
+          <Text style={styles.backText}>Edit Clinic Password</Text>
         </View>
         <View style={styles.formContainer}>
           <View style={styles.iconInputRow}>
@@ -414,16 +371,7 @@ const UserProfile = () => {
               onChangeText={text => setCurrentName(text)}
             />
           </View>
-          <View style={styles.iconInputRow}>
-            <FontAwesomeIcon icon={icons.faAddressCard} style={styles.icon} />
-            <TextInput
-              style={[styles.input, {fontSize: 16}, {top: 2}]}
-              placeholder={currentBio ? currentBio : 'Tell more about yourself'}
-              value={currentBio}
-              onChangeText={text => setCurrentBio(text)}
-              maxLength={500}
-            />
-          </View>
+
           <View style={styles.changePassword} />
           <Text style={styles.changePassword}>Change Password</Text>
           <View style={styles.iconInputRow}>
@@ -517,7 +465,7 @@ const styles = StyleSheet.create({
   back: {
     flexDirection: 'row',
     marginBottom: '2%',
-    top: '-10%',
+    top: '-32%',
     left: '2%',
   },
   backIcon: {
@@ -528,22 +476,6 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilyBold,
     color: constants.$secondaryColor,
     marginLeft: '5%',
-  },
-  profileContainer: {
-    alignItems: 'center',
-    marginBottom: '5%',
-  },
-  profilePicture: {
-    width: '60%',
-    height: '40%',
-    aspectRatio: 1,
-    alignSelf: 'center',
-  },
-  arrowAdd: {
-    color: constants.$senaryColor,
-    position: 'absolute',
-    top: '78%',
-    left: '57%',
   },
   formContainer: {
     marginTop: '10%',
@@ -585,6 +517,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     left: '-12%',
+    top: '20%',
     paddingTop: '7%',
   },
   //save changes button container
@@ -626,4 +559,4 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 });
 
-export default UserProfile;
+export default EditClinicPassword;

@@ -6,6 +6,7 @@ export const buttonMixin = {
     borderRadius: 25,
     width: 150,
     height: 45,
+    elevation: 3,
   },
   buttonText: {
     color: '#ffffff',

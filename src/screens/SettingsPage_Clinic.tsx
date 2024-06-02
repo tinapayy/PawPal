@@ -30,6 +30,8 @@ function SettingsPage_Clinic() {
   const [deleteAccountModal, setDeleteAccountModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
   const EditClinicDetails = useNavigateTo('EditClinicDetails');
+  const EditClinicPassword = useNavigateTo('EditClinicPassword');
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -60,10 +62,18 @@ function SettingsPage_Clinic() {
 
         <TouchableOpacity
           style={styles.button}
+          onPress={EditClinicPassword}>
+          <icons.Lock size={30} color="#FF8700" strokeWidth={3} />
+          <Text style={styles.buttonText}>Edit Clinic Password</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => setDeleteAccountModal(true)}>
           <icons.Trash size={30} color="#FF8700" strokeWidth={3} />
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.buttonlogout}
           onPress={() => setLogoutModal(true)}>

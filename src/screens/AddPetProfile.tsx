@@ -151,7 +151,8 @@ const PetProfile = () => {
             setShowAlert1({
               visible: true,
               title: 'Action Completed',
-              message: 'Profile picture updated successfully.',
+
+              message: 'Pet profile updated successfully.',
             });
             //Alert.alert('Profile picture updated successfully');
             // navigation.reset({
@@ -203,7 +204,7 @@ const PetProfile = () => {
             source={
               petPicture
                 ? {uri: petPicture}
-                : require('../images/UserIcon1.png')
+                : require('../images/defaultIcon.png')
             }
             style={{
               ...styles.profileImage,
@@ -362,6 +363,7 @@ const styles = StyleSheet.create({
     right: '0%',
     top: '4%',
     fontSize: 16,
+
   } as TextStyle,
 
   malefeminput: {
@@ -386,6 +388,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: '2%',
     bottom: '45%',
+
   },
   backIcon: {
     color: constants.$senaryColor,

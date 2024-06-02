@@ -35,6 +35,7 @@ import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const CreatePost = () => {
   const navigation = useNavigation();
   const NavHome = useNavigateTo('Home');
+  const NavPost =  useNavigateTo('Create Post');
 
   const handleButton1Press = () => {
     uploadPost();
@@ -92,7 +93,7 @@ const CreatePost = () => {
   const [postText, setPostText] = useState('');
 
   const uploadPost = async () => {
-    if (!postText && !selectedImage) {
+    if (!postText.trim() && !selectedImage) {
       setShowAlert({
         visible: true,
         title: 'Empty Post',
@@ -340,7 +341,7 @@ const CreatePost = () => {
         message={showAlert.message} // Pass the message from showAlert
         onClose={() => {
           setShowAlert({visible: false, title: '', message: ''});
-          navigation.navigate('Home');
+          NavHome();
         }} // Close the alert on button press
       />
     </SafeAreaView>

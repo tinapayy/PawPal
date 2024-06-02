@@ -36,6 +36,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
   const [showAlert, setShowAlert] = useState({
     visible: false,
     title: '',
@@ -136,14 +137,27 @@ const SignIn = () => {
               </View>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
+
+                {/* //password starts here  */}
                 <TextInput
                   style={styles.input}
                   placeholder="Password"
                   value={password}
-                  secureTextEntry={true}
+                  // secureTextEntry={true}
+                  secureTextEntry={isSecureEntry}
+                  onChangeText={setPassword}
                   underlineColorAndroid="orange"
-                  onChangeText={text => setPassword(text)}
-                />
+                  />
+                  {/* toggle show and hide */}
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                  }}
+                  style={styles.showButton}
+                >
+                  {/* icon eye open and slash */}
+                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                </TouchableOpacity>
               </View>
             </View>
             <View style={styles.btnContainer}>
@@ -281,6 +295,20 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
     color: constants.$secondaryColor,
     left: 40,
+  },
+  // button for password toggle
+  showButton: {
+    // backgroundColor: 'black',
+    // padding:'5%',
+    width:'5%',
+    left:'89%',
+    position:'relative',
+    alignItems:'flex-end',
+    zIndex:5,
+    top:'-165%',
+  },
+  eyeicon: {
+    color: constants.$primaryColor,
   },
 });
 

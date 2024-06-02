@@ -33,6 +33,8 @@ import {
     faCaretSquareDown,
     faLockOpen,
     faUserLock,
+    faEye,
+    faEyeSlash,
     
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -108,5 +110,7 @@ export {
     faCaretSquareDown,
     faLockOpen,
     faUserLock,
+    faEye,
+    faEyeSlash,
 
 };

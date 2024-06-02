@@ -42,6 +42,7 @@ const EditClinicPassword = () => {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
   const [loading, setLoading] = useState(true);
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
 
   const [showAlert, setShowAlert] = useState({
     visible: false,
@@ -383,6 +384,16 @@ const EditClinicPassword = () => {
               value={currentPassword}
               onChangeText={text => setCurrentPassword(text)}
             />
+            {/* toggle show and hide */}
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+              style={styles.showButton}
+            >
+              {/* icon eye open and slash */}
+              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+            </TouchableOpacity>
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={icons.faUserLock} style={styles.icon} />
@@ -393,6 +404,16 @@ const EditClinicPassword = () => {
               value={newPassword}
               onChangeText={text => setNewPassword(text)}
             />
+            {/* toggle show and hide */}
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+              style={styles.showButton}
+            >
+              {/* icon eye open and slash */}
+              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+            </TouchableOpacity>
           </View>
           <View style={styles.iconInputRow}>
             <FontAwesomeIcon icon={icons.faCheckCircle} style={styles.icon} />
@@ -403,6 +424,16 @@ const EditClinicPassword = () => {
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
             />
+            {/* toggle show and hide */}
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+              style={styles.showButton}
+            >
+              {/* icon eye open and slash */}
+              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+            </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -557,6 +588,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
     top: '-5%',
   } as ViewStyle,
+  // button for password toggle
+  showButton: {
+    width: '5%',
+    right: '-10%',
+    position: 'relative',
+    alignItems: 'flex-end',
+    zIndex: 5,
+    top: '4%',
+  },
+  eyeicon: {
+    color: constants.$primaryColor,
+  },
 });
 
 export default EditClinicPassword;

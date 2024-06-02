@@ -16,6 +16,7 @@ import GettingStarted2 from '../../screens/GettingStarted2';
 import SignUp from '../../screens/SignUp';
 import AddClinicDetails from '../../screens/AddClinicDetails';
 import EditClinicDetails from '../../screens/EditClinicDetails';
+import EditClinicPassword from '../../screens/EditClinicPassword';
 import AddUserProfile from '../../screens/AddUserProfile';
 import EditUserProfile from '../../screens/EditUserProfile';
 
@@ -64,4 +65,5 @@ export {
   SettingsPage_Clinic,
   Approval_page,
   AdminForumPage,
+  EditClinicPassword,
 };

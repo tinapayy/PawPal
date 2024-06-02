@@ -110,8 +110,8 @@ const PetProfile = ({route}) => {
         setShowAlert({
           visible: true,
           title: 'Action Incomplete',
-          message: 'Please select a picture of your pet.'
-      });
+          message: 'Please select a picture of your pet.',
+        });
         //Alert.alert('Please select a picture of your pet');
         return;
       }
@@ -160,8 +160,8 @@ const PetProfile = ({route}) => {
             setShowAlert1({
               visible: true,
               title: 'Action Completed',
-              message: 'Profile updated successfully.'
-          });
+              message: 'Profile updated successfully.',
+            });
             //Alert.alert('Profile updated successfully');
             // navigation.reset({
             //   index: 0,
@@ -171,8 +171,8 @@ const PetProfile = ({route}) => {
             setShowAlert({
               visible: true,
               title: 'Action Incomplete',
-              message: 'Error updating profile. Please try again.'
-          });
+              message: 'Error updating profile. Please try again.',
+            });
             //console.error('Error updating profile:', updateError);
             //Alert.alert('Error updating profile. Please try again.');
           }
@@ -182,8 +182,8 @@ const PetProfile = ({route}) => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating profile. Please try again.'
-    });
+        message: 'Error updating profile. Please try again.',
+      });
       //console.error('Error uploading profile picture:', error);
       //Alert.alert('Error updating profile picture. Please try again.');
     }
@@ -213,7 +213,7 @@ const PetProfile = ({route}) => {
             source={
               petPicture
                 ? {uri: petPicture}
-                : require('../images/UserIcon1.png')
+                : require('../images/defaultIcon.png')
             }
             style={styles.profileImage}
           />
@@ -329,20 +329,22 @@ const PetProfile = ({route}) => {
         </View>
       </View>
       <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('Profile Details'); // Navigate to a different page
-          }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        visible={showAlert1.visible} // Pass the state to control visibility
+        title={showAlert1.title} // Pass the title from showAlert
+        message={showAlert1.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert1({visible: false, title: '', message: ''});
+          navigation.navigate('Profile Details'); // Navigate to a different page
+        }} // Close the alert on button press
+      />
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert({visible: false, title: '', message: ''});
+        }} // Close the alert on button press
+      />
     </ImageBackground>
   );
 };

@@ -204,7 +204,7 @@ const PetProfile = () => {
             source={
               petPicture
                 ? {uri: petPicture}
-                : require('../images/UserIcon1.png')
+                : require('../images/defaultIcon.png')
             }
             style={{
               ...styles.profileImage,

@@ -53,6 +53,7 @@ import {
     UserIcon as UserSolid,
     MagnifyingGlassIcon as MagnifyingGlass,
     ChatBubbleLeftIcon as ChatBubbleLeftIcon,
+    LockClosedIcon as Lock,
 } from 'react-native-heroicons/solid';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -102,6 +103,7 @@ export {
     ChatBubbleLeftIcon,
     PlusCircleSolid,
     UserSolid,
+    Lock,
     faMagnifyingGlass,
     faCaretSquareDown,
     faLockOpen,

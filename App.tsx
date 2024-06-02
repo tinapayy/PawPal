@@ -287,6 +287,11 @@ export default function App() {
           component={import_screens.AdminForumPage}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="EditClinicPassword"
+          component={import_screens.EditClinicPassword}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

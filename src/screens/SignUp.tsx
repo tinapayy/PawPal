@@ -22,7 +22,6 @@ import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import CustomAlert from '../components/CustomAlert';
 
-
 const SignIn = () => {
   type Nav = {
     reset: (value: any) => void;
@@ -32,7 +31,6 @@ const SignIn = () => {
   const AddUser = useNavigateTo('AddUserProfile');
   const AddClinic = useNavigateTo('AddClinicDetails');
   const navigation = useNavigation();
-
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -58,14 +56,69 @@ const SignIn = () => {
     message: '',
   });
 
+  const verifySignUp = (password: string) => {
+    if (!name || !email || !password || !confirmPassword) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Please fill in all fields.',
+      });
+      return false;
+    }
+    if (password.length < 8) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should be atleast 8 characters.',
+      });
+      return false;
+    }
+    if (!/(?=.*\d)/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 number.',
+      });
+      return false;
+    }
+    if (!/(?=.*[a-z])/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 lowercase letter.',
+      });
+      return false;
+    }
+    if (!/(?=.*[A-Z])/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 uppercase letter.',
+      });
+      return false;
+    }
+    if (!/(?=.*[!@#$%^&*])/.test(password)) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password should contain atleast 1 special character.',
+      });
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setShowAlert({
+        visible: true,
+        title: 'Action Incomplete',
+        message: 'Password do not match.',
+      });
+      return false;
+    }
+    return true;
+  };
+
   const signUp = async () => {
     try {
-      if (password !== confirmPassword) {
-        setShowAlert({
-          visible: true,
-          title: 'Action Incomplete',
-          message: 'Password do not match.'
-      });
+      if (!verifySignUp(password)) {
         return;
       }
       const response = await createUserWithEmailAndPassword(
@@ -113,9 +166,9 @@ const SignIn = () => {
       setShowAlert({
         visible: true,
         title: 'Action Completed',
-        message: 'User created successfully.'
-    });
-     //  Alert.alert('User created successfully');
+        message: 'User created successfully.',
+      });
+      //  Alert.alert('User created successfully');
       console.log('Document written with ID: ', docRef.id);
       if (response) {
         if (selectedUserType === 'petOwner') {
@@ -123,15 +176,13 @@ const SignIn = () => {
             visible: true,
             title: 'Action Completed',
             message: 'Pet Owner User created successfully.',
-            
-        });
-          
+          });
         } else if (selectedUserType === 'clinic') {
           setShowAlert2({
             visible: true,
             title: 'Action Completed',
             message: 'Clinic User created successfully.',
-        });
+          });
           // reset({
           //   index: 0,
           //   routes: [{name: 'AddClinicDetails'}],
@@ -143,8 +194,8 @@ const SignIn = () => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: (error.message),
-    });
+        message: error.message,
+      });
       //Alert.alert(error.message);
     }
   };
@@ -156,7 +207,6 @@ const SignIn = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.whiteContainer}>
-
           <SwitchButton
             selectedUserType={selectedUserType}
             setSelectedUserType={setSelectedUserType}
@@ -229,29 +279,29 @@ const SignIn = () => {
         </TouchableOpacity>
       </ScrollView>
       <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
-          />
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => setShowAlert({visible: false, title: '', message: ''})} // Close the alert on button press
+      />
       <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('AddUserProfile'); // Navigate to a different page
-          }}
-          />
+        visible={showAlert1.visible} // Pass the state to control visibility
+        title={showAlert1.title} // Pass the title from showAlert
+        message={showAlert1.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert1({visible: false, title: '', message: ''});
+          navigation.navigate('AddUserProfile'); // Navigate to a different page
+        }}
+      />
       <CustomAlert
-            visible={showAlert2.visible} // Pass the state to control visibility
-            title={showAlert2.title} // Pass the title from showAlert
-            message={showAlert2.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert2({ visible: false, title: '', message: '' });
-              navigation.navigate('AddClinicDetails'); // Navigate to a different page
-          }}
-          />
+        visible={showAlert2.visible} // Pass the state to control visibility
+        title={showAlert2.title} // Pass the title from showAlert
+        message={showAlert2.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert2({visible: false, title: '', message: ''});
+          navigation.navigate('AddClinicDetails'); // Navigate to a different page
+        }}
+      />
     </SafeAreaView>
   );
 };

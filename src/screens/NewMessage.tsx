@@ -80,15 +80,16 @@ const NewMessage = () => {
     fetchData();
   }, []);
 
+  // added toString() and validation if user.name not null
   const filterUsers = (search: string) => {
-    if (users) {
-      const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(search.toLowerCase()),
-      );
+    if (users){
+      const filteredUsers = users.filter(user => {
+        const userName = user.name ? user.name.toString() : '';
+        return userName.toLowerCase().includes(search.toString().toLowerCase());
+      });
       setFilteredUsers(filteredUsers);
     }
   };
-
   return (
     <SafeAreaView>
       <GestureHandlerRootView>

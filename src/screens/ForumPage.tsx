@@ -317,11 +317,11 @@ const styles = StyleSheet.create({
   imageHeader1: {
     position: 'relative',
     top: '50%',
-    left: '-55%',
+    left: '-63%',
   },
   headerText: {
     fontSize: 15,
-    left: '-28%',
+    left: '-40%',
   },
   card: {
     marginTop: '5%',

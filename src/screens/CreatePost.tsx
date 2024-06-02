@@ -92,7 +92,7 @@ const CreatePost = () => {
   const [postText, setPostText] = useState('');
 
   const uploadPost = async () => {
-    if (!postText && !selectedImage) {
+    if (!postText.trim() && !selectedImage) {
       setShowAlert({
         visible: true,
         title: 'Empty Post',

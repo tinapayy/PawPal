@@ -22,6 +22,7 @@ import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import CustomAlert from '../components/CustomAlert';
 
+
 const SignIn = () => {
   type Nav = {
     reset: (value: any) => void;
@@ -38,6 +39,7 @@ const SignIn = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSecureEntry, setIsSecureEntry] = useState(true); // for password toggle
   const [confirmPassword, setConfirmPassword] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('petOwner');
   const [showAlert, setShowAlert] = useState({
@@ -236,25 +238,50 @@ const SignIn = () => {
               </View>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
+
+                {/* for password */}
+
                 <TextInput
                   style={styles.input}
                   placeholder="Password"
                   value={password}
-                  secureTextEntry={true}
+                  // secureTextEntry={true}
+                  secureTextEntry={isSecureEntry}
                   underlineColorAndroid="orange"
                   onChangeText={text => setPassword(text)}
                 />
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                  }}
+                  style={styles.showButton}
+                >
+                  {/* icon eye open and slash */}
+                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                </TouchableOpacity>
               </View>
               <View style={styles.iconInputRow}>
                 <FontAwesomeIcon icon={icons.faLock} style={styles.icon} />
+                {/* confirm password */}
+
                 <TextInput
                   style={styles.input}
                   placeholder="Confirm Password"
                   value={confirmPassword}
-                  secureTextEntry={true}
+                  // secureTextEntry={true}
+                  secureTextEntry={isSecureEntry}
                   underlineColorAndroid="orange"
                   onChangeText={text => setConfirmPassword(text)}
                 />
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsSecureEntry((prev) => !prev);
+                  }}
+                  style={styles.showButton1}
+                >
+                  {/* icon eye open and slash */}
+                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                </TouchableOpacity>
               </View>
             </View>
             <View style={styles.btnContainer}>
@@ -401,6 +428,27 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
     color: constants.$secondaryColor,
     left: 40,
+  },
+  // for password toggle
+  showButton: {
+    width: '5%',
+    right: '-89%',
+    position: 'relative',
+    alignItems: 'flex-end',
+    zIndex: 5,
+    top: '-159%',
+  },
+  //confirm password
+  showButton1: {
+    width: '5%',
+    right: '-89%',
+    position: 'relative',
+    alignItems: 'flex-end',
+    zIndex: 5,
+    top: '-165%',
+  },
+  eyeicon: {
+    color: constants.$primaryColor,
   },
 });
 

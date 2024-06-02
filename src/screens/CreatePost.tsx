@@ -330,7 +330,7 @@ const CreatePost = () => {
         message={showAlert.message} // Pass the message from showAlert
         onClose={() => {
           setShowAlert({visible: false, title: '', message: ''});
-          navigation.navigate('Home');
+          navigation.navigate('Create Post');
         }} // Close the alert on button press
       />
     </SafeAreaView>

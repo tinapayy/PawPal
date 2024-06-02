@@ -92,7 +92,7 @@ const CreatePost = () => {
   const [postText, setPostText] = useState('');
 
   const uploadPost = async () => {
-    if (!postText && !selectedImage) {
+    if (!postText.trim() && !selectedImage) {
       setShowAlert({
         visible: true,
         title: 'Empty Post',
@@ -330,7 +330,7 @@ const CreatePost = () => {
         message={showAlert.message} // Pass the message from showAlert
         onClose={() => {
           setShowAlert({visible: false, title: '', message: ''});
-          navigation.navigate('Home');
+          navigation.navigate('Create Post');
         }} // Close the alert on button press
       />
     </SafeAreaView>

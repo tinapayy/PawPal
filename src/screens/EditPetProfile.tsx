@@ -89,8 +89,8 @@ const PetProfile = ({route}) => {
     const options = {
       mediaType: 'photo',
       includeBase64: false,
-      maxHeight: 200,
-      maxWidth: 200,
+      maxHeight: 400,
+      maxWidth: 400,
     };
 
     launchImageLibrary(options, response => {
@@ -123,7 +123,7 @@ const PetProfile = ({route}) => {
       const storage = FIREBASE_STORAGE;
       const storageRef = ref(
         storage,
-        `petPicture/${auth.currentUser?.uid}.jpeg`,
+        `petProfile/${auth.currentUser?.uid}/${petPicture.split('/').pop()}`,
       );
 
       // Convert image URI to Blob

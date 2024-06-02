@@ -105,7 +105,7 @@ const PetProfile = () => {
       const storage = FIREBASE_STORAGE;
       const storageRef = ref(
         storage,
-        `petProfile/${auth.currentUser?.uid}/${petPicture.split('/').pop()}`,
+        `petPicture/${auth.currentUser?.uid}/${petPicture.split('/').pop()}`,
       );
 
       // Convert image URI to Blob

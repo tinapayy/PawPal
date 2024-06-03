@@ -212,7 +212,8 @@ const ResultsPage = () => {
   const handleSearch = (text: string) => {
     setSearchQuery(text);
     const filtered = clinics.filter(clinic =>
-      clinic.name.toLowerCase().includes(text.toLowerCase()),
+      clinic.name.toLowerCase().includes(text.toLowerCase()) ||
+      clinic.address.toLowerCase().includes(text.toLowerCase()),
     );
     fetchData();
     setFilteredClinics(filtered);

@@ -219,7 +219,8 @@ const ResultsPageAll = ({route}) => {
   const handleSearch = text => {
     setSearchQuery(text);
     const filtered = searchdata.filter(item => {
-      return item.name.toLowerCase().includes(text.toLowerCase());
+      return item.name.toLowerCase().includes(text.toLowerCase()) ||
+        item.address.toLowerCase().includes(text.toLowerCase())
     });
     setfilteredData(filtered);
   };

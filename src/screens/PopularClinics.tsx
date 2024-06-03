@@ -16,7 +16,6 @@ import {getDocs, collection} from 'firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
-import { alignmentMixin } from '../components/alignmentMixin';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -27,7 +26,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), 
+    imageUrl: require('../images/rebadulla.jpg'),
   },
   {
     id: '2',
@@ -35,7 +34,7 @@ const clinics = [
     address: '456 Elm St, City, Country,',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), 
+    imageUrl: require('../images/cornerstone.jpg'),
   },
   {
     id: '3',
@@ -43,7 +42,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), 
+    imageUrl: require('../images/rebadulla.jpg'),
   },
   {
     id: '2',
@@ -51,7 +50,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), 
+    imageUrl: require('../images/cornerstone.jpg'),
   },
   {
     id: '1',
@@ -59,7 +58,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), 
+    imageUrl: require('../images/rebadulla.jpg'),
   },
   {
     id: '2',
@@ -67,7 +66,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), 
+    imageUrl: require('../images/cornerstone.jpg'),
   },
   {
     id: '1',
@@ -75,7 +74,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), 
+    imageUrl: require('../images/rebadulla.jpg'),
   },
   {
     id: '2',
@@ -83,7 +82,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), 
+    imageUrl: require('../images/cornerstone.jpg'),
   },
   {
     id: '1',
@@ -91,7 +90,7 @@ const clinics = [
     address: '123 Main St, City, Country',
     isOpen: true,
     openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/rebadulla.jpg'), 
+    imageUrl: require('../images/rebadulla.jpg'),
   },
   {
     id: '2',
@@ -99,7 +98,7 @@ const clinics = [
     address: '456 Elm St, City, Country',
     isOpen: false,
     openingHours: '9:00 AM - 6:00 PM',
-    imageUrl: require('../images/cornerstone.jpg'), 
+    imageUrl: require('../images/cornerstone.jpg'),
   },
 ];
 
@@ -163,8 +162,7 @@ const Apps = () => {
     fetchData();
   }, []);
 
-  const handleClinicPress = clinic => {
-  };
+  const handleClinicPress = clinic => {};
 
   const backgroundImage = require('../images/PopularClinicsBg.png');
 
@@ -212,7 +210,7 @@ const Apps = () => {
       <FlatList
         data={clinics}
         keyExtractor={item => item.id}
-        numColumns={2} 
+        numColumns={2}
         renderItem={({item}) => (
           <ClinicCard
             clinicInfo={item}
@@ -228,8 +226,8 @@ const styles = StyleSheet.create({
   card: {
     ...buttonMixin.button,
     height: undefined,
-    width: (screenWidth - 32) / 2, 
-    aspectRatio: 1, 
+    width: (screenWidth - 32) / 2,
+    aspectRatio: 1,
     alignItems: 'center',
     backgroundColor: constants.$backgroundColor,
     margin: 8,

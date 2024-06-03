@@ -105,10 +105,6 @@ const ForumPage = () => {
     }
   }
 
-  function calculateMargin(length: number): number {
-    return length * 2;
-  }
-
   if (loading) {
     return <LoadingScreen />;
   }
@@ -225,7 +221,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   messageIcon: {
-    //color: '#F87000',
     color: constants.$senaryColor,
     top: 2,
     left: 50,

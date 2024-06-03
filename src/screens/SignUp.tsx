@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  Alert,
   TouchableOpacity,
   Pressable,
   View,
@@ -22,15 +21,11 @@ import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import CustomAlert from '../components/CustomAlert';
 
-
 const SignIn = () => {
   type Nav = {
     reset: (value: any) => void;
   };
-  const {reset} = useNavigation<Nav>();
   const NavSignIn = useNavigateTo('SignIn');
-  const AddUser = useNavigateTo('AddUserProfile');
-  const AddClinic = useNavigateTo('AddClinicDetails');
   const navigation = useNavigation();
 
   const auth = FIREBASE_AUTH;
@@ -180,20 +175,14 @@ const SignIn = () => {
             title: 'Action Completed',
             message: 'Clinic User created successfully.',
           });
-          // reset({
-          //   index: 0,
-          //   routes: [{name: 'AddClinicDetails'}],
-          // });
         }
       }
     } catch (error: any) {
-      //console.error(error);
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
         message: error.message,
       });
-      //Alert.alert(error.message);
     }
   };
 
@@ -240,19 +229,21 @@ const SignIn = () => {
                   style={styles.input}
                   placeholder="Password"
                   value={password}
-                  // secureTextEntry={true}
                   secureTextEntry={isSecureEntry}
                   underlineColorAndroid="orange"
                   onChangeText={text => setPassword(text)}
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    setIsSecureEntry((prev) => !prev);
+                    setIsSecureEntry(prev => !prev);
                   }}
-                  style={styles.showButton}
-                >
+                  style={styles.showButton}>
                   {/* icon eye open and slash */}
-                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                  <FontAwesomeIcon
+                    icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                    style={styles.eyeicon}
+                    size={18}
+                  />
                 </TouchableOpacity>
               </View>
               <View style={styles.iconInputRow}>
@@ -270,12 +261,15 @@ const SignIn = () => {
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    setIsSecureEntry((prev) => !prev);
+                    setIsSecureEntry(prev => !prev);
                   }}
-                  style={styles.showButton1}
-                >
+                  style={styles.showButton1}>
                   {/* icon eye open and slash */}
-                  <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+                  <FontAwesomeIcon
+                    icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                    style={styles.eyeicon}
+                    size={18}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -284,7 +278,7 @@ const SignIn = () => {
                 style={({pressed}) => [
                   styles.signUpButton,
                   {
-                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E',
                   },
                 ]}
                 onPress={signUp}>

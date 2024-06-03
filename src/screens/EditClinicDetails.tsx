@@ -8,7 +8,6 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Alert,
   StyleProp,
   ViewStyle,
   TextStyle,
@@ -35,21 +34,16 @@ import {
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {useNavigation} from '@react-navigation/native';
-import DateTimePicker, {
-  DateTimePickerAndroid,
-} from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import LoadingScreen from '../components/loading';
 import CustomAlert from '../components/CustomAlert';
-import { useNavigateTo } from '../components/navigation';
+import {useNavigateTo} from '../components/navigation';
 
 const PawPalApp = () => {
-  const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
   const navigation = useNavigation();
-
-  const ClinicProfile = useNavigateTo('ClinicProfile');
 
   const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
@@ -60,12 +54,12 @@ const PawPalApp = () => {
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
   const [showAlert1, setShowAlert1] = useState({
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
 
   const [selectedImage, setSelectedImage] = useState('');
   const [number, setNumber] = useState('');
@@ -91,13 +85,6 @@ const PawPalApp = () => {
   const [currentDay, setCurrentDay] = useState('');
 
   const [tagsInput, setTagsInput] = useState([]);
-
-  // const handleNavigate = () => {
-  //   navigation.reset({
-  //     index: 0,
-  //     routes: [{ name: 'ClinicProfile' }] as any,
-  //   });
-  // }
 
   const saveClinicInfo = async () => {
     try {
@@ -139,31 +126,27 @@ const PawPalApp = () => {
           try {
             await updateDoc(userRef, updateData);
             setShowAlert({
-                visible: true,
-                title: 'Action Completed',
-                message: 'Profile updated successfully.'
-            });   
-        }
-         catch (updateError) {
-          setShowAlert({
-            visible: true,
-            title: 'Action Incomplete',
-            message: 'Error updating clinic profile. Please try again.'
-        }); 
+              visible: true,
+              title: 'Action Completed',
+              message: 'Profile updated successfully.',
+            });
+          } catch (updateError) {
+            setShowAlert({
+              visible: true,
+              title: 'Action Incomplete',
+              message: 'Error updating clinic profile. Please try again.',
+            });
             console.error('Error updating profile:', updateError);
-           // Alert.alert('Error updating clinic profile. Please try again.');
-        }        
+          }
         }
       });
-    } 
-    catch (error) {
+    } catch (error) {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating clinic details. Please try again.'
-    });
+        message: 'Error updating clinic details. Please try again.',
+      });
       console.log('Error querying user data: ', error);
-      //Alert.alert('Error updating clinic details. Please try again.');
     }
   };
 
@@ -587,20 +570,22 @@ const PawPalApp = () => {
           </View>
         </ScrollView>
         <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert({ visible: false, title: '', message: '' });
-              navigation.navigate('Profile Details'); // Navigate to a different page
+          visible={showAlert.visible} // Pass the state to control visibility
+          title={showAlert.title} // Pass the title from showAlert
+          message={showAlert.message} // Pass the message from showAlert
+          onClose={() => {
+            setShowAlert({visible: false, title: '', message: ''});
+            navigation.navigate('Profile Details'); // Navigate to a different page
           }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert1({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        />
+        <CustomAlert
+          visible={showAlert1.visible} // Pass the state to control visibility
+          title={showAlert1.title} // Pass the title from showAlert
+          message={showAlert1.message} // Pass the message from showAlert
+          onClose={() => {
+            setShowAlert1({visible: false, title: '', message: ''});
+          }} // Close the alert on button press
+        />
       </ImageBackground>
     </SafeAreaView>
   );

@@ -1,5 +1,4 @@
 import {View, TouchableOpacity, Text} from 'react-native';
-import {useState} from 'react';
 import React from 'react';
 
 const SwitchButton = ({selectedUserType, setSelectedUserType}) => {

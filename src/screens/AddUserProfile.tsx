@@ -8,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  Alert,
   Dimensions,
   TextStyle,
   ViewStyle,
@@ -34,7 +33,6 @@ import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {addPetMixins} from '../styles/mixins/addPetMixins';
-import {KeyboardAvoidingView} from 'react-native';
 const UserProfile = () => {
   const navigation = useNavigation();
 
@@ -44,18 +42,17 @@ const UserProfile = () => {
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
   const [showAlert1, setShowAlert1] = useState({
     visible: false,
     title: '',
     message: '',
-  }); 
+  });
 
   const [currentName, setCurrentName] = useState('');
   const [currentBio, setCurrentBio] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
 
   const openImagePicker = async () => {
@@ -80,7 +77,7 @@ const UserProfile = () => {
   const uploadProfilePicture = async () => {
     try {
       const metadata = {
-        contentType: 'image/jpeg', // Adjust the content type based on your image type
+        contentType: 'image/jpeg',
       };
 
       const storage = FIREBASE_STORAGE;
@@ -116,23 +113,20 @@ const UserProfile = () => {
             setShowAlert1({
               visible: true,
               title: 'Action Completed',
-              message: 'Profile picture updated successfully.'
-          })
-            //Alert.alert('Profile picture updated successfully');
+              message: 'Profile picture updated successfully.',
+            });
           } catch (updateError) {
             setShowAlert({
               visible: true,
               title: 'Action Incompleted',
-              message: 'Error updating profile. Please try again.'
-          })
+              message: 'Error updating profile. Please try again.',
+            });
             console.error('Error updating profile:', updateError);
-            //Alert.alert('Error updating profile. Please try again.');
           }
         }
       });
     } catch (error) {
       console.error('Error uploading profile picture:', error);
-      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 
@@ -180,9 +174,8 @@ const UserProfile = () => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Please enter a name.'
-    });
-      //Alert.alert('Please enter a name');
+        message: 'Please enter a name.',
+      });
       return;
     }
     if (profilePicture !== null) {
@@ -205,9 +198,8 @@ const UserProfile = () => {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
-                message: 'Current password is incomplete.'
-            });
-              //Alert.alert('Current password is incorrect');
+                message: 'Current password is incomplete.',
+              });
               return;
             }
             try {
@@ -221,26 +213,23 @@ const UserProfile = () => {
                 setShowAlert({
                   visible: true,
                   title: 'Action Completed',
-                  message: 'Profile and password updated successfully.'
-              });
-                //Alert.alert('Profile and password updated successfully');
+                  message: 'Profile and password updated successfully.',
+                });
               } catch (error) {
                 setShowAlert({
                   visible: true,
                   title: 'Action Incomplete',
-                  message: 'Error updating password. Please try again.'
-              });
+                  message: 'Error updating password. Please try again.',
+                });
                 console.error('Error updating password:', error);
-                //Alert.alert('Error updating password. Please try again.');
               }
             } catch (updateError) {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
-                message: 'Error updating profile. Please try again.'
-            });
+                message: 'Error updating profile. Please try again.',
+              });
               console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           } else {
             // If no current password provided, update the profile without updating the password
@@ -249,18 +238,15 @@ const UserProfile = () => {
               setShowAlert1({
                 visible: true,
                 title: 'Action Completed',
-                message: 'Profile updated successfully.'
-            });
-              //Alert.alert('Profile updated successfully');
-              //navigation.navigate('Add Pet Profile');
+                message: 'Profile updated successfully.',
+              });
             } catch (updateError) {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
-                message: 'Error updating profile. Please try again.'
-            });
+                message: 'Error updating profile. Please try again.',
+              });
               console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           }
         }
@@ -269,10 +255,9 @@ const UserProfile = () => {
       setShowAlert({
         visible: true,
         title: 'Action Incomplete',
-        message: 'Error updating profile. Please try again.'
-    });
+        message: 'Error updating profile. Please try again.',
+      });
       console.error('Error querying user data:', error);
-      //Alert.alert('Error updating profile. Please try again.');
     }
   };
   const imageSizePercentage = 30;
@@ -380,20 +365,22 @@ const UserProfile = () => {
         </View>
       </View>
       <CustomAlert
-            visible={showAlert1.visible} // Pass the state to control visibility
-            title={showAlert1.title} // Pass the title from showAlert
-            message={showAlert1.message} // Pass the message from showAlert
-            onClose={() => {
-              setShowAlert1({ visible: false, title: '', message: '' });
-              navigation.navigate('Add Pet Profile'); // Navigate to a different page
-          }} // Close the alert on button press
-          />
-          <CustomAlert
-            visible={showAlert.visible} // Pass the state to control visibility
-            title={showAlert.title} // Pass the title from showAlert
-            message={showAlert.message} // Pass the message from showAlert
-            onClose={() => {setShowAlert({ visible: false, title: '', message: '' })}} // Close the alert on button press
-          />
+        visible={showAlert1.visible} // Pass the state to control visibility
+        title={showAlert1.title} // Pass the title from showAlert
+        message={showAlert1.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert1({visible: false, title: '', message: ''});
+          navigation.navigate('Add Pet Profile'); // Navigate to a different page
+        }} // Close the alert on button press
+      />
+      <CustomAlert
+        visible={showAlert.visible} // Pass the state to control visibility
+        title={showAlert.title} // Pass the title from showAlert
+        message={showAlert.message} // Pass the message from showAlert
+        onClose={() => {
+          setShowAlert({visible: false, title: '', message: ''});
+        }} // Close the alert on button press
+      />
     </ImageBackground>
   );
 };

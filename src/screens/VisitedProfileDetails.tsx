@@ -6,9 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,
   TextStyle,
-  StyleProp,
   ImageStyle,
   ViewStyle,
 } from 'react-native';
@@ -19,14 +17,11 @@ import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
-import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import {profDetMixins} from '../styles/mixins/profDetMixins';
-import {PD_typeStyles} from '../components/PD_typeStyles';
 import {ScreenHeight} from 'react-native-elements/dist/helpers';
 import {useNavigateTo} from '../components/navigation';
-import SettingsPage from './SettingsPage';
 import LoadingScreen from '../components/loading';
 
 // window dimensions

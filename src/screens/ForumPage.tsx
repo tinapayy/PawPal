@@ -15,13 +15,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
 import {Card, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
+import {FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection, query, orderBy, limit} from 'firebase/firestore';
 import constants from '../styles/constants';
-import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
-import ProfileDetails from './ProfileDetails';
 import LoadingScreen from '../components/loading';
 
 interface Post {
@@ -291,8 +289,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalImage: {
-    width: 350, // Adjust width as needed
-    height: 600, // Adjust height as needed
+    width: 350,
+    height: 600,
     resizeMode: 'contain',
   },
 
@@ -347,7 +345,6 @@ const styles = StyleSheet.create({
   messageIcon: {
     flexDirection: 'row',
     top: '-14%',
-    // left: '1300%',
     flex: 1,
   },
   userName: {

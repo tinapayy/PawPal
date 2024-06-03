@@ -4,11 +4,9 @@ import {
   View,
   TextInput,
   StyleSheet,
-  Image,
   Text,
   TouchableOpacity,
   ImageBackground,
-  Alert,
   Dimensions,
   ViewStyle,
   TextStyle,
@@ -28,7 +26,6 @@ import {
 } from 'firebase/auth';
 import {getDocs, collection, updateDoc, doc} from 'firebase/firestore';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
-import {launchImageLibrary} from 'react-native-image-picker';
 import constants from '../styles/constants';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {buttonMixin} from '../components/buttonMixin';
@@ -63,12 +60,11 @@ const EditClinicPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
 
-
   const uploadProfilePicture = async () => {
     try {
       if (profilePicture) {
         const metadata = {
-          contentType: 'image/jpeg', // Adjust the content type based on your image type
+          contentType: 'image/jpeg',
         };
 
         const storage = FIREBASE_STORAGE;
@@ -107,18 +103,10 @@ const EditClinicPassword = () => {
                 title: 'Action Incomplete',
                 message: 'Error updating profile. Please try again.',
               });
-              //console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           }
         });
       } else {
-        //   setShowAlert({
-        //     visible: true,
-        //     title: 'Action Incomplete',
-        //     message: 'Please select a profile picture.'
-        // });
-        //   Alert.alert('Please select a profile picture');
         return;
       }
     } catch (error) {
@@ -127,8 +115,6 @@ const EditClinicPassword = () => {
         title: 'Action Incomplete',
         message: 'Error updating profile picture. Please try again.',
       });
-      //console.error('Error uploading profile picture:', error);
-      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 
@@ -168,7 +154,6 @@ const EditClinicPassword = () => {
       console.log('User reauthenticated successfully');
       return true; // Reauthentication successful
     } catch (error) {
-      //console.error('Error reauthenticating user:', error);
       return false; // Reauthentication failed
     }
   };
@@ -240,7 +225,6 @@ const EditClinicPassword = () => {
         title: 'Action Incomplete',
         message: 'Please enter a name.',
       });
-      //Alert.alert('Please enter a name');
       return;
     }
     try {
@@ -262,7 +246,6 @@ const EditClinicPassword = () => {
                 title: 'Action Incomplete',
                 message: 'Current password is incorrect.',
               });
-              //Alert.alert('Current password is incorrect');
               return;
             }
             try {
@@ -281,15 +264,12 @@ const EditClinicPassword = () => {
                   title: 'Action Completed',
                   message: 'Profile and password updated successfully.',
                 });
-                //Alert.alert('Profile and password updated successfully');
               } catch (error) {
                 setShowAlert({
                   visible: true,
                   title: 'Action Incomplete',
                   message: 'Error updating password. Please try again.',
                 });
-                //console.error('Error updating password:', error);
-                //Alert.alert('Error updating password. Please try again.');
               }
             } catch (updateError) {
               setShowAlert({
@@ -297,8 +277,6 @@ const EditClinicPassword = () => {
                 title: 'Action Incomplete',
                 message: 'Error updating profile. Please try again.',
               });
-              //console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           } else {
             // If no current password provided, update the profile without updating the password
@@ -309,16 +287,12 @@ const EditClinicPassword = () => {
                 title: 'Action Completed',
                 message: 'Profile updated successfully.',
               });
-              //Alert.alert('Profile updated successfully');
-              //navigation.navigate('Profile Details');
             } catch (updateError) {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
                 message: 'Error updating profile. Please try again.',
               });
-              //console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           }
         }
@@ -329,8 +303,6 @@ const EditClinicPassword = () => {
         title: 'Action Incomplete',
         message: 'Error updating profile. Please try again.',
       });
-      //console.error('Error querying user data:', error);
-      //Alert.alert('Error updating profile. Please try again.');
     }
   };
 
@@ -387,12 +359,15 @@ const EditClinicPassword = () => {
             {/* toggle show and hide */}
             <TouchableOpacity
               onPress={() => {
-                setIsSecureEntry((prev) => !prev);
+                setIsSecureEntry(prev => !prev);
               }}
-              style={styles.showButton}
-            >
+              style={styles.showButton}>
               {/* icon eye open and slash */}
-              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+              <FontAwesomeIcon
+                icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                style={styles.eyeicon}
+                size={18}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.iconInputRow}>
@@ -407,12 +382,15 @@ const EditClinicPassword = () => {
             {/* toggle show and hide */}
             <TouchableOpacity
               onPress={() => {
-                setIsSecureEntry((prev) => !prev);
+                setIsSecureEntry(prev => !prev);
               }}
-              style={styles.showButton}
-            >
+              style={styles.showButton}>
               {/* icon eye open and slash */}
-              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+              <FontAwesomeIcon
+                icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                style={styles.eyeicon}
+                size={18}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.iconInputRow}>
@@ -427,12 +405,15 @@ const EditClinicPassword = () => {
             {/* toggle show and hide */}
             <TouchableOpacity
               onPress={() => {
-                setIsSecureEntry((prev) => !prev);
+                setIsSecureEntry(prev => !prev);
               }}
-              style={styles.showButton}
-            >
+              style={styles.showButton}>
               {/* icon eye open and slash */}
-              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+              <FontAwesomeIcon
+                icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                style={styles.eyeicon}
+                size={18}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
@@ -491,7 +472,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // padding: 66,
   },
   back: {
     flexDirection: 'row',
@@ -510,7 +490,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginTop: '10%',
-    // left: '15%',
   },
   iconInputRow: {
     ...alignmentMixin.alignment1,

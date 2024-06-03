@@ -4,9 +4,7 @@ import {
   StyleSheet,
   View,
   ImageBackground,
-  RefreshControl,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
@@ -29,8 +27,6 @@ import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import constants from '../styles/constants';
 import {useNavigateTo} from '../components/navigation';
 import * as icons from '../imports/icons/icons';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
 import {chatMixins} from '../components/chatMixins';
 import LoadingScreen from '../components/loading';
 
@@ -141,11 +137,6 @@ const MessagePage = () => {
         hour: 'numeric',
         minute: 'numeric',
       });
-      // } else if (timeDifference < 604800000) {
-      //   return postTime.toDate().toLocaleDateString('en-US', {
-      //     timeZone: 'Asia/Manila',
-      //     weekday: 'short',
-      //   });
     } else {
       return postTime.toDate().toLocaleDateString('en-US', {
         timeZone: 'Asia/Manila',
@@ -154,7 +145,7 @@ const MessagePage = () => {
       });
     }
   }
-  
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -217,7 +208,6 @@ const MessagePage = () => {
           <TouchableOpacity onPress={NewMessage}>
             <FontAwesomeIcon
               icon={icons.faCirclePlus}
-              // style={styles.icon}
               size={50}
               color={constants.$senaryColor}
             />

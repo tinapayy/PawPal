@@ -5,11 +5,10 @@ import {
   StyleSheet,
   Pressable,
   Text,
-  useWindowDimensions,
   ViewStyle,
 } from 'react-native';
 import constants from '../styles/constants';
-import { alignmentMixin } from '../components/alignmentMixin';
+import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 
 const GettingStarted: React.FC = () => {
@@ -21,7 +20,7 @@ const GettingStarted: React.FC = () => {
         <Image
           source={require('../images/corgiCat.png')}
           style={styles.petImage}
-          resizeMode= 'contain'
+          resizeMode="contain"
         />
       </View>
 
@@ -79,13 +78,13 @@ const styles = StyleSheet.create({
   },
   button: {
     ...alignmentMixin.align,
-    paddingVertical: 12, // adjust as needed
-    paddingHorizontal: 24, // Adjust as needed
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 30,
     elevation: 2,
     backgroundColor: constants.$primaryColor,
-    width: '80%', // Adjust as needed
-    maxWidth: 200, // Limit maximum width
+    width: '80%',
+    maxWidth: 200,
   } as ViewStyle,
   buttonText: {
     fontSize: constants.$fontSizeRegular,

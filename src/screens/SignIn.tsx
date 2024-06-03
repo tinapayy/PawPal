@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  Alert,
   TouchableOpacity,
   Pressable,
   View,
@@ -58,8 +57,6 @@ const SignIn = () => {
             title: 'Action Incomplete',
             message: 'Error signing in.',
           });
-          //console.error(error);
-          //Alert.alert('Error signing in');
         });
     } else {
       try {
@@ -85,8 +82,6 @@ const SignIn = () => {
                   title: 'Action Incomplete',
                   message: 'Error signing in.',
                 });
-                //console.error(error);
-                //Alert.alert('Error signing in');
               });
           }
         });
@@ -103,8 +98,6 @@ const SignIn = () => {
           title: 'Action Incomplete',
           message: 'Error fetching user data.',
         });
-        //console.error(error);
-        //Alert.alert('Error fetching user data');
       }
     }
   };
@@ -301,8 +294,6 @@ const styles = StyleSheet.create({
   },
   // button for password toggle
   showButton: {
-    // backgroundColor: 'black',
-    // padding:'5%',
     width: '5%',
     left: '89%',
     position: 'relative',

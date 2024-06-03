@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  Alert,
   Dimensions,
   TextStyle,
   ViewStyle,
@@ -24,11 +23,6 @@ import {
   FIREBASE_STORAGE,
 } from '../../firebase.config';
 import {
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-  updatePassword,
-} from 'firebase/auth';
-import {
   addDoc,
   getDocs,
   collection,
@@ -39,7 +33,6 @@ import {
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import {addPetMixins} from '../styles/mixins/addPetMixins';
 
@@ -94,12 +87,11 @@ const PetProfile = () => {
           title: 'Action Incomplete',
           message: 'Please select a picture of your pet.',
         });
-        //Alert.alert('Please select a picture of your pet');
         return;
       }
 
       const metadata = {
-        contentType: 'image/jpeg', // Adjust the content type based on your image type
+        contentType: 'image/jpeg',
       };
 
       const storage = FIREBASE_STORAGE;
@@ -152,11 +144,6 @@ const PetProfile = () => {
               title: 'Action Completed',
               message: 'Pet profile updated successfully.',
             });
-            //Alert.alert('Profile picture updated successfully');
-            // navigation.reset({
-            //   index: 0,
-            //   routes: [{name: 'HomePage'}],
-            // });
           } catch (updateError) {
             setShowAlert({
               visible: true,
@@ -175,7 +162,6 @@ const PetProfile = () => {
         message: 'Error updating profile picture. Please try again.',
       });
       console.error('Error uploading profile picture:', error);
-      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 

@@ -8,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  Alert,
   Dimensions,
   ViewStyle,
   TextStyle,
@@ -86,7 +85,7 @@ const UserProfile = () => {
     try {
       if (profilePicture) {
         const metadata = {
-          contentType: 'image/jpeg', // Adjust the content type based on your image type
+          contentType: 'image/jpeg',
         };
 
         const storage = FIREBASE_STORAGE;
@@ -125,18 +124,10 @@ const UserProfile = () => {
                 title: 'Action Incomplete',
                 message: 'Error updating profile. Please try again.',
               });
-              //console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           }
         });
       } else {
-        //   setShowAlert({
-        //     visible: true,
-        //     title: 'Action Incomplete',
-        //     message: 'Please select a profile picture.'
-        // });
-        //   Alert.alert('Please select a profile picture');
         return;
       }
     } catch (error) {
@@ -145,8 +136,6 @@ const UserProfile = () => {
         title: 'Action Incomplete',
         message: 'Error updating profile picture. Please try again.',
       });
-      //console.error('Error uploading profile picture:', error);
-      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 
@@ -275,7 +264,6 @@ const UserProfile = () => {
                 title: 'Action Incomplete',
                 message: 'Current password is incorrect.',
               });
-              //Alert.alert('Current password is incorrect');
               return;
             }
             try {
@@ -294,15 +282,12 @@ const UserProfile = () => {
                   title: 'Action Completed',
                   message: 'Profile and password updated successfully.',
                 });
-                //Alert.alert('Profile and password updated successfully');
               } catch (error) {
                 setShowAlert({
                   visible: true,
                   title: 'Action Incomplete',
                   message: 'Error updating password. Please try again.',
                 });
-                //console.error('Error updating password:', error);
-                //Alert.alert('Error updating password. Please try again.');
               }
             } catch (updateError) {
               setShowAlert({
@@ -310,8 +295,6 @@ const UserProfile = () => {
                 title: 'Action Incomplete',
                 message: 'Error updating profile. Please try again.',
               });
-              //console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           } else {
             // If no current password provided, update the profile without updating the password
@@ -322,16 +305,12 @@ const UserProfile = () => {
                 title: 'Action Completed',
                 message: 'Profile updated successfully.',
               });
-              //Alert.alert('Profile updated successfully');
-              //navigation.navigate('Profile Details');
             } catch (updateError) {
               setShowAlert({
                 visible: true,
                 title: 'Action Incomplete',
                 message: 'Error updating profile. Please try again.',
               });
-              //console.error('Error updating profile:', updateError);
-              //Alert.alert('Error updating profile. Please try again.');
             }
           }
         }
@@ -342,8 +321,6 @@ const UserProfile = () => {
         title: 'Action Incomplete',
         message: 'Error updating profile. Please try again.',
       });
-      //console.error('Error querying user data:', error);
-      //Alert.alert('Error updating profile. Please try again.');
     }
   };
 
@@ -430,17 +407,19 @@ const UserProfile = () => {
               secureTextEntry
               value={currentPassword}
               onChangeText={text => setCurrentPassword(text)}
-              
             />
             {/* toggle show and hide */}
             <TouchableOpacity
               onPress={() => {
-                setIsSecureEntry((prev) => !prev);
+                setIsSecureEntry(prev => !prev);
               }}
-              style={styles.showButton}
-            >
+              style={styles.showButton}>
               {/* icon eye open and slash */}
-              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+              <FontAwesomeIcon
+                icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                style={styles.eyeicon}
+                size={18}
+              />
             </TouchableOpacity>
           </View>
 
@@ -456,12 +435,15 @@ const UserProfile = () => {
             {/* toggle show and hide */}
             <TouchableOpacity
               onPress={() => {
-                setIsSecureEntry((prev) => !prev);
+                setIsSecureEntry(prev => !prev);
               }}
-              style={styles.showButton}
-            >
+              style={styles.showButton}>
               {/* icon eye open and slash */}
-              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+              <FontAwesomeIcon
+                icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                style={styles.eyeicon}
+                size={18}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.iconInputRow}>
@@ -476,12 +458,15 @@ const UserProfile = () => {
             {/* toggle show and hide */}
             <TouchableOpacity
               onPress={() => {
-                setIsSecureEntry((prev) => !prev);
+                setIsSecureEntry(prev => !prev);
               }}
-              style={styles.showButton}
-            >
+              style={styles.showButton}>
               {/* icon eye open and slash */}
-              <FontAwesomeIcon icon={isSecureEntry ? icons.faEye : icons.faEyeSlash} style={styles.eyeicon} size={18} />
+              <FontAwesomeIcon
+                icon={isSecureEntry ? icons.faEye : icons.faEyeSlash}
+                style={styles.eyeicon}
+                size={18}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>

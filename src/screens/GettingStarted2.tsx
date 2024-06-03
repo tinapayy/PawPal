@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Pressable, Text, ImageBackground, ViewStyle} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Text,
+  ImageBackground,
+  ViewStyle,
+} from 'react-native';
 import {useNavigateTo} from '../components/navigation';
 import constants from '../styles/constants';
 import {alignmentMixin} from '../components/alignmentMixin';
@@ -89,7 +96,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   } as ViewStyle,
 
-  // APPLY DRY to repetitive text styles!
   signInText: {
     fontSize: 18,
     letterSpacing: constants.$spacingLetter,

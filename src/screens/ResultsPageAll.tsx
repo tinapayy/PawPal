@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  ScrollView,
   ViewStyle,
 } from 'react-native';
 
@@ -219,8 +218,10 @@ const ResultsPageAll = ({route}) => {
   const handleSearch = text => {
     setSearchQuery(text);
     const filtered = searchdata.filter(item => {
-      return item.name.toLowerCase().includes(text.toLowerCase()) ||
+      return (
+        item.name.toLowerCase().includes(text.toLowerCase()) ||
         item.address.toLowerCase().includes(text.toLowerCase())
+      );
     });
     setfilteredData(filtered);
   };
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: constants.$fontSizeSmall,
-    fontWeight: 'bold', // replace with one of the valid values: "200", "400", "500", "700", "normal", "bold", "100", "300", "600", "800", "900"
+    fontWeight: 'bold',
     color: constants.$secondaryColor,
   },
   address: {

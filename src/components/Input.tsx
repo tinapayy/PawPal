@@ -1,26 +1,18 @@
 import React, {useState} from 'react';
 import {
   Alert,
-  TouchableOpacity,
   Pressable,
   View,
   StyleSheet,
-  Image,
   Text,
   TextInput,
-  SafeAreaView,
-  Keyboard,
   ScrollView,
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import {signInWithEmailAndPassword} from 'firebase/auth';
 import {FIREBASE_AUTH} from '../../firebase.config';
-import MyComponent from '../components/SegmentedButton';
 import SwitchButton from './SwitchButton';
 
 const SignIn = () => {
@@ -74,7 +66,7 @@ const SignIn = () => {
                 style={({pressed}) => [
                   styles.button,
                   {
-                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E', // Change color when pressed
+                    backgroundColor: pressed ? '#FF6464' : '#FFAC4E',
                   },
                 ]}
                 onPress={signIn}>

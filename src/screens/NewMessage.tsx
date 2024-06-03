@@ -1,20 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  Alert,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-  Switch,
-  FlatList,
-} from 'react-native';
+import {SafeAreaView, FlatList} from 'react-native';
 import {
   View,
   Text,
   Dimensions,
-  ImageBackground,
   TouchableOpacity,
-  StyleSheet,
   TextInput,
   Image,
 } from 'react-native';
@@ -23,10 +13,8 @@ import * as icons from '../imports/icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
+
 import constants from '../styles/constants';
-import {chatMixins} from '../components/chatMixins';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 interface User {
@@ -82,7 +70,7 @@ const NewMessage = () => {
 
   // added toString() and validation if user.name not null
   const filterUsers = (search: string) => {
-    if (users){
+    if (users) {
       const filteredUsers = users.filter(user => {
         const userName = user.name ? user.name.toString() : '';
         return userName.toLowerCase().includes(search.toString().toLowerCase());

@@ -62,16 +62,3 @@ export const MessageText = styled.Text`
   font-size: 14px;
   color: #333333;
 `;
-
-// export default {
-//   Container,
-//   Card,
-//   UserInfo,
-//   UserImgWrapper,
-//   UserImg,
-//   TextSection,
-//   UserInfoText,
-//   UserName,
-//   PostTime,
-//   MessageText,
-// };

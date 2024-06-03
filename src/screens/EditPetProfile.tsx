@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  Alert,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import * as icons from '../imports/icons/icons';
@@ -19,11 +18,7 @@ import {
   FIREBASE_DB,
   FIREBASE_STORAGE,
 } from '../../firebase.config';
-import {
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-  updatePassword,
-} from 'firebase/auth';
+
 import {
   getDocs,
   collection,
@@ -112,12 +107,11 @@ const PetProfile = ({route}) => {
           title: 'Action Incomplete',
           message: 'Please select a picture of your pet.',
         });
-        //Alert.alert('Please select a picture of your pet');
         return;
       }
 
       const metadata = {
-        contentType: 'image/jpeg', // Adjust the content type based on your image type
+        contentType: 'image/jpeg',
       };
 
       const storage = FIREBASE_STORAGE;
@@ -162,19 +156,12 @@ const PetProfile = ({route}) => {
               title: 'Action Completed',
               message: 'Profile updated successfully.',
             });
-            //Alert.alert('Profile updated successfully');
-            // navigation.reset({
-            //   index: 0,
-            //   routes: [{name: 'HomePage'}],
-            // });
           } catch (updateError) {
             setShowAlert({
               visible: true,
               title: 'Action Incomplete',
               message: 'Error updating profile. Please try again.',
             });
-            //console.error('Error updating profile:', updateError);
-            //Alert.alert('Error updating profile. Please try again.');
           }
         }
       });
@@ -184,8 +171,6 @@ const PetProfile = ({route}) => {
         title: 'Action Incomplete',
         message: 'Error updating profile. Please try again.',
       });
-      //console.error('Error uploading profile picture:', error);
-      //Alert.alert('Error updating profile picture. Please try again.');
     }
   };
 
@@ -483,11 +468,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     left: -20,
-    // elevation: 3,
-    // shadowColor: '#000000',
-    // shadowOffset: {width: 0, height: 1},
-    // shadowOpacity: 0.4,
-    // shadowRadius: 3,
   },
   saveButton: {
     justifyContent: 'center',

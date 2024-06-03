@@ -1,119 +1,133 @@
 import * as React from 'react';
-import { SafeAreaView, FlatList, ScrollView, ImageBackground, Text, StyleSheet, View, Image, Dimensions, TouchableOpacity } from 'react-native';
-import { SegmentedButtons } from 'react-native-paper';
+import {
+  SafeAreaView,
+  FlatList,
+  ScrollView,
+  ImageBackground,
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import {SegmentedButtons} from 'react-native-paper';
 import {ArrowLeftIcon as BackIcon} from 'react-native-heroicons/solid';
-import BottomNavbar from '../components/BottomNavBar';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const FoodSuggestions = () => {
-const appleImage = require('../images/apple.jpg');
-const broccoliImage = require('../images/broccoli.jpg');
-const chickenImage = require('../images/chicken.jpg');
-const carrotImage = require('../images/carrots.jpg');
-const salmonImage = require('../images/salmon.jpg');
-const bananasImage = require('../images/bananas.jpg');
-const eggsImage = require('../images/eggs.jpg');
-const breadImage = require('../images/bread.jpg');
+  const appleImage = require('../images/apple.jpg');
+  const broccoliImage = require('../images/broccoli.jpg');
+  const chickenImage = require('../images/chicken.jpg');
+  const carrotImage = require('../images/carrots.jpg');
+  const salmonImage = require('../images/salmon.jpg');
+  const bananasImage = require('../images/bananas.jpg');
+  const eggsImage = require('../images/eggs.jpg');
+  const breadImage = require('../images/bread.jpg');
 
-const foodData = [
-  {
-    key: 'apple',
-    name: 'Apple',
-    imageUrl: appleImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-  {
-    key: 'broccoli',
-    name: 'Broccoli',
-    imageUrl: broccoliImage,
-    description: 'A green vegetable packed with vitamins.',
-  },
-  {
-    key: 'chicken',
-    name: 'Chicken',
-    imageUrl: chickenImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-  {
-    key: 'carrot',
-    name: 'Carrot',
-    imageUrl: carrotImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-  {
-    key: 'salmon',
-    name: 'Salmon',
-    imageUrl: salmonImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-  {
-    key: 'banana',
-    name: 'Banana',
-    imageUrl: bananasImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-  {
-    key: 'eggs',
-    name: 'Eggs',
-    imageUrl: eggsImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-  {
-    key: 'bread',
-    name: 'Bread',
-    imageUrl: breadImage,
-    description: 'A nutritious and delicious fruit.',
-  },
-];
+  const foodData = [
+    {
+      key: 'apple',
+      name: 'Apple',
+      imageUrl: appleImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+    {
+      key: 'broccoli',
+      name: 'Broccoli',
+      imageUrl: broccoliImage,
+      description: 'A green vegetable packed with vitamins.',
+    },
+    {
+      key: 'chicken',
+      name: 'Chicken',
+      imageUrl: chickenImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+    {
+      key: 'carrot',
+      name: 'Carrot',
+      imageUrl: carrotImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+    {
+      key: 'salmon',
+      name: 'Salmon',
+      imageUrl: salmonImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+    {
+      key: 'banana',
+      name: 'Banana',
+      imageUrl: bananasImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+    {
+      key: 'eggs',
+      name: 'Eggs',
+      imageUrl: eggsImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+    {
+      key: 'bread',
+      name: 'Bread',
+      imageUrl: breadImage,
+      description: 'A nutritious and delicious fruit.',
+    },
+  ];
 
   const [value, setValue] = React.useState('');
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.bigcontainer}>
-    <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('HomePage')}>
-          <BackIcon size="24" color="white" strokeWidth={3}/>
-        </TouchableOpacity>
-    <View style={styles.header}>
-      <Image
-        source={require('../images/PawpalHeader.png')}
-        style={styles.headerImage}
-      />
-    </View>
-    <Text style={styles.text}>Food Suggestions</Text>
-    <SafeAreaView style={styles.container}>
-      <SegmentedButtons
-        value={value}
-        onValueChange={setValue}
-        buttons={[
-          {
-            value: 'Advisable',
-            label: 'Advisable',
-
-          },
-          {
-            value: 'Restricted',
-            label: 'Restricted',
-          },
-        ]}
-      />
-        </SafeAreaView>
-    <View style={styles.scrollContainer}>
-    <FlatList
-      data={foodData}
-      numColumns={2} 
-      contentContainerStyle={styles.container3}
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          <ImageBackground source={item.imageUrl} style={styles.image} />
-          <View style={styles.textbox}>
-            <Text style={[styles.label, styles.textOverlay]}>{item.name}</Text>
-            <Text style={[styles.description, styles.textOverlay]}>{item.description}</Text>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.navigate('HomePage')}>
+        <BackIcon size="24" color="white" strokeWidth={3} />
+      </TouchableOpacity>
+      <View style={styles.header}>
+        <Image
+          source={require('../images/PawpalHeader.png')}
+          style={styles.headerImage}
+        />
+      </View>
+      <Text style={styles.text}>Food Suggestions</Text>
+      <SafeAreaView style={styles.container}>
+        <SegmentedButtons
+          value={value}
+          onValueChange={setValue}
+          buttons={[
+            {
+              value: 'Advisable',
+              label: 'Advisable',
+            },
+            {
+              value: 'Restricted',
+              label: 'Restricted',
+            },
+          ]}
+        />
+      </SafeAreaView>
+      <View style={styles.scrollContainer}>
+        <FlatList
+          data={foodData}
+          numColumns={2}
+          contentContainerStyle={styles.container3}
+          renderItem={({item}) => (
+            <View style={styles.card}>
+              <ImageBackground source={item.imageUrl} style={styles.image} />
+              <View style={styles.textbox}>
+                <Text style={[styles.label, styles.textOverlay]}>
+                  {item.name}
+                </Text>
+                <Text style={[styles.description, styles.textOverlay]}>
+                  {item.description}
+                </Text>
+              </View>
             </View>
-          </View>
-      )}
-    />
-    </View>
-        
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -131,18 +145,18 @@ const styles = StyleSheet.create({
     width: 400,
     alignSelf: 'center',
   },
-  headerImage:{
-    width: Dimensions.get('window').width, 
-    height: Dimensions.get('window').height, 
-    resizeMode: 'contain', 
+  headerImage: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    resizeMode: 'contain',
     top: -275,
-    zIndex: -1
+    zIndex: -1,
   },
-  backButton:{
-    top:12,
+  backButton: {
+    top: 12,
     left: 10,
   },
-  text: {  
+  text: {
     fontSize: 24,
     fontFamily: 'Poppins-SemiBold',
     top: -730,
@@ -153,22 +167,21 @@ const styles = StyleSheet.create({
   scrollContainer: {
     top: 250,
     position: 'absolute',
-    height:600
+    height: 600,
   },
   container3: {
     padding: 16,
-    
   },
   card: {
-    width: '50%', 
-    position: 'relative', 
+    width: '50%',
+    position: 'relative',
     padding: 5,
     height: 160,
   },
   image: {
     width: '100%',
     height: 150,
-    flex:1,
+    flex: 1,
   },
   textOverlay: {
     color: 'white',
@@ -176,12 +189,11 @@ const styles = StyleSheet.create({
     top: 10,
     height: 33,
     marginLeft: 10,
-    marginTop:-5,
-
-    },
+    marginTop: -5,
+  },
   textbox: {
     backgroundColor: 'rgba(0,0,0,0.5)',
-    height:80,
+    height: 80,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -194,7 +206,7 @@ const styles = StyleSheet.create({
   description: {
     color: '#fff',
     fontSize: 14,
-    elevation: 3
+    elevation: 3,
   },
 });
 

@@ -6,11 +6,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,
   TextStyle,
-  StyleProp,
   ImageStyle,
-  ViewStyle,
 } from 'react-native';
 import {Card, Avatar, Surface, Divider} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -19,14 +16,11 @@ import {useNavigation} from '@react-navigation/native';
 import {getDocs, collection, getDoc, doc} from 'firebase/firestore';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import Carousel from 'react-native-snap-carousel';
-import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import constants from '../styles/constants';
 import {profDetMixins} from '../styles/mixins/profDetMixins';
-import {PD_typeStyles} from '../components/PD_typeStyles';
 import {ScreenHeight} from 'react-native-elements/dist/helpers';
 import {useNavigateTo} from '../components/navigation';
-import SettingsPage from './SettingsPage';
 import LoadingScreen from '../components/loading';
 
 // window dimensions
@@ -50,7 +44,6 @@ type CarouselItem = {
 
 const ProfileDetails = ({route}) => {
   const navigation = useNavigation();
-  const ChatHome = useNavigateTo('ChatHome');
   const SettingsPage = useNavigateTo('SettingsPage');
 
   const auth = FIREBASE_AUTH;
@@ -75,7 +68,6 @@ const ProfileDetails = ({route}) => {
   };
 
   const carouselRef = useRef<Carousel<CarouselItem> | null>(null);
-  const [maxHeight, setMaxHeight] = useState<number | null>(null);
 
   useEffect(() => {
     if (bio) {
@@ -270,11 +262,10 @@ const ProfileDetails = ({route}) => {
 
   //handling the card which must contain the profile, username, title (pet owner) and description
   const ownerCard = (
-  <View style={styles.cardContainer}>
-    <Card style={styles.card}>
-      <Card.Content style={styles.cardContent}>
-
-        <View style={styles.userInfo}>
+    <View style={styles.cardContainer}>
+      <Card style={styles.card}>
+        <Card.Content style={styles.cardContent}>
+          <View style={styles.userInfo}>
             <View style={[{paddingRight: '5%'}]}>
               <Avatar.Image size={50} source={profilePicture} />
             </View>
@@ -325,7 +316,7 @@ const ProfileDetails = ({route}) => {
               {showFullBio ? bio : truncatedBio}
               {!showFullBio && truncatedBio !== bio && (
                 <>
-                  <Text>{' '}</Text>
+                  <Text> </Text>
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See More
                   </Text>
@@ -338,7 +329,7 @@ const ProfileDetails = ({route}) => {
               )}
               {showFullBio && (
                 <>
-                  <Text>{' '}</Text>
+                  <Text> </Text>
                   <Text style={styles.seeMore} onPress={toggleDescription}>
                     See Less
                   </Text>
@@ -346,7 +337,6 @@ const ProfileDetails = ({route}) => {
               )}
             </Text>
           </View>
-          
         </Card.Content>
       </Card>
     </View>
@@ -488,7 +478,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     zIndex: 9,
     right: '2%',
-    paddingBottom: '20%', // manipulate this
+    paddingBottom: '20%',
   } as ImageStyle,
   card: {
     backgroundColor: constants.$tertiaryColor,
@@ -540,7 +530,6 @@ const styles = StyleSheet.create({
     right: '-2%',
     maxWidth: '98%',
     height: '60%',
-    
   },
   // bio
   contentProfile: {
@@ -558,7 +547,7 @@ const styles = StyleSheet.create({
     zIndex: 9,
     left: '-10%',
     // justifyContent:'space-between',
-    paddingLeft:'10%',
+    paddingLeft: '10%',
   },
   settingsIcon: {},
   // messageIcon:{},

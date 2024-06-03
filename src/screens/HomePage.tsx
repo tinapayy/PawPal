@@ -3,8 +3,6 @@ import {
   ScrollView,
   SafeAreaView,
   TextInput,
-  NativeSyntheticEvent,
-  TextInputSubmitEditingEventData,
   ViewStyle,
   Pressable,
 } from 'react-native';
@@ -431,7 +429,6 @@ const HomePage = () => {
   const handleItemClick = item => {
     setSelectedItem(item);
     setIsModalVisible(true);
-    //navigation.navigate('FoodAdvisable');
     FoodAdvisable;
   };
   const handleSearchSubmit = () => {
@@ -439,9 +436,7 @@ const HomePage = () => {
 
     navigation.navigate('ResultsPage', {searchQuery});
   };
-  // const handleSearchIconClick = () => {
-  //   navigation.navigate('ResultsPage');
-  // };
+
   const ForumPage = useNavigateTo('Forum');
   const ResultsPage = useNavigateTo('ResultsPage');
 
@@ -670,13 +665,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilyBold,
     fontSize: 20,
   },
-  // more: {
-  //   color: constants.$accentColor,
-  //   textDecorationLine: 'underline',
-  //   fontSize: 17,
-  //   backgroundColor: 'black',
-  //   //top: '100%'
-  // },
+
   moree: {
     color: constants.$accentColor,
     textDecorationLine: 'underline',

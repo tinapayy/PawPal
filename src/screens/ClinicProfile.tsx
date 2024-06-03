@@ -19,7 +19,6 @@ import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
 import constants from '../styles/constants';
-import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
 import LoadingScreen from '../components/loading';
@@ -27,7 +26,6 @@ import LoadingScreen from '../components/loading';
 const ClinicProfile = ({route}) => {
   const navigation = useNavigation();
   const SettingsClinic = useNavigateTo('SettingsPage_Clinic');
-  const ChatHome = useNavigateTo('ChatHome');
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -293,9 +291,7 @@ const styles = StyleSheet.create({
     ...alignmentMixin.alignment,
     flex: 1,
     width: Dimensions.get('window').width,
-    //width: 410,
     height: 410,
-    //left: '0.3%',
     position: 'relative',
     padding: '5%',
     bottom: '230%',

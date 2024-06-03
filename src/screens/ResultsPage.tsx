@@ -10,7 +10,6 @@ import {
   TextInput,
   ViewStyle,
 } from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH, FIREBASE_DB} from '../../firebase.config';
 import {getDocs, collection} from 'firebase/firestore';
@@ -20,19 +19,6 @@ import constants from '../styles/constants';
 import {buttonMixin} from '../components/buttonMixin';
 import {alignmentMixin} from '../components/alignmentMixin';
 import {useNavigateTo} from '../components/navigation';
-
-const screenWidth = Dimensions.get('window').width;
-
-const clinics = [
-  {
-    id: '1',
-    name: 'Rebadulla Animal Care',
-    address: 'Commission, Civil St., Jaro, Iloilo City',
-    isOpen: true,
-    openingHours: '8:00 AM - 5:00 PM',
-    imageUrl: require('../images/test.png'), // Replace with actual image URL or import from your assets
-  },
-];
 
 const ClinicCard = ({clinicInfo}) => {
   const navigation = useNavigation();
@@ -206,14 +192,15 @@ const ResultsPage = () => {
     return `${hours}:${minutes}`;
   };
 
-  const [searchQuery, setSearchQuery] = useState(''); // Replace with actual search query from the search bar
-  const [filteredClinics, setFilteredClinics] = useState(''); // Replace with actual filtered clinics from the search bar]
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredClinics, setFilteredClinics] = useState('');
 
   const handleSearch = (text: string) => {
     setSearchQuery(text);
-    const filtered = clinics.filter(clinic =>
-      clinic.name.toLowerCase().includes(text.toLowerCase()) ||
-      clinic.address.toLowerCase().includes(text.toLowerCase()),
+    const filtered = clinics.filter(
+      clinic =>
+        clinic.name.toLowerCase().includes(text.toLowerCase()) ||
+        clinic.address.toLowerCase().includes(text.toLowerCase()),
     );
     fetchData();
     setFilteredClinics(filtered);
@@ -353,7 +340,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: constants.$fontSizeSmall,
-    fontWeight: 'bold', // replace with one of the valid values: "200", "400", "500", "700", "normal", "bold", "100", "300", "600", "800", "900"
+    fontWeight: 'bold',
     color: constants.$secondaryColor,
   },
   address: {

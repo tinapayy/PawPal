@@ -8,7 +8,6 @@ import {
   Image,
   Dimensions,
   RefreshControl,
-  Alert,
 } from 'react-native';
 import {Avatar} from 'react-native-paper';
 import * as icons from '../imports/icons/icons';
@@ -24,8 +23,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import constants from '../styles/constants';
-import {buttonMixin} from '../components/buttonMixin';
-import {alignmentMixin} from '../components/alignmentMixin';
+
 import CustomAlert from '../components/CustomAlert';
 
 const ForumCard = ({userPost, onCheck, onX}) => {
@@ -334,80 +332,4 @@ const styles = StyleSheet.create({
     fontFamily: constants.$fontFamilySemiBold,
     left: '115%',
   },
-  // container: {
-  //   paddingTop: 16,
-  //   backgroundColor: constants.$backgroundColor,
-  //   margin: 8,
-  //   marginBottom: 25,
-  //   position: 'relative',
-  //   borderRadius: 30,
-  //   elevation: 10,
-  // },
-  // box: {
-  //   ...alignmentMixin.alignment1,
-  //   backgroundColor: constants.$backgroundColor,
-  //   paddingBottom: 25,
-  // },
-  // forumcontent: {
-  //   fontSize: 20,
-  //   justifyContent: 'center',
-  // },
-  // usercontainer: {
-  //   backgroundColor: constants.$backgroundColor,
-  //   padding: 5,
-  //   margin: 3,
-  //   flexDirection: 'row',
-  //   justifyContent: 'flex-start',
-  //   alignItems: 'center',
-  // },
-  // user: {
-  //   flexDirection: 'column',
-  //   backgroundColor: constants.$senaryColor,
-  //   marginLeft: 5,
-  // },
-  // username: {
-  //   fontSize: 20,
-  //   fontWeight: constants.$fontWeightBold,
-  // },
-  // choosebuttons: {
-  //   backgroundColor: constants.$primaryColor,
-  //   flexDirection: 'row',
-  //   borderBottomLeftRadius: 30,
-  //   borderBottomRightRadius: 30,
-  // },
-  // buttons: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   left: '30%',
-  // },
-  // button: {
-  //   minWidth: 80,
-  //   marginHorizontal: 4,
-  //   borderRadius: 40,
-  // },
-  // radioButtonContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   marginRight: 45,
-  //   marginLeft: 25,
-  // },
-  // radioButton: {
-  //   ...alignmentMixin.alignment,
-  //   height: 20,
-  //   width: 20,
-  //   backgroundColor: '#F8F8F8',
-  //   borderRadius: 10,
-  //   borderWidth: 1,
-  //   borderColor: '#E6E6E6',
-  // },
-  // radioButtonIcon: {
-  //   height: 16,
-  //   width: 16,
-  //   borderRadius: 7,
-  //   backgroundColor: '#FF8700',
-  // },
-  // radioButtonText: {
-  //   fontSize: 16,
-  //   marginLeft: 16,
-  // },
 });

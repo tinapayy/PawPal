@@ -6,7 +6,7 @@ const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <LottieView
-        source={require('../styles/pawpalLoading.json')} // Replace with your animation file
+        source={require('../styles/pawpalLoading.json')}
         autoPlay
         loop
         style={{width: 100, height: 100, resizemode: 'contain'}}
